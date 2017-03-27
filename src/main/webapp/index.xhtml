@@ -31,18 +31,9 @@
                                            name="remotepaquete" 
                                            actionListener="#{generador.conectar()}"/>
                         <b:panelGrid  colSpans="2,10" >
-                            <h:outputLabel value="Repositorio:" for="repositorio" />
-                            <b:selectOneMenu onchange="ajax:generador.validarRepositorio()" 
-                                             update =":form:growl,:form:panel,:form:userRepositorioLabel,:form:userRepositorioText,:form:passwordRepositorioText,:form:passwordRepositorioLabel"      
-                                             value="#{generador.mySesion.tipoRepositorio}" id="repositorio" >
-                                <f:selectItem itemLabel="Local" itemValue="local"/>
-                                <f:selectItem itemLabel="Mercurial" itemValue="mercurial"/>
-                                <f:selectItem itemLabel="Git" itemValue="Git"/>
+                            
 
-
-                            </b:selectOneMenu>
-
-                            <h:outputText value="URL EJB:"/>
+                            <h:outputText value="Source EJB Project:"/>
 
                             <b:inputText value="#{generador.mySesion.pathProyecto}">
                                 <f:facet name="prepend">
@@ -109,12 +100,89 @@
                             </h:panelGroup>
 
                             <h:outputText value="Proyecto"/>
-                            <b:inputText id="proyecto" disabled="true"  value="#{generador.mySesion.proyecto}" >
+                            <b:inputText id="proyectoWeb" disabled="true"  value="#{generador.mySesion.proyecto}" >
                                 <f:facet name="prepend">
                                     <b:iconAwesome name="archive" />
                                 </f:facet>
 
                             </b:inputText>
+                            <h:outputText value="Source Web Project:"/>
+
+                            <b:inputText value="#{generador.mySesion.pathProyectoWeb}">
+                                <f:facet name="prepend">
+                                    <b:commandButton tooltip="Sugerir ruta" ajax="true" 
+                                                     action="#{generador.mostrarRutaLocalWeb()}"
+                                                     value=""
+                                                     update="form:growl,:form:panel" look="primary" >
+                                        <b:iconAwesome name="desktop" />
+                                    </b:commandButton>
+                                    <b:iconAwesome name="link" />
+                                </f:facet>
+                                <f:facet name="append">
+
+                                    <b:commandButton tooltip="Limpiar" ajax="true" 
+                                                     action="#{generador.clearWeb()}"
+                                                     value=""
+                                                     update="form:growl,:form:panel" look="danger" >
+                                        <b:iconAwesome name="eraser" />
+                                    </b:commandButton>
+
+
+                                </f:facet>
+                            </b:inputText>
+
+
+                            <h:outputText rendered="#{generador.mySesion.esRepositorioGitMercurialWeb}"
+                                          id="userRepositorioLabelWeb" value="Usuario:"/>
+                            <b:inputText rendered="#{generador.mySesion.esRepositorioGitMercurialWeb}" id="userRepositorioTextWeb" 
+                                         value="#{generador.mySesion.userRepositorioWeb}" >
+                                <f:facet name="prepend">
+                                    <b:iconAwesome name="user" />
+                                </f:facet>
+                            </b:inputText>
+
+                            <h:outputText rendered="#{generador.mySesion.esRepositorioGitMercurial}" id="passwordRepositorioLabelWeb" value="Password:"/>
+                            <b:inputSecret rendered="#{generador.mySesion.esRepositorioGitMercurial}" id="passwordRepositorioTextWeb" value="#{generador.mySesion.passwordRepositorio}">
+                                <f:facet name="prepend">
+                                    <b:iconAwesome name="key" />
+                                </f:facet>
+
+                            </b:inputSecret>
+
+                            <h:outputText value="Paquete"/>
+                            <h:panelGroup>
+
+                                <b:inputText value="#{generador.mySesion.paqueteWeb}"
+                                             onblur="remotepaquete();"
+                                             onkeypress="if (event.keyCode == 13) {
+                                                         remotepaquete();
+                                                         return false;
+                                                     }">
+                                <f:facet name="prepend">
+                                    <b:iconAwesome name="folder-o" />
+                                </f:facet>
+                                <f:facet name="append">
+                                    <b:commandButton tooltip="Conectar" ajax="true" 
+                                                     value=""
+                                                     action="#{generador.conectarWeb()}"
+                                                     update="form:growl,:form:panel"  look="success" >
+                                        <b:iconAwesome name="cogs" />
+                                    </b:commandButton>
+                                </f:facet>
+                                </b:inputText>
+
+                            </h:panelGroup>
+
+                            <h:outputText value="Proyecto"/>
+                            <b:inputText id="proyecto" disabled="true"  value="#{generador.mySesion.proyectoWeb}" >
+                                <f:facet name="prepend">
+                                    <b:iconAwesome name="archive" />
+                                </f:facet>
+
+                            </b:inputText>
+                            
+                            
+                            
 
 
 
@@ -132,7 +200,7 @@
 
 
                         </b:panelGrid>
-                        <h:panelGrid columns="2" cellpadding="5">
+<!--                        <h:panelGrid columns="2" cellpadding="5">
 
                             <h3><p:outputLabel value="Frameworks"/></h3>
                             <p:outputLabel value=""/>
@@ -154,7 +222,7 @@
 
 
 
-                        </h:panelGrid>
+                        </h:panelGrid>-->
                         <f:facet name="footer">
 
 <!--                          <b:commandButton rendered="#{generador.mySesion.pagina2}" 

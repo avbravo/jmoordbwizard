@@ -27,12 +27,19 @@ public class MySesion implements Serializable {
     Rutas rutas;
     private String persistenceContext = "";
     private String paquete = "";
+    private String paqueteWeb = "";
     private String paquetePath = "";
+    private String paquetePathWeb = "";
     private String username = "";
+    private String usernameWeb = "";
     private String proyecto = "";
+    private String proyectoWeb = "";
     private String proyectoPlaceHolder = "";
+    private String proyectoPlaceHolderWeb = "";
     private String pathProyecto = "";
+    private String pathProyectoWeb = "";
     private String path = "";
+    private String pathWeb = "";
     /*
     menu
      */
@@ -88,6 +95,7 @@ public class MySesion implements Serializable {
     repositorio local,git,mercurial
     */
     private Boolean esRepositorioGitMercurial=false;
+    private Boolean esRepositorioGitMercurialWeb=false;
     private String tipoRepositorio="";
     private String userRepositorio="";
     private String passwordRepositorio="";
@@ -113,6 +121,67 @@ public class MySesion implements Serializable {
     List<EntidadMenu> entidadMenuList = new ArrayList<>();
      private List<String> masterDetailsList =  new ArrayList<>();
 
+    public Boolean getEsRepositorioGitMercurialWeb() {
+        return esRepositorioGitMercurialWeb;
+    }
+
+    public void setEsRepositorioGitMercurialWeb(Boolean esRepositorioGitMercurialWeb) {
+        this.esRepositorioGitMercurialWeb = esRepositorioGitMercurialWeb;
+    }
+
+    public String getPaqueteWeb() {
+        return paqueteWeb;
+    }
+
+    public void setPaqueteWeb(String paqueteWeb) {
+        this.paqueteWeb = paqueteWeb;
+    }
+
+    public String getPaquetePathWeb() {
+        return paquetePathWeb;
+    }
+
+    public void setPaquetePathWeb(String paquetePathWeb) {
+        this.paquetePathWeb = paquetePathWeb;
+    }
+
+    public String getPathWeb() {
+        return pathWeb;
+    }
+
+    public void setPathWeb(String pathWeb) {
+        this.pathWeb = pathWeb;
+    }
+
+    public String getUsernameWeb() {
+        return usernameWeb;
+    }
+
+    public void setUsernameWeb(String usernameWeb) {
+        this.usernameWeb = usernameWeb;
+    }
+
+    public String getProyectoWeb() {
+        return proyectoWeb;
+    }
+
+    public void setProyectoWeb(String proyectoWeb) {
+        this.proyectoWeb = proyectoWeb;
+    }
+
+    public String getProyectoPlaceHolderWeb() {
+        return proyectoPlaceHolderWeb;
+    }
+
+    public void setProyectoPlaceHolderWeb(String proyectoPlaceHolderWeb) {
+        this.proyectoPlaceHolderWeb = proyectoPlaceHolderWeb;
+    }
+
+     
+     
+     
+     
+     
     public String getOpcionMenuReportes() {
         return opcionMenuReportes;
     }
@@ -139,6 +208,14 @@ public class MySesion implements Serializable {
 
     public void setEntidadMenuList(List<EntidadMenu> entidadMenuList) {
         this.entidadMenuList = entidadMenuList;
+    }
+
+    public String getPathProyectoWeb() {
+        return pathProyectoWeb;
+    }
+
+    public void setPathProyectoWeb(String pathProyectoWeb) {
+        this.pathProyectoWeb = pathProyectoWeb;
     }
 
   
