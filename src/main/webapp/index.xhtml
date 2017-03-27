@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>>WizardJMoordb</title>
+    </h:head>
+    <h:body>
+        <f:view>
+            <h:form id="form" prependId="false">
+                <!--<p:growl id="growl"/>-->
+                <p:growl  id="growl"/>
+                <b:container> 
+                    <b:row>
+                        <b:column>
+                            <h1>WizardJMoordb!</h1>
+                            <h4>Version 0.1</h4>
+                        </b:column>
+                    </b:row>
+
+
+                    <b:panel  id="panel" title="Proyecto (1/5)"
+                              look="primary">
+
+
+                        <p:remoteCommand   update="form:growl,:form:panel"
+                                           name="remotepaquete" 
+                                           actionListener="#{generador.conectar()}"/>
+                        <b:panelGrid  colSpans="2,10" >
+                            <h:outputLabel value="Repositorio:" for="repositorio" />
+                            <b:selectOneMenu onchange="ajax:generador.validarRepositorio()" 
+                                             update =":form:growl,:form:panel,:form:userRepositorioLabel,:form:userRepositorioText,:form:passwordRepositorioText,:form:passwordRepositorioLabel"      
+                                             value="#{generador.mySesion.tipoRepositorio}" id="repositorio" >
+                                <f:selectItem itemLabel="Local" itemValue="local"/>
+                                <f:selectItem itemLabel="Mercurial" itemValue="mercurial"/>
+                                <f:selectItem itemLabel="Git" itemValue="Git"/>
+
+
+                            </b:selectOneMenu>
+
+                            <h:outputText value="URL EJB:"/>
+
+                            <b:inputText value="#{generador.mySesion.pathProyecto}">
+                                <f:facet name="prepend">
+                                    <b:commandButton tooltip="Sugerir ruta" ajax="true" 
+                                                     action="#{generador.mostrarRutaLocal()}"
+                                                     value=""
+                                                     update="form:growl,:form:panel" look="primary" >
+                                        <b:iconAwesome name="desktop" />
+                                    </b:commandButton>
+                                    <b:iconAwesome name="link" />
+                                </f:facet>
+                                <f:facet name="append">
+
+                                    <b:commandButton tooltip="Limpiar" ajax="true" 
+                                                     action="#{generador.clear()}"
+                                                     value=""
+                                                     update="form:growl,:form:panel" look="danger" >
+                                        <b:iconAwesome name="eraser" />
+                                    </b:commandButton>
+
+
+                                </f:facet>
+                            </b:inputText>
+
+
+                            <h:outputText rendered="#{generador.mySesion.esRepositorioGitMercurial}"
+                                          id="userRepositorioLabel" value="Usuario:"/>
+                            <b:inputText rendered="#{generador.mySesion.esRepositorioGitMercurial}" id="userRepositorioText" value="#{generador.mySesion.userRepositorio}" >
+                                <f:facet name="prepend">
+                                    <b:iconAwesome name="user" />
+                                </f:facet>
+                            </b:inputText>
+
+                            <h:outputText rendered="#{generador.mySesion.esRepositorioGitMercurial}" id="passwordRepositorioLabel" value="Password:"/>
+                            <b:inputSecret rendered="#{generador.mySesion.esRepositorioGitMercurial}" id="passwordRepositorioText" value="#{generador.mySesion.passwordRepositorio}">
+                                <f:facet name="prepend">
+                                    <b:iconAwesome name="key" />
+                                </f:facet>
+
+                            </b:inputSecret>
+
+                            <h:outputText value="Paquete"/>
+                            <h:panelGroup>
+
+                                <b:inputText value="#{generador.mySesion.paquete}"
+                                             onblur="remotepaquete();"
+                                             onkeypress="if (event.keyCode == 13) {
+                                                         remotepaquete();
+                                                         return false;
+                                                     }">
+                                <f:facet name="prepend">
+                                    <b:iconAwesome name="folder-o" />
+                                </f:facet>
+                                <f:facet name="append">
+                                    <b:commandButton tooltip="Conectar" ajax="true" 
+                                                     value=""
+                                                     action="#{generador.conectar()}"
+                                                     update="form:growl,:form:panel"  look="success" >
+                                        <b:iconAwesome name="cogs" />
+                                    </b:commandButton>
+                                </f:facet>
+                                </b:inputText>
+
+                            </h:panelGroup>
+
+                            <h:outputText value="Proyecto"/>
+                            <b:inputText id="proyecto" disabled="true"  value="#{generador.mySesion.proyecto}" >
+                                <f:facet name="prepend">
+                                    <b:iconAwesome name="archive" />
+                                </f:facet>
+
+                            </b:inputText>
+
+
+
+  <p:outputLabel value="Estilo"/>
+                                <b:selectOneMenu id="estilo" value="#{generador.estilo}" >
+                                    <f:selectItem itemLabel="Bootfaces" itemValue="bootfaces" />
+                                    <f:selectItem itemLabel="Primefaces Premium Themes" itemValue="primefacespremium" />
+                                    <f:selectItem itemLabel="Basic" itemValue="basic" />
+                                    <f:selectItem itemLabel="AdminLTE" itemValue="adminlte" />
+                                    <f:selectItem itemLabel="MaterialPrime" itemValue="materialprime" />
+                                    
+
+                                </b:selectOneMenu>
+
+
+
+                        </b:panelGrid>
+                        <h:panelGrid columns="2" cellpadding="5">
+
+                            <h3><p:outputLabel value="Frameworks"/></h3>
+                            <p:outputLabel value=""/>
+
+
+
+                            <p:outputLabel value="Primefaces"/>
+                            <p:inputSwitch disabled="true" value="#{generador.mySesion.frameworkPrimefaces}" />
+
+
+
+                            <p:outputLabel value="Bootfaces" />
+                            <p:inputSwitch value="#{generador.mySesion.frameworkBootfaces}"/>           
+
+                            <p:outputLabel value="Materialprime" />
+                            <p:inputSwitch value="#{generador.mySesion.frameworkMaterialprime}"/>  
+
+
+
+
+
+                        </h:panelGrid>
+                        <f:facet name="footer">
+
+<!--                          <b:commandButton rendered="#{generador.mySesion.pagina2}" 
+                                             ajax="true" tooltip="Siguiente"
+                                             value="Siguiente"
+                                             action="#{generador.irPagina2()}"
+                                             update="form:growl"  look="success" >
+                                <b:iconAwesome name="arrow-right" />
+                            </b:commandButton>-->
+                            <p:commandButton  label="Siguiente"
+                                              rendered="#{generador.mySesion.pagina2}" 
+                                              value="Siguiente"
+                                              action="#{generador.irPagina2()}"
+                                              icon="ui-icon-arrowthick-1-e"
+                                              update="form:growl"  class="btn btn-success " />
+
+
+                        </f:facet>
+                    </b:panel>
+
+                </b:container>
+
+
+
+
+            </h:form>
+        </f:view>
+    </h:body>
+</html>
+

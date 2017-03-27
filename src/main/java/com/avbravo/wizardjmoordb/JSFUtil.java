@@ -1,0 +1,223 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.avbravo.wizardjmoordb;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
+import java.util.UUID;
+import java.util.logging.Logger;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+import javax.servlet.ServletContext;
+import org.primefaces.context.RequestContext;
+
+/**
+ *
+ * @author avbravoserver
+ */
+@ManagedBean
+@RequestScoped
+public class JSFUtil {
+   private static final long serialVersionUID = 1L;
+    private static final Logger LOG = Logger.getLogger(JSFUtil.class.getName());
+
+    public static void addErrorMessage(Exception ex, String defaultMsg) {
+        String msg = ex.getLocalizedMessage();
+        if (msg != null && msg.length() > 0) {
+            addErrorMessage(msg);
+        } else {
+            addErrorMessage(defaultMsg);
+        }
+    }
+
+    public static void addErrorMessages(List<String> messages) {
+        for (String message : messages) {
+            addErrorMessage(message);
+
+        }
+    }
+
+    public static void addErrorMessage(String msg) {
+        FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                msg, msg);
+        FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+        LOG.warning(msg);
+    }
+
+    public static void testMessage(String msg) {
+        FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                msg, msg);
+        FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+        LOG.warning(msg);
+    }
+
+    public static void addSuccessMessage(String msg) {
+        FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, msg,
+                msg);
+        FacesContext.getCurrentInstance().addMessage("successInfo", facesMsg);
+    }
+
+    public static void addWarningMessage(String msg) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, msg, ""));
+        LOG.warning(msg);
+    }
+
+    public static void addFatalMessage(String msg) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, msg, ""));
+        LOG.warning(msg);
+    }
+
+    public static String getRequestParameter(String key) {
+        return FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get(key);
+    }
+
+    public static Object getObjectFromRequestParameter(String requestParameterName,
+            Converter converter, UIComponent component) {
+        String theId = JSFUtil.getRequestParameter(requestParameterName);
+        return converter.getAsObject(FacesContext.getCurrentInstance(), component, theId);
+    }
+
+    public static void infoDialog(String titulo, String texto) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, titulo,
+                texto);
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
+    }
+
+    public static void warningDialog(String titulo, String texto) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, titulo,
+                texto);
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
+        LOG.warning(titulo + " " + texto);
+    }
+
+    public static void fatalDialog(String titulo, String texto) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, titulo,
+                texto);
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
+        LOG.warning(titulo + " " + texto);
+    }
+
+    public static void errorDialog(String titulo, String texto) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                titulo, texto);
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
+        LOG.warning(titulo + " " + texto);
+    }
+
+    public static java.sql.Date converterDate(java.util.Date fecha) {
+        try {
+            long lfecha = fecha.getTime();
+            java.sql.Date dtfecha = new java.sql.Date(lfecha);
+            return dtfecha;
+        } catch (Exception e) {
+            addErrorMessage("converterDate() " + e.getLocalizedMessage());
+        }
+        return null;
+    }
+
+    /**
+     * Ejecuta comandos del sistema operativo
+     *
+     * @param comando
+     * @return
+     */
+    public static String getPath() {
+        try {
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
+                    .getExternalContext().getContext();
+            return ctx.getRealPath("/");
+
+        } catch (Exception e) {
+
+            addErrorMessage("getPath() " + e.getLocalizedMessage());
+        }
+        return null;
+
+    }
+
+    public static String getPathFotos() {
+        try {
+
+            String path = getPath() + "resources/fotos/";
+            return path;
+        } catch (Exception e) {
+
+            addErrorMessage("getPathFotosPlagas() " + e.getLocalizedMessage());
+        }
+        return null;
+
+    }
+
+    /*
+     copia un archivo generalmente cuando se usa el fileupload
+     fileName: nombre del archivo a copiar
+     in: Es el InputStream
+     destination: ruta donde se guardara el archivo
+  
+     */
+    public static Boolean copyFile(String fileName, InputStream in, String destination) {
+        try {
+
+            // write the inputStream to a FileOutputStream
+            OutputStream out = new FileOutputStream(new File(destination + fileName));
+
+            int read = 0;
+            byte[] bytes = new byte[1024];
+
+            while ((read = in.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+
+            in.close();
+            out.flush();
+            out.close();
+
+            return true;
+        } catch (IOException e) {
+            JSFUtil.addErrorMessage("copyFile() " + e.getLocalizedMessage());
+        }
+        return false;
+    }
+
+    /**
+     * genera id
+     *
+     * @return returna un randomUUID automatico
+     */
+    public static String getUUID() {
+
+        UUID uuid = UUID.randomUUID();
+        return uuid.toString().toLowerCase();
+
+    }
+
+    /**
+     * getExtension()
+     *
+     * @param texto
+     * @return la extension de un nombre de archivo
+     */
+    public static String getExtension(String texto) {
+        try {
+            return texto.substring(texto.indexOf("."), texto.length());
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("getExtension() " + e.getLocalizedMessage());
+        }
+        return "";
+    }
+
+    public String tmpDirectories() {
+        return System.getProperty("java.io.tmpdir");
+    }
+}

@@ -1,0 +1,13 @@
+ texto +="  public Integer diasEntreFechas(Date fechaMayor, Date fechaMenor) {" + "\r\n";
+                    texto +="       int d=0;" + "\r\n";
+                    texto +="        try {" + "\r\n";
+                    texto +="             long diferenciaEn_ms = fechaMayor.getTime() - fechaMenor.getTime();" + "\r\n";
+                    texto +="" + "\r\n";
+                    texto +="        long dias = diferenciaEn_ms / (1000 * 60 * 60 * 24);" + "\r\n";
+                    texto +="        d = (int) dias;" + "\r\n";
+                    texto +="        } catch (Exception e) {" + "\r\n";
+                    texto +="             JSFUtil.addErrorMessage(\"diasEntreFechas() \" + e.getLocalizedMessage());" + "\r\n";
+                    texto +="        }" + "\r\n";
+                    texto +="       " + "\r\n";
+                    texto +="        return d;" + "\r\n";
+                    texto +="    }" + "\r\n";

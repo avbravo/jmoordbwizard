@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface >
+
+
+        <composite:attribute name="contenedor" />
+            <composite:attribute name="buttonYesAction" 
+                             method-signature="java.lang.String action()" />
+
+    </composite:interface>
+    <composite:implementation>
+
+        <p:dialog id="confirmDialog" modal="false" header="#{app['dialog.delete']}"
+                  height="50"  width="140" 
+                  widgetVar="confirmationwidgetVar">
+            <h:panelGrid columns="2" id="paneldelete">
+                <p:outputLabel value="#{app['info.doyouwantdelete']}"/>
+                <p:spacer/>
+            </h:panelGrid>
+            <f:facet name="footer">
+                <p:commandButton id="removeButton" value="#{app['boton.yes']}"
+                                 update="#{cc.attrs.contenedor},:form:growl,:form:barra:toolbar"
+                                 oncomplete="PF('confirmationwidgetVar').hide();"
+                                 icon="ui-icon-check"
+                                 actionListener="#{cc.attrs.buttonYesAction}" />
+
+                <p:commandButton id="cancelButton" value="#{app['boton.no']}"
+                                 icon="ui-icon-close"
+                                 onclick="PF('confirmationwidgetVar').hide();" type="button" />
+            </f:facet>
+        </p:dialog>
+    </composite:implementation>
+
+</html>

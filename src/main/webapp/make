@@ -1,0 +1,20 @@
+implementar paginacion
+
+https://github.com/RicardoToledoB/jsf-paginacion/blob/master/src/main/java/com/ricardo/proyecto/dao/UsuarioDAOImpl.java
+public List<Usuario> paginate(int min , int max){
+        List list=em.createQuery("select u from Usuario u")
+                .setFirstResult(min)
+                .setMaxResults(max)
+                .getResultList();
+        return list;
+    }
+public int cantRows(){
+        String sql = "SELECT COUNT(u) FROM Usuario u";
+        Query query = em.createQuery(sql);
+        int size=(int) query.getSingleResult();
+        return size;
+    }
+    
+    public int cantPages(){
+        return this.cantRows()/5;
+    }

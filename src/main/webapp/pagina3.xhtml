@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+      <title>>WizardJMoordb</title>
+    </h:head>
+    <h:body>
+        <f:view>
+            <h:form id="form" prependId="false">
+                <p:growl  id="growl"/>
+                <b:container> 
+                    <b:row>
+                        <b:column>
+                     <h1>WizardJMoordb!</h1>
+                        </b:column>
+                    </b:row>
+
+
+                    <b:panel title="Roles (3/5)"
+                             look="primary">
+
+
+                            <h:panelGrid columns="2" cellpadding="5">
+                            <p:outputLabel value="Roles"/>
+                            <b:inputTextarea value="#{generador.mySesion.roles}"
+                                             tooltip="Separe los roles por comas(,)"
+                                             required="true" requiredMessage="Ingrese los roles"
+                                             rows="2" 
+                                             placeholder="Administrador, Anonimo,Test"
+                                             
+                                             style="width:255px"
+                                             >
+                                <!--<f:ajax event="keyup" render="label"  />-->
+                            </b:inputTextarea>
+
+
+                        </h:panelGrid>
+
+                             <h:panelGrid columns="2" cellpadding="5">
+
+                            <p:outputLabel value="Titulos Menu"/>
+                            <b:inputTextarea   rows="2" 
+                                               tooltip="Separe los menu por comas(,)"
+                                               value="#{generador.mySesion.titulosMenuBar}"
+                                               required="true" requiredMessage="Ingrese los titulos"
+
+                                               placeholder="Archivo,Editar,Ayuda"
+                                                style="width:255px"
+                                               >
+                                <!--<f:ajax event="keyup" render="labelmenu"  />-->
+                            </b:inputTextarea>
+                            <!--                            <b:label text="Roles" tooltip="Roles"/>
+                                                        <b:label text="#{generador.mySesion.roles}" id="label"/>
+                                                          <b:label text="Menu"/>
+                                                        <b:label text="#{generador.mySesion.titulosMenuBar}" id="labelmenu"/>-->
+
+<!--                            <p:outputLabel value="Nota"/>
+                            <p:outputLabel value="Separe los menus por coma."/>-->
+
+
+
+                        </h:panelGrid>
+
+
+                             <h:panelGrid columns="2" cellpadding="5">
+
+                            <p:outputLabel value="Insertar User name logeado"/>
+                          <p:inputSwitch   value="#{generador.mySesion.addUserNameLogeado}"  />
+
+
+                            <p:outputLabel value="Insertar fecha sistema"/>
+                          <p:inputSwitch  value="#{generador.mySesion.addFechaSystema}"  />
+
+
+                            <p:outputLabel value="Agregar a persistence.xml create-tables"/>
+                      <p:inputSwitch  value="#{generador.mySesion.addCreateTablePersitenceXML}"  />
+
+                        </h:panelGrid>
+
+
+                        <f:facet name="footer">
+
+<!--                                                     <b:commandButton tooltip="Anterior" ajax="true" 
+                                                                         value="Anterior"
+                                                                         rendered="#{generador.mySesion.pagina2}" 
+                                                                         action="#{generador.irPagina2()}"
+                                                                         update="form:growl"  look="danger" >
+                                                            <b:iconAwesome name="arrow-left" />
+                                                        </b:commandButton>
+                                                        <b:commandButton  ajax="true" title="Siguiente"
+                                                                          value="Siguiente"
+                                                                          rendered="#{generador.mySesion.pagina4}" 
+                                                                          action="#{generador.irPagina4()}"
+                                                                          update="form:growl" look="success" >
+                                                            <b:iconAwesome name="arrow-right" />
+                                                        </b:commandButton>-->
+                           <p:commandButton 
+                                value="Anterior"
+                                rendered="#{generador.mySesion.pagina2}" 
+                                action="#{generador.irPagina2()}"
+                                icon="ui-icon-arrowthick-1-w"
+                                update="form:growl"  class="btn btn-danger" >
+
+                            </p:commandButton>
+                            <p:commandButton  title="Siguiente"
+                                              value="Siguiente"
+                                              rendered="#{generador.mySesion.pagina4}" 
+                                              action="#{generador.irPagina4()}"
+                                              icon="ui-icon-arrowthick-1-e"
+                                              class="btn btn-success "
+
+                                              update="form:growl"  >
+
+                            </p:commandButton>
+                        </f:facet>
+                    </b:panel>
+                </b:container>
+            </h:form>
+        </f:view>
+    </h:body>
+</html>
+
