@@ -21,35 +21,50 @@ public class Rutas implements Serializable {
     private String separator = java.nio.file.FileSystems.getDefault().getSeparator();
     private String path = "";
     private String paquete = "";
-    private String pathEntity = path + "entity" + separator;
+    
+    /**
+     * EJB
+     */
+        private String pathConverter = path + "converter" + separator;
+        private String pathDatamodel = path + "datamodel" + separator;
+        private String pathEJB = path + "ejb" + separator;
+        private String pathEntity = path + "entity" + separator;
+        private String pathProvider = path + "provider" + separator;
+        private String pathServices = path + "services" + separator;
+        
+        
+        /**
+         * JEE
+         */
+    
     private String pathController = path + "controller" + separator;
-    private String pathEJB = path + "ejb" + separator;
-    private String pathDatamodel = path + "datamodel" + separator;
-    private String pathServices = path + "services" + separator;
-    private String pathProvider = path + "provider" + separator;
-  private String pathGenerales = path + "util" + separator;
-    private String pathConverter = path + "converter" + separator;
     private String pathMenu = path + "menu" + separator;
     private String pathRoles = path + "roles" + separator;
+    private String pathGenerales = path + "util" + separator;
+
+/**
+ * 
+ */
+    
     private String persistenceContext;
     private String pathWebInf = "";
     private String pathMetaInf = "";
     private String pathMainJava = "";
     private String pathMainResources = "";
     private String pathMainWebapp = "";
-    private String pathMainWebappPages="";
-    private String pathMainWebappResources="";
-    private String pathMainWebappResourcesCss="";
-    private String pathMainWebappResourcesImagenes="";
-    private String pathMainWebappResourcesComponentes="";
-    private String pathMainWebappResourcesReportes="";
-    
+    private String pathMainWebappPages = "";
+    private String pathMainWebappResources = "";
+    private String pathMainWebappResourcesCss = "";
+    private String pathMainWebappResourcesImagenes = "";
+    private String pathMainWebappResourcesComponentes = "";
+    private String pathMainWebappResourcesReportes = "";
+
     private String pathProperties = "";
     private String pathInterfaces = "";
     private String pathPomXML = "";
 
-    private String pathSearch="";
-    private String pathReportes="";
+    private String pathSearch = "";
+    private String pathReportes = "";
 
     public String getPathGenerales() {
         return pathGenerales;
@@ -59,10 +74,6 @@ public class Rutas implements Serializable {
         this.pathGenerales = pathGenerales;
     }
 
-    
-    
-    
-    
     public String getPathDatamodel() {
         return pathDatamodel;
     }
@@ -79,9 +90,6 @@ public class Rutas implements Serializable {
         this.pathProvider = pathProvider;
     }
 
-    
-    
-    
     public String getPathMainWebappPages() {
         return pathMainWebappPages;
     }
@@ -90,8 +98,6 @@ public class Rutas implements Serializable {
         this.pathMainWebappPages = pathMainWebappPages;
     }
 
-    
-    
     public String getPathMainWebappResourcesReportes() {
         return pathMainWebappResourcesReportes;
     }
@@ -100,8 +106,6 @@ public class Rutas implements Serializable {
         this.pathMainWebappResourcesReportes = pathMainWebappResourcesReportes;
     }
 
-    
-    
     public String getPathMainWebappResources() {
         return pathMainWebappResources;
     }
@@ -134,8 +138,6 @@ public class Rutas implements Serializable {
         this.pathMainWebappResourcesComponentes = pathMainWebappResourcesComponentes;
     }
 
-    
-    
     public String getPathServices() {
         return pathServices;
     }
@@ -167,9 +169,6 @@ public class Rutas implements Serializable {
     public void setPathPomXML(String pathPomXML) {
         this.pathPomXML = pathPomXML;
     }
-    
-    
-    
 
 //    public String getPathPomXML1() {
 //        return pathPomXM;
@@ -178,7 +177,6 @@ public class Rutas implements Serializable {
 //    public void setPathPomXML(String pathPomXML) {
 //        this.pathPomXML = pathPomXML;
 //    }
-
     public String getPathInterfaces() {
         return pathInterfaces;
     }
@@ -217,7 +215,6 @@ public class Rutas implements Serializable {
         this.pathMenu = pathMenu;
     }
 
-  
     public String getPathConverter() {
         return pathConverter;
     }
@@ -266,9 +263,6 @@ public class Rutas implements Serializable {
         this.pathMetaInf = pathMetaInf;
     }
 
-    
-    
-    
     public String getPaquete() {
         return paquete;
     }

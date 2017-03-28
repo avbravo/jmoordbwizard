@@ -487,6 +487,10 @@ public class Generador implements Serializable {
             rutas.setPathMainJava(mySesion.getPathProyecto() + rutas.getSeparator() + "src" + rutas.getSeparator() + "main" + rutas.getSeparator() + "java");
             rutas.setPathMainResources(mySesion.getPathProyecto() + rutas.getSeparator() + "src" + rutas.getSeparator() + "main" + rutas.getSeparator() + "resources");
             rutas.setPathMainWebapp(mySesion.getPathProyecto() + rutas.getSeparator() + "src" + rutas.getSeparator() + "main" + rutas.getSeparator() + "webapp");
+            
+            
+            
+            
             /*
             rutas webapps
              */
