@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.generales;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -37,7 +37,7 @@ public class ResourcesFilesGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoJEE proyectoJEE;
 
     /**
      * Creates a new instance of Facade
@@ -46,7 +46,7 @@ public class ResourcesFilesGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("ResourcesFiles.java", rutas.getPathUtil() + "ResourcesFiles.java");
+            procesar("ResourcesFiles.java", proyectoJEE.getPathUtil() + "ResourcesFiles.java");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -151,7 +151,7 @@ public class ResourcesFilesGenerador implements Serializable {
                     fw.write("* To change this template file, choose Tools | Templates" + "\r\n");
                     fw.write(" * and open the template in the editor." + "\r\n");
                     fw.write("*/" + "\r\n");
-                    fw.write("package " + mySesion.getPaquete() + ".generales;" + "\r\n");
+                    fw.write("package " + proyectoJEE.getPaquete() + ".generales;" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("import java.io.Serializable;" + "\r\n");
                     fw.write("import java.util.Locale;" + "\r\n");
@@ -187,15 +187,15 @@ public class ResourcesFilesGenerador implements Serializable {
                     fw.write("" + "\r\n");
                     fw.write("    public void saveLocale() {" + "\r\n");
                     fw.write("        currentLocale = FacesContext.getCurrentInstance().getViewRoot().getLocale();" + "\r\n");
-                    fw.write("        mrb = ResourceBundle.getBundle(\""+mySesion.getPaquete()+ ".properties.messages\"," + "\r\n");
+                    fw.write("        mrb = ResourceBundle.getBundle(\""+proyectoJEE.getPaquete()+ ".properties.messages\"," + "\r\n");
                     fw.write("                currentLocale);" + "\r\n");
-                    fw.write("        arb = ResourceBundle.getBundle(\""+mySesion.getPaquete()+ ".properties.application\"," + "\r\n");
+                    fw.write("        arb = ResourceBundle.getBundle(\""+proyectoJEE.getPaquete()+ ".properties.application\"," + "\r\n");
                     fw.write("                currentLocale);" + "\r\n");
-                    fw.write("        merb = ResourceBundle.getBundle(\""+mySesion.getPaquete()+ ".properties.menu\"," + "\r\n");
+                    fw.write("        merb = ResourceBundle.getBundle(\""+proyectoJEE.getPaquete()+ ".properties.menu\"," + "\r\n");
                     fw.write("                currentLocale);" + "\r\n");
-                    fw.write("        erb = ResourceBundle.getBundle(\""+mySesion.getPaquete()+ ".properties.entity\"," + "\r\n");
+                    fw.write("        erb = ResourceBundle.getBundle(\""+proyectoJEE.getPaquete()+ ".properties.entity\"," + "\r\n");
                     fw.write("                currentLocale);" + "\r\n");
-                    fw.write("        frb = ResourceBundle.getBundle(\""+mySesion.getPaquete()+ ".properties.form\"," + "\r\n");
+                    fw.write("        frb = ResourceBundle.getBundle(\""+proyectoJEE.getPaquete()+ ".properties.form\"," + "\r\n");
                     fw.write("                currentLocale);" + "\r\n");
                     fw.write("    }" + "\r\n");
                     fw.write("" + "\r\n");
@@ -319,15 +319,15 @@ public class ResourcesFilesGenerador implements Serializable {
             String texto = "";
             texto += "    public void saveLocale() {" + "\r\n";
             texto += "        currentLocale = FacesContext.getCurrentInstance().getViewRoot().getLocale();" + "\r\n";
-            texto += "        mrb = ResourceBundle.getBundle(\""+mySesion.getPaquete()+ ".properties.messages\"," + "\r\n";
+            texto += "        mrb = ResourceBundle.getBundle(\""+proyectoJEE.getPaquete()+ ".properties.messages\"," + "\r\n";
             texto += "                currentLocale);" + "\r\n";
-            texto += "        arb = ResourceBundle.getBundle(\""+mySesion.getPaquete()+ ".properties.application\"," + "\r\n";
+            texto += "        arb = ResourceBundle.getBundle(\""+proyectoJEE.getPaquete()+ ".properties.application\"," + "\r\n";
             texto += "                currentLocale);" + "\r\n";
-            texto += "        merb = ResourceBundle.getBundle(\""+mySesion.getPaquete()+ ".properties.menu\"," + "\r\n";
+            texto += "        merb = ResourceBundle.getBundle(\""+proyectoJEE.getPaquete()+ ".properties.menu\"," + "\r\n";
             texto += "                currentLocale);" + "\r\n";
-            texto += "        erb = ResourceBundle.getBundle(\""+mySesion.getPaquete()+ ".properties.entity\"," + "\r\n";
+            texto += "        erb = ResourceBundle.getBundle(\""+proyectoJEE.getPaquete()+ ".properties.entity\"," + "\r\n";
             texto += "                currentLocale);" + "\r\n";
-            texto += "        frb = ResourceBundle.getBundle(\""+mySesion.getPaquete()+ ".properties.form\"," + "\r\n";
+            texto += "        frb = ResourceBundle.getBundle(\""+proyectoJEE.getPaquete()+ ".properties.form\"," + "\r\n";
             texto += "                currentLocale);" + "\r\n";
             texto += "    }" + "\r\n";
             texto += "" + "\r\n";

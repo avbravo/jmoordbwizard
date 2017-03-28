@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.interfaces;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.beans.Atributos;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
@@ -39,7 +39,7 @@ public class ISearchGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoJEE proyectoJEE;
 
     /**
      * Creates a new instance of Facade
@@ -48,7 +48,7 @@ public class ISearchGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("ISearch.java", rutas.getPathInterfaces() + "ISearch.java");
+            procesar("ISearch.java", proyectoJEE.getPathInterfaces() + "ISearch.java");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -145,7 +145,7 @@ public class ISearchGenerador implements Serializable {
                     fw.write("* To change this template file, choose Tools | Templates" + "\r\n");
                     fw.write(" * and open the template in the editor." + "\r\n");
                     fw.write("*/" + "\r\n");
-                    fw.write("package " + mySesion.getPaquete() + ".interfaces;" + "\r\n");
+                    fw.write("package " + proyectoJEE.getPaquete() + ".interfaces;" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("import java.util.List;" + "\r\n");
                     fw.write("import org.primefaces.event.CellEditEvent;" + "\r\n");

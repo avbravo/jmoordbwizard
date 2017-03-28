@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.gen;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.beans.Atributos;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
@@ -40,7 +40,7 @@ public class ServicesGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoJEE proyectoJEE;
 
     /**
      * Creates a new instance of Facade
@@ -49,7 +49,7 @@ public class ServicesGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
             for (Entidad e : mySesion.getEntidadList()) {
-                procesar(e, e.getTabla(), rutas.getPathServices() + e.getTabla() + "Services.java");
+                procesar(e, e.getTabla(), proyectoJEE.getPathServices() + e.getTabla() + "Services.java");
             }
 
         } catch (Exception e) {
@@ -97,9 +97,9 @@ public class ServicesGenerador implements Serializable {
              * agregar los imports
              */
 
-            Utilidades.searchAdd(ruta, "import " + mySesion.getPaquete() + ".entity.*;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + mySesion.getPaquete() + ".ejb.*;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + mySesion.getPaquete() + ".generales.JSFUtil;", "package", false);
+            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".entity.*;", "package", false);
+            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".ejb.*;", "package", false);
+            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".generales.JSFUtil;", "package", false);
             Utilidades.searchAdd(ruta, "import java.util.ArrayList;", "package", false);
             Utilidades.searchAdd(ruta, "import java.util.List;", "package", false);
             Utilidades.searchAdd(ruta, "import javax.ejb.Stateless;", "package", false);
@@ -139,12 +139,12 @@ public class ServicesGenerador implements Serializable {
                     fw.write("* To change this template file, choose Tools | Templates" + "\r\n");
                     fw.write(" * and open the template in the editor." + "\r\n");
                     fw.write("*/" + "\r\n");
-                    fw.write("package " + mySesion.getPaquete() + ".services;" + "\r\n");
+                    fw.write("package " + proyectoJEE.getPaquete() + ".services;" + "\r\n");
                     fw.write("" + "\r\n");
 
-                    fw.write("import " + mySesion.getPaquete() + ".generales.JSFUtil;" + "\r\n");
-                    fw.write("import " + mySesion.getPaquete() + ".entity.*;" + "\r\n");
-                    fw.write("import " + mySesion.getPaquete() + ".ejb.*;" + "\r\n");
+                    fw.write("import " + proyectoJEE.getPaquete() + ".generales.JSFUtil;" + "\r\n");
+                    fw.write("import " + proyectoJEE.getPaquete() + ".entity.*;" + "\r\n");
+                    fw.write("import " + proyectoJEE.getPaquete() + ".ejb.*;" + "\r\n");
                     fw.write("import java.util.ArrayList;" + "\r\n");
                     fw.write("import java.util.List;" + "\r\n");
                     fw.write("import javax.ejb.Stateless;" + "\r\n");

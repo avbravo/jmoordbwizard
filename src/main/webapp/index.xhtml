@@ -168,6 +168,15 @@
                                     
 
                                 </b:selectOneMenu>
+  <p:outputLabel value="DataBase"/>
+                                <b:selectOneMenu id="database" value="#{generador.mySesion.database}" >
+                                    <f:selectItem itemLabel="MongoDB" itemValue="mongodb" />
+                                    <f:selectItem itemLabel="Couchbase" itemValue="couchbase" />
+                                    <f:selectItem itemLabel="OrientDB" itemValue="orientdb" />
+                                    
+                                    
+
+                                </b:selectOneMenu>
 
 
 

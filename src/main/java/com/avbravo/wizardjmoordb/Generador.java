@@ -228,6 +228,9 @@ public class Generador implements Serializable {
     ReportesxhtmlGenerador reportesxhtmlGenerador;
 //    public Boolean enEjecucion=false;
 
+    
+    
+    
     public String getEstilo() {
         return estilo;
     }
@@ -772,7 +775,7 @@ public class Generador implements Serializable {
                 }
                 if (!tienerolrelacionado) {
                     JSFUtil.addWarningMessage("La entidad " + mySesion.getEntidadUser().getTabla() + " no tiene atributo relacionado con " + mySesion.getEntidadRoles().getTabla());
-                    return;
+            //        return;
                 }
             } else {
                 // con multiples roles

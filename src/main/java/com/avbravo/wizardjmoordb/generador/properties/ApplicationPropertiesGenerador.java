@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.properties;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.utilidades.FechasServices;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import java.io.BufferedWriter;
@@ -38,7 +38,7 @@ public class ApplicationPropertiesGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoJEE proyectoJEE;
     @Inject
     FechasServices fechasServices;
 
@@ -49,9 +49,9 @@ public class ApplicationPropertiesGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
           
-            procesar("application.properties", rutas.getPathProperties() + "application.properties");
-            procesar("application_en.properties", rutas.getPathProperties() + "application_en.properties");
-            procesar("application_es.properties", rutas.getPathProperties() + "application_es.properties");
+            procesar("application.properties", proyectoJEE.getPathProperties() + "application.properties");
+            procesar("application_en.properties", proyectoJEE.getPathProperties() + "application_en.properties");
+            procesar("application_es.properties", proyectoJEE.getPathProperties() + "application_es.properties");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -67,9 +67,9 @@ public class ApplicationPropertiesGenerador implements Serializable {
                 crearFile(ruta, archivo);
             }
             //application
-            Utilidades.searchAdd(ruta, "application.title=" + mySesion.getProyecto(), "# and open the template in the editor.", false);
-            Utilidades.searchAdd(ruta, "application.shorttitle=" + mySesion.getProyecto(), "application.title=", false);
-            Utilidades.searchAdd(ruta, "application.footer=" + mySesion.getProyecto(), "application.title=", false);
+            Utilidades.searchAdd(ruta, "application.title=" + proyectoJEE.getProyecto(), "# and open the template in the editor.", false);
+            Utilidades.searchAdd(ruta, "application.shorttitle=" + proyectoJEE.getProyecto(), "application.title=", false);
+            Utilidades.searchAdd(ruta, "application.footer=" + proyectoJEE.getProyecto(), "application.title=", false);
             Utilidades.searchAdd(ruta, "application.version=0.0.1", "application.shorttitle=", false);
             Utilidades.searchAdd(ruta, "label.title=Titulo","# and open the template in the editor.", false);
             Utilidades.searchAdd(ruta, "label.shorttitle=Titulo", "# and open the template in the editor.", false);
@@ -388,7 +388,7 @@ public class ApplicationPropertiesGenerador implements Serializable {
                     fw.write("# To change this license header, choose License Headers in Project Properties." + "\r\n");
                     fw.write("# To change this template file, choose Tools | Templates" + "\r\n");
                     fw.write("# and open the template in the editor." + "\r\n");
-                    fw.write("application.title=" + mySesion.getProyecto() + "\r\n");
+                    fw.write("application.title=" + proyectoJEE.getProyecto() + "\r\n");
                     fw.close();
 
                 } catch (IOException ex) {

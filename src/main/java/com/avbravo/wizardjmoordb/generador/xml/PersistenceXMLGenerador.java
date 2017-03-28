@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.xml;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.utilidades.FechasServices;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
@@ -39,7 +39,7 @@ public class PersistenceXMLGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoJEE proyectoJEE;
     @Inject
     FechasServices fechasServices;
 
@@ -49,7 +49,7 @@ public class PersistenceXMLGenerador implements Serializable {
     public void generar() {
         try {
 
-            procesar("persistence.xml",rutas.getPathMetaInf()+ "persistence.xml");
+            procesar("persistence.xml",proyectoJEE.getPathMetaInf()+ "persistence.xml");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());

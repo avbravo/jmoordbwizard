@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.gen;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.beans.Atributos;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
@@ -38,7 +38,7 @@ public class ConverterGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoJEE proyectoEJB;
 
     /**
      * Creates a new instance of Facade
@@ -51,7 +51,7 @@ public class ConverterGenerador implements Serializable {
             //recorrer el entity para verificar que existan todos los EJB
 
             for (Entidad e : mySesion.getEntidadList()) {
-                procesar(e, e.getTabla(), rutas.getPathConverter() + e.getTabla() + "Converter.java");
+                procesar(e, e.getTabla(), proyectoEJB.getPathConverter() + e.getTabla() + "Converter.java");
             }
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -90,11 +90,11 @@ public class ConverterGenerador implements Serializable {
                 Utilidades.add(ruta, "@Named", "import javax.inject.Named;", false);
             }
             
-            if (!Utilidades.search(ruta, "import " + mySesion.getPaquete() + ".entity.*;")) {
-                Utilidades.add(ruta, "import javax.inject.Named;", "import " + mySesion.getPaquete() + ".entity.*;", false);
+            if (!Utilidades.search(ruta, "import " + proyectoEJB.getPaquete() + ".entity.*;")) {
+                Utilidades.add(ruta, "import javax.inject.Named;", "import " + proyectoEJB.getPaquete() + ".entity.*;", false);
             }
-            if (!Utilidades.search(ruta, "import " + mySesion.getPaquete() + ".ejb.*;")) {
-                Utilidades.add(ruta, "import javax.inject.Named;", "import " + mySesion.getPaquete() + ".ejb.*;", false);
+            if (!Utilidades.search(ruta, "import " + proyectoEJB.getPaquete() + ".ejb.*;")) {
+                Utilidades.add(ruta, "import javax.inject.Named;", "import " + proyectoEJB.getPaquete() + ".ejb.*;", false);
             }
             
             /**
@@ -225,11 +225,11 @@ public class ConverterGenerador implements Serializable {
                     fw.write("* To change this template file, choose Tools | Templates" + "\r\n");
                     fw.write(" * and open the template in the editor." + "\r\n");
                     fw.write("*/" + "\r\n");
-                    fw.write("package " + mySesion.getPaquete() + ".converter;" + "\r\n");
+                    fw.write("package " + proyectoEJB.getPaquete() + ".converter;" + "\r\n");
                         fw.write("" + "\r\n");
-                    fw.write("import " + mySesion.getPaquete() + ".entity.*;" + "\r\n");
-                    fw.write("import " + mySesion.getPaquete() + ".ejb.*;" + "\r\n");
-                    fw.write("import " + mySesion.getPaquete() + ".generales.JSFUtil;" + "\r\n");
+                    fw.write("import " + proyectoEJB.getPaquete() + ".entity.*;" + "\r\n");
+                    fw.write("import " + proyectoEJB.getPaquete() + ".ejb.*;" + "\r\n");
+                    fw.write("import " + proyectoEJB.getPaquete() + ".generales.JSFUtil;" + "\r\n");
                     fw.write("import javax.enterprise.context.RequestScoped;" + "\r\n");
                     fw.write("import javax.inject.Inject;" + "\r\n");
                     fw.write("import javax.faces.component.UIComponent;" + "\r\n");

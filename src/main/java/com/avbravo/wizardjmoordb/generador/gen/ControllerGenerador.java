@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.gen;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoEJB;
 import com.avbravo.wizardjmoordb.beans.Atributos;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
@@ -39,7 +39,7 @@ public class ControllerGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoEJB proyectoEJB;
 
     /**
      * Creates a new instance of Facade
@@ -48,7 +48,7 @@ public class ControllerGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
             for (Entidad e : mySesion.getEntidadList()) {
-                procesar(e, e.getTabla(), rutas.getPathController() + e.getTabla() + "Controller.java");
+                procesar(e, e.getTabla(), proyectoEJB.getPathController() + e.getTabla() + "Controller.java");
             }
 
         } catch (Exception e) {
@@ -148,11 +148,11 @@ public class ControllerGenerador implements Serializable {
              * agregar los imports
              */
 
-            Utilidades.searchAdd(ruta, "import " + mySesion.getPaquete() + ".entity.*;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + mySesion.getPaquete() + ".ejb.*;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + mySesion.getPaquete() + ".generales.*;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + mySesion.getPaquete() + ".interfaces.*;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + mySesion.getPaquete() + ".services.*;", "package", false);
+            Utilidades.searchAdd(ruta, "import " + proyectoEJB.getPaquete() + ".entity.*;", "package", false);
+            Utilidades.searchAdd(ruta, "import " + proyectoEJB.getPaquete() + ".ejb.*;", "package", false);
+            Utilidades.searchAdd(ruta, "import " + proyectoEJB.getPaquete() + ".generales.*;", "package", false);
+            Utilidades.searchAdd(ruta, "import " + proyectoEJB.getPaquete() + ".interfaces.*;", "package", false);
+            Utilidades.searchAdd(ruta, "import " + proyectoEJB.getPaquete() + ".services.*;", "package", false);
             Utilidades.searchAdd(ruta, "import java.util.ArrayList;", "package", false);
             Utilidades.searchAdd(ruta, "import java.io.Serializable;", "package", false);
             Utilidades.searchAdd(ruta, "import java.util.HashMap;", "package", false);
@@ -202,14 +202,14 @@ public class ControllerGenerador implements Serializable {
                     fw.write("* To change this template file, choose Tools | Templates" + "\r\n");
                     fw.write(" * and open the template in the editor." + "\r\n");
                     fw.write("*/" + "\r\n");
-                    fw.write("package " + mySesion.getPaquete() + ".controller;" + "\r\n");
+                    fw.write("package " + proyectoEJB.getPaquete() + ".controller;" + "\r\n");
                     fw.write("" + "\r\n");
 
-                    fw.write("import " + mySesion.getPaquete() + ".entity.*; " + "\r\n");
-                    fw.write("import " + mySesion.getPaquete() + ".ejb.*; " + "\r\n");
-                    fw.write("import " + mySesion.getPaquete() + ".generales.*; " + "\r\n");
-                    fw.write("import " + mySesion.getPaquete() + ".interfaces.*; " + "\r\n");
-                    fw.write("import " + mySesion.getPaquete() + ".services.*; " + "\r\n");
+                    fw.write("import " + proyectoEJB.getPaquete() + ".entity.*; " + "\r\n");
+                    fw.write("import " + proyectoEJB.getPaquete() + ".ejb.*; " + "\r\n");
+                    fw.write("import " + proyectoEJB.getPaquete() + ".generales.*; " + "\r\n");
+                    fw.write("import " + proyectoEJB.getPaquete() + ".interfaces.*; " + "\r\n");
+                    fw.write("import " + proyectoEJB.getPaquete() + ".services.*; " + "\r\n");
                     fw.write("import java.util.ArrayList; " + "\r\n");
                     fw.write("import java.io.Serializable; " + "\r\n");
                     fw.write("import java.util.HashMap; " + "\r\n");

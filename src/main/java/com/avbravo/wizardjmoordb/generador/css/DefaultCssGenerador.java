@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.css;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -37,7 +37,7 @@ public class DefaultCssGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoJEE proyectoJEE;
 
     /**
      * Creates a new instance of Facade
@@ -46,7 +46,7 @@ public class DefaultCssGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("default.css", rutas.getPathMainWebappResourcesCss()+ "default.css");
+            procesar("default.css", proyectoJEE.getPathMainWebappResourcesCss()+ "default.css");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());

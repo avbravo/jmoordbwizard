@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.web.template;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.beans.Atributos;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
@@ -40,7 +40,7 @@ public class ReportesxhtmlGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoJEE proyectoJEE;
 
     /**
      * Creates a new instance of Facade
@@ -51,8 +51,8 @@ public class ReportesxhtmlGenerador implements Serializable {
             for (Entidad entidad : mySesion.getEntidadList()) {
                 String name = Utilidades.letterToLower(entidad.getTabla());
 
-                String directorioentity = rutas.getPathMainWebappPages() + Utilidades.letterToLower(entidad.getTabla()) + rutas.getSeparator();
-                procesar(name + "reportes.xhtml", directorioentity + rutas.getSeparator() + name + "reportes.xhtml", entidad);
+                String directorioentity = proyectoJEE.getPathMainWebappPages() + Utilidades.letterToLower(entidad.getTabla()) + proyectoJEE.getSeparator();
+                procesar(name + "reportes.xhtml", directorioentity + proyectoJEE.getSeparator() + name + "reportes.xhtml", entidad);
             }
 
         } catch (Exception e) {

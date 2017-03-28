@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.web.template;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.beans.EntidadMenu;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import java.io.BufferedWriter;
@@ -38,7 +38,7 @@ public class MenusxhtmlGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoJEE proyectoJEE;
 
     /**
      * Creates a new instance of Facade
@@ -47,7 +47,7 @@ public class MenusxhtmlGenerador implements Serializable {
         try {
 
             mySesion.getMenubarList().stream().forEach((s) -> {
-                procesar(s, "menu" + Utilidades.letterToLower(s) + ".xhtml", rutas.getPathMainWebapp() + rutas.getSeparator() + "menu" + Utilidades.letterToLower(s) + ".xhtml");
+                procesar(s, "menu" + Utilidades.letterToLower(s) + ".xhtml", proyectoJEE.getPathMainWebapp() + proyectoJEE.getSeparator() + "menu" + Utilidades.letterToLower(s) + ".xhtml");
             });
 
         } catch (Exception e) {

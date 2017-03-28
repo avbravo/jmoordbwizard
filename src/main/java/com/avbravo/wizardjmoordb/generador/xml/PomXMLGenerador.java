@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.xml;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -37,7 +37,7 @@ public class PomXMLGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoJEE proyectoJEE;
 
     /**
      * Creates a new instance of Facade
@@ -45,7 +45,7 @@ public class PomXMLGenerador implements Serializable {
     public void generar() {
         try {
             //recorrer el entity para verificar que existan todos los EJB
-            procesar("pom.xml", rutas.getPathPomXML() + "pom.xml");
+            procesar("pom.xml", proyectoJEE.getPathPomXML() + "pom.xml");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -75,7 +75,7 @@ public class PomXMLGenerador implements Serializable {
                Utilidades.addDependencies(ruta, "<artifactId>commons-lang</artifactId>",commonslang(), "<dependencies>", false);
                Utilidades.addDependencies(ruta, "<artifactId>javaee-web-api</artifactId>",javaeewebapi(), "<dependencies>", false);
                Utilidades.addDependencies(ruta, "<artifactId>bootsfaces</artifactId>",bootsfaces(), "<dependencies>", false);
-               Utilidades.addDependencies(ruta, "<finalName>"+mySesion.getProyecto()+"</finalName>",finalName(), "<build>", false);
+               Utilidades.addDependencies(ruta, "<finalName>"+proyectoJEE.getProyecto()+"</finalName>",finalName(), "<build>", false);
             }
 
         } catch (Exception e) {
@@ -306,7 +306,7 @@ public class PomXMLGenerador implements Serializable {
         try {
 
             String texto = "";
-            texto += "        <finalName>"+mySesion.getProyecto()+"</finalName>" + "\r\n";
+            texto += "        <finalName>"+proyectoJEE.getProyecto()+"</finalName>" + "\r\n";
             return texto;
         } catch (Exception e) {
             JSFUtil.addErrorMessage("finalName()  " + e.getLocalizedMessage());

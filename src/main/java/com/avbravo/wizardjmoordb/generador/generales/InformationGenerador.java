@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.generales;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.utilidades.FechasServices;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import java.io.BufferedWriter;
@@ -38,7 +38,7 @@ public class InformationGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoJEE proyectoJEE;
     @Inject
     FechasServices fechasServices;
 
@@ -47,7 +47,7 @@ public class InformationGenerador implements Serializable {
      */
     public Boolean generar() {
         try {
-            String ruta = rutas.getPathUtil() + "Information.txt";
+            String ruta = proyectoJEE.getPathUtil() + "Information.txt";
             String archivo = "Information.txt";
             Path path = Paths.get(ruta);
             if (Files.notExists(path, new LinkOption[]{LinkOption.NOFOLLOW_LINKS})) {
@@ -65,7 +65,7 @@ public class InformationGenerador implements Serializable {
 
     public Boolean stop() {
         try {
-            String ruta = rutas.getPathUtil() + "Information.txt";
+            String ruta = proyectoJEE.getPathUtil() + "Information.txt";
             String archivo = "Information.txt";
             String mensajes = "\r\n"+"\r\n"+"========================================" + "\r\n";
             mensajes += "         Mensajes     " + "\r\n";
@@ -118,8 +118,8 @@ public class InformationGenerador implements Serializable {
                     fw.write(" " + "\r\n");
                     fw.write(" " + "\r\n");
                     fw.write("====================================================" + "\r\n");
-                    fw.write("proyecto=" + mySesion.getProyecto() + "\r\n");
-                    fw.write("package=" + mySesion.getPaquete() + "\r\n");
+                    fw.write("proyecto=" + proyectoJEE.getProyecto() + "\r\n");
+                    fw.write("package=" + proyectoJEE.getPaquete() + "\r\n");
                     fw.write("Hora de inicio: " + fechasServices.getTiempo() + "\r\n");
                     fw.write(" Resultados de la generacion" + "\r\n");
                     fw.write("====================================================" + "\r\n");

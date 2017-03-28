@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.web.template;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -37,7 +37,7 @@ public class TemplatexhtmlGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoJEE proyectoJEE;
 
     /**
      * Creates a new instance of Facade
@@ -46,7 +46,7 @@ public class TemplatexhtmlGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("template.xhtml", rutas.getPathMainWebapp()+ rutas.getSeparator()+ "template.xhtml");
+            procesar("template.xhtml", proyectoJEE.getPathMainWebapp()+ proyectoJEE.getSeparator()+ "template.xhtml");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -135,18 +135,18 @@ public class TemplatexhtmlGenerador implements Serializable {
                     fw.write("    <h:head>" + "\r\n");
                     fw.write("        <f:facet name=\"first\">" + "\r\n");
                     fw.write("            <f:view locale=\"#{idiomas.locale}\"></f:view>" + "\r\n");
-                    fw.write("            <f:loadBundle basename=\"" + mySesion.getPaquete() + ".properties.messages\" var=\"msg\" />" + "\r\n");
-                    fw.write("            <f:loadBundle basename=\"" + mySesion.getPaquete() + ".properties.application\" var=\"app\" />" + "\r\n");
-                    fw.write("            <f:loadBundle basename=\"" + mySesion.getPaquete() + ".properties.menu\" var=\"men\" />" + "\r\n");
-                    fw.write("            <f:loadBundle basename=\"" + mySesion.getPaquete() + ".properties.entity\" var=\"ent\" />" + "\r\n");
-                    fw.write("            <f:loadBundle basename=\"" + mySesion.getPaquete() + ".properties.form\" var=\"form\" />" + "\r\n");
+                    fw.write("            <f:loadBundle basename=\"" + proyectoJEE.getPaquete() + ".properties.messages\" var=\"msg\" />" + "\r\n");
+                    fw.write("            <f:loadBundle basename=\"" + proyectoJEE.getPaquete() + ".properties.application\" var=\"app\" />" + "\r\n");
+                    fw.write("            <f:loadBundle basename=\"" + proyectoJEE.getPaquete() + ".properties.menu\" var=\"men\" />" + "\r\n");
+                    fw.write("            <f:loadBundle basename=\"" + proyectoJEE.getPaquete() + ".properties.entity\" var=\"ent\" />" + "\r\n");
+                    fw.write("            <f:loadBundle basename=\"" + proyectoJEE.getPaquete() + ".properties.form\" var=\"form\" />" + "\r\n");
                     fw.write("            <title><h:outputText value=\"#{app['application.title']}\"/></title>" + "\r\n");
                     fw.write("        </f:facet>" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("        <f:facet name=\"last\">" + "\r\n");
                     fw.write("        <link rel=\"stylesheet\" type=\"text/css\" href=\"#{facesContext.externalContext.requestContextPath}/resources/css/bootstrap.css\" />" + "\r\n");
                     fw.write("        </f:facet>" + "\r\n");
-                    fw.write("                 <title>" + mySesion.getProyecto() + "</title>" + "\r\n");
+                    fw.write("                 <title>" + proyectoJEE.getProyecto() + "</title>" + "\r\n");
                     fw.write("        <meta name=\"author\" content=\"#{app['application.title']}\"></meta>" + "\r\n");
                     fw.write("        <style type=\"text/css\">" + "\r\n");
                     fw.write("" + "\r\n");
@@ -314,11 +314,11 @@ public class TemplatexhtmlGenerador implements Serializable {
             String texto = "";
             texto += "        <f:facet name=\"first\">" + "\r\n";
             texto += "            <f:view locale=\"#{idiomas.locale}\"></f:view>" + "\r\n";
-            texto += "            <f:loadBundle basename=\"" + mySesion.getPaquete() + ".properties.messages\" var=\"msg\" />" + "\r\n";
-            texto += "            <f:loadBundle basename=\"" + mySesion.getPaquete() + ".properties.application\" var=\"app\" />" + "\r\n";
-            texto += "            <f:loadBundle basename=\"" + mySesion.getPaquete() + ".properties.menu\" var=\"men\" />" + "\r\n";
-            texto += "            <f:loadBundle basename=\"" + mySesion.getPaquete() + ".properties.entity\" var=\"ent\" />" + "\r\n";
-            texto += "            <f:loadBundle basename=\"" + mySesion.getPaquete() + ".properties.form\" var=\"form\" />" + "\r\n";
+            texto += "            <f:loadBundle basename=\"" + proyectoJEE.getPaquete() + ".properties.messages\" var=\"msg\" />" + "\r\n";
+            texto += "            <f:loadBundle basename=\"" + proyectoJEE.getPaquete() + ".properties.application\" var=\"app\" />" + "\r\n";
+            texto += "            <f:loadBundle basename=\"" + proyectoJEE.getPaquete() + ".properties.menu\" var=\"men\" />" + "\r\n";
+            texto += "            <f:loadBundle basename=\"" + proyectoJEE.getPaquete() + ".properties.entity\" var=\"ent\" />" + "\r\n";
+            texto += "            <f:loadBundle basename=\"" + proyectoJEE.getPaquete() + ".properties.form\" var=\"form\" />" + "\r\n";
             texto += "            <title><h:outputText value=\"#{app['application.title']}\"/></title>" + "\r\n";
             texto += "        </f:facet>" + "\r\n";
             return texto;
@@ -336,7 +336,7 @@ public class TemplatexhtmlGenerador implements Serializable {
             texto += "        <f:facet name=\"last\">" + "\r\n";
             texto += "        <link rel=\"stylesheet\" type=\"text/css\" href=\"#{facesContext.externalContext.requestContextPath}/resources/css/bootstrap.css\" />" + "\r\n";
             texto += "        </f:facet>" + "\r\n";
-            texto += "          <title>" + mySesion.getProyecto() + "</title>" + "\r\n";
+            texto += "          <title>" + proyectoJEE.getProyecto() + "</title>" + "\r\n";
             texto += "          <meta name=\"author\" content=\"#{app['application.title']}\"></meta>" + "\r\n";
             texto += "        <style type=\"text/css\">" + "\r\n";
             texto += "" + "\r\n";

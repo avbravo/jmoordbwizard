@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.configuration;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.beans.EntidadMenu;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -33,7 +33,7 @@ public class ConfigurationFilerRead implements Serializable {
     private static final Logger LOG = Logger.getLogger(ConfigurationFilerRead.class.getName());
 
     @Inject
-    Rutas rutas;
+    ProyectoJEE proyectoJEE;
     @Inject
     MySesion mySesion;
 
@@ -64,7 +64,7 @@ public class ConfigurationFilerRead implements Serializable {
             /**
              *
              */
-mySesion.getEntidadMenuList().removeAll(mySesion.getEntidadMenuList());
+            mySesion.getEntidadMenuList().removeAll(mySesion.getEntidadMenuList());
             Stream<String> lines = Files.lines(path);
             lines.forEach(
                     s -> linea(s));
@@ -90,10 +90,10 @@ mySesion.getEntidadMenuList().removeAll(mySesion.getEntidadMenuList());
             String r = s.substring(0, s.indexOf("="));
             switch (r) {
                 case "proyecto":
-                    mySesion.setProyecto(descomponer(s, r));
+                    proyectoJEE.setProyecto(descomponer(s, r));
                     break;
                 case "package":
-                    mySesion.setPaquete(descomponer(s, r));
+                    proyectoJEE.setPaquete(descomponer(s, r));
                     break;
 
                 case "entidadUser":
@@ -135,9 +135,7 @@ mySesion.getEntidadMenuList().removeAll(mySesion.getEntidadMenuList());
                 case "addFechaSystema":
                     mySesion.setAddFechaSystema(descomponer(s, r).equals("true"));
                     break;
-                case "addCreateTablePersitenceXML":
-                    mySesion.setAddCreateTablePersitenceXML(descomponer(s, r).equals("true"));
-                    break;
+
                 case "frameworkPrimefaces":
                     mySesion.setFrameworkPrimefaces(descomponer(s, r).equals("true"));
                     break;

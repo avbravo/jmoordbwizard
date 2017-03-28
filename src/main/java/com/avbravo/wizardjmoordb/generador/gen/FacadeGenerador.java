@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.gen;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoEJB;
 import com.avbravo.wizardjmoordb.beans.Atributos;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
@@ -22,7 +22,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Stream;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -41,7 +40,7 @@ public class FacadeGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoEJB proyectoEJB;
 
     /**
      * Creates a new instance of Facade
@@ -54,7 +53,7 @@ public class FacadeGenerador implements Serializable {
             //recorrer el entity para verificar que existan todos los EJB
             verificarFileAbstractFacade();
             for (Entidad e : mySesion.getEntidadList()) {
-                procesar(e, e.getTabla(), rutas.getPathEJB() + e.getTabla() + "Facade.java");
+                procesar(e, e.getTabla(), proyectoEJB.getPathEJB() + e.getTabla() + "Facade.java");
             }
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -69,7 +68,7 @@ public class FacadeGenerador implements Serializable {
      */
     private Boolean verificarFileAbstractFacade() {
         try {
-            String ruta = rutas.getPathEJB() + "AbstractFacade.java";
+            String ruta = proyectoEJB.getPathEJB() + "AbstractFacade.java";
             if (!Utilidades.existeArchivo(ruta)) {
                 crearFileAbstractFacade(ruta, "AbstractFacade");
             }
@@ -91,14 +90,14 @@ public class FacadeGenerador implements Serializable {
                 /**
                  *
                  */
-                if (!Utilidades.search(ruta, "@PersistenceContext")) {
+//                if (!Utilidades.search(ruta, "@PersistenceContext")) {
+//
+//                    Utilidades.add(ruta, "> {", "\n@PersistenceContext(unitName = \"" + mySesion.getPersistenceContext() + "\")", false);
+//                }
 
-                    Utilidades.add(ruta, "> {", "\n@PersistenceContext(unitName = \"" + mySesion.getPersistenceContext() + "\")", false);
-                }
-
-                if (!Utilidades.search(ruta, "private EntityManager em;")) {
-                    Utilidades.add(ruta, "@PersistenceContext(unitName = \"" + mySesion.getPersistenceContext() + "\"", "private EntityManager em;", false);
-                }
+//                if (!Utilidades.search(ruta, "private EntityManager em;")) {
+//                    Utilidades.add(ruta, "@PersistenceContext(unitName = \"" + mySesion.getPersistenceContext() + "\"", "private EntityManager em;", false);
+//                }
                 if (!Utilidades.search(ruta, "super(")) {
                     Utilidades.add(ruta, "> {", " public " + archivo + "Facade() {\n        super(" + archivo + ".class);\n}", false);
                 }
@@ -179,10 +178,10 @@ public class FacadeGenerador implements Serializable {
                 Utilidades.add(ruta, "import javax.persistence.EntityManager;", "import java.util.Date;", false);
             }
 
-            if (!Utilidades.search(ruta, "import " + mySesion.getPaquete() + ".entity.*;")) {
-                Utilidades.add(ruta, "import javax.persistence.EntityManager;", "import " + mySesion.getPaquete() + ".entity.*;", false);
+            if (!Utilidades.search(ruta, "import " + proyectoEJB.getPaquete() + ".entity.*;")) {
+                Utilidades.add(ruta, "import javax.persistence.EntityManager;", "import " + proyectoEJB.getPaquete() + ".entity.*;", false);
             }
-            Utilidades.searchAdd(ruta, "import " + mySesion.getPaquete() + ".generales.JSFUtil;", "package", false);
+            Utilidades.searchAdd(ruta, "import " + proyectoEJB.getPaquete() + ".generales.JSFUtil;", "package", false);
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generarImport() " + e.getLocalizedMessage());
@@ -448,8 +447,8 @@ public class FacadeGenerador implements Serializable {
                     fw.write("* To change this template file, choose Tools | Templates" + "\r\n");
                     fw.write(" * and open the template in the editor." + "\r\n");
                     fw.write("*/" + "\r\n");
-                    fw.write("package " + mySesion.getPaquete() + ".ejb;" + "\r\n");
-                    fw.write("import " + mySesion.getPaquete() + ".entity.*;" + "\r\n");
+                    fw.write("package " + proyectoEJB.getPaquete() + ".ejb;" + "\r\n");
+                    fw.write("import " + proyectoEJB.getPaquete() + ".entity.*;" + "\r\n");
                     fw.write("import javax.ejb.Stateless;" + "\r\n");
                     fw.write("import java.util.Date;" + "\r\n");
                     fw.write("import javax.ejb.Stateless;" + "\r\n");
@@ -458,7 +457,7 @@ public class FacadeGenerador implements Serializable {
                     fw.write("import javax.persistence.Query;" + "\r\n");
                     fw.write("import javax.persistence.EntityManager;" + "\r\n");
                     fw.write("import javax.persistence.PersistenceContext;" + "\r\n");
-                    fw.write("import " + mySesion.getPaquete() + ".generales.JSFUtil;" + "\r\n");
+                    fw.write("import " + proyectoEJB.getPaquete() + ".generales.JSFUtil;" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("/**" + "\r\n");
                     fw.write(" *" + "\r\n");
@@ -467,8 +466,8 @@ public class FacadeGenerador implements Serializable {
                     fw.write("@Stateless" + "\r\n");
                     fw.write("public class " + archivo + "Facade extends AbstractFacade<" + archivo + "> {" + "\r\n");
                     fw.write("" + "\r\n");
-                    fw.write("    @PersistenceContext(unitName = \"" + mySesion.getPersistenceContext() + "\")" + "\r\n");
-                    fw.write("    private EntityManager em;" + "\r\n");
+//                    fw.write("    @PersistenceContext(unitName = \"" + mySesion.getPersistenceContext() + "\")" + "\r\n");
+//                    fw.write("    private EntityManager em;" + "\r\n");
 
                     fw.write("" + "\r\n");
                     fw.write("    @Override" + "\r\n");
@@ -693,11 +692,11 @@ public class FacadeGenerador implements Serializable {
                     fw.write("* To change this template file, choose Tools | Templates" + "\r\n");
                     fw.write(" * and open the template in the editor." + "\r\n");
                     fw.write("*/" + "\r\n");
-                    fw.write("package " + mySesion.getPaquete() + ".ejb;" + "\r\n");
+                    fw.write("package " + proyectoEJB.getPaquete() + ".ejb;" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("import java.util.List;" + "\r\n");
                     fw.write("import javax.persistence.EntityManager;" + "\r\n");
-                    fw.write("import " + mySesion.getPaquete() + ".generales.JSFUtil;" + "\r\n");
+                    fw.write("import " + proyectoEJB.getPaquete() + ".generales.JSFUtil;" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("/**" + "\r\n");
                     fw.write(" *" + "\r\n");

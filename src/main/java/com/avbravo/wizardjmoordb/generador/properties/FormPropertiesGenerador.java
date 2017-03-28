@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.properties;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.utilidades.FechasServices;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
@@ -39,7 +39,7 @@ public class FormPropertiesGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoJEE proyectoJEE;
     @Inject
     FechasServices fechasServices;
 
@@ -50,9 +50,9 @@ public class FormPropertiesGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
             
-            procesar("form.properties", rutas.getPathProperties() + "form.properties");
-            procesar("form_en.properties", rutas.getPathProperties() + "form_en.properties");
-            procesar("form_es.properties", rutas.getPathProperties() + "form_es.properties");
+            procesar("form.properties", proyectoJEE.getPathProperties() + "form.properties");
+            procesar("form_en.properties", proyectoJEE.getPathProperties() + "form_en.properties");
+            procesar("form_es.properties", proyectoJEE.getPathProperties() + "form_es.properties");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());

@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.generales;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.beans.Atributos;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
@@ -39,7 +39,7 @@ public class JSFUtilGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoJEE proyectoJEE;
 
     /**
      * Creates a new instance of Facade
@@ -48,7 +48,7 @@ public class JSFUtilGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("JSFUtil.java", rutas.getPathUtil() + "JSFUtil.java");
+            procesar("JSFUtil.java", proyectoJEE.getPathUtil() + "JSFUtil.java");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -254,7 +254,7 @@ public class JSFUtilGenerador implements Serializable {
                     fw.write("* To change this template file, choose Tools | Templates" + "\r\n");
                     fw.write(" * and open the template in the editor." + "\r\n");
                     fw.write("*/" + "\r\n");
-                    fw.write("package " + mySesion.getPaquete() + ".generales;" + "\r\n");
+                    fw.write("package " + proyectoJEE.getPaquete() + ".generales;" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("import java.security.MessageDigest;" + "\r\n");
                     fw.write("import java.util.Iterator;" + "\r\n");

@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.menu;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -37,7 +37,7 @@ public class MenuElementoGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoJEE proyectoJEE;
 
     /**
      * Creates a new instance of Facade
@@ -46,7 +46,7 @@ public class MenuElementoGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("MenuElemento.java", rutas.getPathMenu() + "MenuElemento.java");
+            procesar("MenuElemento.java", proyectoJEE.getPathMenu() + "MenuElemento.java");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -148,7 +148,7 @@ public class MenuElementoGenerador implements Serializable {
                     fw.write("* To change this template file, choose Tools | Templates" + "\r\n");
                     fw.write(" * and open the template in the editor." + "\r\n");
                     fw.write("*/" + "\r\n");
-                    fw.write("package " + mySesion.getPaquete() + ".menu;" + "\r\n");
+                    fw.write("package " + proyectoJEE.getPaquete() + ".menu;" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("import java.io.Serializable;" + "\r\n");
                     fw.write("import javax.enterprise.context.SessionScoped;" + "\r\n");

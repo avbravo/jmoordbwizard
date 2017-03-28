@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.generales;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.beans.Atributos;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
@@ -39,7 +39,7 @@ public class LoginBeanGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoJEE proyectoJEE;
 
     /**
      * Creates a new instance of Facade
@@ -48,7 +48,7 @@ public class LoginBeanGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("LoginBean", rutas.getPathUtil() + "LoginBean.java");
+            procesar("LoginBean", proyectoJEE.getPathUtil() + "LoginBean.java");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -136,11 +136,11 @@ public class LoginBeanGenerador implements Serializable {
              * agregar los imports
              */
 
-            Utilidades.searchAdd(ruta, "import " + mySesion.getPaquete() + ".entity.*;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + mySesion.getPaquete() + ".ejb.*;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + mySesion.getPaquete() + ".roles.*;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + mySesion.getPaquete() + ".menu.MenuBeans;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + mySesion.getPaquete() + ".generales.*;", "package", false);
+            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".entity.*;", "package", false);
+            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".ejb.*;", "package", false);
+            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".roles.*;", "package", false);
+            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".menu.MenuBeans;", "package", false);
+            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".generales.*;", "package", false);
             Utilidades.searchAdd(ruta, "import javax.inject.Named;", "package", false);
             Utilidades.searchAdd(ruta, "import java.io.Serializable;", "package", false);
             Utilidades.searchAdd(ruta, "import java.util.ArrayList;", "package", false);
@@ -187,13 +187,13 @@ public class LoginBeanGenerador implements Serializable {
                     fw.write("* To change this template file, choose Tools | Templates" + "\r\n");
                     fw.write(" * and open the template in the editor." + "\r\n");
                     fw.write("*/" + "\r\n");
-                    fw.write("package " + mySesion.getPaquete() + ".generales;" + "\r\n");
+                    fw.write("package " + proyectoJEE.getPaquete() + ".generales;" + "\r\n");
                     fw.write("" + "\r\n");
-                    fw.write("import " + mySesion.getPaquete() + ".entity.*;" + "\r\n");
-                    fw.write("import " + mySesion.getPaquete() + ".ejb.*;" + "\r\n");
-                    fw.write("import " + mySesion.getPaquete() + ".menu.MenuBeans;" + "\r\n");
-                    fw.write("import " + mySesion.getPaquete() + ".roles.*;" + "\r\n");
-                    fw.write("import " + mySesion.getPaquete() + ".generales.*;" + "\r\n");
+                    fw.write("import " + proyectoJEE.getPaquete() + ".entity.*;" + "\r\n");
+                    fw.write("import " + proyectoJEE.getPaquete() + ".ejb.*;" + "\r\n");
+                    fw.write("import " + proyectoJEE.getPaquete() + ".menu.MenuBeans;" + "\r\n");
+                    fw.write("import " + proyectoJEE.getPaquete() + ".roles.*;" + "\r\n");
+                    fw.write("import " + proyectoJEE.getPaquete() + ".generales.*;" + "\r\n");
                     fw.write("import javax.inject.Inject;" + "\r\n");
                     fw.write("import javax.inject.Named;" + "\r\n");
                     fw.write("import java.io.Serializable;" + "\r\n");
@@ -356,7 +356,7 @@ public class LoginBeanGenerador implements Serializable {
                     fw.write("            if (session != null) {" + "\r\n");
                     fw.write("                session.invalidate();" + "\r\n");
                     fw.write("            }" + "\r\n");
-                    fw.write("            String url = (\"/" + mySesion.getProyecto() + "/faces/index.xhtml?faces-redirect=true\");" + "\r\n");
+                    fw.write("            String url = (\"/" + proyectoJEE.getProyecto() + "/faces/index.xhtml?faces-redirect=true\");" + "\r\n");
                     fw.write("            FacesContext fc = FacesContext.getCurrentInstance();" + "\r\n");
                     fw.write("            ExternalContext ec = fc.getExternalContext();" + "\r\n");
                     fw.write("            try {" + "\r\n");
@@ -364,7 +364,7 @@ public class LoginBeanGenerador implements Serializable {
                     fw.write("            } catch (Exception ex) {" + "\r\n");
                     fw.write("                JSFUtil.addErrorMessage(ex.getLocalizedMessage());" + "\r\n");
                     fw.write("            }" + "\r\n");
-                    fw.write("            return \"/" + mySesion.getProyecto() + "/faces/index.xhtml?faces-redirect=true\";" + "\r\n");
+                    fw.write("            return \"/" + proyectoJEE.getProyecto() + "/faces/index.xhtml?faces-redirect=true\";" + "\r\n");
                     fw.write("        } catch (Exception e) {" + "\r\n");
                     fw.write("            JSFUtil.addErrorMessage(e, \"logout()\");" + "\r\n");
                     fw.write("        }" + "\r\n");
@@ -525,7 +525,7 @@ public class LoginBeanGenerador implements Serializable {
             texto += "           if (session != null) {" + "\r\n";
             texto += "               session.invalidate();" + "\r\n";
             texto += "           }" + "\r\n";
-            texto += "           String url = (\"/" + mySesion.getProyecto() + "/faces/index.xhtml?faces-redirect=true\");" + "\r\n";
+            texto += "           String url = (\"/" + proyectoJEE.getProyecto() + "/faces/index.xhtml?faces-redirect=true\");" + "\r\n";
             texto += "           FacesContext fc = FacesContext.getCurrentInstance();" + "\r\n";
             texto += "           ExternalContext ec = fc.getExternalContext();" + "\r\n";
             texto += "           try {" + "\r\n";
@@ -533,7 +533,7 @@ public class LoginBeanGenerador implements Serializable {
             texto += "           } catch (Exception ex) {" + "\r\n";
             texto += "               JSFUtil.addErrorMessage(ex.getLocalizedMessage());" + "\r\n";
             texto += "           }" + "\r\n";
-            texto += "           return \"/" + mySesion.getProyecto() + "/faces/index.xhtml?faces-redirect=true\";" + "\r\n";
+            texto += "           return \"/" + proyectoJEE.getProyecto() + "/faces/index.xhtml?faces-redirect=true\";" + "\r\n";
             texto += "       } catch (Exception e) {" + "\r\n";
             texto += "           JSFUtil.addErrorMessage(e, \"logout()\");" + "\r\n";
             texto += "       }" + "\r\n";

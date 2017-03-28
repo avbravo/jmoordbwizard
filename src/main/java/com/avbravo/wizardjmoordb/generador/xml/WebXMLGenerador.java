@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.xml;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.utilidades.FechasServices;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import java.io.BufferedWriter;
@@ -38,7 +38,7 @@ public class WebXMLGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoJEE proyectoJEE;
     @Inject
     FechasServices fechasServices;
 
@@ -49,7 +49,7 @@ public class WebXMLGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
             
-            procesar("web.xml", rutas.getPathWebInf() + "web.xml");
+            procesar("web.xml", proyectoJEE.getPathWebInf() + "web.xml");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());

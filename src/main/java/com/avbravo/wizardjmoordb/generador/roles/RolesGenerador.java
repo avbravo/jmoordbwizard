@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.roles;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import java.io.BufferedWriter;
@@ -38,7 +38,7 @@ public class RolesGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoJEE proyectoJEE;
 
     /**
      * Creates a new instance of Facade
@@ -48,7 +48,7 @@ public class RolesGenerador implements Serializable {
             //recorrer el entity para verificar que existan todos los EJB
             for (String s : mySesion.getRolesList()) {
              
-                procesar("Rol" + s, rutas.getPathRoles() + "Rol" + s + ".java");
+                procesar("Rol" + s, proyectoJEE.getPathRoles() + "Rol" + s + ".java");
             }
 
         } catch (Exception e) {
@@ -111,7 +111,7 @@ public class RolesGenerador implements Serializable {
              * agregar los imports
              */
 
-            Utilidades.searchAdd(ruta, "import " + mySesion.getPaquete() + ".menu.MenuBeans;", "package", false);
+            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".menu.MenuBeans;", "package", false);
             Utilidades.searchAdd(ruta, "import javax.inject.Inject;", "package", false);
             Utilidades.searchAdd(ruta, "import javax.inject.Named;", "package", false);
             Utilidades.searchAdd(ruta, "import javax.enterprise.context.RequestScoped;", "package", false);
@@ -151,9 +151,9 @@ public class RolesGenerador implements Serializable {
                     fw.write("* To change this template file, choose Tools | Templates" + "\r\n");
                     fw.write(" * and open the template in the editor." + "\r\n");
                     fw.write("*/" + "\r\n");
-                    fw.write("package " + mySesion.getPaquete() + ".roles;" + "\r\n");
+                    fw.write("package " + proyectoJEE.getPaquete() + ".roles;" + "\r\n");
                     fw.write("" + "\r\n");
-                    fw.write("import " + mySesion.getPaquete() + ".menu.MenuBeans;" + "\r\n");
+                    fw.write("import " + proyectoJEE.getPaquete() + ".menu.MenuBeans;" + "\r\n");
                     fw.write("import javax.inject.Inject;" + "\r\n");
                     fw.write("import javax.inject.Named;" + "\r\n");
                     fw.write("import javax.enterprise.context.RequestScoped;" + "\r\n");

@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.web.template;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -38,7 +38,7 @@ public class HeaderxhtmlGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoJEE proyectoJEE;
 
     /**
      * Creates a new instance of Facade
@@ -47,7 +47,7 @@ public class HeaderxhtmlGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("header.xhtml", rutas.getPathMainWebapp() + rutas.getSeparator() + "header.xhtml");
+            procesar("header.xhtml", proyectoJEE.getPathMainWebapp() + proyectoJEE.getSeparator() + "header.xhtml");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -63,7 +63,7 @@ public class HeaderxhtmlGenerador implements Serializable {
                 crearFile(ruta, archivo);
             }
 
-//            Utilidades.searchAdd(ruta, "<b:navBar  brand=\"#{men['menu.home']}\" brandHref=\"/" + mySesion.getProyecto() + "/faces/index.xhtml\" inverse=\"true\" fixed=\"top\">", "<ui:composition>", false);
+//            Utilidades.searchAdd(ruta, "<b:navBar  brand=\"#{men['menu.home']}\" brandHref=\"/" + proyectoJEE.getProyecto() + "/faces/index.xhtml\" inverse=\"true\" fixed=\"top\">", "<ui:composition>", false);
 //            Utilidades.searchAdd(ruta, "<b:commandButton rendered=\"#{!loginBean.logeado}\" action=\"#{loginBean.verificarLogin}\" value=\"#{app['boton.login']}\" look=\"primary\"  iconAlign=\"right\"/>", "</div>", false);
 //            Utilidades.searchAdd(ruta, "<b:label  text=\"#{loginBean." + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "." + Utilidades.letterToLower(mySesion.getAtributosNombreMostrar()) + "}\"  rendered=\"#{loginBean.logeado}\"/>", "<b:commandButton rendered=\"#{!loginBean.logeado}\" action=\"#{loginBean.verificarLogin}\" value=\"#{app['boton.login']}\" look=\"primary\"  iconAlign=\"right\"/>", false);
 //            Utilidades.searchAdd(ruta, "<b:commandButton rendered=\"#{loginBean.logeado}\" action=\"#{loginBean.logout()}\" value=\"#{app['boton.logout']}\" look=\"success\"  iconAlign=\"right\"/>", "<b:label  text=\"#{loginBean." + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "." + Utilidades.letterToLower(mySesion.getAtributosNombreMostrar()) + "}\"  rendered=\"#{loginBean.logeado}\"/>", false);
@@ -120,7 +120,7 @@ public class HeaderxhtmlGenerador implements Serializable {
                     fw.write("      xmlns:p=\"http://primefaces.org/ui\">" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("    <ui:composition>" + "\r\n");
-                    fw.write("           <b:navBar  brand=\"#{men['menu.home']}\" brandHref=\"/" + mySesion.getProyecto() + "/faces/index.xhtml\" inverse=\"true\" fixed=\"top\">" + "\r\n");
+                    fw.write("           <b:navBar  brand=\"#{men['menu.home']}\" brandHref=\"/" + proyectoJEE.getProyecto() + "/faces/index.xhtml\" inverse=\"true\" fixed=\"top\">" + "\r\n");
                     fw.write("            <b:navbarLinks>" + "\r\n");
                     mySesion.getMenubarList().stream().forEach((s) -> {
                         try {

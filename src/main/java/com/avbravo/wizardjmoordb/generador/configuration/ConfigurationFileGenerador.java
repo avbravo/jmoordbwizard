@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.configuration;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.beans.EntidadMenu;
 import com.avbravo.wizardjmoordb.utilidades.FechasServices;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
@@ -39,7 +39,7 @@ public class ConfigurationFileGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoJEE proyectoJEE;
 @Inject
 FechasServices fechasServices;
     /**
@@ -49,7 +49,7 @@ FechasServices fechasServices;
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("Configuration.txt", rutas.getPathProperties() + "Configuration.txt");
+            procesar("Configuration.txt", proyectoJEE.getPathProperties() + "Configuration.txt");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -105,8 +105,8 @@ FechasServices fechasServices;
                     fw.write(" * @author: " + mySesion.getUsername() + "\r\n");
                     fw.write(" * Fecha: " + fechasServices.getFechaActual()+ "\r\n");
                     fw.write(" */" + "\r\n");
-                    fw.write("proyecto=" + mySesion.getProyecto() + "\r\n");
-                    fw.write("package=" + mySesion.getPaquete() + "\r\n");
+                    fw.write("proyecto=" + proyectoJEE.getProyecto() + "\r\n");
+                    fw.write("package=" + proyectoJEE.getPaquete() + "\r\n");
                     fw.write("entidadUser=" + mySesion.getEntidadUser().getTabla() + "\r\n");
                     fw.write("atributosUsername=" + mySesion.getAtributosUsername() + "\r\n");
                     fw.write("atributosPassword=" + mySesion.getAtributosPassword() + "\r\n");
@@ -127,7 +127,7 @@ FechasServices fechasServices;
                     fw.write("titulosMenuBar=" + mySesion.getTitulosMenuBar() + "\r\n");
                     fw.write("addUserNameLogeado=" + mySesion.getAddUserNameLogeado() + "\r\n");
                     fw.write("addFechaSystema=" + mySesion.getAddFechaSystema() + "\r\n");
-                    fw.write("addCreateTablePersitenceXML=" + mySesion.getAddCreateTablePersitenceXML()+ "\r\n");
+                    
                     fw.write("frameworkPrimefaces=" + mySesion.getFrameworkPrimefaces()+ "\r\n");
                     fw.write("frameworkBootfaces=" + mySesion.getFrameworkBootfaces()   + "\r\n");
                     fw.write("frameworkMaterialprime=" + mySesion.getFrameworkMaterialprime()+ "\r\n");

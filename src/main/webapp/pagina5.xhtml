@@ -32,11 +32,14 @@
 
 
                         <b:panelGrid columns="2" colSpans="2,10"   >
-                            <p:outputLabel value="Proyecto"/>
-
-                            <p:outputLabel   value="#{generador.mySesion.proyecto}" styleClass="outputLabel" />
+                            <p:outputLabel value="Proyecto EJB"/>
+                            <p:outputLabel   value="#{generador.proyectoEJB.proyecto}" styleClass="outputLabel" />
                             <h:outputText value="Paquete: " />
-                            <h:outputText value="#{generador.mySesion.paquete}" styleClass="outputLabel"/>
+                            <h:outputText value="#{generador.proyectoEJB.paquete}" styleClass="outputLabel"/>
+                            <p:outputLabel value="Proyecto JEE"/>
+                            <p:outputLabel   value="#{generador.proyectoJEE.proyecto}" styleClass="outputLabel" />
+                            <h:outputText value="Paquete: " />
+                            <h:outputText value="#{generador.proyectoJEE.paquete}" styleClass="outputLabel"/>
 
 
                         

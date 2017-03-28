@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.roles;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import java.io.BufferedWriter;
@@ -38,7 +38,7 @@ public class ValidadorRolesGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoJEE proyectoJEE;
 
     /**
      * Creates a new instance of Facade
@@ -49,7 +49,7 @@ public class ValidadorRolesGenerador implements Serializable {
             for (String s : mySesion.getRolesList()) {
             
             }
-            procesar("ValidadorRoles", rutas.getPathRoles() + "ValidadorRoles.java");
+            procesar("ValidadorRoles", proyectoJEE.getPathRoles() + "ValidadorRoles.java");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -111,9 +111,9 @@ public class ValidadorRolesGenerador implements Serializable {
              * agregar los imports
              */
 
-            Utilidades.searchAdd(ruta, "import " + mySesion.getPaquete() + ".menu.MenuBeans;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + mySesion.getPaquete() + ".generales.JSFUtil;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + mySesion.getPaquete() + ".generales.ResourcesFiles;", "package", false);
+            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".menu.MenuBeans;", "package", false);
+            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".generales.JSFUtil;", "package", false);
+            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".generales.ResourcesFiles;", "package", false);
             Utilidades.searchAdd(ruta, "import javax.inject.Inject;", "package", false);
             Utilidades.searchAdd(ruta, "import javax.inject.Named;", "package", false);
             Utilidades.searchAdd(ruta, "import javax.enterprise.context.RequestScoped;", "package", false);
@@ -153,11 +153,11 @@ public class ValidadorRolesGenerador implements Serializable {
                     fw.write("* To change this template file, choose Tools | Templates" + "\r\n");
                     fw.write(" * and open the template in the editor." + "\r\n");
                     fw.write("*/" + "\r\n");
-                    fw.write("package " + mySesion.getPaquete() + ".roles;" + "\r\n");
+                    fw.write("package " + proyectoJEE.getPaquete() + ".roles;" + "\r\n");
                     fw.write("" + "\r\n");
-                    fw.write("import " + mySesion.getPaquete() + ".menu.MenuBeans;" + "\r\n");
-                    fw.write("import " + mySesion.getPaquete() + ".generales.JSFUtil;" + "\r\n");
-                    fw.write("import " + mySesion.getPaquete() + ".generales.ResourcesFiles;" + "\r\n");
+                    fw.write("import " + proyectoJEE.getPaquete() + ".menu.MenuBeans;" + "\r\n");
+                    fw.write("import " + proyectoJEE.getPaquete() + ".generales.JSFUtil;" + "\r\n");
+                    fw.write("import " + proyectoJEE.getPaquete() + ".generales.ResourcesFiles;" + "\r\n");
                     fw.write("import javax.inject.Inject;" + "\r\n");
                     fw.write("import javax.inject.Named;" + "\r\n");
                     fw.write("import javax.enterprise.context.RequestScoped;" + "\r\n");

@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.web.componentes;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.Rutas;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -38,7 +38,7 @@ public class DialogoeliminarxhtmlGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    Rutas rutas;
+    ProyectoJEE proyectoJEE;
 
     /**
      * Creates a new instance of Facade
@@ -47,7 +47,7 @@ public class DialogoeliminarxhtmlGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("dialogoeliminar.xhtml", rutas.getPathMainWebappResourcesComponentes()+ rutas.getSeparator()+"dialogoeliminar.xhtml");
+            procesar("dialogoeliminar.xhtml", proyectoJEE.getPathMainWebappResourcesComponentes()+ proyectoJEE.getSeparator()+"dialogoeliminar.xhtml");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
