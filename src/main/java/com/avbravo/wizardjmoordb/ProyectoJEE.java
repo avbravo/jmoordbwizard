@@ -30,11 +30,11 @@ public class ProyectoJEE  implements Serializable {
     /**
      * EJB
      */
-    private String pathConverter = path + "converter" + separator;
-    private String pathDatamodel = path + "datamodel" + separator;
-    private String pathEJB = path + "ejb" + separator;
+//    private String pathConverter = path + "converter" + separator;
+//    private String pathDatamodel = path + "datamodel" + separator;
+//    private String pathEJB = path + "ejb" + separator;
     private String pathEntity = path + "entity" + separator;
-    private String pathProvider = path + "provider" + separator;
+//    private String pathProvider = path + "provider" + separator;
     private String pathServices = path + "services" + separator;
     private String pathProyecto;
 
@@ -128,29 +128,8 @@ public class ProyectoJEE  implements Serializable {
         this.separator = separator;
     }
 
-    public String getPathConverter() {
-        return pathConverter;
-    }
-
-    public void setPathConverter(String pathConverter) {
-        this.pathConverter = pathConverter;
-    }
-
-    public String getPathDatamodel() {
-        return pathDatamodel;
-    }
-
-    public void setPathDatamodel(String pathDatamodel) {
-        this.pathDatamodel = pathDatamodel;
-    }
-
-    public String getPathEJB() {
-        return pathEJB;
-    }
-
-    public void setPathEJB(String pathEJB) {
-        this.pathEJB = pathEJB;
-    }
+   
+    
 
     public String getPathEntity() {
         return pathEntity;
@@ -160,13 +139,7 @@ public class ProyectoJEE  implements Serializable {
         this.pathEntity = pathEntity;
     }
 
-    public String getPathProvider() {
-        return pathProvider;
-    }
-
-    public void setPathProvider(String pathProvider) {
-        this.pathProvider = pathProvider;
-    }
+    
 
     public String getPathServices() {
         return pathServices;

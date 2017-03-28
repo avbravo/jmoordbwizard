@@ -37,13 +37,6 @@ public class ProyectoEJB  implements Serializable {
     private String pathServices = path + "services" + separator;
     private String pathProyecto;
 
-    /**
-     * JEE
-     */
-//    private String pathController = path + "controller" + separator;
-//    private String pathMenu = path + "menu" + separator;
-//    private String pathRoles = path + "roles" + separator;
-//    private String pathUtil = path + "util" + separator;
 
     /**
      *
@@ -52,21 +45,8 @@ public class ProyectoEJB  implements Serializable {
     private String pathWebInf = "";
     private String pathMetaInf = "";
     private String pathMainJava = "";
-//    private String pathMainResources = "";
-//    private String pathMainWebapp = "";
-//    private String pathMainWebappPages = "";
-//    private String pathMainWebappResources = "";
-//    private String pathMainWebappResourcesCss = "";
-//    private String pathMainWebappResourcesImagenes = "";
-//    private String pathMainWebappResourcesComponentes = "";
-//    private String pathMainWebappResourcesReportes = "";
 
-//    private String pathProperties = "";
-//    private String pathInterfaces = "";
     private String pathPomXML = "";
-
-//    private String pathSearch = "";
-//    private String pathReportes = "";
 
     public String getPathProyecto() {
         return pathProyecto;

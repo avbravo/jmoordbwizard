@@ -635,20 +635,17 @@ public class Generador implements Serializable {
              */
            proyectoJEE.setPathEntity(proyectoJEE.getPath() + "entity" + proyectoJEE.getSeparator());
          proyectoJEE.setPathController(proyectoJEE.getPath() + "controller" + proyectoJEE.getSeparator());
-           proyectoJEE.setPathEJB(proyectoJEE.getPath() + "ejb" + proyectoJEE.getSeparator());
-            proyectoEJB.setPathConverter(proyectoJEE.getPath() + "converter" +proyectoJEE.getSeparator());
-
 
            proyectoJEE.setPathServices(proyectoJEE.getPath() + "services" + proyectoJEE.getSeparator());
            proyectoJEE.setPathController(proyectoJEE.getPath() + "controller" + proyectoJEE.getSeparator());
             proyectoJEE.setPathSearch(proyectoJEE.getPath() + "search" + proyectoJEE.getSeparator());
             proyectoJEE.setPathReportes(proyectoJEE.getPath() + "reportes" + proyectoJEE.getSeparator());
 
-            proyectoJEE.setPathMenu(proyectoEJB.getPath() + "menu" + proyectoEJB.getSeparator());
-            proyectoJEE.setPathRoles(proyectoEJB.getPath() + "roles" + proyectoEJB.getSeparator());
+            proyectoJEE.setPathMenu(proyectoJEE.getPath() + "menu" + proyectoJEE.getSeparator());
+            proyectoJEE.setPathRoles(proyectoJEE.getPath() + "roles" + proyectoJEE.getSeparator());
 
-            proyectoJEE.setPathProperties(proyectoJEE.getPathMainResources() + proyectoEJB.getSeparator() + proyectoJEE.getPaquetePath() + proyectoEJB.getSeparator() + "properties" + proyectoEJB.getSeparator());
-            proyectoJEE.setPathInterfaces(proyectoJEE.getPath() + "interfaces" + proyectoEJB.getSeparator());
+            proyectoJEE.setPathProperties(proyectoJEE.getPathMainResources() + proyectoJEE.getSeparator() + proyectoJEE.getPaquetePath() + proyectoJEE.getSeparator() + "properties" + proyectoJEE.getSeparator());
+            proyectoJEE.setPathInterfaces(proyectoJEE.getPath() + "interfaces" + proyectoJEE.getSeparator());
             proyectoJEE.setPathPomXML(proyectoJEE.getPathProyecto() + proyectoJEE.getSeparator());
             /*
             
@@ -658,14 +655,9 @@ public class Generador implements Serializable {
             mySesion.getEjbList().removeAll(mySesion.getEjbList());
             mySesion.getControllerList().removeAll(mySesion.getControllerList());
             mySesion.getEntidadMenuList().removeAll(mySesion.getEntidadMenuList());
-//            if (!leerPersistenceUnit()) {
-//                JSFUtil.warningDialog("Mensaje", "No existe el archivo persistence.xml. Debe generar los Entity from Databases");
-//
-//                return "";
-//            }
+
             if (!readPackageEntity()) {
                 JSFUtil.warningDialog("Mensaje", "No hay Entitys en el paquete " + proyectoJEE.getPaquete() + ".entity");
-//                JSFUtil.warningDialog("Mensaje", "No se encontraron entitys generados en " + proyectoEJB.getPathEntity());
 
                 return "";
             }

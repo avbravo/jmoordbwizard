@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.gen;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.ProyectoJEE;
+import com.avbravo.wizardjmoordb.ProyectoEJB;
 import com.avbravo.wizardjmoordb.beans.Atributos;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
@@ -38,7 +38,7 @@ public class ConverterGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    ProyectoJEE proyectoEJB;
+    ProyectoEJB proyectoEJB;
 
     /**
      * Creates a new instance of Facade
