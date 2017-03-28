@@ -12,11 +12,12 @@ import com.avbravo.wizardjmoordb.beans.Archivos;
 import com.avbravo.wizardjmoordb.beans.Atributos;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.beans.EntidadMenu;
+import com.avbravo.wizardjmoordb.datamodel.DatamodelGenerador;
 import com.avbravo.wizardjmoordb.facade.FacadeGenerador;
 import com.avbravo.wizardjmoordb.generador.properties.ApplicationPropertiesGenerador;
 import com.avbravo.wizardjmoordb.generador.configuration.ConfigurationFileGenerador;
 import com.avbravo.wizardjmoordb.generador.gen.ControllerGenerador;
-import com.avbravo.wizardjmoordb.generador.gen.ConverterGenerador;
+import com.avbravo.wizardjmoordb.converter.ConverterGenerador;
 import com.avbravo.wizardjmoordb.generador.generales.CryptoConverterGenerador;
 import com.avbravo.wizardjmoordb.generador.css.DefaultCssGenerador;
 import com.avbravo.wizardjmoordb.generador.generales.EmailValidatorGenerador;
@@ -125,6 +126,8 @@ public class Generador implements Serializable {
     String primaryKey = "";
     @Inject
     FacadeGenerador facadeGenerador;
+    @Inject
+    DatamodelGenerador datamodelGenerador;
     @Inject
     MongoClientProviderGenerador mongoClientProviderGenerador;
     @Inject
@@ -530,6 +533,7 @@ public class Generador implements Serializable {
             proyectoEJB.setPathEJB(proyectoEJB.getPath() + "ejb" + proyectoEJB.getSeparator());
             proyectoEJB.setPathConverter(proyectoEJB.getPath() + "converter" + proyectoEJB.getSeparator());
             proyectoEJB.setPathProvider(proyectoEJB.getPath() + "provider" + proyectoEJB.getSeparator());
+            proyectoEJB.setPathDatamodel(proyectoEJB.getPath() + "datamodel" + proyectoEJB.getSeparator());
 
 
             proyectoEJB.setPathServices(proyectoEJB.getPath() + "services" + proyectoEJB.getSeparator());
@@ -812,6 +816,10 @@ public class Generador implements Serializable {
                     ejb
                      */
                     facadeGenerador.generar();
+                    /*
+                   datamodel
+                     */
+                    datamodelGenerador.generar();
                     /*
                     provider
                      */

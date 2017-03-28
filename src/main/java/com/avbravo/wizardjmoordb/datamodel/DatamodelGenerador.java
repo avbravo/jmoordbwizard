@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb.generador.gen;
+package com.avbravo.wizardjmoordb.datamodel;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
@@ -23,6 +23,7 @@ import java.nio.file.Paths;
 import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+
 import javax.inject.Inject;
 
 /**
@@ -31,10 +32,10 @@ import javax.inject.Inject;
  */
 @Named
 @RequestScoped
-public class ConverterGenerador implements Serializable {
+public class DatamodelGenerador implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(ConverterGenerador.class.getName());
+    private static final Logger LOG = Logger.getLogger(DatamodelGenerador.class.getName());
 
     @Inject
     MySesion mySesion;
@@ -44,7 +45,7 @@ public class ConverterGenerador implements Serializable {
     /**
      * Creates a new instance of Facade
      */
-    public ConverterGenerador() {
+    public DatamodelGenerador() {
     }
 
     public void generar() {
@@ -52,7 +53,7 @@ public class ConverterGenerador implements Serializable {
             //recorrer el entity para verificar que existan todos los EJB
 
             for (Entidad e : mySesion.getEntidadList()) {
-                procesar(e, e.getTabla(), proyectoEJB.getPathConverter() + e.getTabla() + "Converter.java");
+                procesar(e, e.getTabla(), proyectoEJB.getPathDatamodel()+ e.getTabla() + "DataModel.java");
             }
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -62,7 +63,7 @@ public class ConverterGenerador implements Serializable {
 
     private Boolean procesar(Entidad entidad, String archivo, String ruta) {
         try {
-
+            System.out.println("Ruta:>>>> "+ruta);
             Path path = Paths.get(ruta);
             if (Files.notExists(path, new LinkOption[]{LinkOption.NOFOLLOW_LINKS})) {
                 crearFile(ruta, entidad, archivo);
@@ -73,8 +74,6 @@ public class ConverterGenerador implements Serializable {
         return true;
 
     }
-
-   
 
     /**
      * deleteAll
@@ -113,18 +112,13 @@ public class ConverterGenerador implements Serializable {
                     fw.write("* To change this template file, choose Tools | Templates" + "\r\n");
                     fw.write(" * and open the template in the editor." + "\r\n");
                     fw.write("*/" + "\r\n");
-                    fw.write("package " + proyectoEJB.getPaquete() + ".converter;" + "\r\n");
+                    fw.write("package " + proyectoEJB.getPaquete() + ".datamodel;" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("import " + proyectoEJB.getPaquete() + ".entity.*;" + "\r\n");
-                    fw.write("import " + proyectoEJB.getPaquete() + ".ejb.*;" + "\r\n");
                     fw.write("import com.avbravo.avbravoutils.JsfUtil;" + "\r\n");
-                    fw.write("import java.util.Optional;" + "\r\n");
-                    fw.write("import javax.enterprise.context.RequestScoped;" + "\r\n");
-                    fw.write("import javax.inject.Inject;" + "\r\n");
-                    fw.write("import javax.faces.component.UIComponent;" + "\r\n");
-                    fw.write("import javax.faces.context.FacesContext;" + "\r\n");
-                    fw.write("import javax.faces.convert.Converter;" + "\r\n");
-                    fw.write("import javax.inject.Named;" + "\r\n");
+                    fw.write("import java.util.List;" + "\r\n");
+                    fw.write("import javax.faces.model.ListDataModel;" + "\r\n");
+                    fw.write("import org.primefaces.model.SelectableDataModel;" + "\r\n");
 
                     fw.write("" + "\r\n");
                     fw.write("/**" + "\r\n");
@@ -132,56 +126,33 @@ public class ConverterGenerador implements Serializable {
                     fw.write(" * @author " + mySesion.getUsername() + "\r\n");
                     fw.write(" */" + "\r\n");
 
-                    fw.write("@Named" + "\r\n");
-                    fw.write("@RequestScoped" + "\r\n");
-                    fw.write("public class " + archivo + "Converter implements Converter {" + "\r\n");
+                    fw.write("public class " + archivo + "DataModel extends ListDataModel<" + archivo + "> implements SelectableDataModel<" + archivo + ">{" + "\r\n");
                     fw.write("" + "\r\n");
-                    fw.write("    @Inject" + "\r\n");
-                    fw.write("    " + archivo + "Facade " + entity + "Facade;" + "\r\n");
+                    fw.write("    public " + archivo + "DataModel() {" + "\r\n");
+                    fw.write("    }" + "\r\n");
 
+                    fw.write("    public " + archivo + "DataModel(List<" + archivo + ">data) {" + "\r\n");
+                    fw.write("        super(data);" + "\r\n");
+                    fw.write("    }" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("    @Override" + "\r\n");
-                    fw.write("    public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, "                            + "String s) {" + "\r\n");
-                    fw.write("        " + archivo + " " + entity + " = new " + archivo + "();" + "\r\n");
-                    fw.write("        try{" + "\r\n");
-                    fw.write("            if(!s.equals(\"null\")){" + "\r\n");
-                    fw.write("               " + archivo + " b = new " + archivo + "();" + "\r\n");
-                    if( esInteger){
-                        fw.write("               b.set" + Utilidades.letterToUpper(atributoprimario) + "(Integer.parseInt(s));" + "\r\n");
-                    }else{
-                        fw.write("               b.set" + Utilidades.letterToUpper(atributoprimario) + "(s);" + "\r\n");
-                    }
-                    
-                    fw.write("               Optional<" + archivo + "> optional = " + entity + "Facade.findById(b);" + "\r\n");
-                    fw.write("               if (optional.isPresent()) {" + "\r\n");
-                    fw.write("               " + entity + "= optional.get();  " + "\r\n");
-                    fw.write("               }   " + "\r\n");
+
+                    fw.write("    public " + archivo + "  getRowData(String rowKey) {" + "\r\n");
+                    fw.write("        List<" + archivo + "> " + entity + "List = (List<" + archivo + ">) getWrappedData();" + "\r\n");
+
+                    fw.write("        for (" + archivo + " " + entity + " : " + entity + "List) {" + "\r\n");
+                    fw.write("             if (" + entity + ".get" + atributoprimario + "().equals(rowKey)) {" + "\r\n");
+                    fw.write("                 return " + entity + ";" + "\r\n");
                     fw.write("             }" + "\r\n");
-                    fw.write("          } catch (Exception e) {" + "\r\n");
-                    fw.write("             JsfUtil.addErrorMessage(\"getAsObject()\" + e.getLocalizedMessage());" + "\r\n");
-                    fw.write("          }" + "\r\n");
-                    fw.write("          return " + entity + ";" + "\r\n");
-                    fw.write("      }" + "\r\n");
-                    fw.write("" + "\r\n");
-
-                    fw.write("" + "\r\n");
-                    fw.write("    @Override" + "\r\n");
-                    fw.write("    public String getAsString(FacesContext facesContext, UIComponent uiComponent, Object o) {" + "\r\n");
-                    fw.write("        String r = \"\";" + "\r\n");
-                    fw.write("        try {" + "\r\n");
-                    fw.write("            if (o instanceof " + archivo + ") {" + "\r\n");
-                    fw.write("                " + archivo + " " + entity + " = (" + archivo + ") o;" + "\r\n");
-                    fw.write("                r = String.valueOf(" + entity + ".get" + atributoprimario + "());" + "\r\n");
-
-                    fw.write("            }else if (o instanceof String) {" + "\r\n");
-                    fw.write("               r = (String) o;" + "\r\n");
-                    fw.write("            }" + "\r\n");
-                    fw.write("        } catch (Exception e) {" + "\r\n");
-                    fw.write("            JsfUtil.addErrorMessage(\"getAsString()\" + e.getLocalizedMessage());" + "\r\n");
                     fw.write("        }" + "\r\n");
-                    fw.write("        return r;" + "\r\n");
-                    fw.write("        }" + "\r\n");
-                    fw.write("" + "\r\n");
+
+                    fw.write("        return null;" + "\r\n");
+                    fw.write("     }" + "\r\n");
+
+                    fw.write("     @Override" + "\r\n");
+                    fw.write("     public Object getRowKey(" + archivo + " " + entity + ") {" + "\r\n");
+                    fw.write("         return " + entity + ".get" + atributoprimario + "();" + "\r\n");
+                    fw.write("     }" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("" + "\r\n");
 
