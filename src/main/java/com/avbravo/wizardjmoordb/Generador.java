@@ -43,7 +43,7 @@ import com.avbravo.wizardjmoordb.generador.xml.PomXMLGenerador;
 import com.avbravo.wizardjmoordb.generador.generales.ResourcesFilesGenerador;
 import com.avbravo.wizardjmoordb.generador.roles.RolesGenerador;
 import com.avbravo.wizardjmoordb.generador.gen.SearchGenerador;
-import com.avbravo.wizardjmoordb.generador.gen.ServicesGenerador;
+import com.avbravo.wizardjmoordb.sevices.ServicesGenerador;
 import com.avbravo.wizardjmoordb.generador.css.CssLayoutCssGenerador;
 import com.avbravo.wizardjmoordb.generador.roles.ValidadorRolesGenerador;
 import com.avbravo.wizardjmoordb.generador.web.componentes.ActivoxhtmlGenerador;
@@ -640,7 +640,7 @@ public class Generador implements Serializable {
            proyectoJEE.setPathEntity(proyectoJEE.getPath() + "entity" + proyectoJEE.getSeparator());
          proyectoJEE.setPathController(proyectoJEE.getPath() + "controller" + proyectoJEE.getSeparator());
 
-           proyectoJEE.setPathServices(proyectoJEE.getPath() + "services" + proyectoJEE.getSeparator());
+           //proyectoJEE.setPathServices(proyectoJEE.getPath() + "services" + proyectoJEE.getSeparator());
            proyectoJEE.setPathController(proyectoJEE.getPath() + "controller" + proyectoJEE.getSeparator());
             proyectoJEE.setPathSearch(proyectoJEE.getPath() + "search" + proyectoJEE.getSeparator());
             proyectoJEE.setPathReportes(proyectoJEE.getPath() + "reportes" + proyectoJEE.getSeparator());

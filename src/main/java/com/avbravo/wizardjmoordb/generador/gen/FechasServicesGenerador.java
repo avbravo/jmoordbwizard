@@ -7,7 +7,7 @@ package com.avbravo.wizardjmoordb.generador.gen;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.ProyectoJEE;
+import com.avbravo.wizardjmoordb.ProyectoEJB;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -37,7 +37,7 @@ public class FechasServicesGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    ProyectoJEE proyectoJEE;
+    ProyectoEJB proyectoEJB;
 
     /**
      * Creates a new instance of Facade
@@ -46,7 +46,7 @@ public class FechasServicesGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("FechasServices.java", proyectoJEE.getPathServices() + "FechasServices.java");
+            procesar("FechasServices.java", proyectoEJB.getPathServices() + "FechasServices.java");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -104,7 +104,7 @@ public class FechasServicesGenerador implements Serializable {
              * agregar los imports
              */
 
-            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".generales.JSFUtil;", "package", false);
+            Utilidades.searchAdd(ruta, "import " + proyectoEJB.getPaquete() + ".generales.JSFUtil;", "package", false);
             Utilidades.searchAdd(ruta, "import java.time.LocalDate;", "package", false);
             Utilidades.searchAdd(ruta, "import java.time.LocalTime;", "package", false);
             Utilidades.searchAdd(ruta, "import java.util.Calendar;", "package", false);
@@ -146,10 +146,10 @@ public class FechasServicesGenerador implements Serializable {
                     fw.write("* To change this template file, choose Tools | Templates" + "\r\n");
                     fw.write(" * and open the template in the editor." + "\r\n");
                     fw.write("*/" + "\r\n");
-                    fw.write("package " + proyectoJEE.getPaquete() + ".services;" + "\r\n");
+                    fw.write("package " + proyectoEJB.getPaquete() + ".services;" + "\r\n");
                     fw.write("" + "\r\n");
 
-                    fw.write("import " + proyectoJEE.getPaquete() + ".generales.JSFUtil;" + "\r\n");
+                    fw.write("import " + proyectoEJB.getPaquete() + ".generales.JSFUtil;" + "\r\n");
                     fw.write("import java.time.LocalDate;" + "\r\n");
                     fw.write("import java.time.LocalTime;" + "\r\n");
                     fw.write("import java.util.Calendar;" + "\r\n");

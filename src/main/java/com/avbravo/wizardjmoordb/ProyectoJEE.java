@@ -35,7 +35,7 @@ public class ProyectoJEE  implements Serializable {
 //    private String pathEJB = path + "ejb" + separator;
     private String pathEntity = path + "entity" + separator;
 //    private String pathProvider = path + "provider" + separator;
-    private String pathServices = path + "services" + separator;
+    
     private String pathProyecto;
 
     /**
@@ -140,14 +140,6 @@ public class ProyectoJEE  implements Serializable {
     }
 
     
-
-    public String getPathServices() {
-        return pathServices;
-    }
-
-    public void setPathServices(String pathServices) {
-        this.pathServices = pathServices;
-    }
 
     public String getPathController() {
         return pathController;
