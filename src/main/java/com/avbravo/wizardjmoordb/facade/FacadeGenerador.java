@@ -22,6 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -60,8 +61,6 @@ public class FacadeGenerador implements Serializable {
         }
     }
 
-    
-
     private Boolean procesar(Entidad entidad, String archivo, String ruta) {
         try {
 
@@ -78,7 +77,6 @@ public class FacadeGenerador implements Serializable {
 //
 //                    Utilidades.add(ruta, "> {", "\n@PersistenceContext(unitName = \"" + mySesion.getPersistenceContext() + "\")", false);
 //                }
-
 //                if (!Utilidades.search(ruta, "private EntityManager em;")) {
 //                    Utilidades.add(ruta, "@PersistenceContext(unitName = \"" + mySesion.getPersistenceContext() + "\"", "private EntityManager em;", false);
 //                }
@@ -111,10 +109,10 @@ public class FacadeGenerador implements Serializable {
                     Utilidades.add(ruta, "private EntityManager em;", generarFindBy(a, archivo, ruta), false);
                 });
                 entidad.getAtributosList().stream().forEach((a) -> {
-                    if(a.getNombre().toLowerCase().equals("id")){
+                    if (a.getNombre().toLowerCase().equals("id")) {
                         Utilidades.add(ruta, "private EntityManager em;", generarFindBy_(a, archivo, ruta), false);
                     }
-                    
+
                 });
 
 //findByEntre fechas
@@ -252,6 +250,7 @@ public class FacadeGenerador implements Serializable {
         }
         return "";
     }
+
     private String generarFindBy_(Atributos atributos, String archivo, String ruta) {
         try {
 
@@ -434,182 +433,73 @@ public class FacadeGenerador implements Serializable {
                     fw.write("package " + proyectoEJB.getPaquete() + ".ejb;" + "\r\n");
                     fw.write("import " + proyectoEJB.getPaquete() + ".entity.*;" + "\r\n");
                     fw.write("import javax.ejb.Stateless;" + "\r\n");
-                    fw.write("import java.util.Date;" + "\r\n");
-                    fw.write("import javax.ejb.Stateless;" + "\r\n");
-                    fw.write("import java.util.Date;" + "\r\n");
-                    fw.write("import java.util.List;" + "\r\n");
-                    fw.write("import javax.persistence.Query;" + "\r\n");
-                    fw.write("import javax.persistence.EntityManager;" + "\r\n");
-                    fw.write("import javax.persistence.PersistenceContext;" + "\r\n");
-                    fw.write("import " + proyectoEJB.getPaquete() + ".generales.JSFUtil;" + "\r\n");
+                    fw.write("import javax.ejb.EJB;" + "\r\n");
+
+                    switch (mySesion.getDatabase().toLowerCase()) {
+                        case "mongodb":
+                            fw.write("import com.avbravo.ejbjmoordb.mongodb.facade.AbstractFacade;" + "\r\n");
+
+                            fw.write("import " + proyectoEJB.getPaquete() + ".provider.MongoClientProvider;" + "\r\n");
+                            fw.write("import com.mongodb.MongoClient;" + "\r\n");
+                            break;
+                        case "couchbase":
+
+                            fw.write("import " + proyectoEJB.getPaquete() + ".provider.CouchbaseClientProvider;" + "\r\n");
+                            fw.write("import com.avbravo.jmoordb.facade.CouchbaseAbstractFacade;" + "\r\n");
+                            fw.write("import com.couchbase.client.java.Cluster;" + "\r\n");
+                            break;
+                        case "orientdb":
+                            break;
+                    }
+
                     fw.write("" + "\r\n");
                     fw.write("/**" + "\r\n");
                     fw.write(" *" + "\r\n");
                     fw.write(" * @author " + mySesion.getUsername() + "\r\n");
                     fw.write(" */" + "\r\n");
                     fw.write("@Stateless" + "\r\n");
-                    fw.write("public class " + archivo + "Facade extends AbstractFacade<" + archivo + "> {" + "\r\n");
-                    fw.write("" + "\r\n");
-//                    fw.write("    @PersistenceContext(unitName = \"" + mySesion.getPersistenceContext() + "\")" + "\r\n");
-//                    fw.write("    private EntityManager em;" + "\r\n");
 
-                    fw.write("" + "\r\n");
-                    fw.write("    @Override" + "\r\n");
-                    fw.write("    protected EntityManager getEntityManager() {" + "\r\n");
-                    fw.write("        return em;" + "\r\n");
-                    fw.write("    }" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("    public " + archivo + "Facade(){" + "\r\n");
-                    fw.write("        super(" + archivo + ".class);" + "\r\n");
-                    fw.write("    }" + "\r\n");
-
-                    fw.write("" + "\r\n");
-
-//                    fw.write("    public List<" + archivo + "> findAll() {" + "\r\n");
-//                    fw.write("          return em.createNamedQuery(\"" + archivo + ".findAll\").getResultList();" + "\r\n");
-//                    fw.write("   }" + "\r\n");
-
-                    /*
-                    runScript
-                    ejecuta script de mysql
-                     */
-                    fw.write(" public Boolean runScript(String sqlScript) {" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("        try {" + "\r\n");
-                    fw.write("            Query q = em.createNativeQuery(sqlScript);" + "\r\n");
-                    fw.write("            q.executeUpdate();" + "\r\n");
-                    fw.write("            return true;" + "\r\n");
-                    fw.write("        } catch (Exception e) {" + "\r\n");
-                    fw.write("            JSFUtil.addErrorMessage(\"runScript() \" + e.getLocalizedMessage());" + "\r\n");
-                    fw.write("        }" + "\r\n");
-                    fw.write("        return false;" + "\r\n");
-                    fw.write("    }" + "\r\n");
-                    /*
-                     findById
-                     */
-                    for (Atributos a : entidad.getAtributosList()) {
-                        if (a.getEsPrimaryKey()) {
+                    switch (mySesion.getDatabase().toLowerCase()) {
+                        case "mongodb":
+                            fw.write("public class " + archivo + "Facade extends AbstractFacade<" + archivo + "> {" + "\r\n");
                             fw.write("" + "\r\n");
-                            fw.write("    public " + archivo + " findById(" + a.getTipo() + " id) {" + "\r\n");
-                            fw.write("          return em.find(" + archivo + ".class, id);" + "\r\n");
-                            fw.write("   }" + "\r\n");
-                        }
+                            fw.write("    @EJB" + "\r\n");
+                            fw.write("    MongoClientProvider mongoClientProvider;" + "\r\n");
+                            fw.write("    @Override" + "\r\n");
+                            fw.write("    protected MongoClient getMongoClient() {" + "\r\n");
+                            fw.write("       return mongoClientProvider.getMongoClient();" + "\r\n");
+                            fw.write("    }" + "\r\n");
+                            fw.write("    public " + archivo + "Facade(){" + "\r\n");
+                            fw.write("        super(" + archivo + ".class,\"" + mySesion.getDatabasename() + "\",\"" + Utilidades.letterToLower(archivo) + "\");" + "\r\n");
+                            fw.write("    }" + "\r\n");
+                            break;
+                        case "couchbase":
+                            fw.write("public class " + archivo + "Facade extends CouchbaseAbstractFacade<" + archivo + "> {" + "\r\n");
+                            fw.write("" + "\r\n");
+                            fw.write("    @EJB" + "\r\n");
+                            fw.write("    CouchbaseClientProvider couchbseclientProvider;" + "\r\n");
+                            fw.write("    @Override" + "\r\n");
+                            fw.write("    protected Cluster getCluster() {" + "\r\n");
+                            fw.write("      return couchbseclientProvider.getCluster();" + "\r\n");
+                            fw.write("    }" + "\r\n");
+                            fw.write("    public " + archivo + "Facade(){" + "\r\n");
+                            fw.write("        super(" + archivo + ".class,\"" + Utilidades.letterToLower(archivo) + "\",\"" + Utilidades.letterToLower(archivo) + "\");" + "\r\n");
+                            fw.write("    }" + "\r\n");
+                            break;
+                        case "orientdb":
+                            break;
                     }
-                    /*
-                    findAll
-                     */
-                    fw.write("" + "\r\n");
+
                     fw.write("    @Override" + "\r\n");
-                    fw.write("    public List<" + archivo + "> findAll() {" + "\r\n");
-                    fw.write("          return em.createNamedQuery(\"" + archivo + ".findAll\").getResultList();" + "\r\n");
-                    fw.write("   }" + "\r\n");
+                    fw.write("    public Object findById(String key, String value) {" + "\r\n");
+                    fw.write("       return search(key,value); " + "\r\n");
+                    fw.write("    }" + "\r\n");
 
-                    /*
-             get 
-                     */
-                    fw.write("" + "\r\n");
-                    fw.write("    public List<" + archivo + "> get" + archivo + "List() {" + "\r\n");
-                    fw.write("          return em.createNamedQuery(\"" + archivo + ".findAll\").getResultList();" + "\r\n");
-                    fw.write("   }" + "\r\n");
+                    fw.write("    @Override" + "\r\n");
+                    fw.write("    public Object findById(String key, Integer value) {" + "\r\n");
+                    fw.write("        return search(key,value);" + "\r\n");
+                    fw.write("    }" + "\r\n");
 
-//findBy
-                    entidad.getAtributosList().stream().forEach((a) -> {
-
-                        String columna = Utilidades.letterToUpper(a.getNombre());
-                        String primercaractertabla = Utilidades.getFirstLetter(archivo).toLowerCase();
-
-                        try {
-                            if (a.getNombre().toLowerCase().equals("id")) {
-                                fw.write("    public List<" + archivo + "> findBy_" + columna + "(" + a.getTipo() + " " + a.getNombre() + ") {" + "\r\n");
-                                if (Utilidades.isJavaType(a.getTipo())) {
-                                    fw.write("          Query query = em.createNamedQuery(\"" + archivo + ".findBy" + columna + "\");" + "\r\n");
-                                } else {
-                                    fw.write("           Query query = em.createQuery(\"SELECT " + primercaractertabla + " FROM " + archivo + " " + primercaractertabla + " WHERE " + primercaractertabla + "." + a.getNombre() + " = :" + a.getNombre() + "\");" + "\r\n");
-                                }
-                                fw.write("          return query.setParameter(\"" + a.getNombre() + "\"," + a.getNombre() + ").getResultList();" + "\r\n");
-                                fw.write("   }" + "\r\n");
-                            } else {
-                                fw.write("    public List<" + archivo + "> findBy" + columna + "(" + a.getTipo() + " " + a.getNombre() + ") {" + "\r\n");
-                                if (Utilidades.isJavaType(a.getTipo())) {
-                                    fw.write("          Query query = em.createNamedQuery(\"" + archivo + ".findBy" + columna + "\");" + "\r\n");
-                                } else {
-                                    fw.write("           Query query = em.createQuery(\"SELECT " + primercaractertabla + " FROM " + archivo + " " + primercaractertabla + " WHERE " + primercaractertabla + "." + a.getNombre() + " = :" + a.getNombre() + "\");" + "\r\n");
-                                }
-                                fw.write("          return query.setParameter(\"" + a.getNombre() + "\"," + a.getNombre() + ").getResultList();" + "\r\n");
-                                fw.write("   }" + "\r\n");
-                            }
-
-                            // genera el query entre fechas
-                            if (a.getTipo().equals("Date")) {
-                                fw.write("    public List<" + archivo + "> findByEntre" + columna + "(Date desde, Date hasta) {" + "\r\n");
-                                fw.write("           Query query = em.createQuery(\"SELECT " + primercaractertabla + " FROM " + archivo + " " + primercaractertabla + " WHERE " + primercaractertabla + "." + a.getNombre() + " BETWEEN :desde AND :hasta\");" + "\r\n");
-                                fw.write("           query.setParameter(\"desde\", desde);" + "\r\n");
-                                fw.write("           query.setParameter(\"hasta\", hasta);" + "\r\n");
-                                fw.write("          return query.getResultList();" + "\r\n");
-                                fw.write("   }" + "\r\n");
-                            }
-
-                        } catch (IOException ex) {
-                            Logger.getLogger(FacadeGenerador.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-
-                    });
-
-                    //maximo
-                    entidad.getAtributosList().stream().forEach((a) -> {
-                        if (a.getEsPrimaryKey() && a.getTipo().equals("Integer")) {
-
-                            String primercaractertabla = Utilidades.getFirstLetter(archivo).toLowerCase();
-
-                            try {
-                                fw.write("  " + "\r\n");
-                                fw.write("    public Integer getMaximo() {" + "\r\n");
-                                fw.write("        try {" + "\r\n");
-                                fw.write("           Query query = em.createQuery(\"SELECT MAX( " + primercaractertabla + "." + a.getNombre() + ") FROM " + archivo + " " + primercaractertabla + "\");" + "\r\n");
-                                fw.write("           Number result = (Number) query.getSingleResult();" + "\r\n");
-                                fw.write("           return result.intValue();" + "\r\n");
-                                fw.write("        } catch (Exception e) {" + "\r\n");
-                                fw.write("        }" + "\r\n");
-                                fw.write("        return 0;" + "\r\n");
-                                fw.write("   }" + "\r\n");
-                            } catch (IOException ex) {
-                                Logger.getLogger(FacadeGenerador.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-
-                        }
-
-                    });
-
-                    entidad.getAtributosList().stream().forEach((a) -> {
-                        if (a.getTipo().equals("String")) {
-
-                            try {
-                                String columna = Utilidades.letterToUpper(a.getNombre());
-                                String primercaractertabla = Utilidades.getFirstLetter(archivo).toLowerCase();
-
-                                fw.write("    public List<" + archivo + "> findBy" + columna + "Like(" + a.getTipo() + " " + a.getNombre() + ") {" + "\r\n");
-                                fw.write("           Query query = em.createQuery(\"SELECT " + primercaractertabla + " FROM " + archivo + " " + primercaractertabla + " WHERE lower(" + primercaractertabla + "." + a.getNombre() + ") like :" + a.getNombre() + "\");" + "\r\n");
-                                fw.write("           " + a.getNombre() + " = \"\" + " + a.getNombre() + ".trim() + \"%\";" + "\r\n");
-
-                                fw.write("          return query.setParameter(\"" + a.getNombre() + "\"," + a.getNombre() + ").getResultList();" + "\r\n");
-                                fw.write("   }" + "\r\n");
-                            } catch (IOException ex) {
-                                Logger.getLogger(FacadeGenerador.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
-
-                    });
-                    /*
-                    deleteAll
-                     */
-                    fw.write("    public void deleteAll(){" + "\r\n");
-                    fw.write("          Query query = em.createNamedQuery(\"DELETE FROM " + archivo + "\");" + "\r\n");
-                    fw.write("          int deleteRecords;" + "\r\n");
-                    fw.write("          deleteRecords = query.executeUpdate();" + "\r\n");
-                    fw.write("   }" + "\r\n");
-
-                    fw.write("" + "\r\n");
-                    fw.write("" + "\r\n");
                     fw.write("" + "\r\n");
 
                     fw.write("}" + "\r\n");
@@ -624,29 +514,6 @@ public class FacadeGenerador implements Serializable {
             JSFUtil.addErrorMessage("crearFile() " + e.getLocalizedMessage());
         }
         return false;
-    }
-
-    private Boolean escribirEJB(String path) {
-        try {
-            String ruta = path;
-            File archivo = new File(ruta);
-            BufferedWriter bw;
-            if (archivo.exists()) {
-                // El fichero ya existe
-            } else {
-                // El fichero no existe y hay que crearlo
-                bw = new BufferedWriter(new FileWriter(archivo));
-                bw.write("Acabo de crear el fichero de texto.");
-            }
-        } catch (Exception e) {
-        }
-        return false;
-    }
-
-    public void lineaEJB(String s) {
-//        if (s.indexOf("private") != -1) {
-
-//        }
     }
 
 }
