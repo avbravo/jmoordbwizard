@@ -27,6 +27,7 @@ public class MySesion implements Serializable {
    
     private String username = "";
     private String database;
+    private String databasename;
 
    
     /*
@@ -103,6 +104,17 @@ public class MySesion implements Serializable {
     List<EntidadMenu> entidadMenuList = new ArrayList<>();
      private List<String> masterDetailsList =  new ArrayList<>();
 
+    public String getDatabasename() {
+        return databasename;
+    }
+
+    public void setDatabasename(String databasename) {
+        this.databasename = databasename;
+    }
+
+     
+     
+     
     public String getDatabase() {
         return database;
     }

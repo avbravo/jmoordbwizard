@@ -7,11 +7,12 @@ package com.avbravo.wizardjmoordb;
 
 import com.avbravo.wizardjmoordb.generador.configuration.ConfigurationFilerRead;
 import com.avbravo.wizardjmoordb.generador.gen.EntidadGenerador;
-import com.avbravo.wizardjmoordb.generador.gen.FacadeGenerador;
+import com.avbravo.wizardjmoordb.provider.MongoClientProviderGenerador;
 import com.avbravo.wizardjmoordb.beans.Archivos;
 import com.avbravo.wizardjmoordb.beans.Atributos;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.beans.EntidadMenu;
+import com.avbravo.wizardjmoordb.facade.FacadeGenerador;
 import com.avbravo.wizardjmoordb.generador.properties.ApplicationPropertiesGenerador;
 import com.avbravo.wizardjmoordb.generador.configuration.ConfigurationFileGenerador;
 import com.avbravo.wizardjmoordb.generador.gen.ControllerGenerador;
@@ -62,6 +63,7 @@ import com.avbravo.wizardjmoordb.generador.web.template.ReportesxhtmlGenerador;
 import com.avbravo.wizardjmoordb.generador.web.template.SearchxhtmlGenerador;
 import com.avbravo.wizardjmoordb.generador.web.template.TemplatexhtmlGenerador;
 import com.avbravo.wizardjmoordb.generador.xml.WebXMLGenerador;
+import com.avbravo.wizardjmoordb.provider.CouchbaseClientProviderGenerador;
 import com.avbravo.wizardjmoordb.search.EntidadSearch;
 import com.avbravo.wizardjmoordb.utilidades.Terminal;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
@@ -123,6 +125,10 @@ public class Generador implements Serializable {
     String primaryKey = "";
     @Inject
     FacadeGenerador facadeGenerador;
+    @Inject
+    MongoClientProviderGenerador mongoClientProviderGenerador;
+    @Inject
+   CouchbaseClientProviderGenerador couchbaseClientProviderGenerador;
     @Inject
     JSFUtilGenerador jSFUtilGenerador;
     @Inject
@@ -349,7 +355,7 @@ public class Generador implements Serializable {
           proyectoEJB.setPathProyecto("");
            proyectoEJB.setProyecto("");
 
-       proyectoEJB.setPersistenceContext("");
+      
             entidadSearch.getListColumnasGrupousuario().removeAll(entidadSearch.getListColumnasGrupousuario());
             entidadSearch.getListColumnasNombreMostrar().removeAll(entidadSearch.getListColumnasNombreMostrar());
             entidadSearch.getListColumnasPassword().removeAll(entidadSearch.getListColumnasPassword());
@@ -450,6 +456,18 @@ public class Generador implements Serializable {
         return "";
     }
 
+    public String showNameProjectEJB(){
+        proyectoEJB.setProyecto(Utilidades.getNombreProyectoFromPath(proyectoEJB.getPathProyecto()));
+        proyectoEJB.setPaquete(proyectoEJB.getPaquete() +proyectoEJB.getProyecto());
+      conectarEJB();
+        return "";
+    }
+    public String showNameProjectJEE(){
+        proyectoJEE.setProyecto(Utilidades.getNombreProyectoFromPath(proyectoJEE.getPathProyecto()));
+        proyectoJEE.setPaquete(proyectoJEE.getPaquete() +proyectoJEE.getProyecto());
+        conectarJEE();
+        return "";
+    }
     public String conectarEJB() {
         try {
             mySesion.setPagina1(false);
@@ -494,47 +512,27 @@ public class Generador implements Serializable {
            proyectoEJB.setPath(proyectoEJB.getPathProyecto() + proyectoEJB.getSeparator() + "src" + proyectoEJB.getSeparator() + "main" + proyectoEJB.getSeparator() + "java" + proyectoEJB.getSeparator() + proyectoEJB.getPaquetePath() + proyectoEJB.getSeparator());
 
             proyectoEJB.setPathMainJava(proyectoEJB.getPathProyecto() + proyectoEJB.getSeparator() + "src" + proyectoEJB.getSeparator() + "main" + proyectoEJB.getSeparator() + "java");
-            proyectoEJB.setPathMainResources(proyectoEJB.getPathProyecto() + proyectoEJB.getSeparator() + "src" + proyectoEJB.getSeparator() + "main" + proyectoEJB.getSeparator() + "resources");
-            proyectoEJB.setPathMainWebapp(proyectoEJB.getPathProyecto() + proyectoEJB.getSeparator() + "src" + proyectoEJB.getSeparator() + "main" + proyectoEJB.getSeparator() + "webapp");
-            
+        
             
             
             
             /*
             proyectoEJB webapps
              */
-            proyectoEJB.setPathMainWebappPages(proyectoEJB.getPathMainWebapp() + proyectoEJB.getSeparator() + "pages" + proyectoEJB.getSeparator());
-            proyectoEJB.setPathMainWebappResources(proyectoEJB.getPathMainWebapp() + proyectoEJB.getSeparator() + "resources");
-            proyectoEJB.setPathMainWebappResourcesCss(proyectoEJB.getPathMainWebappResources() + proyectoEJB.getSeparator() + "css" + proyectoEJB.getSeparator());
-
-            proyectoEJB.setPathMainWebappResourcesImagenes(proyectoEJB.getPathMainWebappResources() + proyectoEJB.getSeparator() + "imagenes" + proyectoEJB.getSeparator());
-            proyectoEJB.setPathMainWebappResourcesComponentes(proyectoEJB.getPathMainWebappResources() + proyectoEJB.getSeparator() + "componentes" + proyectoEJB.getSeparator());
-            proyectoEJB.setPathMainWebappResourcesReportes(proyectoEJB.getPathMainWebappResources() + proyectoEJB.getSeparator() + "reportes" + proyectoEJB.getSeparator());
-
+           
             proyectoEJB.setPathWebInf(proyectoEJB.getPathProyecto() + proyectoEJB.getSeparator() + "src" + proyectoEJB.getSeparator() + "main" + proyectoEJB.getSeparator() + "webapp" + proyectoEJB.getSeparator() + "WEB-INF" + proyectoEJB.getSeparator());
             String path = proyectoEJB.getPath();
             proyectoEJB.setPath(path);
-//            System.out.println("=================================================");
-//            System.out.println("getPath() "+proyectoEJB.getPath());
             /*
             asigna los path
              */
             proyectoEJB.setPathEntity(proyectoEJB.getPath() + "entity" + proyectoEJB.getSeparator());
-            proyectoEJB.setPathController(proyectoEJB.getPath() + "controller" + proyectoEJB.getSeparator());
             proyectoEJB.setPathEJB(proyectoEJB.getPath() + "ejb" + proyectoEJB.getSeparator());
             proyectoEJB.setPathConverter(proyectoEJB.getPath() + "converter" + proyectoEJB.getSeparator());
-//            proyectoEJB.setPathGenerales(proyectoEJB.getPath() + "generales" + proyectoEJB.getSeparator());
+            proyectoEJB.setPathProvider(proyectoEJB.getPath() + "provider" + proyectoEJB.getSeparator());
+
 
             proyectoEJB.setPathServices(proyectoEJB.getPath() + "services" + proyectoEJB.getSeparator());
-            proyectoEJB.setPathController(proyectoEJB.getPath() + "controller" + proyectoEJB.getSeparator());
-            proyectoEJB.setPathSearch(proyectoEJB.getPath() + "search" + proyectoEJB.getSeparator());
-            proyectoEJB.setPathReportes(proyectoEJB.getPath() + "reportes" + proyectoEJB.getSeparator());
-
-            proyectoEJB.setPathMenu(proyectoEJB.getPath() + "menu" + proyectoEJB.getSeparator());
-            proyectoEJB.setPathRoles(proyectoEJB.getPath() + "roles" + proyectoEJB.getSeparator());
-
-            proyectoEJB.setPathProperties(proyectoEJB.getPathMainResources() + proyectoEJB.getSeparator() +proyectoEJB.getPaquetePath() + proyectoEJB.getSeparator() + "properties" + proyectoEJB.getSeparator());
-            proyectoEJB.setPathInterfaces(proyectoEJB.getPath() + "interfaces" + proyectoEJB.getSeparator());
             proyectoEJB.setPathPomXML(proyectoEJB.getPathProyecto() + proyectoEJB.getSeparator());
             /*
             
@@ -544,15 +542,8 @@ public class Generador implements Serializable {
             mySesion.getEjbList().removeAll(mySesion.getEjbList());
             mySesion.getControllerList().removeAll(mySesion.getControllerList());
             mySesion.getEntidadMenuList().removeAll(mySesion.getEntidadMenuList());
-//            if (!leerPersistenceUnit()) {
-//                JSFUtil.warningDialog("Mensaje", "No existe el archivo persistence.xml. Debe generar los Entity from Databases");
-//
-//                return "";
-//            }
             if (!readPackageEntity()) {
                 JSFUtil.warningDialog("Mensaje", "No hay Entitys en el paquete " + proyectoEJB.getPaquete() + ".entity");
-//                JSFUtil.warningDialog("Mensaje", "No se encontraron entitys generados en " + proyectoEJB.getPathEntity());
-
                 return "";
             }
 
@@ -560,7 +551,7 @@ public class Generador implements Serializable {
             cargarTree();
             if (!mySesion.getEntidadList().isEmpty()) {
 
-                leerConfigurationFile.readFile("Configuration.txt", proyectoEJB.getPathProperties() + "Configuration.txt");
+                leerConfigurationFile.readFile("Configuration.txt", proyectoEJB.getPathProvider()+ "Configuration.txt");
                 mostrarDatosDelArchivoConfiguracion();
 
             }
@@ -653,12 +644,12 @@ public class Generador implements Serializable {
             proyectoJEE.setPathSearch(proyectoJEE.getPath() + "search" + proyectoJEE.getSeparator());
             proyectoJEE.setPathReportes(proyectoJEE.getPath() + "reportes" + proyectoJEE.getSeparator());
 
-            proyectoEJB.setPathMenu(proyectoEJB.getPath() + "menu" + proyectoEJB.getSeparator());
-            proyectoEJB.setPathRoles(proyectoEJB.getPath() + "roles" + proyectoEJB.getSeparator());
+            proyectoJEE.setPathMenu(proyectoEJB.getPath() + "menu" + proyectoEJB.getSeparator());
+            proyectoJEE.setPathRoles(proyectoEJB.getPath() + "roles" + proyectoEJB.getSeparator());
 
-            proyectoEJB.setPathProperties(proyectoEJB.getPathMainResources() + proyectoEJB.getSeparator() + proyectoJEE.getPaquetePath() + proyectoEJB.getSeparator() + "properties" + proyectoEJB.getSeparator());
-            proyectoEJB.setPathInterfaces(proyectoEJB.getPath() + "interfaces" + proyectoEJB.getSeparator());
-            proyectoEJB.setPathPomXML(proyectoJEE.getPathProyecto() + proyectoJEE.getSeparator());
+            proyectoJEE.setPathProperties(proyectoJEE.getPathMainResources() + proyectoEJB.getSeparator() + proyectoJEE.getPaquetePath() + proyectoEJB.getSeparator() + "properties" + proyectoEJB.getSeparator());
+            proyectoJEE.setPathInterfaces(proyectoJEE.getPath() + "interfaces" + proyectoEJB.getSeparator());
+            proyectoJEE.setPathPomXML(proyectoJEE.getPathProyecto() + proyectoJEE.getSeparator());
             /*
             
              */
@@ -830,6 +821,21 @@ public class Generador implements Serializable {
                      */
                     facadeGenerador.generar();
                     /*
+                    provider
+                     */
+                    switch(mySesion.getDatabase().toLowerCase()){
+                        case "mongodb":
+                            mongoClientProviderGenerador.generar();
+                            break;
+                        case "couchbase":
+                            couchbaseClientProviderGenerador.generar();
+                            break;
+                        case "orientdb":
+                            break;
+                           
+                    }
+                    
+                    /*
                     converter
                      */
                     converterGenerador.generar();
@@ -916,16 +922,16 @@ stopWeb/-Inf
                 generar el directorio para cada entity
                              */
                             for (Entidad entidad : mySesion.getEntidadList()) {
-                                String directorioentity = proyectoEJB.getPathMainWebappPages() + Utilidades.letterToLower(entidad.getTabla()) + proyectoEJB.getSeparator();
+                                String directorioentity = proyectoJEE.getPathMainWebappPages() + Utilidades.letterToLower(entidad.getTabla()) + proyectoJEE.getSeparator();
                                 if (!Utilidades.searchDirectorie(directorioentity)) {
                                     Utilidades.mkdir(directorioentity);
                                 }
                             }
-                            String directorioacercade = proyectoEJB.getPathMainWebappPages() + "acercade" + proyectoEJB.getSeparator();
+                            String directorioacercade = proyectoJEE.getPathMainWebappPages() + "acercade" + proyectoJEE.getSeparator();
                             if (!Utilidades.searchDirectorie(directorioacercade)) {
                                 Utilidades.mkdir(directorioacercade);
                             }
-                            String directoriousuarios = proyectoEJB.getPathMainWebappPages() + "usuarios" + proyectoEJB.getSeparator();
+                            String directoriousuarios = proyectoJEE.getPathMainWebappPages() + "usuarios" + proyectoJEE.getSeparator();
                             if (!Utilidades.searchDirectorie(directoriousuarios)) {
                                 Utilidades.mkdir(directoriousuarios);
                             }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb.generador.gen;
+package com.avbravo.wizardjmoordb.facade;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
@@ -51,32 +51,16 @@ public class FacadeGenerador implements Serializable {
     public void generar() {
         try {
             //recorrer el entity para verificar que existan todos los EJB
-            verificarFileAbstractFacade();
-            for (Entidad e : mySesion.getEntidadList()) {
+            mySesion.getEntidadList().forEach((e) -> {
                 procesar(e, e.getTabla(), proyectoEJB.getPathEJB() + e.getTabla() + "Facade.java");
-            }
+            });
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
 
         }
     }
 
-    /**
-     * verifica si existe el archivo abstractFacade
-     *
-     * @return
-     */
-    private Boolean verificarFileAbstractFacade() {
-        try {
-            String ruta = proyectoEJB.getPathEJB() + "AbstractFacade.java";
-            if (!Utilidades.existeArchivo(ruta)) {
-                crearFileAbstractFacade(ruta, "AbstractFacade");
-            }
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("verificarFileAbstractFacade() " + e.getLocalizedMessage());
-        }
-        return false;
-    }
+    
 
     private Boolean procesar(Entidad entidad, String archivo, String ruta) {
         try {
@@ -665,120 +649,4 @@ public class FacadeGenerador implements Serializable {
 //        }
     }
 
-    /**
-     * crea el archivo AbstractFacade
-     *
-     * @return
-     */
-    private Boolean crearFileAbstractFacade(String path, String archivo) {
-        try {
-
-            String ruta = path;
-            File file = new File(ruta);
-            BufferedWriter bw;
-            if (file.exists()) {
-                // El fichero ya existe
-            } else {
-                // El fichero no existe y hay que crearlo
-                bw = new BufferedWriter(new FileWriter(ruta));
-                bw.close();
-//      bw.write("Acabo de crear el fichero de texto.");
-
-                File file2 = new File(ruta);
-                //Creamos un objeto para escribir caracteres en el archivo de prueba
-                try (FileWriter fw = new FileWriter(file)) {
-                    fw.write("/*" + "\r\n");
-                    fw.write("* To change this license header, choose License Headers in Project Properties." + "\r\n");
-                    fw.write("* To change this template file, choose Tools | Templates" + "\r\n");
-                    fw.write(" * and open the template in the editor." + "\r\n");
-                    fw.write("*/" + "\r\n");
-                    fw.write("package " + proyectoEJB.getPaquete() + ".ejb;" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("import java.util.List;" + "\r\n");
-                    fw.write("import javax.persistence.EntityManager;" + "\r\n");
-                    fw.write("import " + proyectoEJB.getPaquete() + ".generales.JSFUtil;" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("/**" + "\r\n");
-                    fw.write(" *" + "\r\n");
-                    fw.write(" * @author" + "\r\n");
-                    fw.write(" */" + "\r\n");
-                    fw.write("public abstract class AbstractFacade<T> {" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("    private Class<T> entityClass;" + "\r\n");
-
-                    fw.write("" + "\r\n");
-                    fw.write("    public AbstractFacade(Class<T> entityClass) {" + "\r\n");
-                    fw.write("        this.entityClass = entityClass;" + "\r\n");
-                    fw.write("    }" + "\r\n");
-
-                    fw.write("" + "\r\n");
-                    fw.write("    protected abstract EntityManager getEntityManager();" + "\r\n");
-                    fw.write("" + "\r\n");
-
-                    fw.write("" + "\r\n");
-                    fw.write("    public void create(T entity) {" + "\r\n");
-                    fw.write("        getEntityManager().persist(entity);" + "\r\n");
-                    fw.write("    }" + "\r\n");
-
-                    fw.write("" + "\r\n");
-                    fw.write("    public void edit(T entity) {" + "\r\n");
-                    fw.write("        getEntityManager().merge(entity);" + "\r\n");
-                    fw.write("    }" + "\r\n");
-
-                    fw.write("" + "\r\n");
-                    fw.write("    public void remove(T entity) {" + "\r\n");
-                    fw.write("        getEntityManager().remove(getEntityManager().merge(entity));" + "\r\n");
-                    fw.write("    }" + "\r\n");
-
-                    fw.write("" + "\r\n");
-                    fw.write("    public T find(Object id) {" + "\r\n");
-                    fw.write("        return getEntityManager().find(entityClass, id);" + "\r\n");
-                    fw.write("    }" + "\r\n");
-
-                    fw.write("" + "\r\n");
-                    fw.write("    public List<T> findAll() {" + "\r\n");
-                    fw.write("        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();" + "\r\n");
-                    fw.write("        cq.select(cq.from(entityClass));" + "\r\n");
-                    fw.write("        return getEntityManager().createQuery(cq).getResultList();" + "\r\n");
-                    fw.write("    }" + "\r\n");
-
-                    fw.write("" + "\r\n");
-                    fw.write("    public List<T> findRange(int[] range) {" + "\r\n");
-                    fw.write("        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();" + "\r\n");
-                    fw.write("        cq.select(cq.from(entityClass));" + "\r\n");
-                    fw.write("        javax.persistence.Query q = getEntityManager().createQuery(cq);" + "\r\n");
-                    fw.write("        q.setMaxResults(range[1] - range[0] + 1);" + "\r\n");
-                    fw.write("        q.setFirstResult(range[0]);" + "\r\n");
-                    fw.write("        return q.getResultList();" + "\r\n");
-                    fw.write("    }" + "\r\n");
-
-                    fw.write("" + "\r\n");
-                    fw.write("    public int count() {" + "\r\n");
-                    fw.write("        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();" + "\r\n");
-                    fw.write("        javax.persistence.criteria.Root<T> rt = cq.from(entityClass);" + "\r\n");
-                    fw.write("        cq.select(getEntityManager().getCriteriaBuilder().count(rt));" + "\r\n");
-                    fw.write("        javax.persistence.Query q = getEntityManager().createQuery(cq);" + "\r\n");
-                    fw.write("        return ((Long) q.getSingleResult()).intValue();" + "\r\n");
-                    fw.write("    }" + "\r\n");
-
-//        
-//        
-//    }
-                    fw.write("" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("" + "\r\n");
-
-                    fw.write("}" + "\r\n");
-                    fw.close();
-
-                } catch (IOException ex) {
-                    JSFUtil.addErrorMessage("crearFileAbstractFacade() " + ex.getLocalizedMessage());
-                }
-
-            }
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("crearFileAbstractFacade() " + e.getLocalizedMessage());
-        }
-        return false;
-    }
 }

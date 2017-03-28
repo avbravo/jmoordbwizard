@@ -28,14 +28,29 @@
 
 
                         <p:remoteCommand   update="form:growl,:form:panel"
+                                           name="remoteshowNameProjectEJB" 
+                                           actionListener="#{generador.showNameProjectEJB()}"/>
+                        
+                        <p:remoteCommand   update="form:growl,:form:panel"
+                                           name="remoteshowNameProjectJEE" 
+                                           actionListener="#{generador.showNameProjectJEE()}"/>
+                        
+                        
+                        <p:remoteCommand   update="form:growl,:form:panel"
                                            name="remotepaquete" 
-                                           actionListener="#{generador.conectar()}"/>
+                                           actionListener="#{generador.conectarEJB()}"/>
                         <b:panelGrid  colSpans="2,10" >
                             
 
                             <h:outputText value="Source EJB Project:"/>
 
-                            <b:inputText value="#{generador.proyectoEJB.pathProyecto}">
+                            <b:inputText value="#{generador.proyectoEJB.pathProyecto}"
+                                          
+                                             onkeypress="if (event.keyCode == 13) {
+                                                         remoteshowNameProjectEJB();
+                                                         return false;
+                                                     }"
+                                         >
                                 <f:facet name="prepend">
                                     <b:commandButton tooltip="Sugerir ruta" ajax="true" 
                                                      action="#{generador.mostrarRutaEJB()}"
@@ -58,13 +73,22 @@
                                 </f:facet>
                             </b:inputText>
 
+  <h:outputText value="Proyecto"/>
+                            <b:inputText id="proyectoWeb" disabled="true"  value="#{generador.proyectoEJB.proyecto}" >
+                                <f:facet name="prepend">
+                                    <b:iconAwesome name="archive" />
+                                </f:facet>
 
+                            </b:inputText>
+                            
+  
+  
 
                             <h:outputText value="Paquete"/>
                             <h:panelGroup>
 
                                 <b:inputText value="#{generador.proyectoEJB.paquete}"
-                                             onblur="remotepaquete();"
+                                          
                                              onkeypress="if (event.keyCode == 13) {
                                                          remotepaquete();
                                                          return false;
@@ -84,18 +108,15 @@
 
                             </h:panelGroup>
 
-                            <h:outputText value="Proyecto"/>
-                            <b:inputText id="proyectoWeb" disabled="true"  value="#{generador.proyectoEJB.proyecto}" >
-                                <f:facet name="prepend">
-                                    <b:iconAwesome name="archive" />
-                                </f:facet>
-
-                            </b:inputText>
-                            
+                          
                             
                             <h:outputText value="Source Web Project:"/>
 
-                            <b:inputText value="#{generador.proyectoJEE.pathProyecto}">
+                            <b:inputText value="#{generador.proyectoJEE.pathProyecto}"
+                                         onkeypress="if (event.keyCode == 13) {
+                                                         remoteshowNameProjectJEE();
+                                                         return false;
+                                                     }">
                                 <f:facet name="prepend">
                                     <b:commandButton tooltip="Sugerir ruta" ajax="true" 
                                                      action="#{generador.mostrarRutaJEE()}"
@@ -117,13 +138,15 @@
 
                                 </f:facet>
                             </b:inputText>
+  <h:outputText value="Proyecto"/>
+                            <b:inputText id="proyecto" disabled="true"  value="#{generador.proyectoJEE.proyecto}" >
+                                <f:facet name="prepend">
+                                    <b:iconAwesome name="archive" />
+                                </f:facet>
 
-
-                      
-
+                            </b:inputText>
                             <h:outputText value="Paquete"/>
                             <h:panelGroup>
-
                                 <b:inputText value="#{generador.proyectoJEE.paquete}"
                                              onblur="remotepaquete();"
                                              onkeypress="if (event.keyCode == 13) {
@@ -145,13 +168,7 @@
 
                             </h:panelGroup>
 
-                            <h:outputText value="Proyecto"/>
-                            <b:inputText id="proyecto" disabled="true"  value="#{generador.proyectoJEE.proyecto}" >
-                                <f:facet name="prepend">
-                                    <b:iconAwesome name="archive" />
-                                </f:facet>
-
-                            </b:inputText>
+                          
                             
                             
                             
@@ -177,7 +194,9 @@
                                     
 
                                 </b:selectOneMenu>
-
+  
+  <p:outputLabel value="DataBase Name"/>
+  <b:inputText value="#{generador.mySesion.databasename}"/>
 
 
                         </b:panelGrid>
