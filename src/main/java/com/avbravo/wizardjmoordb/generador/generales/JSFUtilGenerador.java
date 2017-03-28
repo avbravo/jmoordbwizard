@@ -48,7 +48,7 @@ public class JSFUtilGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("JSFUtil.java", rutas.getPathGenerales() + "JSFUtil.java");
+            procesar("JSFUtil.java", rutas.getPathUtil() + "JSFUtil.java");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());

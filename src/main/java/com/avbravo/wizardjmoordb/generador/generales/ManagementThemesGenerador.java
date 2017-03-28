@@ -46,7 +46,7 @@ public class ManagementThemesGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("ManagementThemes.java", rutas.getPathGenerales() + "ManagementThemes.java");
+            procesar("ManagementThemes.java", rutas.getPathUtil() + "ManagementThemes.java");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());

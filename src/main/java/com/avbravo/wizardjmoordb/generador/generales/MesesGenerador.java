@@ -46,7 +46,7 @@ public class MesesGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("Meses.java", rutas.getPathGenerales() + "Meses.java");
+            procesar("Meses.java", rutas.getPathUtil() + "Meses.java");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());

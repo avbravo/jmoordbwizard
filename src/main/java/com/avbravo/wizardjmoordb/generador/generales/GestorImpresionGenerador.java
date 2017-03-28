@@ -46,7 +46,7 @@ public class GestorImpresionGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("GestorImpresion.java", rutas.getPathGenerales() + "GestorImpresion.java");
+            procesar("GestorImpresion.java", rutas.getPathUtil() + "GestorImpresion.java");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());

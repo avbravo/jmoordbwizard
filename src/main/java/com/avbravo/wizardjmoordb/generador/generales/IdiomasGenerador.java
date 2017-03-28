@@ -46,7 +46,7 @@ public class IdiomasGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("Idiomas.java", rutas.getPathGenerales() + "Idiomas.java");
+            procesar("Idiomas.java", rutas.getPathUtil() + "Idiomas.java");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());

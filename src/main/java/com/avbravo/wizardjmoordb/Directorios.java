@@ -5,7 +5,6 @@
  */
 package com.avbravo.wizardjmoordb;
 
-
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import java.io.Serializable;
 import java.util.List;
@@ -25,7 +24,10 @@ public class Directorios implements Serializable {
     private static final Logger LOG = Logger.getLogger(Directorios.class.getName());
 
     @Inject
-    Rutas rutas;
+    ProyectoEJB proyectoEJB;
+    @Inject
+    ProyectoJEE proyectoJEE;
+
     @Inject
     MySesion mySesion;
 
@@ -42,72 +44,84 @@ public class Directorios implements Serializable {
      */
     public Boolean setupDirectorios() {
         try {
-            if (!Utilidades.searchDirectorie(rutas.getPath() + "entity")) {
+            if (!Utilidades.searchDirectorie(proyectoEJB.getPath() + "entity")) {
                 JSFUtil.warningDialog("Mensaje", "No existe el paquete entity");
                 return false;
             }
-            if (!Utilidades.searchDirectorie(rutas.getPath() + "controller")) {
-                Utilidades.mkdir(rutas.getPath() + "controller");
+            if (!Utilidades.searchDirectorie(proyectoEJB.getPath() + "converter")) {
+                Utilidades.mkdir(proyectoEJB.getPath() + "converter");
             }
-            if (!Utilidades.searchDirectorie(rutas.getPath() + "converter")) {
-                Utilidades.mkdir(rutas.getPath() + "converter");
+             if (!Utilidades.searchDirectorie(proyectoEJB.getPath() + "datamodel")) {
+                Utilidades.mkdir(proyectoEJB.getPath() + "datamodel");
+                
             }
-            if (!Utilidades.searchDirectorie(rutas.getPath() + "ejb")) {
-                Utilidades.mkdir(rutas.getPath() + "ejb");
+             if (!Utilidades.searchDirectorie(proyectoEJB.getPath() + "ejb")) {
+                Utilidades.mkdir(proyectoEJB.getPath() + "ejb");
             }
-            if (!Utilidades.searchDirectorie(rutas.getPath() + "generales")) {
-                Utilidades.mkdir(rutas.getPath() + "generales");
+           if (!Utilidades.searchDirectorie(proyectoEJB.getPath() + "provider")) {
+                Utilidades.mkdir(proyectoEJB.getPath() + "provider");
             }
-            if (!Utilidades.searchDirectorie(rutas.getPath() + "interfaces")) {
-                Utilidades.mkdir(rutas.getPath() + "interfaces");
-            }
-            if (!Utilidades.searchDirectorie(rutas.getPath() + "menu")) {
-                Utilidades.mkdir(rutas.getPath() + "menu");
-            }
-            if (!Utilidades.searchDirectorie(rutas.getPath() + "reportes")) {
-                Utilidades.mkdir(rutas.getPath() + "reportes");
-            }
-            if (!Utilidades.searchDirectorie(rutas.getPath() + "roles")) {
-                Utilidades.mkdir(rutas.getPath() + "roles");
-            }
-            if (!Utilidades.searchDirectorie(rutas.getPath() + "search")) {
-                Utilidades.mkdir(rutas.getPath() + "search");
-            }
-            if (!Utilidades.searchDirectorie(rutas.getPath() + "services")) {
-                Utilidades.mkdir(rutas.getPath() + "services");
-            }
-            if (!Utilidades.searchDirectorie(rutas.getPathMainWebappPages())) {
-                Utilidades.mkdir(rutas.getPathMainWebappPages());
-            }
-            if (!Utilidades.searchDirectorie(rutas.getPathMainWebappResources())) {
-                Utilidades.mkdir(rutas.getPathMainWebappResources());
-            }
-            if (!Utilidades.searchDirectorie(rutas.getPathMainWebappResourcesCss())) {
-                Utilidades.mkdir(rutas.getPathMainWebappResourcesCss());
-            }
-            if (!Utilidades.searchDirectorie(rutas.getPathMainWebappResourcesImagenes())) {
-                Utilidades.mkdir(rutas.getPathMainWebappResourcesImagenes());
-            }
-            if (!Utilidades.searchDirectorie(rutas.getPathMainWebappResourcesComponentes())) {
-                Utilidades.mkdir(rutas.getPathMainWebappResourcesComponentes());
-            }
-            
-            if (!Utilidades.searchDirectorie(rutas.getPathMainWebappResourcesReportes())) {
-                Utilidades.mkdir(rutas.getPathMainWebappResourcesReportes());
-            }
-            
-            // crear directorio para archivos properties dentro de resources
+           
 
-            if (!Utilidades.searchDirectorie(rutas.getPathMainResources() + rutas.getSeparator() + mySesion.getPaquetePath() + rutas.getSeparator() + "properties")) {
-                List<String> list = Utilidades.getListPathPaqueteFromAbsolutePath(mySesion.getPath() + "/properties ");
+            if (!Utilidades.searchDirectorie(proyectoEJB.getPath() + "services")) {
+                Utilidades.mkdir(proyectoEJB.getPath() + "services");
+            }
+            
+/*
+           JEE
+            */
+            if (!Utilidades.searchDirectorie(proyectoJEE.getPath() + "controller")) {
+                Utilidades.mkdir(proyectoJEE.getPath() + "controller");
+            }
+            if (!Utilidades.searchDirectorie(proyectoJEE.getPath() + "interfaces")) {
+                Utilidades.mkdir(proyectoJEE.getPath() + "interfaces");
+            }
+             if (!Utilidades.searchDirectorie(proyectoJEE.getPath() + "reportes")) {
+                Utilidades.mkdir(proyectoJEE.getPath() + "reportes");
+            }
+            if (!Utilidades.searchDirectorie(proyectoJEE.getPath() + "util")) {
+                Utilidades.mkdir(proyectoJEE.getPath() + "util");
+            }
+            if (!Utilidades.searchDirectorie(proyectoJEE.getPath() + "menu")) {
+                Utilidades.mkdir(proyectoJEE.getPath() + "menu");
+            }
+           
+            if (!Utilidades.searchDirectorie(proyectoJEE.getPath() + "roles")) {
+                Utilidades.mkdir(proyectoJEE.getPath() + "roles");
+            }
+
+            
+            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappPages())) {
+                Utilidades.mkdir(proyectoJEE.getPathMainWebappPages());
+            }
+            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResources())) {
+                Utilidades.mkdir(proyectoJEE.getPathMainWebappResources());
+            }
+            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesCss())) {
+                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesCss());
+            }
+            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesImagenes())) {
+                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesImagenes());
+            }
+            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesComponentes())) {
+                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesComponentes());
+            }
+
+            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesReportes())) {
+                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesReportes());
+            }
+
+            // crear directorio para archivos properties dentro de resources
+            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainResources() + proyectoJEE.getSeparator() + proyectoJEE.getPaquetePath() + proyectoJEE.getSeparator() + "properties")) {
+                List<String> list = Utilidades.getListPathPaqueteFromAbsolutePath(proyectoJEE.getPath() + "/properties ");
                 String directorio = "";
                 for (String s : list) {
                     if (directorio.equals("")) {
                         directorio = s;
                     } else {
-                        directorio += rutas.getSeparator() + s;
+                        directorio += proyectoJEE.getSeparator() + s;
                     }
-                    Utilidades.mkdir(rutas.getPathMainResources() + rutas.getSeparator() + directorio);
+                    Utilidades.mkdir(proyectoJEE.getPathMainResources() + proyectoJEE.getSeparator() + directorio);
                 }
 
             }

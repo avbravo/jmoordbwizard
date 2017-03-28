@@ -48,7 +48,7 @@ public class EmailValidatorGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("EmailValidator.java", rutas.getPathGenerales() + "EmailValidator.java");
+            procesar("EmailValidator.java", rutas.getPathUtil() + "EmailValidator.java");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());

@@ -48,7 +48,7 @@ public class LoginBeanGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("LoginBean", rutas.getPathGenerales() + "LoginBean.java");
+            procesar("LoginBean", rutas.getPathUtil() + "LoginBean.java");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());

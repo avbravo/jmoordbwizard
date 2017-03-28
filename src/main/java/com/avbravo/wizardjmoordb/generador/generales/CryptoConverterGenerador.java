@@ -46,7 +46,7 @@ public class CryptoConverterGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("CryptoConverter.java", rutas.getPathGenerales() + "CryptoConverter.java");
+            procesar("CryptoConverter.java", rutas.getPathUtil() + "CryptoConverter.java");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());

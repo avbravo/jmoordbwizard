@@ -46,7 +46,7 @@ public class ResourcesFilesGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("ResourcesFiles.java", rutas.getPathGenerales() + "ResourcesFiles.java");
+            procesar("ResourcesFiles.java", rutas.getPathUtil() + "ResourcesFiles.java");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());

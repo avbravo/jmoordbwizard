@@ -23,23 +23,11 @@ import javax.inject.Inject;
 @SessionScoped
 public class MySesion implements Serializable {
    private static final long serialVersionUID = 1L;
-    @Inject
-    Rutas rutas;
-    private String persistenceContext = "";
-    private String paquete = "";
-    private String paqueteWeb = "";
-    private String paquetePath = "";
-    private String paquetePathWeb = "";
+    
+   
     private String username = "";
-    private String usernameWeb = "";
-    private String proyecto = "";
-    private String proyectoWeb = "";
-    private String proyectoPlaceHolder = "";
-    private String proyectoPlaceHolderWeb = "";
-    private String pathProyecto = "";
-    private String pathProyectoWeb = "";
-    private String path = "";
-    private String pathWeb = "";
+
+   
     /*
     menu
      */
@@ -94,8 +82,7 @@ public class MySesion implements Serializable {
     /*
     repositorio local,git,mercurial
     */
-    private Boolean esRepositorioGitMercurial=false;
-    private Boolean esRepositorioGitMercurialWeb=false;
+
     private String tipoRepositorio="";
     private String userRepositorio="";
     private String passwordRepositorio="";
@@ -109,79 +96,44 @@ public class MySesion implements Serializable {
     private Boolean pagina4 =false;
     private Boolean pagina5=false;
     private Boolean pagina6 =false;
-/*
+
     
-    */
-    private Boolean addCreateTablePersitenceXML=false;
-    
-    /*
-    
-    */
     //almacena las opciones del menu donde se indica a que menu se debe asignar los entity
     List<EntidadMenu> entidadMenuList = new ArrayList<>();
      private List<String> masterDetailsList =  new ArrayList<>();
 
-    public Boolean getEsRepositorioGitMercurialWeb() {
-        return esRepositorioGitMercurialWeb;
+    public String getUsername() {
+        return username;
     }
 
-    public void setEsRepositorioGitMercurialWeb(Boolean esRepositorioGitMercurialWeb) {
-        this.esRepositorioGitMercurialWeb = esRepositorioGitMercurialWeb;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getPaqueteWeb() {
-        return paqueteWeb;
+    public Integer getNumeroMenuBar() {
+        return numeroMenuBar;
     }
 
-    public void setPaqueteWeb(String paqueteWeb) {
-        this.paqueteWeb = paqueteWeb;
+    public void setNumeroMenuBar(Integer numeroMenuBar) {
+        this.numeroMenuBar = numeroMenuBar;
     }
 
-    public String getPaquetePathWeb() {
-        return paquetePathWeb;
+    public String getTitulosMenuBar() {
+        return titulosMenuBar;
     }
 
-    public void setPaquetePathWeb(String paquetePathWeb) {
-        this.paquetePathWeb = paquetePathWeb;
+    public void setTitulosMenuBar(String titulosMenuBar) {
+        this.titulosMenuBar = titulosMenuBar;
     }
 
-    public String getPathWeb() {
-        return pathWeb;
+    public List<String> getMenubarList() {
+        return menubarList;
     }
 
-    public void setPathWeb(String pathWeb) {
-        this.pathWeb = pathWeb;
+    public void setMenubarList(List<String> menubarList) {
+        this.menubarList = menubarList;
     }
 
-    public String getUsernameWeb() {
-        return usernameWeb;
-    }
-
-    public void setUsernameWeb(String usernameWeb) {
-        this.usernameWeb = usernameWeb;
-    }
-
-    public String getProyectoWeb() {
-        return proyectoWeb;
-    }
-
-    public void setProyectoWeb(String proyectoWeb) {
-        this.proyectoWeb = proyectoWeb;
-    }
-
-    public String getProyectoPlaceHolderWeb() {
-        return proyectoPlaceHolderWeb;
-    }
-
-    public void setProyectoPlaceHolderWeb(String proyectoPlaceHolderWeb) {
-        this.proyectoPlaceHolderWeb = proyectoPlaceHolderWeb;
-    }
-
-     
-     
-     
-     
-     
     public String getOpcionMenuReportes() {
         return opcionMenuReportes;
     }
@@ -190,38 +142,62 @@ public class MySesion implements Serializable {
         this.opcionMenuReportes = opcionMenuReportes;
     }
 
-    public List<String> getMasterDetailsList() {
-        return masterDetailsList;
+    public String getRoles() {
+        return roles;
     }
 
-    public void setMasterDetailsList(List<String> masterDetailsList) {
-        this.masterDetailsList = masterDetailsList;
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 
-    
-    
-    
-    
-    public List<EntidadMenu> getEntidadMenuList() {
-        return entidadMenuList;
+    public List<String> getRolesList() {
+        return rolesList;
     }
 
-    public void setEntidadMenuList(List<EntidadMenu> entidadMenuList) {
-        this.entidadMenuList = entidadMenuList;
+    public void setRolesList(List<String> rolesList) {
+        this.rolesList = rolesList;
     }
 
-    public String getPathProyectoWeb() {
-        return pathProyectoWeb;
+    public List<Archivos> getArchivosList() {
+        return archivosList;
     }
 
-    public void setPathProyectoWeb(String pathProyectoWeb) {
-        this.pathProyectoWeb = pathProyectoWeb;
+    public void setArchivosList(List<Archivos> archivosList) {
+        this.archivosList = archivosList;
     }
 
-  
-    
-    
-    
+    public List<Entidad> getEntidadList() {
+        return entidadList;
+    }
+
+    public void setEntidadList(List<Entidad> entidadList) {
+        this.entidadList = entidadList;
+    }
+
+    public List<Entidad> getEjbList() {
+        return ejbList;
+    }
+
+    public void setEjbList(List<Entidad> ejbList) {
+        this.ejbList = ejbList;
+    }
+
+    public List<Archivos> getControllerList() {
+        return controllerList;
+    }
+
+    public void setControllerList(List<Archivos> controllerList) {
+        this.controllerList = controllerList;
+    }
+
+    public List<Archivos> getSearchList() {
+        return searchList;
+    }
+
+    public void setSearchList(List<Archivos> searchList) {
+        this.searchList = searchList;
+    }
+
     public Boolean getFrameworkPrimefaces() {
         return frameworkPrimefaces;
     }
@@ -246,24 +222,134 @@ public class MySesion implements Serializable {
         this.frameworkMaterialprime = frameworkMaterialprime;
     }
 
-    
-    
-    
-    
-    public Boolean getAddCreateTablePersitenceXML() {
-        return addCreateTablePersitenceXML;
+    public Entidad getEntidadUser() {
+        return entidadUser;
     }
 
-    public void setAddCreateTablePersitenceXML(Boolean addCreateTablePersitenceXML) {
-        this.addCreateTablePersitenceXML = addCreateTablePersitenceXML;
+    public void setEntidadUser(Entidad entidadUser) {
+        this.entidadUser = entidadUser;
     }
 
-   
-  
+    public Entidad getEntidadRoles() {
+        return entidadRoles;
+    }
 
-    
-    
-    
+    public void setEntidadRoles(Entidad entidadRoles) {
+        this.entidadRoles = entidadRoles;
+    }
+
+    public Entidad getEntidadGruposUsuariosMultiples() {
+        return entidadGruposUsuariosMultiples;
+    }
+
+    public void setEntidadGruposUsuariosMultiples(Entidad entidadGruposUsuariosMultiples) {
+        this.entidadGruposUsuariosMultiples = entidadGruposUsuariosMultiples;
+    }
+
+    public String getAtributosUsername() {
+        return atributosUsername;
+    }
+
+    public void setAtributosUsername(String atributosUsername) {
+        this.atributosUsername = atributosUsername;
+    }
+
+    public String getAtributosPassword() {
+        return atributosPassword;
+    }
+
+    public void setAtributosPassword(String atributosPassword) {
+        this.atributosPassword = atributosPassword;
+    }
+
+    public String getAtributosNombreMostrar() {
+        return atributosNombreMostrar;
+    }
+
+    public void setAtributosNombreMostrar(String atributosNombreMostrar) {
+        this.atributosNombreMostrar = atributosNombreMostrar;
+    }
+
+    public String getAtributosGrupousuarioMostrar() {
+        return atributosGrupousuarioMostrar;
+    }
+
+    public void setAtributosGrupousuarioMostrar(String atributosGrupousuarioMostrar) {
+        this.atributosGrupousuarioMostrar = atributosGrupousuarioMostrar;
+    }
+
+    public Boolean getMultiplesRoles() {
+        return multiplesRoles;
+    }
+
+    public void setMultiplesRoles(Boolean multiplesRoles) {
+        this.multiplesRoles = multiplesRoles;
+    }
+
+    public Boolean getAddUserNameLogeado() {
+        return addUserNameLogeado;
+    }
+
+    public void setAddUserNameLogeado(Boolean addUserNameLogeado) {
+        this.addUserNameLogeado = addUserNameLogeado;
+    }
+
+    public Boolean getAddFechaSystema() {
+        return addFechaSystema;
+    }
+
+    public void setAddFechaSystema(Boolean addFechaSystema) {
+        this.addFechaSystema = addFechaSystema;
+    }
+
+    public List<String> getErrorList() {
+        return errorList;
+    }
+
+    public void setErrorList(List<String> errorList) {
+        this.errorList = errorList;
+    }
+
+    public List<String> getMensajesList() {
+        return mensajesList;
+    }
+
+    public void setMensajesList(List<String> mensajesList) {
+        this.mensajesList = mensajesList;
+    }
+
+    public Boolean getAllTablesWithPrimaryKey() {
+        return allTablesWithPrimaryKey;
+    }
+
+    public void setAllTablesWithPrimaryKey(Boolean allTablesWithPrimaryKey) {
+        this.allTablesWithPrimaryKey = allTablesWithPrimaryKey;
+    }
+
+    public String getTipoRepositorio() {
+        return tipoRepositorio;
+    }
+
+    public void setTipoRepositorio(String tipoRepositorio) {
+        this.tipoRepositorio = tipoRepositorio;
+    }
+
+    public String getUserRepositorio() {
+        return userRepositorio;
+    }
+
+    public void setUserRepositorio(String userRepositorio) {
+        this.userRepositorio = userRepositorio;
+    }
+
+    public String getPasswordRepositorio() {
+        return passwordRepositorio;
+    }
+
+    public void setPasswordRepositorio(String passwordRepositorio) {
+        this.passwordRepositorio = passwordRepositorio;
+    }
+
     public Boolean getPagina1() {
         return pagina1;
     }
@@ -311,307 +397,25 @@ public class MySesion implements Serializable {
     public void setPagina6(Boolean pagina6) {
         this.pagina6 = pagina6;
     }
-    
-    
-    public Boolean getEsRepositorioGitMercurial() {
-        return esRepositorioGitMercurial;
-    }
-
-    public void setEsRepositorioGitMercurial(Boolean esRepositorioGitMercurial) {
-        this.esRepositorioGitMercurial = esRepositorioGitMercurial;
-    }
-
-    
-    
-    public String getUserRepositorio() {
-        return userRepositorio;
-    }
-
-    public void setUserRepositorio(String userRepositorio) {
-        this.userRepositorio = userRepositorio;
-    }
-
-    public String getPasswordRepositorio() {
-        return passwordRepositorio;
-    }
-
-    public void setPasswordRepositorio(String passwordRepositorio) {
-        this.passwordRepositorio = passwordRepositorio;
-    }
-    
-    
-
-    public String getTipoRepositorio() {
-        return tipoRepositorio;
-    }
-
-    public void setTipoRepositorio(String tipoRepositorio) {
-        this.tipoRepositorio = tipoRepositorio;
-    }
-    
-
-    public Boolean getAllTablesWithPrimaryKey() {
-        return allTablesWithPrimaryKey;
-    }
-
-    public void setAllTablesWithPrimaryKey(Boolean allTablesWithPrimaryKey) {
-        this.allTablesWithPrimaryKey = allTablesWithPrimaryKey;
-    }
-    
-    
-    public List<String> getErrorList() {
-        return errorList;
-    }
-
-    public void setErrorList(List<String> errorList) {
-        this.errorList = errorList;
-    }
-
-    public List<String> getMensajesList() {
-        return mensajesList;
-    }
-
-    public void setMensajesList(List<String> mensajesList) {
-        this.mensajesList = mensajesList;
-    }
-    
-    
-    
-    
-    public Boolean getAddUserNameLogeado() {
-        return addUserNameLogeado;
-    }
-
-    public void setAddUserNameLogeado(Boolean addUserNameLogeado) {
-        this.addUserNameLogeado = addUserNameLogeado;
-    }
-
-    public Boolean getAddFechaSystema() {
-        return addFechaSystema;
-    }
-
-    public void setAddFechaSystema(Boolean addFechaSystema) {
-        this.addFechaSystema = addFechaSystema;
-    }
-
-    
-    
-    
-    public List<String> getMenubarList() {
-        return menubarList;
-    }
-
-    public void setMenubarList(List<String> menubarList) {
-        this.menubarList = menubarList;
-    }
-
-    
-    
-    
-    public String getTitulosMenuBar() {
-        return titulosMenuBar;
-    }
-
-    public void setTitulosMenuBar(String titulosMenuBar) {
-        this.titulosMenuBar = titulosMenuBar;
-    }
-
-    public String getAtributosGrupousuarioMostrar() {
-        return atributosGrupousuarioMostrar;
-    }
-
-    public void setAtributosGrupousuarioMostrar(String atributosGrupousuarioMostrar) {
-        this.atributosGrupousuarioMostrar = atributosGrupousuarioMostrar;
-    }
-
-    public Boolean getMultiplesRoles() {
-        return multiplesRoles;
-    }
-
-    public void setMultiplesRoles(Boolean multiplesRoles) {
-        this.multiplesRoles = multiplesRoles;
-    }
-
-    public Entidad getEntidadGruposUsuariosMultiples() {
-        return entidadGruposUsuariosMultiples;
-    }
-
-    public void setEntidadGruposUsuariosMultiples(Entidad entidadGruposUsuariosMultiples) {
-        this.entidadGruposUsuariosMultiples = entidadGruposUsuariosMultiples;
-    }
-
-    public List<String> getRolesList() {
-        return rolesList;
-    }
-
-    public void setRolesList(List<String> rolesList) {
-        this.rolesList = rolesList;
-    }
-
-    public String getRoles() {
-        return roles;
-    }
-
-    public void setRoles(String roles) {
-        this.roles = roles;
-    }
-
-    public Integer getNumeroMenuBar() {
-        return numeroMenuBar;
-    }
-
-    public void setNumeroMenuBar(Integer numeroMenuBar) {
-        this.numeroMenuBar = numeroMenuBar;
-    }
-
-    /**
-     * Creates a new instance of MySesion
-     */
-    public MySesion() {
-    }
-
-    public String getAtributosUsername() {
-        return atributosUsername;
-    }
-
-    public void setAtributosUsername(String atributosUsername) {
-        this.atributosUsername = atributosUsername;
-    }
-
-    public String getAtributosPassword() {
-        return atributosPassword;
-    }
-
-    public void setAtributosPassword(String atributosPassword) {
-        this.atributosPassword = atributosPassword;
-    }
-
-    public String getAtributosNombreMostrar() {
-        return atributosNombreMostrar;
-    }
-
-    public void setAtributosNombreMostrar(String atributosNombreMostrar) {
-        this.atributosNombreMostrar = atributosNombreMostrar;
-    }
-
-    public Entidad getEntidadUser() {
-        return entidadUser;
-    }
-
-    public void setEntidadUser(Entidad entidadUser) {
-        this.entidadUser = entidadUser;
-    }
-
-    public Entidad getEntidadRoles() {
-        return entidadRoles;
-    }
-
-    public void setEntidadRoles(Entidad entidadRoles) {
-        this.entidadRoles = entidadRoles;
-    }
-
-    public String getPathProyecto() {
-        return pathProyecto;
-    }
-
-    public void setPathProyecto(String pathProyecto) {
-        this.pathProyecto = pathProyecto;
-    }
-
-    public String getProyectoPlaceHolder() {
-        return proyectoPlaceHolder;
-    }
-
-    public void setProyectoPlaceHolder(String proyectoPlaceHolder) {
-        this.proyectoPlaceHolder = proyectoPlaceHolder;
-    }
-
-    public String getProyecto() {
-        return proyecto;
-    }
-
-    public void setProyecto(String proyecto) {
-        this.proyecto = proyecto;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPaquetePath() {
-        return paquetePath;
-    }
-
-    public void setPaquetePath(String paquetePath) {
-        this.paquetePath = paquetePath;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public String getPaquete() {
-        return paquete;
-    }
-
-    public void setPaquete(String paquete) {
-        this.paquete = paquete;
-    }
-
-    public String getPersistenceContext() {
-        return persistenceContext;
-    }
-
-    public void setPersistenceContext(String persistenceContext) {
-        this.persistenceContext = persistenceContext;
-    }
-
-    public List<Archivos> getArchivosList() {
-        return archivosList;
-    }
-
-    public void setArchivosList(List<Archivos> archivosList) {
-        this.archivosList = archivosList;
-    }
-
-    public List<Entidad> getEntidadList() {
-        return entidadList;
-    }
-
-    public void setEntidadList(List<Entidad> entidadList) {
-        this.entidadList = entidadList;
-    }
 
-    public List<Entidad> getEjbList() {
-        return ejbList;
+    public List<EntidadMenu> getEntidadMenuList() {
+        return entidadMenuList;
     }
 
-    public void setEjbList(List<Entidad> ejbList) {
-        this.ejbList = ejbList;
+    public void setEntidadMenuList(List<EntidadMenu> entidadMenuList) {
+        this.entidadMenuList = entidadMenuList;
     }
 
-    public List<Archivos> getControllerList() {
-        return controllerList;
+    public List<String> getMasterDetailsList() {
+        return masterDetailsList;
     }
 
-    public void setControllerList(List<Archivos> controllerList) {
-        this.controllerList = controllerList;
+    public void setMasterDetailsList(List<String> masterDetailsList) {
+        this.masterDetailsList = masterDetailsList;
     }
 
-    public List<Archivos> getSearchList() {
-        return searchList;
-    }
+   
 
-    public void setSearchList(List<Archivos> searchList) {
-        this.searchList = searchList;
-    }
+   
 
 }

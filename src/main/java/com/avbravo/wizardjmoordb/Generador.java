@@ -96,7 +96,8 @@ public class Generador implements Serializable {
     private boolean skip;
     private TreeNode root;
     private TreeNode selectedNode;
-    private Boolean proyectoValido = false;
+    private Boolean proyectoValidoEJB = false;
+    private Boolean proyectoValidoJEE = false;
 
     private String[] selectedFramework;
     private List<String> framework;
@@ -107,7 +108,10 @@ public class Generador implements Serializable {
     EntidadSearch entidadSearch;
 
     @Inject
-    Rutas rutas;
+    ProyectoEJB proyectoEJB;
+    @Inject
+    ProyectoJEE proyectoJEE;
+    
     @Inject
     MySesion mySesion;
     @Inject
@@ -240,13 +244,7 @@ public class Generador implements Serializable {
         this.tipoGeneracion = tipoGeneracion;
     }
 
-    public Boolean getProyectoValido() {
-        return proyectoValido;
-    }
-
-    public void setProyectoValido(Boolean proyectoValido) {
-        this.proyectoValido = proyectoValido;
-    }
+   
 
     public String getTipoRepositorio() {
         return tipoRepositorio;
@@ -296,16 +294,29 @@ public class Generador implements Serializable {
         this.mySesion = mySesion;
     }
 
-//    public Boolean getEnEjecucion() {
-//        return enEjecucion;
-//    }
-//
-//    public void setEnEjecucion(Boolean enEjecucion) {
-//        this.enEjecucion = enEjecucion;
-//    }
+    
+    
+    
+    
+    public ProyectoEJB getProyectoEJB() {
+        return proyectoEJB;
+    }
+
+    public void setProyectoEJB(ProyectoEJB proyectoEJB) {
+        this.proyectoEJB = proyectoEJB;
+    }
+
+    public ProyectoJEE getProyectoJEE() {
+        return proyectoJEE;
+    }
+
     /**
      * Creates a new instance of Generador
      */
+    public void setProyectoJEE(ProyectoJEE proyectoJEE) {
+        this.proyectoJEE = proyectoJEE;
+    }
+
     public Generador() {
     }
 
@@ -315,12 +326,13 @@ public class Generador implements Serializable {
         framework.add("Primefaces");
         framework.add("BootFaces");
         framework.add("MaterialPrime");
-        mySesion.setAddCreateTablePersitenceXML(false);
-        proyectoValido = false;
+
+        proyectoValidoEJB = false;
+        proyectoValidoJEE = false;
 
     }
 
-    public String clear() {
+    public String clearEJB() {
         try {
             mySesion.setPagina1(false);
             mySesion.setPagina2(false);
@@ -328,20 +340,21 @@ public class Generador implements Serializable {
             mySesion.setPagina4(false);
             mySesion.setPagina5(false);
             mySesion.setPagina6(false);
-            mySesion.setPaquete("");
-            mySesion.setPaquetePath("");
-            mySesion.setPath("");
-            mySesion.setPathProyecto("");
-            mySesion.setProyecto("");
-            mySesion.setAddCreateTablePersitenceXML(false);
-            mySesion.setPersistenceContext("");
+            proyectoEJB.setPaquete("");
+           proyectoEJB.setPaquetePath("");
+         proyectoEJB.setPath("");
+          proyectoEJB.setPathProyecto("");
+           proyectoEJB.setProyecto("");
+
+       proyectoEJB.setPersistenceContext("");
             entidadSearch.getListColumnasGrupousuario().removeAll(entidadSearch.getListColumnasGrupousuario());
             entidadSearch.getListColumnasNombreMostrar().removeAll(entidadSearch.getListColumnasNombreMostrar());
             entidadSearch.getListColumnasPassword().removeAll(entidadSearch.getListColumnasPassword());
             entidadSearch.getListColumnasUser().removeAll(entidadSearch.getListColumnasUser());
             entidadSearch.getListEntidad().removeAll(entidadSearch.getListEntidad());
 
-            proyectoValido = false;
+            proyectoValidoEJB = false;
+
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("clear() " + e.getLocalizedMessage());
@@ -350,7 +363,7 @@ public class Generador implements Serializable {
         return "";
     }
 
-    public String clearWeb() {
+    public String clearJEE() {
         try {
             mySesion.setPagina1(false);
             mySesion.setPagina2(false);
@@ -358,20 +371,19 @@ public class Generador implements Serializable {
             mySesion.setPagina4(false);
             mySesion.setPagina5(false);
             mySesion.setPagina6(false);
-            mySesion.setPaquete("");
-            mySesion.setPaquetePath("");
-            mySesion.setPath("");
-            mySesion.setPathProyecto("");
-            mySesion.setProyecto("");
-            mySesion.setAddCreateTablePersitenceXML(false);
-            mySesion.setPersistenceContext("");
+            proyectoJEE.setPaquete("");
+            proyectoJEE.setPaquetePath("");
+            proyectoJEE.setPath("");
+            proyectoJEE.setPathProyecto("");
+            proyectoJEE.setProyecto("");
+
             entidadSearch.getListColumnasGrupousuario().removeAll(entidadSearch.getListColumnasGrupousuario());
             entidadSearch.getListColumnasNombreMostrar().removeAll(entidadSearch.getListColumnasNombreMostrar());
             entidadSearch.getListColumnasPassword().removeAll(entidadSearch.getListColumnasPassword());
             entidadSearch.getListColumnasUser().removeAll(entidadSearch.getListColumnasUser());
             entidadSearch.getListEntidad().removeAll(entidadSearch.getListEntidad());
 
-            proyectoValido = false;
+            proyectoValidoJEE = false;
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("clear() " + e.getLocalizedMessage());
@@ -386,8 +398,12 @@ public class Generador implements Serializable {
 
     public String onFlowProcess(FlowEvent event) {
 
-        if (!proyectoValido) {
-            JSFUtil.warningDialog("Mensaje", "Seleccione un proyectovalido");
+        if (!proyectoValidoEJB) {
+            JSFUtil.warningDialog("Mensaje", "Seleccione un proyecto EJB valido");
+            return "tabProject";
+        }
+        if (!proyectoValidoJEE) {
+            JSFUtil.warningDialog("Mensaje", "Seleccione un proyecto JAVA EE valido");
             return "tabProject";
         }
         if (skip) {
@@ -398,18 +414,31 @@ public class Generador implements Serializable {
         }
     }
 
-    public String mostrarRutaLocal() {
+    public String mostrarRutaEJB() {
         try {
-            if (!mySesion.getPathProyecto().equals("")) {
+            if (!proyectoEJB.getPathProyecto().equals("")) {
                 return "";
             }
-            if (!mySesion.getEsRepositorioGitMercurial()) {
-                mySesion.setPathProyecto(System.getProperty("user.home") + rutas.getSeparator() + "NetBeansProjects" + rutas.getSeparator());
-                mySesion.setPaquete("com." + System.getProperty("user.name") + ".");
-            } else {
-                mySesion.setPathProyecto("https://");
-                mySesion.setPaquete("com.");
+          
+               proyectoEJB.setPathProyecto(System.getProperty("user.home") + proyectoEJB.getSeparator() + "NetBeansProjects" + proyectoJEE.getSeparator());
+              proyectoEJB.setPaquete("com." + System.getProperty("user.name") + ".");
+            
+
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("mostrarRutaEJB() " + e.getLocalizedMessage());
+        }
+
+        return "";
+    }
+    public String mostrarRutaJEE() {
+        try {
+            if (!proyectoJEE.getPathProyecto().equals("")) {
+                return "";
             }
+          
+               proyectoJEE.setPathProyecto(System.getProperty("user.home") + proyectoJEE.getSeparator() + "NetBeansProjects" + proyectoJEE.getSeparator());
+                proyectoJEE.setPaquete("com." + System.getProperty("user.name") + ".");
+          
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("mostrarRutaLocal() " + e.getLocalizedMessage());
@@ -417,27 +446,8 @@ public class Generador implements Serializable {
 
         return "";
     }
-    public String mostrarRutaLocalWeb() {
-        try {
-            if (!mySesion.getPathProyectoWeb().equals("")) {
-                return "";
-            }
-            if (!mySesion.getEsRepositorioGitMercurialWeb()) {
-                mySesion.setPathProyectoWeb(System.getProperty("user.home") + rutas.getSeparator() + "NetBeansProjects" + rutas.getSeparator());
-                mySesion.setPaqueteWeb("com." + System.getProperty("user.name") + ".");
-            } else {
-                mySesion.setPathProyectoWeb("https://");
-                mySesion.setPaqueteWeb("com.");
-            }
 
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("mostrarRutaLocal() " + e.getLocalizedMessage());
-        }
-
-        return "";
-    }
-
-    public String conectar() {
+    public String conectarEJB() {
         try {
             mySesion.setPagina1(false);
             mySesion.setPagina2(false);
@@ -445,88 +455,84 @@ public class Generador implements Serializable {
             mySesion.setPagina4(false);
             mySesion.setPagina5(false);
             mySesion.setPagina6(false);
-            if (Utilidades.getLastLetter(mySesion.getPathProyecto()).equals(rutas.getSeparator())) {
-                JSFUtil.addWarningMessage("Ingrese la ruta del proyecto. No debe terminar en " + rutas.getSeparator());
+            if (Utilidades.getLastLetter(proyectoEJB.getPathProyecto()).equals(proyectoEJB.getSeparator())) {
+                JSFUtil.addWarningMessage("Ingrese la ruta del proyecto EJB. No debe terminar en " + proyectoEJB.getSeparator());
                 return "";
             }
-            proyectoValido = false;
-            if (mySesion.getPathProyecto().equals("")) {
-                JSFUtil.addWarningMessage("Ingrese el path  del proyecto");
-                if (mySesion.getEsRepositorioGitMercurial()) {
-                    mySesion.setPathProyecto("https://");
-                } else {
-                    mySesion.setPathProyecto(System.getProperty("user.home") + rutas.getSeparator() + "NetBeansProjects" + rutas.getSeparator());
-                }
+            proyectoValidoEJB = false;
+            if (proyectoEJB.getPathProyecto().equals("")) {
+                JSFUtil.addWarningMessage("Ingrese el path  del proyecto EJB");
+               
+                   proyectoEJB.setPathProyecto(System.getProperty("user.home") + proyectoEJB.getSeparator() + "NetBeansProjects" + proyectoEJB.getSeparator());
+              
 
                 return "";
             }
-            if (mySesion.getPathProyecto().equals("")) {
+            if (proyectoEJB.getPathProyecto().equals("")) {
                 JSFUtil.addWarningMessage("Ingrese el path  del proyecto");
-                if (mySesion.getEsRepositorioGitMercurial()) {
-                    mySesion.setPathProyecto("https://");
-                } else {
-                    mySesion.setPathProyecto(System.getProperty("user.home") + rutas.getSeparator() + "NetBeansProjects" + rutas.getSeparator());
-                }
+               
+                   proyectoEJB.setPathProyecto(System.getProperty("user.home") + proyectoEJB.getSeparator() + "NetBeansProjects" + proyectoEJB.getSeparator());
+            
                 return "";
             }
-            String ultimo = mySesion.getPathProyecto().substring(mySesion.getPathProyecto().length(), mySesion.getPathProyecto().length());
+            String ultimo = proyectoEJB.getPathProyecto().substring(proyectoEJB.getPathProyecto().length(), proyectoEJB.getPathProyecto().length());
             if (ultimo.equals("/")) {
-                mySesion.setPathProyecto(mySesion.getPathProyecto().substring(0, mySesion.getPathProyecto().length() - 1));
+                proyectoEJB.setPathProyecto(proyectoEJB.getPathProyecto().substring(0, proyectoEJB.getPathProyecto().length() - 1));
             }
 
-            mySesion.setProyecto(Utilidades.getNombreProyectoFromPath(mySesion.getPathProyecto()));
-            if (mySesion.getPaquete().equals("")) {
+           proyectoEJB.setProyecto(Utilidades.getNombreProyectoFromPath(proyectoEJB.getPathProyecto()));
+            if (proyectoEJB.getPaquete().equals("")) {
                 JSFUtil.addWarningMessage("Ingrese el paquete. Ejemplo com.avbravo.mipaquete");
-                mySesion.setPaquete("com." + System.getProperty("user.name") + "." + mySesion.getProyecto());
+               proyectoEJB.setPaquete("com." + System.getProperty("user.name") + "." + proyectoEJB.getProyecto());
                 return "";
             }
             mySesion.setUsername(System.getProperty("user.name"));
-            mySesion.setPaquetePath(Utilidades.convertirPaqueteToPath(mySesion.getPaquete()));
-            mySesion.setPath(mySesion.getPathProyecto() + rutas.getSeparator() + "src" + rutas.getSeparator() + "main" + rutas.getSeparator() + "java" + rutas.getSeparator() + mySesion.getPaquetePath() + rutas.getSeparator());
+            proyectoEJB.setPaquetePath(Utilidades.convertirPaqueteToPath(proyectoEJB.getPaquete()));
+           proyectoEJB.setPath(proyectoEJB.getPathProyecto() + proyectoEJB.getSeparator() + "src" + proyectoEJB.getSeparator() + "main" + proyectoEJB.getSeparator() + "java" + proyectoEJB.getSeparator() + proyectoEJB.getPaquetePath() + proyectoEJB.getSeparator());
 
-            rutas.setPathMainJava(mySesion.getPathProyecto() + rutas.getSeparator() + "src" + rutas.getSeparator() + "main" + rutas.getSeparator() + "java");
-            rutas.setPathMainResources(mySesion.getPathProyecto() + rutas.getSeparator() + "src" + rutas.getSeparator() + "main" + rutas.getSeparator() + "resources");
-            rutas.setPathMainWebapp(mySesion.getPathProyecto() + rutas.getSeparator() + "src" + rutas.getSeparator() + "main" + rutas.getSeparator() + "webapp");
+            proyectoEJB.setPathMainJava(proyectoEJB.getPathProyecto() + proyectoEJB.getSeparator() + "src" + proyectoEJB.getSeparator() + "main" + proyectoEJB.getSeparator() + "java");
+            proyectoEJB.setPathMainResources(proyectoEJB.getPathProyecto() + proyectoEJB.getSeparator() + "src" + proyectoEJB.getSeparator() + "main" + proyectoEJB.getSeparator() + "resources");
+            proyectoEJB.setPathMainWebapp(proyectoEJB.getPathProyecto() + proyectoEJB.getSeparator() + "src" + proyectoEJB.getSeparator() + "main" + proyectoEJB.getSeparator() + "webapp");
             
             
             
             
             /*
-            rutas webapps
+            proyectoEJB webapps
              */
-            rutas.setPathMainWebappPages(rutas.getPathMainWebapp() + rutas.getSeparator() + "pages" + rutas.getSeparator());
-            rutas.setPathMainWebappResources(rutas.getPathMainWebapp() + rutas.getSeparator() + "resources");
-            rutas.setPathMainWebappResourcesCss(rutas.getPathMainWebappResources() + rutas.getSeparator() + "css" + rutas.getSeparator());
+            proyectoEJB.setPathMainWebappPages(proyectoEJB.getPathMainWebapp() + proyectoEJB.getSeparator() + "pages" + proyectoEJB.getSeparator());
+            proyectoEJB.setPathMainWebappResources(proyectoEJB.getPathMainWebapp() + proyectoEJB.getSeparator() + "resources");
+            proyectoEJB.setPathMainWebappResourcesCss(proyectoEJB.getPathMainWebappResources() + proyectoEJB.getSeparator() + "css" + proyectoEJB.getSeparator());
 
-            rutas.setPathMainWebappResourcesImagenes(rutas.getPathMainWebappResources() + rutas.getSeparator() + "imagenes" + rutas.getSeparator());
-            rutas.setPathMainWebappResourcesComponentes(rutas.getPathMainWebappResources() + rutas.getSeparator() + "componentes" + rutas.getSeparator());
-            rutas.setPathMainWebappResourcesReportes(rutas.getPathMainWebappResources() + rutas.getSeparator() + "reportes" + rutas.getSeparator());
+            proyectoEJB.setPathMainWebappResourcesImagenes(proyectoEJB.getPathMainWebappResources() + proyectoEJB.getSeparator() + "imagenes" + proyectoEJB.getSeparator());
+            proyectoEJB.setPathMainWebappResourcesComponentes(proyectoEJB.getPathMainWebappResources() + proyectoEJB.getSeparator() + "componentes" + proyectoEJB.getSeparator());
+            proyectoEJB.setPathMainWebappResourcesReportes(proyectoEJB.getPathMainWebappResources() + proyectoEJB.getSeparator() + "reportes" + proyectoEJB.getSeparator());
 
-            rutas.setPathWebInf(mySesion.getPathProyecto() + rutas.getSeparator() + "src" + rutas.getSeparator() + "main" + rutas.getSeparator() + "webapp" + rutas.getSeparator() + "WEB-INF" + rutas.getSeparator());
-            String path = mySesion.getPath();
-            rutas.setPath(path);
+            proyectoEJB.setPathWebInf(proyectoEJB.getPathProyecto() + proyectoEJB.getSeparator() + "src" + proyectoEJB.getSeparator() + "main" + proyectoEJB.getSeparator() + "webapp" + proyectoEJB.getSeparator() + "WEB-INF" + proyectoEJB.getSeparator());
+            String path = proyectoEJB.getPath();
+            proyectoEJB.setPath(path);
 //            System.out.println("=================================================");
-//            System.out.println("getPath() "+rutas.getPath());
+//            System.out.println("getPath() "+proyectoEJB.getPath());
             /*
             asigna los path
              */
-            rutas.setPathEntity(rutas.getPath() + "entity" + rutas.getSeparator());
-            rutas.setPathController(rutas.getPath() + "controller" + rutas.getSeparator());
-            rutas.setPathEJB(rutas.getPath() + "ejb" + rutas.getSeparator());
-            rutas.setPathConverter(rutas.getPath() + "converter" + rutas.getSeparator());
-//            rutas.setPathGenerales(rutas.getPath() + "generales" + rutas.getSeparator());
+            proyectoEJB.setPathEntity(proyectoEJB.getPath() + "entity" + proyectoEJB.getSeparator());
+            proyectoEJB.setPathController(proyectoEJB.getPath() + "controller" + proyectoEJB.getSeparator());
+            proyectoEJB.setPathEJB(proyectoEJB.getPath() + "ejb" + proyectoEJB.getSeparator());
+            proyectoEJB.setPathConverter(proyectoEJB.getPath() + "converter" + proyectoEJB.getSeparator());
+//            proyectoEJB.setPathGenerales(proyectoEJB.getPath() + "generales" + proyectoEJB.getSeparator());
 
-            rutas.setPathServices(rutas.getPath() + "services" + rutas.getSeparator());
-            rutas.setPathController(rutas.getPath() + "controller" + rutas.getSeparator());
-            rutas.setPathSearch(rutas.getPath() + "search" + rutas.getSeparator());
-            rutas.setPathReportes(rutas.getPath() + "reportes" + rutas.getSeparator());
+            proyectoEJB.setPathServices(proyectoEJB.getPath() + "services" + proyectoEJB.getSeparator());
+            proyectoEJB.setPathController(proyectoEJB.getPath() + "controller" + proyectoEJB.getSeparator());
+            proyectoEJB.setPathSearch(proyectoEJB.getPath() + "search" + proyectoEJB.getSeparator());
+            proyectoEJB.setPathReportes(proyectoEJB.getPath() + "reportes" + proyectoEJB.getSeparator());
 
-            rutas.setPathMenu(rutas.getPath() + "menu" + rutas.getSeparator());
-            rutas.setPathRoles(rutas.getPath() + "roles" + rutas.getSeparator());
+            proyectoEJB.setPathMenu(proyectoEJB.getPath() + "menu" + proyectoEJB.getSeparator());
+            proyectoEJB.setPathRoles(proyectoEJB.getPath() + "roles" + proyectoEJB.getSeparator());
 
-            rutas.setPathProperties(rutas.getPathMainResources() + rutas.getSeparator() + mySesion.getPaquetePath() + rutas.getSeparator() + "properties" + rutas.getSeparator());
-            rutas.setPathInterfaces(rutas.getPath() + "interfaces" + rutas.getSeparator());
-            rutas.setPathPomXML(mySesion.getPathProyecto() + rutas.getSeparator());
+            proyectoEJB.setPathProperties(proyectoEJB.getPathMainResources() + proyectoEJB.getSeparator() +proyectoEJB.getPaquetePath() + proyectoEJB.getSeparator() + "properties" + proyectoEJB.getSeparator());
+            proyectoEJB.setPathInterfaces(proyectoEJB.getPath() + "interfaces" + proyectoEJB.getSeparator());
+            proyectoEJB.setPathPomXML(proyectoEJB.getPathProyecto() + proyectoEJB.getSeparator());
             /*
             
              */
@@ -541,8 +547,8 @@ public class Generador implements Serializable {
 //                return "";
 //            }
             if (!readPackageEntity()) {
-                JSFUtil.warningDialog("Mensaje", "No hay Entitys en el paquete " + mySesion.getPaquete() + ".entity");
-//                JSFUtil.warningDialog("Mensaje", "No se encontraron entitys generados en " + rutas.getPathEntity());
+                JSFUtil.warningDialog("Mensaje", "No hay Entitys en el paquete " + proyectoEJB.getPaquete() + ".entity");
+//                JSFUtil.warningDialog("Mensaje", "No se encontraron entitys generados en " + proyectoEJB.getPathEntity());
 
                 return "";
             }
@@ -551,7 +557,7 @@ public class Generador implements Serializable {
             cargarTree();
             if (!mySesion.getEntidadList().isEmpty()) {
 
-                leerConfigurationFile.readFile("Configuration.txt", rutas.getPathProperties() + "Configuration.txt");
+                leerConfigurationFile.readFile("Configuration.txt", proyectoEJB.getPathProperties() + "Configuration.txt");
                 mostrarDatosDelArchivoConfiguracion();
 
             }
@@ -562,13 +568,13 @@ public class Generador implements Serializable {
             mySesion.setPagina4(true);
             mySesion.setPagina5(true);
             mySesion.setPagina6(true);
-            proyectoValido = true;
+            proyectoValidoEJB = true;
         } catch (Exception e) {
             JSFUtil.addErrorMessage("search()" + e.getLocalizedMessage());
         }
         return "";
     }
-    public String conectarWeb() {
+    public String conectarJEE() {
         try {
             mySesion.setPagina1(false);
             mySesion.setPagina2(false);
@@ -576,84 +582,80 @@ public class Generador implements Serializable {
             mySesion.setPagina4(false);
             mySesion.setPagina5(false);
             mySesion.setPagina6(false);
-            if (Utilidades.getLastLetter(mySesion.getPathProyecto()).equals(rutas.getSeparator())) {
-                JSFUtil.addWarningMessage("Ingrese la ruta del proyecto. No debe terminar en " + rutas.getSeparator());
+            if (Utilidades.getLastLetter(proyectoJEE.getPathProyecto()).equals(proyectoJEE.getSeparator())) {
+                JSFUtil.addWarningMessage("Ingrese la ruta del proyecto. No debe terminar en " + proyectoJEE.getSeparator());
                 return "";
             }
-            proyectoValido = false;
-            if (mySesion.getPathProyecto().equals("")) {
+            proyectoValidoJEE = false;
+            if (proyectoJEE.getPathProyecto().equals("")) {
                 JSFUtil.addWarningMessage("Ingrese el path  del proyecto");
-                if (mySesion.getEsRepositorioGitMercurial()) {
-                    mySesion.setPathProyecto("https://");
-                } else {
-                    mySesion.setPathProyecto(System.getProperty("user.home") + rutas.getSeparator() + "NetBeansProjects" + rutas.getSeparator());
-                }
+            
+                   proyectoJEE.setPathProyecto(System.getProperty("user.home") + proyectoJEE.getSeparator() + "NetBeansProjects" + proyectoJEE.getSeparator());
+               
 
                 return "";
             }
-            if (mySesion.getPathProyecto().equals("")) {
+            if (proyectoJEE.getPathProyecto().equals("")) {
                 JSFUtil.addWarningMessage("Ingrese el path  del proyecto");
-                if (mySesion.getEsRepositorioGitMercurial()) {
-                    mySesion.setPathProyecto("https://");
-                } else {
-                    mySesion.setPathProyecto(System.getProperty("user.home") + rutas.getSeparator() + "NetBeansProjects" + rutas.getSeparator());
-                }
+              
+                   proyectoJEE.setPathProyecto(System.getProperty("user.home") + proyectoJEE.getSeparator() + "NetBeansProjects" + proyectoJEE.getSeparator());
+               
                 return "";
             }
-            String ultimo = mySesion.getPathProyecto().substring(mySesion.getPathProyecto().length(), mySesion.getPathProyecto().length());
+            String ultimo =proyectoJEE.getPathProyecto().substring(proyectoJEE.getPathProyecto().length(), proyectoJEE.getPathProyecto().length());
             if (ultimo.equals("/")) {
-                mySesion.setPathProyecto(mySesion.getPathProyecto().substring(0, mySesion.getPathProyecto().length() - 1));
+               proyectoJEE.setPathProyecto(proyectoJEE.getPathProyecto().substring(0, proyectoJEE.getPathProyecto().length() - 1));
             }
 
-            mySesion.setProyecto(Utilidades.getNombreProyectoFromPath(mySesion.getPathProyecto()));
-            if (mySesion.getPaquete().equals("")) {
+           proyectoJEE.setProyecto(Utilidades.getNombreProyectoFromPath(proyectoJEE.getPathProyecto()));
+            if (proyectoJEE.getPaquete().equals("")) {
                 JSFUtil.addWarningMessage("Ingrese el paquete. Ejemplo com.avbravo.mipaquete");
-                mySesion.setPaquete("com." + System.getProperty("user.name") + "." + mySesion.getProyecto());
+                proyectoJEE.setPaquete("com." + System.getProperty("user.name") + "." + proyectoJEE.getProyecto());
                 return "";
             }
             mySesion.setUsername(System.getProperty("user.name"));
-            mySesion.setPaquetePath(Utilidades.convertirPaqueteToPath(mySesion.getPaquete()));
-            mySesion.setPath(mySesion.getPathProyecto() + rutas.getSeparator() + "src" + rutas.getSeparator() + "main" + rutas.getSeparator() + "java" + rutas.getSeparator() + mySesion.getPaquetePath() + rutas.getSeparator());
+            proyectoJEE.setPaquetePath(Utilidades.convertirPaqueteToPath(proyectoJEE.getPaquete()));
+            proyectoJEE.setPath(proyectoJEE.getPathProyecto() + proyectoJEE.getSeparator() + "src" + proyectoJEE.getSeparator() + "main" + proyectoJEE.getSeparator() + "java" + proyectoJEE.getSeparator() + proyectoJEE.getPaquetePath() + proyectoJEE.getSeparator());
 
-            rutas.setPathMainJava(mySesion.getPathProyecto() + rutas.getSeparator() + "src" + rutas.getSeparator() + "main" + rutas.getSeparator() + "java");
-            rutas.setPathMainResources(mySesion.getPathProyecto() + rutas.getSeparator() + "src" + rutas.getSeparator() + "main" + rutas.getSeparator() + "resources");
-            rutas.setPathMainWebapp(mySesion.getPathProyecto() + rutas.getSeparator() + "src" + rutas.getSeparator() + "main" + rutas.getSeparator() + "webapp");
+            proyectoJEE.setPathMainJava(proyectoJEE.getPathProyecto() + proyectoJEE.getSeparator() + "src" + proyectoJEE.getSeparator() + "main" + proyectoJEE.getSeparator() + "java");
+            proyectoJEE.setPathMainResources(proyectoJEE.getPathProyecto() + proyectoJEE.getSeparator() + "src" + proyectoJEE.getSeparator() + "main" + proyectoJEE.getSeparator() + "resources");
+            proyectoJEE.setPathMainWebapp(proyectoJEE.getPathProyecto() + proyectoJEE.getSeparator() + "src" + proyectoJEE.getSeparator() + "main" +proyectoJEE.getSeparator() + "webapp");
             /*
-            rutas webapps
+            proyectoJEE webapps
              */
-            rutas.setPathMainWebappPages(rutas.getPathMainWebapp() + rutas.getSeparator() + "pages" + rutas.getSeparator());
-            rutas.setPathMainWebappResources(rutas.getPathMainWebapp() + rutas.getSeparator() + "resources");
-            rutas.setPathMainWebappResourcesCss(rutas.getPathMainWebappResources() + rutas.getSeparator() + "css" + rutas.getSeparator());
+            proyectoJEE.setPathMainWebappPages(proyectoJEE.getPathMainWebapp() + proyectoJEE.getSeparator() + "pages" + proyectoJEE.getSeparator());
+            proyectoJEE.setPathMainWebappResources(proyectoJEE.getPathMainWebapp() + proyectoJEE.getSeparator() + "resources");
+           proyectoJEE.setPathMainWebappResourcesCss(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "css" + proyectoJEE.getSeparator());
 
-            rutas.setPathMainWebappResourcesImagenes(rutas.getPathMainWebappResources() + rutas.getSeparator() + "imagenes" + rutas.getSeparator());
-            rutas.setPathMainWebappResourcesComponentes(rutas.getPathMainWebappResources() + rutas.getSeparator() + "componentes" + rutas.getSeparator());
-            rutas.setPathMainWebappResourcesReportes(rutas.getPathMainWebappResources() + rutas.getSeparator() + "reportes" + rutas.getSeparator());
+           proyectoJEE.setPathMainWebappResourcesImagenes(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "imagenes" + proyectoJEE.getSeparator());
+           proyectoJEE.setPathMainWebappResourcesComponentes(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "componentes" + proyectoJEE.getSeparator());
+            proyectoJEE.setPathMainWebappResourcesReportes(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "reportes" + proyectoJEE.getSeparator());
 
-            rutas.setPathWebInf(mySesion.getPathProyecto() + rutas.getSeparator() + "src" + rutas.getSeparator() + "main" + rutas.getSeparator() + "webapp" + rutas.getSeparator() + "WEB-INF" + rutas.getSeparator());
-            String path = mySesion.getPath();
-            rutas.setPath(path);
+           proyectoJEE.setPathWebInf(proyectoJEE.getPathProyecto() + proyectoJEE.getSeparator() + "src" + proyectoJEE.getSeparator() + "main" + proyectoJEE.getSeparator() + "webapp" + proyectoJEE.getSeparator() + "WEB-INF" + proyectoJEE.getSeparator());
+            String path = proyectoJEE.getPath();
+            proyectoJEE.setPath(path);
 //            System.out.println("=================================================");
-//            System.out.println("getPath() "+rutas.getPath());
+//            System.out.println("getPath() "+proyectoEJB.getPath());
             /*
             asigna los path
              */
-            rutas.setPathEntity(rutas.getPath() + "entity" + rutas.getSeparator());
-            rutas.setPathController(rutas.getPath() + "controller" + rutas.getSeparator());
-            rutas.setPathEJB(rutas.getPath() + "ejb" + rutas.getSeparator());
-            rutas.setPathConverter(rutas.getPath() + "converter" + rutas.getSeparator());
-//            rutas.setPathGenerales(rutas.getPath() + "generales" + rutas.getSeparator());
+           proyectoJEE.setPathEntity(proyectoJEE.getPath() + "entity" + proyectoJEE.getSeparator());
+         proyectoJEE.setPathController(proyectoJEE.getPath() + "controller" + proyectoJEE.getSeparator());
+           proyectoJEE.setPathEJB(proyectoJEE.getPath() + "ejb" + proyectoJEE.getSeparator());
+            proyectoEJB.setPathConverter(proyectoJEE.getPath() + "converter" +proyectoJEE.getSeparator());
 
-            rutas.setPathServices(rutas.getPath() + "services" + rutas.getSeparator());
-            rutas.setPathController(rutas.getPath() + "controller" + rutas.getSeparator());
-            rutas.setPathSearch(rutas.getPath() + "search" + rutas.getSeparator());
-            rutas.setPathReportes(rutas.getPath() + "reportes" + rutas.getSeparator());
 
-            rutas.setPathMenu(rutas.getPath() + "menu" + rutas.getSeparator());
-            rutas.setPathRoles(rutas.getPath() + "roles" + rutas.getSeparator());
+           proyectoJEE.setPathServices(proyectoJEE.getPath() + "services" + proyectoJEE.getSeparator());
+           proyectoJEE.setPathController(proyectoJEE.getPath() + "controller" + proyectoJEE.getSeparator());
+            proyectoJEE.setPathSearch(proyectoJEE.getPath() + "search" + proyectoJEE.getSeparator());
+            proyectoJEE.setPathReportes(proyectoJEE.getPath() + "reportes" + proyectoJEE.getSeparator());
 
-            rutas.setPathProperties(rutas.getPathMainResources() + rutas.getSeparator() + mySesion.getPaquetePath() + rutas.getSeparator() + "properties" + rutas.getSeparator());
-            rutas.setPathInterfaces(rutas.getPath() + "interfaces" + rutas.getSeparator());
-            rutas.setPathPomXML(mySesion.getPathProyecto() + rutas.getSeparator());
+            proyectoEJB.setPathMenu(proyectoEJB.getPath() + "menu" + proyectoEJB.getSeparator());
+            proyectoEJB.setPathRoles(proyectoEJB.getPath() + "roles" + proyectoEJB.getSeparator());
+
+            proyectoEJB.setPathProperties(proyectoEJB.getPathMainResources() + proyectoEJB.getSeparator() + proyectoJEE.getPaquetePath() + proyectoEJB.getSeparator() + "properties" + proyectoEJB.getSeparator());
+            proyectoEJB.setPathInterfaces(proyectoEJB.getPath() + "interfaces" + proyectoEJB.getSeparator());
+            proyectoEJB.setPathPomXML(proyectoJEE.getPathProyecto() + proyectoJEE.getSeparator());
             /*
             
              */
@@ -668,8 +670,8 @@ public class Generador implements Serializable {
 //                return "";
 //            }
             if (!readPackageEntity()) {
-                JSFUtil.warningDialog("Mensaje", "No hay Entitys en el paquete " + mySesion.getPaquete() + ".entity");
-//                JSFUtil.warningDialog("Mensaje", "No se encontraron entitys generados en " + rutas.getPathEntity());
+                JSFUtil.warningDialog("Mensaje", "No hay Entitys en el paquete " + proyectoJEE.getPaquete() + ".entity");
+//                JSFUtil.warningDialog("Mensaje", "No se encontraron entitys generados en " + proyectoEJB.getPathEntity());
 
                 return "";
             }
@@ -678,7 +680,7 @@ public class Generador implements Serializable {
             cargarTree();
             if (!mySesion.getEntidadList().isEmpty()) {
 
-                leerConfigurationFile.readFile("Configuration.txt", rutas.getPathProperties() + "Configuration.txt");
+                leerConfigurationFile.readFile("Configuration.txt", proyectoJEE.getPathProperties() + "Configuration.txt");
                 mostrarDatosDelArchivoConfiguracion();
 
             }
@@ -689,7 +691,7 @@ public class Generador implements Serializable {
             mySesion.setPagina4(true);
             mySesion.setPagina5(true);
             mySesion.setPagina6(true);
-            proyectoValido = true;
+            proyectoValidoJEE = true;
         } catch (Exception e) {
             JSFUtil.addErrorMessage("search()" + e.getLocalizedMessage());
         }
@@ -698,12 +700,18 @@ public class Generador implements Serializable {
 
     public String create() {
 
-        if (!proyectoValido) {
-            JSFUtil.addErrorMessage("Este no es un proyecto que cumple los requerimientos");
+        if (!proyectoValidoEJB) {
+            JSFUtil.addErrorMessage("Este no es un proyecto EJB que cumple los requerimientos");
             return "";
         }
+        if (!proyectoValidoJEE) {
+            JSFUtil.addErrorMessage("Este no es un proyecto JAVA EE que cumple los requerimientos");
+            return "";
+        }
+        
+        
 //        enEjecucion=true;
-        construct(mySesion.getPath(), mySesion.getPersistenceContext());
+        construct(proyectoJEE.getPath());
 //        enEjecucion=false;
 //        return "";
 //        return "pagina6.xhtml";
@@ -715,7 +723,7 @@ public class Generador implements Serializable {
      *
      * @return
      */
-    private void construct(String path, String persistenceContext) {
+    private void construct(String path) {
         try {
             //paginas 
 
@@ -784,7 +792,7 @@ public class Generador implements Serializable {
 
             //String idroles = 
 //            if (!readPackageEntity()) {
-//                JSFUtil.addWarningMessage("No se encontraron entitys generados en " + rutas.getPathEntity());
+//                JSFUtil.addWarningMessage("No se encontraron entitys generados en " + proyectoEJB.getPathEntity());
 //
 //            } else {
 //                processEntity();
@@ -868,9 +876,9 @@ public class Generador implements Serializable {
                     /*
                 Editar archivo de persistencia
                      */
-                    if (mySesion.getAddCreateTablePersitenceXML()) {
-                        persistenceXMLGenerador.generar();
-                    }
+//                    if (mySesion.getAddCreateTablePersitenceXML()) {
+//                        persistenceXMLGenerador.generar();
+//                    }
 
                 }
 
@@ -905,16 +913,16 @@ stopWeb/-Inf
                 generar el directorio para cada entity
                              */
                             for (Entidad entidad : mySesion.getEntidadList()) {
-                                String directorioentity = rutas.getPathMainWebappPages() + Utilidades.letterToLower(entidad.getTabla()) + rutas.getSeparator();
+                                String directorioentity = proyectoEJB.getPathMainWebappPages() + Utilidades.letterToLower(entidad.getTabla()) + proyectoEJB.getSeparator();
                                 if (!Utilidades.searchDirectorie(directorioentity)) {
                                     Utilidades.mkdir(directorioentity);
                                 }
                             }
-                            String directorioacercade = rutas.getPathMainWebappPages() + "acercade" + rutas.getSeparator();
+                            String directorioacercade = proyectoEJB.getPathMainWebappPages() + "acercade" + proyectoEJB.getSeparator();
                             if (!Utilidades.searchDirectorie(directorioacercade)) {
                                 Utilidades.mkdir(directorioacercade);
                             }
-                            String directoriousuarios = rutas.getPathMainWebappPages() + "usuarios" + rutas.getSeparator();
+                            String directoriousuarios = proyectoEJB.getPathMainWebappPages() + "usuarios" + proyectoEJB.getSeparator();
                             if (!Utilidades.searchDirectorie(directoriousuarios)) {
                                 Utilidades.mkdir(directoriousuarios);
                             }
@@ -972,10 +980,10 @@ stopWeb/-Inf
      */
     public String validarRepositorio() {
         try {
-            mySesion.setEsRepositorioGitMercurial(false);
+         
             if (!mySesion.getTipoRepositorio().equals("local")) {
-                mySesion.setEsRepositorioGitMercurial(true);
-                mySesion.setPathProyecto("https://");
+               
+               proyectoEJB.setPathProyecto("https://");
             }
 
 //        JSFUtil.addSuccessMessage("tipo "+mySesion.getTipoRepositorio() + " activo: "+ mySesion.getEsRepositorioGitMercurial());
@@ -996,7 +1004,7 @@ stopWeb/-Inf
 
         mySesion.getArchivosList().removeAll(mySesion.getArchivosList());
 
-        Path gitReposFolderPath = Paths.get(rutas.getPathEntity());
+        Path gitReposFolderPath = Paths.get(proyectoEJB.getPathEntity());
         if (!tieneEntitys(gitReposFolderPath)) {
             JSFUtil.addWarningMessage("Indique el paquete principal. Para buscar el directo entity");
             return false;
@@ -1038,7 +1046,7 @@ stopWeb/-Inf
     private Boolean processEntity() {
         try {
             mySesion.getArchivosList().stream().forEach((a) -> {
-                entidadGenerador.readEntity(a.getArchivo(), rutas.getPathEntity() + a.getArchivo() + ".java");
+                entidadGenerador.readEntity(a.getArchivo(), proyectoEJB.getPathEntity() + a.getArchivo() + ".java");
             });
             return true;
         } catch (Exception e) {
@@ -1096,35 +1104,6 @@ stopWeb/-Inf
         selectedNode = null;
     }
 
-//    private Boolean leerPersistenceUnit() {
-//        try {
-//            if (encontrarRutaPersistenceXML().equals("")) {
-//                return false;
-//            }
-//
-//            mySesion.setPersistenceContext(Utilidades.getPersistenceUnit(rutas.getPathMetaInf() + "persistence.xml"));
-//
-//            if (mySesion.getPersistenceContext().equals("")) {
-//
-//                return false;
-//            }
-//
-//            return true;
-//        } catch (Exception e) {
-//            JSFUtil.addErrorMessage("leerPersistenceUnit() " + e.getLocalizedMessage());
-//        }
-//        return false;
-//    }
-
-//    private String encontrarRutaPersistenceXML() {
-//        try {
-//            rutas.setPathMetaInf(Utilidades.getDirectorioMetaInf(mySesion.getPath()) + rutas.getSeparator());
-//            return rutas.getPathMetaInf();
-//        } catch (Exception e) {
-//            JSFUtil.addErrorMessage("encontrarRutaPersistenceXML()" + e.getLocalizedMessage());
-//        }
-//        return "";
-//    }
 
     public String crearProyecto() {
         try {
@@ -1247,10 +1226,7 @@ stopWeb/-Inf
                 JSFUtil.addWarningMessage("No se puede avanzar a la siguiente pagina");
                 return "";
             }
-//            mySesion.getMasterDetailsList().removeAll(mySesion.getMasterDetailsList());
-//              mySesion.getMasterDetailsList().add("<Create>");
-//              mySesion.getMasterDetailsList().add("<No Create>");
-//            
+    
             mySesion.getEntidadMenuList().removeAll(mySesion.getEntidadMenuList());
             for (Entidad entidad : mySesion.getEntidadList()) {
                 EntidadMenu em = new EntidadMenu();
@@ -1264,9 +1240,7 @@ stopWeb/-Inf
 
             }
 
-//for(String s:mySesion.getMasterDetailsList()){
-//    System.out.println("===> "+s);
-//}
+
             return "pagina4.xhtml";
         } catch (Exception e) {
             JSFUtil.addErrorMessage("irPagina4() " + e.getLocalizedMessage());

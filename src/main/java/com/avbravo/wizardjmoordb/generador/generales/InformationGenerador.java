@@ -47,7 +47,7 @@ public class InformationGenerador implements Serializable {
      */
     public Boolean generar() {
         try {
-            String ruta = rutas.getPathGenerales() + "Information.txt";
+            String ruta = rutas.getPathUtil() + "Information.txt";
             String archivo = "Information.txt";
             Path path = Paths.get(ruta);
             if (Files.notExists(path, new LinkOption[]{LinkOption.NOFOLLOW_LINKS})) {
@@ -65,7 +65,7 @@ public class InformationGenerador implements Serializable {
 
     public Boolean stop() {
         try {
-            String ruta = rutas.getPathGenerales() + "Information.txt";
+            String ruta = rutas.getPathUtil() + "Information.txt";
             String archivo = "Information.txt";
             String mensajes = "\r\n"+"\r\n"+"========================================" + "\r\n";
             mensajes += "         Mensajes     " + "\r\n";

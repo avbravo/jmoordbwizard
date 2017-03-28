@@ -30,7 +30,7 @@ Generador generador;
     public String validarAcceso(){
         try {
             if(username.equals("avbravo") && password.equals("denver")){
-                generador.mostrarRutaLocal();
+                generador.mostrarRutaEJB();
                 return "index.xhml";
             }
             else{
