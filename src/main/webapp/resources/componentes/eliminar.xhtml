@@ -23,13 +23,13 @@
                 <p:spacer/>
             </h:panelGrid>
             <f:facet name="footer">
-                <p:commandButton id="removeButton" value="#{app['boton.yes']}"
+                <p:commandButton id="removeButton" value="#{app['button.yes']}"
                                  update="#{cc.attrs.contenedor},:form:growl,:form:barra:toolbar"
                                  oncomplete="PF('confirmationwidgetVar').hide();"
                                  icon="ui-icon-check"
                                  actionListener="#{cc.attrs.buttonYesAction}" />
 
-                <p:commandButton id="cancelButton" value="#{app['boton.no']}"
+                <p:commandButton id="cancelButton" value="#{app['button.no']}"
                                  icon="ui-icon-close"
                                  onclick="PF('confirmationwidgetVar').hide();" type="button" />
             </f:facet>
