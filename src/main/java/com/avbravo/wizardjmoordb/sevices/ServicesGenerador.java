@@ -64,24 +64,6 @@ public class ServicesGenerador implements Serializable {
             Path path = Paths.get(ruta);
             if (Files.notExists(path, new LinkOption[]{LinkOption.NOFOLLOW_LINKS})) {
                 crearFile(entidad, ruta, archivo);
-            } else {
-                generarImport(ruta);
-
-                /**
-                 * generar los metodos
-                 */
-                for (Atributos a : entidad.getAtributosList()) {
-                    if (a.getTipo().equals("String")) {
-                        Utilidades.addNotFoundMethod(ruta, "public List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> complete" + Utilidades.letterToUpper(a.getNombre()) + "(String query) {", completeString(entidad, a), "public class " + archivo + "Services {", false);
-                    }else{
-                         if (a.getEsPrimaryKey() && a.getTipo().equals("Integer")) {
-                             Utilidades.addNotFoundMethod(ruta, "public List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> complete" + Utilidades.letterToUpper(a.getNombre()) + "(String query) {", completePrimaryKeyInteger(entidad, a,archivo), "public class " + archivo + "Services {", false);
-                         }
-                        
-                    }
-
-                }
-
             }
 
         } catch (Exception e) {
@@ -89,25 +71,6 @@ public class ServicesGenerador implements Serializable {
         }
         return true;
 
-    }
-
-    private void generarImport(String ruta) {
-        try {
-            /**
-             * agregar los imports
-             */
-
-            Utilidades.searchAdd(ruta, "import " + proyectoEJB.getPaquete() + ".entity.*;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + proyectoEJB.getPaquete() + ".ejb.*;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + proyectoEJB.getPaquete() + ".generales.JSFUtil;", "package", false);
-            Utilidades.searchAdd(ruta, "import java.util.ArrayList;", "package", false);
-            Utilidades.searchAdd(ruta, "import java.util.List;", "package", false);
-            Utilidades.searchAdd(ruta, "import javax.ejb.Stateless;", "package", false);
-            Utilidades.searchAdd(ruta, "import javax.inject.Inject;", "package", false);
-
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("generarImport() " + e.getLocalizedMessage());
-        }
     }
 
     /**
@@ -134,6 +97,8 @@ public class ServicesGenerador implements Serializable {
                 File file2 = new File(ruta);
                 //Creamos un objeto para escribir caracteres en el archivo de prueba
                 try (FileWriter fw = new FileWriter(file)) {
+                    String nombreclase = Utilidades.letterToUpper(archivo);
+                    String nombreentity = Utilidades.letterToLower(archivo);
                     fw.write("/*" + "\r\n");
                     fw.write("* To change this license header, choose License Headers in Project Properties." + "\r\n");
                     fw.write("* To change this template file, choose Tools | Templates" + "\r\n");
@@ -142,13 +107,16 @@ public class ServicesGenerador implements Serializable {
                     fw.write("package " + proyectoEJB.getPaquete() + ".services;" + "\r\n");
                     fw.write("" + "\r\n");
 
-                    fw.write("import " + proyectoEJB.getPaquete() + ".generales.JSFUtil;" + "\r\n");
+                    fw.write("import com.avbravo.avbravoutils.JsfUtil;" + "\r\n");
                     fw.write("import " + proyectoEJB.getPaquete() + ".entity.*;" + "\r\n");
                     fw.write("import " + proyectoEJB.getPaquete() + ".ejb.*;" + "\r\n");
+
+                    fw.write("import java.time.LocalTime;" + "\r\n");
                     fw.write("import java.util.ArrayList;" + "\r\n");
                     fw.write("import java.util.List;" + "\r\n");
                     fw.write("import javax.ejb.Stateless;" + "\r\n");
                     fw.write("import javax.inject.Inject;" + "\r\n");
+                    fw.write("import org.bson.Document;" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("/**" + "\r\n");
                     fw.write(" *" + "\r\n");
@@ -158,7 +126,7 @@ public class ServicesGenerador implements Serializable {
                     fw.write("public class " + archivo + "Services {" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("    @Inject" + "\r\n");
-                    fw.write("    " + Utilidades.letterToUpper(archivo) + "Facade " + Utilidades.letterToLower(archivo) + "Facade;" + "\r\n");
+                    fw.write("    " + nombreclase + "Facade " + nombreentity + "Facade;" + "\r\n");
                     fw.write("" + "\r\n");
                     entidad.getAtributosList().stream().forEach((a) -> {
                         if (a.getTipo().equals("String")) {
@@ -167,10 +135,13 @@ public class ServicesGenerador implements Serializable {
                                 fw.write("        List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> suggestions = new ArrayList<>();" + "\r\n");
                                 fw.write("           try {" + "\r\n");
                                 fw.write("               query = query.trim();" + "\r\n");
-                                fw.write("               suggestions=  " + Utilidades.letterToLower(entidad.getTabla()) + "Facade.findBy" + Utilidades.letterToUpper(a.getNombre()) + "Like(query.toLowerCase());" + "\r\n");
-                                fw.write("" + "\r\n");
+                                fw.write("               if (query.length() < 1) {" + "\r\n");
+                                fw.write("                   return suggestions;" + "\r\n");
+                                fw.write("               }   " + "\r\n");
+                                fw.write("               suggestions=  " + Utilidades.letterToLower(entidad.getTabla()) + "Facade.findRegex(\"" + Utilidades.letterToLower(a.getNombre()) + "\",query,true,new Document(\"" + Utilidades.letterToLower(a.getNombre()) +"\",1));" + "\r\n");
+                                                                fw.write("" + "\r\n");
                                 fw.write("           } catch (Exception e) {" + "\r\n");
-                                fw.write("                   JSFUtil.addErrorMessage(\"complete" + Utilidades.letterToUpper(a.getNombre()) + "() \" + e.getLocalizedMessage());" + "\r\n");
+                                fw.write("                    JsfUtil.addErrorMessage(\"complete" + Utilidades.letterToUpper(a.getNombre()) + "() \" + e.getLocalizedMessage());" + "\r\n");
                                 fw.write("           }" + "\r\n");
                                 fw.write("           return suggestions;" + "\r\n");
                                 fw.write("    }" + "\r\n");
@@ -179,7 +150,7 @@ public class ServicesGenerador implements Serializable {
                             }
 
                         } else {
-                            
+
                             if (a.getEsPrimaryKey() && a.getTipo().equals("Integer")) {
                                 try {
                                     fw.write("    public List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> complete" + Utilidades.letterToUpper(a.getNombre()) + "(String query) {" + "\r\n");
@@ -196,7 +167,7 @@ public class ServicesGenerador implements Serializable {
                                     fw.write("                       }" + "\r\n");
                                     fw.write("                    }" + "\r\n");
                                     fw.write("           } catch (Exception e) {" + "\r\n");
-                                    fw.write("                   JSFUtil.addErrorMessage(\"complete" + Utilidades.letterToUpper(a.getNombre()) + "() \" + e.getLocalizedMessage());" + "\r\n");
+                                    fw.write("                    JsfUtil.addErrorMessage(\"complete" + Utilidades.letterToUpper(a.getNombre()) + "() \" + e.getLocalizedMessage());" + "\r\n");
                                     fw.write("           }" + "\r\n");
                                     fw.write("           return suggestions;" + "\r\n");
                                     fw.write("    }" + "\r\n");
@@ -247,28 +218,29 @@ public class ServicesGenerador implements Serializable {
         }
         return "";
     }
+
     private String completePrimaryKeyInteger(Entidad entidad, Atributos a, String archivo) {
         try {
 
             String texto = "";
-          texto +="    public List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> complete" + Utilidades.letterToUpper(a.getNombre()) + "(String query) {"  + "\r\n";
-                                      texto +="        List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> suggestions = new ArrayList<>();"  + "\r\n";
-                                      texto +="           try {"  + "\r\n";
-                                      texto +="                query = query.trim();"  + "\r\n";
-                                      texto +="                List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> list = new ArrayList<>();"  + "\r\n";
-                                      texto +="                list = " + Utilidades.letterToLower(entidad.getTabla()) + "Facade.findAll();"  + "\r\n";
-                                      texto +="                 if (!list.isEmpty()) {"  + "\r\n";
-                                      texto +="                      for (" + Utilidades.letterToUpper(archivo) + " p : list) {"  + "\r\n";
-                                      texto +="                         if (String.valueOf(p.get" + Utilidades.letterToUpper(a.getNombre()) + "()).toLowerCase().startsWith(query.toLowerCase())) {"  + "\r\n";
-                                      texto +="                            suggestions.add(p);"  + "\r\n";
-                                      texto +="                         }"  + "\r\n";
-                                      texto +="                       }"  + "\r\n";
-                                      texto +="                    }"  + "\r\n";
-                                      texto +="           } catch (Exception e) {"  + "\r\n";
-                                      texto +="                   JSFUtil.addErrorMessage(\"complete" + Utilidades.letterToUpper(a.getNombre()) + "() \" + e.getLocalizedMessage());"  + "\r\n";
-                                      texto +="           }"  + "\r\n";
-                                      texto +="           return suggestions;"  + "\r\n";
-                                      texto +="    } \r\n";
+            texto += "    public List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> complete" + Utilidades.letterToUpper(a.getNombre()) + "(String query) {" + "\r\n";
+            texto += "        List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> suggestions = new ArrayList<>();" + "\r\n";
+            texto += "           try {" + "\r\n";
+            texto += "                query = query.trim();" + "\r\n";
+            texto += "                List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> list = new ArrayList<>();" + "\r\n";
+            texto += "                list = " + Utilidades.letterToLower(entidad.getTabla()) + "Facade.findAll();" + "\r\n";
+            texto += "                 if (!list.isEmpty()) {" + "\r\n";
+            texto += "                      for (" + Utilidades.letterToUpper(archivo) + " p : list) {" + "\r\n";
+            texto += "                         if (String.valueOf(p.get" + Utilidades.letterToUpper(a.getNombre()) + "()).toLowerCase().startsWith(query.toLowerCase())) {" + "\r\n";
+            texto += "                            suggestions.add(p);" + "\r\n";
+            texto += "                         }" + "\r\n";
+            texto += "                       }" + "\r\n";
+            texto += "                    }" + "\r\n";
+            texto += "           } catch (Exception e) {" + "\r\n";
+            texto += "                   JSFUtil.addErrorMessage(\"complete" + Utilidades.letterToUpper(a.getNombre()) + "() \" + e.getLocalizedMessage());" + "\r\n";
+            texto += "           }" + "\r\n";
+            texto += "           return suggestions;" + "\r\n";
+            texto += "    } \r\n";
             return texto;
         } catch (Exception e) {
             JSFUtil.addErrorMessage("getUltimaFechaAnio()  " + e.getLocalizedMessage());

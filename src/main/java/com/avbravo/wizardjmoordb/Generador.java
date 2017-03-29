@@ -23,7 +23,6 @@ import com.avbravo.wizardjmoordb.generador.css.DefaultCssGenerador;
 import com.avbravo.wizardjmoordb.generador.generales.EmailValidatorGenerador;
 import com.avbravo.wizardjmoordb.generador.gen.EntityPropertiesGenerador;
 import com.avbravo.wizardjmoordb.generador.xml.FacesConfigXMLGenerador;
-import com.avbravo.wizardjmoordb.generador.gen.FechasServicesGenerador;
 import com.avbravo.wizardjmoordb.generador.properties.FormPropertiesGenerador;
 import com.avbravo.wizardjmoordb.generador.generales.GestorImpresionGenerador;
 import com.avbravo.wizardjmoordb.generador.interfaces.IControllerGenerador;
@@ -168,8 +167,7 @@ public class Generador implements Serializable {
     ISearchGenerador iSearchGenerador;
     @Inject
     PomXMLGenerador pomXMLGenerador;
-    @Inject
-    FechasServicesGenerador fechasServicesGenerador;
+   
     @Inject
     ServicesGenerador servicesGenerador;
     @Inject
@@ -862,7 +860,7 @@ public class Generador implements Serializable {
                     /*
                 services
                      */
-                    fechasServicesGenerador.generar();
+
                     servicesGenerador.generar();
                     /*
                 search
