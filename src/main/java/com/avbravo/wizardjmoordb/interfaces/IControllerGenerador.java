@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb.generador.interfaces;
+package com.avbravo.wizardjmoordb.interfaces;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -31,10 +32,10 @@ import javax.inject.Inject;
  */
 @Named
 @RequestScoped
-public class ISearchGenerador implements Serializable {
+public class IControllerGenerador implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(ISearchGenerador.class.getName());
+    private static final Logger LOG = Logger.getLogger(IControllerGenerador.class.getName());
 
     @Inject
     MySesion mySesion;
@@ -48,7 +49,7 @@ public class ISearchGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("ISearch.java", proyectoJEE.getPathInterfaces() + "ISearch.java");
+            procesar("IController.java", proyectoJEE.getPathInterfaces()+ "IController.java");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -64,34 +65,22 @@ public class ISearchGenerador implements Serializable {
                 crearFile(ruta, archivo);
             } else {
                 generarImport(ruta);
-
-                Utilidades.searchAdd(ruta, "public String clear();", "public interface ISearch <T> {", false);
-                Utilidades.searchAdd(ruta, "public void iniciar();", "public interface ISearch <T> {", false);
-                Utilidades.searchAdd(ruta, "public void iniciar(String value);", "public interface ISearch <T> {", false);
-
-                Utilidades.searchAdd(ruta, "public String showAll();", "public interface ISearch <T> {", false);
-
-                Utilidades.searchAdd(ruta, "public String delete();", "public interface ISearch <T> {", false);
-
-                Utilidades.searchAdd(ruta, "public String changeItems();", "public interface ISearch <T> {", false);
-
-                Utilidades.searchAdd(ruta, "public List<T> getItems();", "public interface ISearch <T> {", false);
-
-                
-                
-
-                Utilidades.searchAdd(ruta, "public List<T> getItemsCollection();", "public interface ISearch <T> {", false);
-
-                Utilidades.searchAdd(ruta, "public String imprimirTodos();", "public interface ISearch <T> {", false);
-
-                Utilidades.searchAdd(ruta, "//carga todos los registros e invoca imprimir", "public interface ISearch <T> {", false);
-                Utilidades.searchAdd(ruta, "public String listar();", "public interface ISearch <T> {", false);
-
-                Utilidades.searchAdd(ruta, "public void onCellEdit(CellEditEvent event);", "public interface ISearch <T> {", false);
-
-                Utilidades.searchAdd(ruta, "public void handleSelect(SelectEvent event);", "public interface ISearch <T> {", false);
-
-                Utilidades.searchAdd(ruta, "public String delete(T t);", "public interface ISearch <T> {", false);
+ 
+                Utilidades.searchAdd(ruta, "public String open();", "public interface IController <T> {", false);
+                Utilidades.searchAdd(ruta, "public String prepareNew();", "public interface IController <T> {", false);
+                Utilidades.searchAdd(ruta, "public String verifyNew();", "public interface IController <T> {", false);
+                Utilidades.searchAdd(ruta, "public void reset();", "public interface IController <T> {", false);
+                Utilidades.searchAdd(ruta, "public String showAll();", "public interface IController <T> {", false);
+                Utilidades.searchAdd(ruta, "public String save();", "public interface IController <T> {", false);
+                Utilidades.searchAdd(ruta, "public String query();", "public interface IController <T> {", false);
+                Utilidades.searchAdd(ruta, "public String edit();", "public interface IController <T> {", false);
+                Utilidades.searchAdd(ruta, "public String remove();", "public interface IController <T> {", false);
+                Utilidades.searchAdd(ruta, "public String delete();", "public interface IController <T> {", false);
+                Utilidades.searchAdd(ruta, "public String deleteAll();", "public interface IController <T> {", false);
+                Utilidades.searchAdd(ruta, "public String print();", "public interface IController <T> {", false);
+                Utilidades.searchAdd(ruta, "public String printAll();", "public interface IController <T> {", false);
+                Utilidades.searchAdd(ruta, "public String prepareEdit();", "public interface IController <T> {", false);
+                Utilidades.searchAdd(ruta, "public void handleSelect(SelectEvent event);", "public interface IController <T> {", false);
             }
 
         } catch (Exception e) {
@@ -108,8 +97,6 @@ public class ISearchGenerador implements Serializable {
              */
 
             Utilidades.searchAdd(ruta, "import org.primefaces.event.SelectEvent;", "package", false);
-            Utilidades.searchAdd(ruta, "import java.util.List;", "package", false);
-            Utilidades.searchAdd(ruta, "import org.primefaces.event.CellEditEvent;", "package", false);
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generarImport() " + e.getLocalizedMessage());
@@ -147,8 +134,6 @@ public class ISearchGenerador implements Serializable {
                     fw.write("*/" + "\r\n");
                     fw.write("package " + proyectoJEE.getPaquete() + ".interfaces;" + "\r\n");
                     fw.write("" + "\r\n");
-                    fw.write("import java.util.List;" + "\r\n");
-                    fw.write("import org.primefaces.event.CellEditEvent;" + "\r\n");
                     fw.write("import org.primefaces.event.SelectEvent;" + "\r\n");
 
                     fw.write("" + "\r\n");
@@ -157,24 +142,39 @@ public class ISearchGenerador implements Serializable {
                     fw.write(" * @author" + mySesion.getUsername() + "\r\n");
                     fw.write(" */" + "\r\n");
 
-                    fw.write("public interface ISearch <T> {" + "\r\n");
+                    fw.write("public interface IController <T> {" + "\r\n");
                     fw.write("" + "\r\n");
-                    fw.write("    public String clear();" + "\r\n");
-                    fw.write("    public void iniciar();" + "\r\n");
-                    fw.write("    public void iniciar(String value);" + "\r\n");
-                    fw.write("    public String showAll();" + "\r\n");
-                    fw.write("    public String delete();" + "\r\n");
-                    fw.write("    public String changeItems();" + "\r\n");
-                    fw.write("    public List<T> getItems();" + "\r\n");
-//                    fw.write("    public List<T> getItemsEntity();" + "\r\n");
-                     fw.write("    public List<T> getItemsCollection();" + "\r\n");
-                    fw.write("    public String imprimirTodos();" + "\r\n");
-                    fw.write("    //carga todos los registros e invoca imprimir" + "\r\n");
-                    fw.write("    public String listar();" + "\r\n");
-                    fw.write("    public void onCellEdit(CellEditEvent event);" + "\r\n");
-                    fw.write("    public void handleSelect(SelectEvent event);" + "\r\n");
-                    fw.write("    public String delete(T t);" + "\r\n");
-                    fw.write("" + "\r\n");
+                     fw.write("    public String open();" + "\r\n");
+
+    fw.write("    public String prepareNew();" + "\r\n");
+
+    fw.write("    public String verifyNew();" + "\r\n");
+
+    fw.write("    public void reset();" + "\r\n");
+
+    fw.write("    public String showAll();" + "\r\n");
+
+    fw.write("    public String save();" + "\r\n");
+
+    fw.write("    public String query();" + "\r\n");
+
+    fw.write("    public String edit();" + "\r\n");
+
+    fw.write("    public String remove();" + "\r\n");
+
+    fw.write("    public String delete();" + "\r\n");
+
+    fw.write("    public String deleteAll();" + "\r\n");
+
+    fw.write("    public String print();" + "\r\n");
+
+    fw.write("    public String printAll();" + "\r\n");
+
+    fw.write("    public String prepareEdit();" + "\r\n");
+
+    fw.write("    public void handleSelect(SelectEvent event);" + "\r\n");
+                    
+                   
                     fw.write("" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("" + "\r\n");

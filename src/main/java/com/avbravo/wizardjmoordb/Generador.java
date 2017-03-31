@@ -22,8 +22,7 @@ import com.avbravo.wizardjmoordb.generador.css.DefaultCssGenerador;
 import com.avbravo.wizardjmoordb.generador.generales.EmailValidatorGenerador;
 import com.avbravo.wizardjmoordb.generador.xml.FacesConfigXMLGenerador;
 import com.avbravo.wizardjmoordb.generador.generales.GestorImpresionGenerador;
-import com.avbravo.wizardjmoordb.generador.interfaces.IControllerGenerador;
-import com.avbravo.wizardjmoordb.generador.interfaces.ISearchGenerador;
+import com.avbravo.wizardjmoordb.interfaces.IControllerGenerador;
 import com.avbravo.wizardjmoordb.generador.generales.IdiomasGenerador;
 import com.avbravo.wizardjmoordb.generador.generales.InformationGenerador;
 import com.avbravo.wizardjmoordb.generador.generales.JSFUtilGenerador;
@@ -32,7 +31,7 @@ import com.avbravo.wizardjmoordb.generador.generales.ManagementThemesGenerador;
 import com.avbravo.wizardjmoordb.generador.menu.MenuBeansGenerador;
 import com.avbravo.wizardjmoordb.generador.menu.MenuElementoGenerador;
 import com.avbravo.wizardjmoordb.generador.generales.MesesGenerador;
-import com.avbravo.wizardjmoordb.generador.properties.MessagesPropertiesGenerador;
+import com.avbravo.wizardjmoordb.messages.MessagesPropertiesGenerador;
 import com.avbravo.wizardjmoordb.generador.xml.PersistenceXMLGenerador;
 import com.avbravo.wizardjmoordb.generador.xml.PomXMLGenerador;
 import com.avbravo.wizardjmoordb.generador.generales.ResourcesFilesGenerador;
@@ -159,8 +158,7 @@ public class Generador implements Serializable {
     ConfigurationFilerRead leerConfigurationFile;
     @Inject
     IControllerGenerador iControllerGenerador;
-    @Inject
-    ISearchGenerador iSearchGenerador;
+
     @Inject
     PomXMLGenerador pomXMLGenerador;
 
@@ -605,9 +603,8 @@ public class Generador implements Serializable {
              */
             proyectoJEE.setPathEntity(proyectoJEE.getPath() + "entity" + proyectoJEE.getSeparator());
             proyectoJEE.setPathController(proyectoJEE.getPath() + "controller" + proyectoJEE.getSeparator());
+            proyectoJEE.setPathUtil(proyectoJEE.getPath() + "util" + proyectoJEE.getSeparator());
 
-            //proyectoJEE.setPathServices(proyectoJEE.getPath() + "services" + proyectoJEE.getSeparator());
-            proyectoJEE.setPathController(proyectoJEE.getPath() + "controller" + proyectoJEE.getSeparator());
             proyectoJEE.setPathSearch(proyectoJEE.getPath() + "search" + proyectoJEE.getSeparator());
             proyectoJEE.setPathReportes(proyectoJEE.getPath() + "reportes" + proyectoJEE.getSeparator());
 
@@ -818,7 +815,7 @@ public class Generador implements Serializable {
                 interfaces
                      */
                     iControllerGenerador.generar();
-                    iSearchGenerador.generar();
+                   
 
                     /*
                 pom.xml
