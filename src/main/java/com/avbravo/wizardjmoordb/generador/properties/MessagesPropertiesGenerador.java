@@ -75,6 +75,12 @@ public class MessagesPropertiesGenerador implements Serializable {
                 }
             }
 
+             for(String s:mySesion.getMenubarList()){
+            Utilidades.searchAdd(ruta, "menubar."+Utilidades.letterToLower(s)+"=" + s, "# and open the template in the editor.", false);
+        }
+            mySesion.getEntidadList().stream().forEach((entity) -> {
+                Utilidades.searchAdd(ruta, "menu."+Utilidades.letterToLower(entity.getTabla())+"=" + entity.getTabla(), "# and open the template in the editor.", false);
+            });
             Utilidades.searchAdd(ruta, "application.title=" + proyectoJEE.getProyecto(), "# and open the template in the editor.", false);
             Utilidades.searchAdd(ruta, "application.shorttitle=" + proyectoJEE.getProyecto(), "application.title=", false);
             Utilidades.searchAdd(ruta, "application.sigla=" + proyectoJEE.getProyecto().substring(0, 1), "application.title=", false);

@@ -14,16 +14,13 @@ import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.beans.EntidadMenu;
 import com.avbravo.wizardjmoordb.datamodel.DatamodelGenerador;
 import com.avbravo.wizardjmoordb.facade.FacadeGenerador;
-import com.avbravo.wizardjmoordb.generador.properties.ApplicationPropertiesGenerador;
 import com.avbravo.wizardjmoordb.generador.configuration.ConfigurationFileGenerador;
 import com.avbravo.wizardjmoordb.generador.gen.ControllerGenerador;
 import com.avbravo.wizardjmoordb.converter.ConverterGenerador;
 import com.avbravo.wizardjmoordb.generador.generales.CryptoConverterGenerador;
 import com.avbravo.wizardjmoordb.generador.css.DefaultCssGenerador;
 import com.avbravo.wizardjmoordb.generador.generales.EmailValidatorGenerador;
-import com.avbravo.wizardjmoordb.generador.gen.EntityPropertiesGenerador;
 import com.avbravo.wizardjmoordb.generador.xml.FacesConfigXMLGenerador;
-import com.avbravo.wizardjmoordb.generador.properties.FormPropertiesGenerador;
 import com.avbravo.wizardjmoordb.generador.generales.GestorImpresionGenerador;
 import com.avbravo.wizardjmoordb.generador.interfaces.IControllerGenerador;
 import com.avbravo.wizardjmoordb.generador.interfaces.ISearchGenerador;
@@ -34,7 +31,6 @@ import com.avbravo.wizardjmoordb.generador.generales.LoginBeanGenerador;
 import com.avbravo.wizardjmoordb.generador.generales.ManagementThemesGenerador;
 import com.avbravo.wizardjmoordb.generador.menu.MenuBeansGenerador;
 import com.avbravo.wizardjmoordb.generador.menu.MenuElementoGenerador;
-import com.avbravo.wizardjmoordb.generador.properties.MenuPropertiesGenerador;
 import com.avbravo.wizardjmoordb.generador.generales.MesesGenerador;
 import com.avbravo.wizardjmoordb.generador.properties.MessagesPropertiesGenerador;
 import com.avbravo.wizardjmoordb.generador.xml.PersistenceXMLGenerador;
@@ -113,7 +109,7 @@ public class Generador implements Serializable {
     ProyectoEJB proyectoEJB;
     @Inject
     ProyectoJEE proyectoJEE;
-    
+
     @Inject
     MySesion mySesion;
     @Inject
@@ -130,7 +126,7 @@ public class Generador implements Serializable {
     @Inject
     MongoClientProviderGenerador mongoClientProviderGenerador;
     @Inject
-   CouchbaseClientProviderGenerador couchbaseClientProviderGenerador;
+    CouchbaseClientProviderGenerador couchbaseClientProviderGenerador;
     @Inject
     JSFUtilGenerador jSFUtilGenerador;
     @Inject
@@ -167,7 +163,7 @@ public class Generador implements Serializable {
     ISearchGenerador iSearchGenerador;
     @Inject
     PomXMLGenerador pomXMLGenerador;
-   
+
     @Inject
     ServicesGenerador servicesGenerador;
     @Inject
@@ -176,14 +172,6 @@ public class Generador implements Serializable {
     ControllerGenerador controllerGenerador;
     @Inject
     InformationGenerador informationGenerador;
-    @Inject
-    ApplicationPropertiesGenerador applicationPropertiesGenerador;
-    @Inject
-    EntityPropertiesGenerador entityPropertiesGenerador;
-    @Inject
-    FormPropertiesGenerador formPropertiesGenerador;
-    @Inject
-    MenuPropertiesGenerador menuPropertiesGenerador;
     @Inject
     MessagesPropertiesGenerador messagesPropertiesGenerador;
     @Inject
@@ -235,9 +223,6 @@ public class Generador implements Serializable {
     ReportesxhtmlGenerador reportesxhtmlGenerador;
 //    public Boolean enEjecucion=false;
 
-    
-    
-    
     public String getEstilo() {
         return estilo;
     }
@@ -253,8 +238,6 @@ public class Generador implements Serializable {
     public void setTipoGeneracion(String tipoGeneracion) {
         this.tipoGeneracion = tipoGeneracion;
     }
-
-   
 
     public String getTipoRepositorio() {
         return tipoRepositorio;
@@ -304,10 +287,6 @@ public class Generador implements Serializable {
         this.mySesion = mySesion;
     }
 
-    
-    
-    
-    
     public ProyectoEJB getProyectoEJB() {
         return proyectoEJB;
     }
@@ -351,12 +330,11 @@ public class Generador implements Serializable {
             mySesion.setPagina5(false);
             mySesion.setPagina6(false);
             proyectoEJB.setPaquete("");
-           proyectoEJB.setPaquetePath("");
-         proyectoEJB.setPath("");
-          proyectoEJB.setPathProyecto("");
-           proyectoEJB.setProyecto("");
+            proyectoEJB.setPaquetePath("");
+            proyectoEJB.setPath("");
+            proyectoEJB.setPathProyecto("");
+            proyectoEJB.setProyecto("");
 
-      
             entidadSearch.getListColumnasGrupousuario().removeAll(entidadSearch.getListColumnasGrupousuario());
             entidadSearch.getListColumnasNombreMostrar().removeAll(entidadSearch.getListColumnasNombreMostrar());
             entidadSearch.getListColumnasPassword().removeAll(entidadSearch.getListColumnasPassword());
@@ -364,7 +342,6 @@ public class Generador implements Serializable {
             entidadSearch.getListEntidad().removeAll(entidadSearch.getListEntidad());
 
             proyectoValidoEJB = false;
-
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("clear() " + e.getLocalizedMessage());
@@ -401,10 +378,6 @@ public class Generador implements Serializable {
 
         return "";
     }
-    
-    
-    
-    
 
     public String onFlowProcess(FlowEvent event) {
 
@@ -429,10 +402,9 @@ public class Generador implements Serializable {
             if (!proyectoEJB.getPathProyecto().equals("")) {
                 return "";
             }
-          
-               proyectoEJB.setPathProyecto(System.getProperty("user.home") + proyectoEJB.getSeparator() + "NetBeansProjects" + proyectoJEE.getSeparator());
-              proyectoEJB.setPaquete("com." + System.getProperty("user.name") + ".");
-            
+
+            proyectoEJB.setPathProyecto(System.getProperty("user.home") + proyectoEJB.getSeparator() + "NetBeansProjects" + proyectoJEE.getSeparator());
+            proyectoEJB.setPaquete("com." + System.getProperty("user.name") + ".");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("mostrarRutaEJB() " + e.getLocalizedMessage());
@@ -440,15 +412,15 @@ public class Generador implements Serializable {
 
         return "";
     }
+
     public String mostrarRutaJEE() {
         try {
             if (!proyectoJEE.getPathProyecto().equals("")) {
                 return "";
             }
-          
-               proyectoJEE.setPathProyecto(System.getProperty("user.home") + proyectoJEE.getSeparator() + "NetBeansProjects" + proyectoJEE.getSeparator());
-                proyectoJEE.setPaquete("com." + System.getProperty("user.name") + ".");
-          
+
+            proyectoJEE.setPathProyecto(System.getProperty("user.home") + proyectoJEE.getSeparator() + "NetBeansProjects" + proyectoJEE.getSeparator());
+            proyectoJEE.setPaquete("com." + System.getProperty("user.name") + ".");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("mostrarRutaLocal() " + e.getLocalizedMessage());
@@ -457,18 +429,20 @@ public class Generador implements Serializable {
         return "";
     }
 
-    public String showNameProjectEJB(){
+    public String showNameProjectEJB() {
         proyectoEJB.setProyecto(Utilidades.getNombreProyectoFromPath(proyectoEJB.getPathProyecto()));
-        proyectoEJB.setPaquete(proyectoEJB.getPaquete() +proyectoEJB.getProyecto());
-      conectarEJB();
+        proyectoEJB.setPaquete(proyectoEJB.getPaquete() + proyectoEJB.getProyecto());
+        conectarEJB();
         return "";
     }
-    public String showNameProjectJEE(){
+
+    public String showNameProjectJEE() {
         proyectoJEE.setProyecto(Utilidades.getNombreProyectoFromPath(proyectoJEE.getPathProyecto()));
-        proyectoJEE.setPaquete(proyectoJEE.getPaquete() +proyectoJEE.getProyecto());
+        proyectoJEE.setPaquete(proyectoJEE.getPaquete() + proyectoJEE.getProyecto());
         conectarJEE();
         return "";
     }
+
     public String conectarEJB() {
         try {
             mySesion.setPagina1(false);
@@ -484,17 +458,16 @@ public class Generador implements Serializable {
             proyectoValidoEJB = false;
             if (proyectoEJB.getPathProyecto().equals("")) {
                 JSFUtil.addWarningMessage("Ingrese el path  del proyecto EJB");
-               
-                   proyectoEJB.setPathProyecto(System.getProperty("user.home") + proyectoEJB.getSeparator() + "NetBeansProjects" + proyectoEJB.getSeparator());
-              
+
+                proyectoEJB.setPathProyecto(System.getProperty("user.home") + proyectoEJB.getSeparator() + "NetBeansProjects" + proyectoEJB.getSeparator());
 
                 return "";
             }
             if (proyectoEJB.getPathProyecto().equals("")) {
                 JSFUtil.addWarningMessage("Ingrese el path  del proyecto");
-               
-                   proyectoEJB.setPathProyecto(System.getProperty("user.home") + proyectoEJB.getSeparator() + "NetBeansProjects" + proyectoEJB.getSeparator());
-            
+
+                proyectoEJB.setPathProyecto(System.getProperty("user.home") + proyectoEJB.getSeparator() + "NetBeansProjects" + proyectoEJB.getSeparator());
+
                 return "";
             }
             String ultimo = proyectoEJB.getPathProyecto().substring(proyectoEJB.getPathProyecto().length(), proyectoEJB.getPathProyecto().length());
@@ -502,25 +475,21 @@ public class Generador implements Serializable {
                 proyectoEJB.setPathProyecto(proyectoEJB.getPathProyecto().substring(0, proyectoEJB.getPathProyecto().length() - 1));
             }
 
-           proyectoEJB.setProyecto(Utilidades.getNombreProyectoFromPath(proyectoEJB.getPathProyecto()));
+            proyectoEJB.setProyecto(Utilidades.getNombreProyectoFromPath(proyectoEJB.getPathProyecto()));
             if (proyectoEJB.getPaquete().equals("")) {
                 JSFUtil.addWarningMessage("Ingrese el paquete. Ejemplo com.avbravo.mipaquete");
-               proyectoEJB.setPaquete("com." + System.getProperty("user.name") + "." + proyectoEJB.getProyecto());
+                proyectoEJB.setPaquete("com." + System.getProperty("user.name") + "." + proyectoEJB.getProyecto());
                 return "";
             }
             mySesion.setUsername(System.getProperty("user.name"));
             proyectoEJB.setPaquetePath(Utilidades.convertirPaqueteToPath(proyectoEJB.getPaquete()));
-           proyectoEJB.setPath(proyectoEJB.getPathProyecto() + proyectoEJB.getSeparator() + "src" + proyectoEJB.getSeparator() + "main" + proyectoEJB.getSeparator() + "java" + proyectoEJB.getSeparator() + proyectoEJB.getPaquetePath() + proyectoEJB.getSeparator());
+            proyectoEJB.setPath(proyectoEJB.getPathProyecto() + proyectoEJB.getSeparator() + "src" + proyectoEJB.getSeparator() + "main" + proyectoEJB.getSeparator() + "java" + proyectoEJB.getSeparator() + proyectoEJB.getPaquetePath() + proyectoEJB.getSeparator());
 
             proyectoEJB.setPathMainJava(proyectoEJB.getPathProyecto() + proyectoEJB.getSeparator() + "src" + proyectoEJB.getSeparator() + "main" + proyectoEJB.getSeparator() + "java");
-        
-            
-            
-            
+
             /*
             proyectoEJB webapps
              */
-           
             proyectoEJB.setPathWebInf(proyectoEJB.getPathProyecto() + proyectoEJB.getSeparator() + "src" + proyectoEJB.getSeparator() + "main" + proyectoEJB.getSeparator() + "webapp" + proyectoEJB.getSeparator() + "WEB-INF" + proyectoEJB.getSeparator());
             String path = proyectoEJB.getPath();
             proyectoEJB.setPath(path);
@@ -532,7 +501,6 @@ public class Generador implements Serializable {
             proyectoEJB.setPathConverter(proyectoEJB.getPath() + "converter" + proyectoEJB.getSeparator());
             proyectoEJB.setPathProvider(proyectoEJB.getPath() + "provider" + proyectoEJB.getSeparator());
             proyectoEJB.setPathDatamodel(proyectoEJB.getPath() + "datamodel" + proyectoEJB.getSeparator());
-
 
             proyectoEJB.setPathServices(proyectoEJB.getPath() + "services" + proyectoEJB.getSeparator());
             proyectoEJB.setPathPomXML(proyectoEJB.getPathProyecto() + proyectoEJB.getSeparator());
@@ -553,7 +521,7 @@ public class Generador implements Serializable {
             cargarTree();
             if (!mySesion.getEntidadList().isEmpty()) {
 
-                leerConfigurationFile.readFile("Configuration.txt", proyectoEJB.getPathProvider()+ "Configuration.txt");
+                leerConfigurationFile.readFile("Configuration.txt", proyectoEJB.getPathProvider() + "Configuration.txt");
                 mostrarDatosDelArchivoConfiguracion();
 
             }
@@ -570,6 +538,7 @@ public class Generador implements Serializable {
         }
         return "";
     }
+
     public String conectarJEE() {
         try {
             mySesion.setPagina1(false);
@@ -585,25 +554,24 @@ public class Generador implements Serializable {
             proyectoValidoJEE = false;
             if (proyectoJEE.getPathProyecto().equals("")) {
                 JSFUtil.addWarningMessage("Ingrese el path  del proyecto");
-            
-                   proyectoJEE.setPathProyecto(System.getProperty("user.home") + proyectoJEE.getSeparator() + "NetBeansProjects" + proyectoJEE.getSeparator());
-               
+
+                proyectoJEE.setPathProyecto(System.getProperty("user.home") + proyectoJEE.getSeparator() + "NetBeansProjects" + proyectoJEE.getSeparator());
 
                 return "";
             }
             if (proyectoJEE.getPathProyecto().equals("")) {
                 JSFUtil.addWarningMessage("Ingrese el path  del proyecto");
-              
-                   proyectoJEE.setPathProyecto(System.getProperty("user.home") + proyectoJEE.getSeparator() + "NetBeansProjects" + proyectoJEE.getSeparator());
-               
+
+                proyectoJEE.setPathProyecto(System.getProperty("user.home") + proyectoJEE.getSeparator() + "NetBeansProjects" + proyectoJEE.getSeparator());
+
                 return "";
             }
-            String ultimo =proyectoJEE.getPathProyecto().substring(proyectoJEE.getPathProyecto().length(), proyectoJEE.getPathProyecto().length());
+            String ultimo = proyectoJEE.getPathProyecto().substring(proyectoJEE.getPathProyecto().length(), proyectoJEE.getPathProyecto().length());
             if (ultimo.equals("/")) {
-               proyectoJEE.setPathProyecto(proyectoJEE.getPathProyecto().substring(0, proyectoJEE.getPathProyecto().length() - 1));
+                proyectoJEE.setPathProyecto(proyectoJEE.getPathProyecto().substring(0, proyectoJEE.getPathProyecto().length() - 1));
             }
 
-           proyectoJEE.setProyecto(Utilidades.getNombreProyectoFromPath(proyectoJEE.getPathProyecto()));
+            proyectoJEE.setProyecto(Utilidades.getNombreProyectoFromPath(proyectoJEE.getPathProyecto()));
             if (proyectoJEE.getPaquete().equals("")) {
                 JSFUtil.addWarningMessage("Ingrese el paquete. Ejemplo com.avbravo.mipaquete");
                 proyectoJEE.setPaquete("com." + System.getProperty("user.name") + "." + proyectoJEE.getProyecto());
@@ -615,19 +583,19 @@ public class Generador implements Serializable {
 
             proyectoJEE.setPathMainJava(proyectoJEE.getPathProyecto() + proyectoJEE.getSeparator() + "src" + proyectoJEE.getSeparator() + "main" + proyectoJEE.getSeparator() + "java");
             proyectoJEE.setPathMainResources(proyectoJEE.getPathProyecto() + proyectoJEE.getSeparator() + "src" + proyectoJEE.getSeparator() + "main" + proyectoJEE.getSeparator() + "resources");
-            proyectoJEE.setPathMainWebapp(proyectoJEE.getPathProyecto() + proyectoJEE.getSeparator() + "src" + proyectoJEE.getSeparator() + "main" +proyectoJEE.getSeparator() + "webapp");
+            proyectoJEE.setPathMainWebapp(proyectoJEE.getPathProyecto() + proyectoJEE.getSeparator() + "src" + proyectoJEE.getSeparator() + "main" + proyectoJEE.getSeparator() + "webapp");
             /*
             proyectoJEE webapps
              */
             proyectoJEE.setPathMainWebappPages(proyectoJEE.getPathMainWebapp() + proyectoJEE.getSeparator() + "pages" + proyectoJEE.getSeparator());
             proyectoJEE.setPathMainWebappResources(proyectoJEE.getPathMainWebapp() + proyectoJEE.getSeparator() + "resources");
-           proyectoJEE.setPathMainWebappResourcesCss(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "css" + proyectoJEE.getSeparator());
+            proyectoJEE.setPathMainWebappResourcesCss(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "css" + proyectoJEE.getSeparator());
 
-           proyectoJEE.setPathMainWebappResourcesImagenes(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "imagenes" + proyectoJEE.getSeparator());
-           proyectoJEE.setPathMainWebappResourcesComponentes(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "componentes" + proyectoJEE.getSeparator());
+            proyectoJEE.setPathMainWebappResourcesImagenes(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "imagenes" + proyectoJEE.getSeparator());
+            proyectoJEE.setPathMainWebappResourcesComponentes(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "componentes" + proyectoJEE.getSeparator());
             proyectoJEE.setPathMainWebappResourcesReportes(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "reportes" + proyectoJEE.getSeparator());
 
-           proyectoJEE.setPathWebInf(proyectoJEE.getPathProyecto() + proyectoJEE.getSeparator() + "src" + proyectoJEE.getSeparator() + "main" + proyectoJEE.getSeparator() + "webapp" + proyectoJEE.getSeparator() + "WEB-INF" + proyectoJEE.getSeparator());
+            proyectoJEE.setPathWebInf(proyectoJEE.getPathProyecto() + proyectoJEE.getSeparator() + "src" + proyectoJEE.getSeparator() + "main" + proyectoJEE.getSeparator() + "webapp" + proyectoJEE.getSeparator() + "WEB-INF" + proyectoJEE.getSeparator());
             String path = proyectoJEE.getPath();
             proyectoJEE.setPath(path);
 //            System.out.println("=================================================");
@@ -635,11 +603,11 @@ public class Generador implements Serializable {
             /*
             asigna los path
              */
-           proyectoJEE.setPathEntity(proyectoJEE.getPath() + "entity" + proyectoJEE.getSeparator());
-         proyectoJEE.setPathController(proyectoJEE.getPath() + "controller" + proyectoJEE.getSeparator());
+            proyectoJEE.setPathEntity(proyectoJEE.getPath() + "entity" + proyectoJEE.getSeparator());
+            proyectoJEE.setPathController(proyectoJEE.getPath() + "controller" + proyectoJEE.getSeparator());
 
-           //proyectoJEE.setPathServices(proyectoJEE.getPath() + "services" + proyectoJEE.getSeparator());
-           proyectoJEE.setPathController(proyectoJEE.getPath() + "controller" + proyectoJEE.getSeparator());
+            //proyectoJEE.setPathServices(proyectoJEE.getPath() + "services" + proyectoJEE.getSeparator());
+            proyectoJEE.setPathController(proyectoJEE.getPath() + "controller" + proyectoJEE.getSeparator());
             proyectoJEE.setPathSearch(proyectoJEE.getPath() + "search" + proyectoJEE.getSeparator());
             proyectoJEE.setPathReportes(proyectoJEE.getPath() + "reportes" + proyectoJEE.getSeparator());
 
@@ -696,8 +664,7 @@ public class Generador implements Serializable {
             JSFUtil.addErrorMessage("Este no es un proyecto JAVA EE que cumple los requerimientos");
             return "";
         }
-        
-        
+
 //        enEjecucion=true;
         construct(proyectoJEE.getPath());
 //        enEjecucion=false;
@@ -760,7 +727,7 @@ public class Generador implements Serializable {
                 }
                 if (!tienerolrelacionado) {
                     JSFUtil.addWarningMessage("La entidad " + mySesion.getEntidadUser().getTabla() + " no tiene atributo relacionado con " + mySesion.getEntidadRoles().getTabla());
-            //        return;
+                    //        return;
                 }
             } else {
                 // con multiples roles
@@ -821,7 +788,7 @@ public class Generador implements Serializable {
                     /*
                     provider
                      */
-                    switch(mySesion.getDatabase().toLowerCase()){
+                    switch (mySesion.getDatabase().toLowerCase()) {
                         case "mongodb":
                             mongoClientProviderGenerador.generar();
                             break;
@@ -830,9 +797,9 @@ public class Generador implements Serializable {
                             break;
                         case "orientdb":
                             break;
-                           
+
                     }
-                    
+
                     /*
                     converter
                      */
@@ -865,7 +832,7 @@ public class Generador implements Serializable {
                     /*
                 search
                      */
-                    
+
                     searchGenerador.generar();
                     /*
                 controller
@@ -875,10 +842,7 @@ public class Generador implements Serializable {
                 properties
                      */
 
-                    applicationPropertiesGenerador.generar();
-                    entityPropertiesGenerador.generar();
-                    formPropertiesGenerador.generar();
-                    menuPropertiesGenerador.generar();
+
                     messagesPropertiesGenerador.generar();
 
                     /*
@@ -887,7 +851,6 @@ public class Generador implements Serializable {
 //                    if (mySesion.getAddCreateTablePersitenceXML()) {
 //                        persistenceXMLGenerador.generar();
 //                    }
-
                 }
 
                 //verifica si debe generar las paginas
@@ -951,13 +914,13 @@ stopWeb/-Inf
                             procesarxhtmlGenerador.generar();
                             break;
                         case "primefacespremium":
-                                break;
+                            break;
                         case "basic":
-                                break;
+                            break;
                         case "adminlte":
-                                break;
+                            break;
                         case "materialprime":
-                                break;
+                            break;
                     }
 
                 }
@@ -988,10 +951,10 @@ stopWeb/-Inf
      */
     public String validarRepositorio() {
         try {
-         
+
             if (!mySesion.getTipoRepositorio().equals("local")) {
-               
-               proyectoEJB.setPathProyecto("https://");
+
+                proyectoEJB.setPathProyecto("https://");
             }
 
 //        JSFUtil.addSuccessMessage("tipo "+mySesion.getTipoRepositorio() + " activo: "+ mySesion.getEsRepositorioGitMercurial());
@@ -1111,7 +1074,6 @@ stopWeb/-Inf
 
         selectedNode = null;
     }
-
 
     public String crearProyecto() {
         try {
@@ -1234,7 +1196,7 @@ stopWeb/-Inf
                 JSFUtil.addWarningMessage("No se puede avanzar a la siguiente pagina");
                 return "";
             }
-    
+
             mySesion.getEntidadMenuList().removeAll(mySesion.getEntidadMenuList());
             for (Entidad entidad : mySesion.getEntidadList()) {
                 EntidadMenu em = new EntidadMenu();
@@ -1247,7 +1209,6 @@ stopWeb/-Inf
                 mySesion.getEntidadMenuList().add(em);
 
             }
-
 
             return "pagina4.xhtml";
         } catch (Exception e) {
