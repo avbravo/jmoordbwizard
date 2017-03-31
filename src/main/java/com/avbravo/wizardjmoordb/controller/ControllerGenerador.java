@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb.generador.gen;
+package com.avbravo.wizardjmoordb.controller;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
@@ -32,10 +32,10 @@ import javax.inject.Inject;
  */
 @Named
 @RequestScoped
-public class SearchGenerador implements Serializable {
+public class ControllerGenerador implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(SearchGenerador.class.getName());
+    private static final Logger LOG = Logger.getLogger(ControllerGenerador.class.getName());
 
     @Inject
     MySesion mySesion;
@@ -49,7 +49,7 @@ public class SearchGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
             for (Entidad e : mySesion.getEntidadList()) {
-                procesar(e, e.getTabla(), proyectoJEE.getPathSearch() + e.getTabla() + "Search.java");
+                procesar(e, e.getTabla(), proyectoJEE.getPathController()+ e.getTabla() + "Controller.java");
             }
 
         } catch (Exception e) {
@@ -126,22 +126,31 @@ public class SearchGenerador implements Serializable {
 
             Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".entity.*;", "package", false);
             Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".ejb.*;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".generales.*;", "package", false);
+            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".services.*;", "package", false);
             Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".interfaces.*;", "package", false);
             Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".services.*;", "package", false);
+            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".util.*;", "package", false);
+            Utilidades.searchAdd(ruta, "import com.avbravo.avbravoutils.JsfUtil;", "package", false);
+            Utilidades.searchAdd(ruta, "import com.avbravo.avbravoutils.printer.Printer;", "package", false);
             Utilidades.searchAdd(ruta, "import java.util.ArrayList;", "package", false);
             Utilidades.searchAdd(ruta, "import java.io.Serializable;", "package", false);
             Utilidades.searchAdd(ruta, "import java.util.HashMap;", "package", false);
             Utilidades.searchAdd(ruta, "import java.util.List;", "package", false);
             Utilidades.searchAdd(ruta, "import java.util.logging.Logger;", "package", false);
+            Utilidades.searchAdd(ruta, "import java.util.Optional;", "package", false);
             Utilidades.searchAdd(ruta, "import javax.annotation.PostConstruct;", "package", false);
             Utilidades.searchAdd(ruta, "import javax.faces.view.ViewScoped;", "package", false);
             Utilidades.searchAdd(ruta, "import javax.inject.Inject;", "package", false);
             Utilidades.searchAdd(ruta, "import javax.inject.Named;", "package", false);
-            Utilidades.searchAdd(ruta, "import org.primefaces.event.CellEditEvent;", "package", false);
+            Utilidades.searchAdd(ruta, "import javax.faces.context.FacesContext;", "package", false);
+            Utilidades.searchAdd(ruta, "import org.primefaces.context.RequestContext;", "package", false);
             Utilidades.searchAdd(ruta, "import org.primefaces.event.SelectEvent;", "package", false);
-            Utilidades.searchAdd(ruta, "import lombok.Getter;", "package", false);
-            Utilidades.searchAdd(ruta, "import lombok.Setter;", "package", false);
+  
+            
+        
+
+
+
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generarImport() " + e.getLocalizedMessage());
@@ -180,24 +189,32 @@ public class SearchGenerador implements Serializable {
                     fw.write("package " + proyectoJEE.getPaquete() + ".search;" + "\r\n");
                     fw.write("" + "\r\n");
 
+
+            
+            
+            
+                        
                     fw.write("import " + proyectoJEE.getPaquete() + ".entity.*; " + "\r\n");
                     fw.write("import " + proyectoJEE.getPaquete() + ".ejb.*; " + "\r\n");
-                    fw.write("import " + proyectoJEE.getPaquete() + ".generales.*; " + "\r\n");
-                    fw.write("import " + proyectoJEE.getPaquete() + ".interfaces.*; " + "\r\n");
                     fw.write("import " + proyectoJEE.getPaquete() + ".services.*; " + "\r\n");
+                    fw.write("import " + proyectoJEE.getPaquete() + ".interfaces.*; " + "\r\n");
+                    fw.write("import " + proyectoJEE.getPaquete() + ".util.*; " + "\r\n");
+                    fw.write("import com.avbravo.avbravoutils.JsfUtil;" + "\r\n");
+                    fw.write("import com.avbravo.avbravoutils.printer.Printer;" + "\r\n");
                     fw.write("import java.util.ArrayList; " + "\r\n");
                     fw.write("import java.io.Serializable; " + "\r\n");
                     fw.write("import java.util.HashMap; " + "\r\n");
                     fw.write("import java.util.List; " + "\r\n");
                     fw.write("import java.util.logging.Logger; " + "\r\n");
+                    fw.write("import java.util.Optional; " + "\r\n");
                     fw.write("import javax.annotation.PostConstruct; " + "\r\n");
                     fw.write("import javax.faces.view.ViewScoped; " + "\r\n");
                     fw.write("import javax.inject.Inject; " + "\r\n");
                     fw.write("import javax.inject.Named; " + "\r\n");
-                    fw.write("import org.primefaces.event.CellEditEvent; " + "\r\n");
-                    fw.write("import org.primefaces.event.SelectEvent; " + "\r\n");
-                    fw.write("import lombok.Getter;" + "\r\n");
-                    fw.write("import lombok.Setter;" + "\r\n");
+                    fw.write("import javax.faces.context.FacesContext;" + "\r\n");
+                    fw.write("import org.primefaces.context.RequestContext; " + "\r\n");
+                    fw.write("import org.primefaces.event.SelectEvent;" + "\r\n");
+                    
                     fw.write("" + "\r\n");
                     fw.write("/**" + "\r\n");
                     fw.write(" *" + "\r\n");
@@ -205,10 +222,12 @@ public class SearchGenerador implements Serializable {
                     fw.write(" */" + "\r\n");
                     fw.write("@Named" + "\r\n");
                     fw.write("@ViewScoped" + "\r\n");
-                    fw.write("@Getter" + "\r\n");
-                    fw.write("@Setter" + "\r\n");
-                    fw.write("public class " + Utilidades.letterToUpper(entidad.getTabla()) + "Search implements Serializable, ISearch {" + "\r\n");
+                    fw.write("public class " + Utilidades.letterToUpper(entidad.getTabla()) + "Controller implements Serializable, IController  {" + "\r\n");
                     fw.write("private static final long serialVersionUID = 1L;" + "\r\n");
+                    
+                    fw.write("private Boolean found = false;" + "\r\n");
+                    fw.write("private Boolean forsearch = false;" + "\r\n");
+                    fw.write("private Boolean writable = false;" + "\r\n");
 
                     fw.write("" + "\r\n");
                     fw.write("    @Inject" + "\r\n");
@@ -216,9 +235,9 @@ public class SearchGenerador implements Serializable {
                     fw.write("    @Inject" + "\r\n");
                     fw.write("    ResourcesFiles rf;" + "\r\n");
                     fw.write("    @Inject" + "\r\n");
-                    fw.write("    GestorImpresion gestorImpresion;" + "\r\n");
+                    fw.write("    Printer printer;" + "\r\n");
                     fw.write("    @Inject" + "\r\n");
-                    fw.write("    LoginBean loginBean;" + "\r\n");
+                    fw.write("    LoginController loginController;" + "\r\n");
                     fw.write("    " + Utilidades.letterToUpper(entidad.getTabla()) + " " + Utilidades.letterToLower(entidad.getTabla()) + " = new " + Utilidades.letterToUpper(entidad.getTabla()) + "();" + "\r\n");
                     fw.write("    " + Utilidades.letterToUpper(entidad.getTabla()) + " selected  = new " + Utilidades.letterToUpper(entidad.getTabla()) + "();" + "\r\n");
                     fw.write("    private List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> filtered  = new ArrayList<>(); " + "\r\n");

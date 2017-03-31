@@ -66,7 +66,7 @@ public class ProyectoJEE  implements Serializable {
     private String pathInterfaces = "";
     private String pathPomXML = "";
 
-    private String pathSearch = "";
+    
     private String pathReportes = "";
 
     public String getPathProyecto() {
@@ -287,13 +287,7 @@ public class ProyectoJEE  implements Serializable {
         this.pathPomXML = pathPomXML;
     }
 
-    public String getPathSearch() {
-        return pathSearch;
-    }
-
-    public void setPathSearch(String pathSearch) {
-        this.pathSearch = pathSearch;
-    }
+   
 
     public String getPathReportes() {
         return pathReportes;

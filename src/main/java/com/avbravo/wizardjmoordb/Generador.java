@@ -15,7 +15,7 @@ import com.avbravo.wizardjmoordb.beans.EntidadMenu;
 import com.avbravo.wizardjmoordb.datamodel.DatamodelGenerador;
 import com.avbravo.wizardjmoordb.facade.FacadeGenerador;
 import com.avbravo.wizardjmoordb.generador.configuration.ConfigurationFileGenerador;
-import com.avbravo.wizardjmoordb.generador.gen.ControllerGenerador;
+import com.avbravo.wizardjmoordb.controller.ControllerGenerador;
 import com.avbravo.wizardjmoordb.converter.ConverterGenerador;
 import com.avbravo.wizardjmoordb.generador.css.DefaultCssGenerador;
 import com.avbravo.wizardjmoordb.generador.xml.FacesConfigXMLGenerador;
@@ -30,7 +30,7 @@ import com.avbravo.wizardjmoordb.generador.xml.PersistenceXMLGenerador;
 import com.avbravo.wizardjmoordb.generador.xml.PomXMLGenerador;
 import com.avbravo.wizardjmoordb.resourcesfiles.ResourcesFilesGenerador;
 import com.avbravo.wizardjmoordb.roles.RolesGenerador;
-import com.avbravo.wizardjmoordb.generador.gen.SearchGenerador;
+import com.avbravo.wizardjmoordb.controller.ControllerGenerador;
 import com.avbravo.wizardjmoordb.sevices.ServicesGenerador;
 import com.avbravo.wizardjmoordb.generador.css.CssLayoutCssGenerador;
 import com.avbravo.wizardjmoordb.roles.ValidadorRolesGenerador;
@@ -145,7 +145,7 @@ public class Generador implements Serializable {
     @Inject
     ServicesGenerador servicesGenerador;
     @Inject
-    SearchGenerador searchGenerador;
+    ControllerGenerador searchGenerador;
     @Inject
     ControllerGenerador controllerGenerador;
     @Inject
