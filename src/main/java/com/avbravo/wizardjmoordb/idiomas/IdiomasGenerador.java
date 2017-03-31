@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb.generador.generales;
+package com.avbravo.wizardjmoordb.idiomas;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
@@ -139,7 +139,7 @@ public class IdiomasGenerador implements Serializable {
                     fw.write("* To change this template file, choose Tools | Templates" + "\r\n");
                     fw.write(" * and open the template in the editor." + "\r\n");
                     fw.write("*/" + "\r\n");
-                    fw.write("package " + proyectoJEE.getPaquete() + ".generales;" + "\r\n");
+                    fw.write("package " + proyectoJEE.getPaquete() + ".util;" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("import java.io.Serializable;" + "\r\n");
                     fw.write("import java.util.Locale;" + "\r\n");

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb.generador.generales;
+package com.avbravo.wizardjmoordb.resourcesfiles;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
@@ -85,13 +85,6 @@ public class ResourcesFilesGenerador implements Serializable {
                 Utilidades.addNotFoundMethod(ruta, "public void setArb", setArb(), "public class ResourcesFiles implements Serializable", false);
                 Utilidades.addNotFoundMethod(ruta, "public String getMensajeMrb", getMensajeMrb(), "public class ResourcesFiles implements Serializable", false);
                 Utilidades.addNotFoundMethod(ruta, "public String getMensajeArb", getMensajeArb(), "public class ResourcesFiles implements Serializable", false);
-                Utilidades.addNotFoundMethod(ruta, "public ResourceBundle getMerb", getMerb(), "public class ResourcesFiles implements Serializable", false);
-  Utilidades.addNotFoundMethod(ruta, "public void setMerb", getMerb(), "public class ResourcesFiles implements Serializable", false);
-  Utilidades.addNotFoundMethod(ruta, "public ResourceBundle getErb", getErb(), "public class ResourcesFiles implements Serializable", false);
-  Utilidades.addNotFoundMethod(ruta, "public void setErb", setErb(), "public class ResourcesFiles implements Serializable", false);
-  Utilidades.addNotFoundMethod(ruta, "public ResourceBundle getFrb", getFrb(), "public class ResourcesFiles implements Serializable", false);
-  Utilidades.addNotFoundMethod(ruta, "public void setFrb", setFrb(), "public class ResourcesFiles implements Serializable", false);
-
 
 
             }
@@ -151,7 +144,7 @@ public class ResourcesFilesGenerador implements Serializable {
                     fw.write("* To change this template file, choose Tools | Templates" + "\r\n");
                     fw.write(" * and open the template in the editor." + "\r\n");
                     fw.write("*/" + "\r\n");
-                    fw.write("package " + proyectoJEE.getPaquete() + ".generales;" + "\r\n");
+                    fw.write("package " + proyectoJEE.getPaquete() + ".util;" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("import java.io.Serializable;" + "\r\n");
                     fw.write("import java.util.Locale;" + "\r\n");
@@ -173,9 +166,7 @@ public class ResourcesFilesGenerador implements Serializable {
                     fw.write("    Locale currentLocale;" + "\r\n");
                     fw.write("    ResourceBundle mrb; //for messages atributos" + "\r\n");
                     fw.write("    ResourceBundle arb; //for application" + "\r\n");
-                    fw.write("    ResourceBundle merb; //menu" + "\r\n");
-                    fw.write("    ResourceBundle erb;  // entity" + "\r\n");
-                    fw.write("    ResourceBundle frb;  // form" + "\r\n");
+                    
                     fw.write("" + "\r\n");
                     fw.write("    public ResourcesFiles() {" + "\r\n");
                     fw.write("    }" + "\r\n");
@@ -189,14 +180,9 @@ public class ResourcesFilesGenerador implements Serializable {
                     fw.write("        currentLocale = FacesContext.getCurrentInstance().getViewRoot().getLocale();" + "\r\n");
                     fw.write("        mrb = ResourceBundle.getBundle(\""+proyectoJEE.getPaquete()+ ".properties.messages\"," + "\r\n");
                     fw.write("                currentLocale);" + "\r\n");
-                    fw.write("        arb = ResourceBundle.getBundle(\""+proyectoJEE.getPaquete()+ ".properties.application\"," + "\r\n");
+                    fw.write("        arb = ResourceBundle.getBundle(\"com.avbravoutils.properties.application\"," + "\r\n");
                     fw.write("                currentLocale);" + "\r\n");
-                    fw.write("        merb = ResourceBundle.getBundle(\""+proyectoJEE.getPaquete()+ ".properties.menu\"," + "\r\n");
-                    fw.write("                currentLocale);" + "\r\n");
-                    fw.write("        erb = ResourceBundle.getBundle(\""+proyectoJEE.getPaquete()+ ".properties.entity\"," + "\r\n");
-                    fw.write("                currentLocale);" + "\r\n");
-                    fw.write("        frb = ResourceBundle.getBundle(\""+proyectoJEE.getPaquete()+ ".properties.form\"," + "\r\n");
-                    fw.write("                currentLocale);" + "\r\n");
+                    
                     fw.write("    }" + "\r\n");
                     fw.write("" + "\r\n");
 
@@ -238,33 +224,6 @@ public class ResourcesFilesGenerador implements Serializable {
                     fw.write("    public String getMensajeArb(String mensaje) {" + "\r\n");
                     fw.write("        return arb.getString(mensaje);" + "\r\n");
                     fw.write("    }" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("    public ResourceBundle getMerb() {" + "\r\n");
-                    fw.write("        return merb;" + "\r\n");
-                    fw.write("    }" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("    public void setMerb(ResourceBundle merb) {" + "\r\n");
-                    fw.write("        this.merb = merb;" + "\r\n");
-                    fw.write("    }" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("    public ResourceBundle getErb() {" + "\r\n");
-                    fw.write("        return erb;" + "\r\n");
-                    fw.write("    }" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("    public void setErb(ResourceBundle erb) {" + "\r\n");
-                    fw.write("        this.erb = erb;" + "\r\n");
-                    fw.write("    }" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("    public ResourceBundle getFrb() {" + "\r\n");
-                    fw.write("        return frb;" + "\r\n");
-                    fw.write("    }" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("    public void setFrb(ResourceBundle frb) {" + "\r\n");
-                    fw.write("        this.frb = frb;" + "\r\n");
-                    fw.write("    }" + "\r\n");
-
-                    fw.write("" + "\r\n");
-                    fw.write("" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("" + "\r\n");
 
@@ -322,12 +281,6 @@ public class ResourcesFilesGenerador implements Serializable {
             texto += "        mrb = ResourceBundle.getBundle(\""+proyectoJEE.getPaquete()+ ".properties.messages\"," + "\r\n";
             texto += "                currentLocale);" + "\r\n";
             texto += "        arb = ResourceBundle.getBundle(\""+proyectoJEE.getPaquete()+ ".properties.application\"," + "\r\n";
-            texto += "                currentLocale);" + "\r\n";
-            texto += "        merb = ResourceBundle.getBundle(\""+proyectoJEE.getPaquete()+ ".properties.menu\"," + "\r\n";
-            texto += "                currentLocale);" + "\r\n";
-            texto += "        erb = ResourceBundle.getBundle(\""+proyectoJEE.getPaquete()+ ".properties.entity\"," + "\r\n";
-            texto += "                currentLocale);" + "\r\n";
-            texto += "        frb = ResourceBundle.getBundle(\""+proyectoJEE.getPaquete()+ ".properties.form\"," + "\r\n";
             texto += "                currentLocale);" + "\r\n";
             texto += "    }" + "\r\n";
             texto += "" + "\r\n";
@@ -464,94 +417,7 @@ public class ResourcesFilesGenerador implements Serializable {
         return "";
     }
 
-    private String getMerb() {
-        try {
-
-            String texto = "";
-            texto += "" + "\r\n";
-            texto += "    public ResourceBundle getMerb() {" + "\r\n";
-            texto += "        return merb;" + "\r\n";
-            texto += "    }" + "\r\n";
-            texto += "" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("resourcesFiles()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-    
-    private String setMerb() {
-        try {
-
-            String texto = "";
-                     texto += "    public void setMerb(ResourceBundle merb) {" + "\r\n";
-                     texto += "        this.merb = merb;" + "\r\n";
-                     texto += "    }" + "\r\n";
-                     texto += "" + "\r\n";
- return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("resourcesFiles()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-    
-    private String getErb() {
-        try {
-
-            String texto = "";
-                     texto += "    public ResourceBundle getErb() {" + "\r\n";
-                     texto += "        return erb;" + "\r\n";
-                     texto += "    }" + "\r\n";
-                     texto += "" + "\r\n";
- return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("resourcesFiles()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-    
-     private String setErb() {
-        try {
-
-            String texto = "";
-                     texto += "    public void setErb(ResourceBundle erb) {" + "\r\n";
-                     texto += "        this.erb = erb;" + "\r\n";
-                     texto += "    }" + "\r\n";
-                     texto += "" + "\r\n";
- return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("resourcesFiles()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-
-    private String getFrb() {
-        try {
-
-            String texto = "";
-                     texto += "    public ResourceBundle getFrb() {" + "\r\n";
-                     texto += "        return frb;" + "\r\n";
-                     texto += "    }" + "\r\n";
-                     texto += "" + "\r\n";
- return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("resourcesFiles()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-
-     private String setFrb() {
-        try {
-
-            String texto = "";
-                     texto += "    public void setFrb(ResourceBundle frb) {" + "\r\n";
-                     texto += "        this.frb = frb;" + "\r\n";
-                     texto += "    }" + "\r\n";
-                return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("resourcesFiles()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }  
+  
+  
      
 }

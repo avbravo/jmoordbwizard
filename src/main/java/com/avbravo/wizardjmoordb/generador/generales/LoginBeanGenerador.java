@@ -48,7 +48,7 @@ public class LoginBeanGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("LoginBean", proyectoJEE.getPathUtil() + "LoginBean.java");
+            procesar("LoginBean", proyectoJEE.getPathController()+ "LoginBean.java");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -187,7 +187,7 @@ public class LoginBeanGenerador implements Serializable {
                     fw.write("* To change this template file, choose Tools | Templates" + "\r\n");
                     fw.write(" * and open the template in the editor." + "\r\n");
                     fw.write("*/" + "\r\n");
-                    fw.write("package " + proyectoJEE.getPaquete() + ".generales;" + "\r\n");
+                    fw.write("package " + proyectoJEE.getPaquete() + ".controller;" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("import " + proyectoJEE.getPaquete() + ".entity.*;" + "\r\n");
                     fw.write("import " + proyectoJEE.getPaquete() + ".ejb.*;" + "\r\n");

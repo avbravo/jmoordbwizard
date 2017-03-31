@@ -17,23 +17,18 @@ import com.avbravo.wizardjmoordb.facade.FacadeGenerador;
 import com.avbravo.wizardjmoordb.generador.configuration.ConfigurationFileGenerador;
 import com.avbravo.wizardjmoordb.generador.gen.ControllerGenerador;
 import com.avbravo.wizardjmoordb.converter.ConverterGenerador;
-import com.avbravo.wizardjmoordb.generador.generales.CryptoConverterGenerador;
 import com.avbravo.wizardjmoordb.generador.css.DefaultCssGenerador;
-import com.avbravo.wizardjmoordb.generador.generales.EmailValidatorGenerador;
 import com.avbravo.wizardjmoordb.generador.xml.FacesConfigXMLGenerador;
-import com.avbravo.wizardjmoordb.generador.generales.GestorImpresionGenerador;
+
 import com.avbravo.wizardjmoordb.interfaces.IControllerGenerador;
-import com.avbravo.wizardjmoordb.generador.generales.IdiomasGenerador;
-import com.avbravo.wizardjmoordb.generador.generales.InformationGenerador;
-import com.avbravo.wizardjmoordb.generador.generales.JSFUtilGenerador;
+import com.avbravo.wizardjmoordb.idiomas.IdiomasGenerador;
+import com.avbravo.wizardjmoordb.information.InformationGenerador;
 import com.avbravo.wizardjmoordb.generador.generales.LoginBeanGenerador;
-import com.avbravo.wizardjmoordb.generador.generales.ManagementThemesGenerador;
 import com.avbravo.wizardjmoordb.roles.ApplicationMenuGenerador;
-import com.avbravo.wizardjmoordb.generador.generales.MesesGenerador;
 import com.avbravo.wizardjmoordb.messages.MessagesPropertiesGenerador;
 import com.avbravo.wizardjmoordb.generador.xml.PersistenceXMLGenerador;
 import com.avbravo.wizardjmoordb.generador.xml.PomXMLGenerador;
-import com.avbravo.wizardjmoordb.generador.generales.ResourcesFilesGenerador;
+import com.avbravo.wizardjmoordb.resourcesfiles.ResourcesFilesGenerador;
 import com.avbravo.wizardjmoordb.roles.RolesGenerador;
 import com.avbravo.wizardjmoordb.generador.gen.SearchGenerador;
 import com.avbravo.wizardjmoordb.sevices.ServicesGenerador;
@@ -126,22 +121,9 @@ public class Generador implements Serializable {
     @Inject
     CouchbaseClientProviderGenerador couchbaseClientProviderGenerador;
     @Inject
-    JSFUtilGenerador jSFUtilGenerador;
-    @Inject
-    EmailValidatorGenerador emailValidatorGenerador;
-    @Inject
-    CryptoConverterGenerador crytpoConverterGenerador;
-    @Inject
-    GestorImpresionGenerador gestorImpresionGenerador;
-    @Inject
     IdiomasGenerador idiomasGenerador;
     @Inject
     ResourcesFilesGenerador resourcesFilesGenerador;
-    @Inject
-    MesesGenerador mesesGenerador;
-    @Inject
-    ManagementThemesGenerador managementThemesGenerador;
-    
     @Inject
     ApplicationMenuGenerador menuBeansGenerador;
     @Inject
@@ -757,16 +739,9 @@ public class Generador implements Serializable {
                      */
                     informationGenerador.generar();
 
-                    jSFUtilGenerador.generar();
-                    emailValidatorGenerador.generar();
-                    crytpoConverterGenerador.generar();
-                    gestorImpresionGenerador.generar();
                     resourcesFilesGenerador.generar();
                     idiomasGenerador.generar();
                     loginBeanGenerador.generar();
-
-                    mesesGenerador.generar();
-                    managementThemesGenerador.generar();
                     /*
                     menu
                      */
