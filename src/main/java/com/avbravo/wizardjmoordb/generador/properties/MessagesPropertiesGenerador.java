@@ -50,7 +50,7 @@ public class MessagesPropertiesGenerador implements Serializable {
     public void generar() {
         try {
             //recorrer el entity para verificar que existan todos los EJB
-  
+
             procesar("messages.properties", proyectoJEE.getPathProperties() + "messages.properties");
             procesar("messages_en.properties", proyectoJEE.getPathProperties() + "messages_en.properties");
             procesar("messages_es.properties", proyectoJEE.getPathProperties() + "messages_es.properties");
@@ -63,20 +63,36 @@ public class MessagesPropertiesGenerador implements Serializable {
 
     private Boolean procesar(String archivo, String ruta) {
         try {
-          
+
             Path path = Paths.get(ruta);
             if (Files.notExists(path, new LinkOption[]{LinkOption.NOFOLLOW_LINKS})) {
                 crearFile(ruta, archivo);
-           }
-            Utilidades.searchAdd(ruta,"username=Username", "# and open the template in the editor.", false);    
-            for(Entidad entidad:mySesion.getEntidadList()){
-                for(Atributos atributos:entidad.getAtributosList()){
-                 Utilidades.searchAdd(ruta, Utilidades.letterToLower(atributos.getNombre())+"=" + Utilidades.letterToUpper(atributos.getNombre()), "# and open the template in the editor.", false);    
+            }
+
+            for (Entidad entidad : mySesion.getEntidadList()) {
+                for (Atributos atributos : entidad.getAtributosList()) {
+                    Utilidades.searchAdd(ruta, "field." + Utilidades.letterToLower(atributos.getNombre()) + "=" + Utilidades.letterToUpper(atributos.getNombre()), "# and open the template in the editor.", false);
                 }
             }
-        
-            
-          
+
+            Utilidades.searchAdd(ruta, "application.title=" + proyectoJEE.getProyecto(), "# and open the template in the editor.", false);
+            Utilidades.searchAdd(ruta, "application.shorttitle=" + proyectoJEE.getProyecto(), "application.title=", false);
+            Utilidades.searchAdd(ruta, "application.sigla=" + proyectoJEE.getProyecto().substring(0, 1), "application.title=", false);
+            Utilidades.searchAdd(ruta, "application.footer=" + proyectoJEE.getProyecto(), "application.title=", false);
+            Utilidades.searchAdd(ruta, "application.version=0.0.1", "application.shorttitle=", false);
+            Utilidades.searchAdd(ruta, "application.dashboard=Dashboard", "application.shorttitle=", false);
+            Utilidades.searchAdd(ruta, "application.loading=Loading", "application.shorttitle=", false);
+            Utilidades.searchAdd(ruta, "application.login=Login", "application.shorttitle=", false);
+
+            Utilidades.searchAdd(ruta, "#footer", "application.shorttitle=", false);
+            Utilidades.searchAdd(ruta, "footer.copyright=Copyright", "application.shorttitle=", false);
+            Utilidades.searchAdd(ruta, "footer.company=" + mySesion.getUsername(), "application.shorttitle=", false);
+            Utilidades.searchAdd(ruta, "footer.derechosreservados=Derechos reservados", "application.shorttitle=", false);
+            Utilidades.searchAdd(ruta, "footer.texto=Aplicacion", "application.shorttitle=", false);
+            Utilidades.searchAdd(ruta, "footer.empresa=" + mySesion.getUsername(), "application.shorttitle=", false);
+
+            Utilidades.searchAdd(ruta, "#footer", "application.shorttitle=", false);
+
         } catch (Exception e) {
             JSFUtil.addErrorMessage("procesar() " + e.getLocalizedMessage());
         }
@@ -84,9 +100,6 @@ public class MessagesPropertiesGenerador implements Serializable {
 
     }
 
-   
-
-    
     /**
      * deleteAll
      *
@@ -114,16 +127,15 @@ public class MessagesPropertiesGenerador implements Serializable {
                     fw.write("# To change this license header, choose License Headers in Project Properties." + "\r\n");
                     fw.write("# To change this template file, choose Tools | Templates" + "\r\n");
                     fw.write("# and open the template in the editor." + "\r\n");
-                    fw.write("msg.username=Username" + "\r\n");
                     fw.close();
 
                 } catch (IOException ex) {
-                    JSFUtil.addErrorMessage("EntityPropertiesGenerador.crearFile() " + ex.getLocalizedMessage());
+                    JSFUtil.addErrorMessage("MessagesPropertiesGenerador.crearFile() " + ex.getLocalizedMessage());
                 }
 
             }
         } catch (Exception e) {
-            JSFUtil.addErrorMessage("EntityPropertiesGenerador.crearFile() " + e.getLocalizedMessage());
+            JSFUtil.addErrorMessage("MessagesPropertiesGenerador.crearFile() " + e.getLocalizedMessage());
         }
         return false;
     }

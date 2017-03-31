@@ -865,6 +865,7 @@ public class Generador implements Serializable {
                     /*
                 search
                      */
+                    
                     searchGenerador.generar();
                     /*
                 controller
