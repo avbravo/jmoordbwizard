@@ -28,18 +28,17 @@ import com.avbravo.wizardjmoordb.generador.generales.InformationGenerador;
 import com.avbravo.wizardjmoordb.generador.generales.JSFUtilGenerador;
 import com.avbravo.wizardjmoordb.generador.generales.LoginBeanGenerador;
 import com.avbravo.wizardjmoordb.generador.generales.ManagementThemesGenerador;
-import com.avbravo.wizardjmoordb.generador.menu.MenuBeansGenerador;
-import com.avbravo.wizardjmoordb.generador.menu.MenuElementoGenerador;
+import com.avbravo.wizardjmoordb.roles.ApplicationMenuGenerador;
 import com.avbravo.wizardjmoordb.generador.generales.MesesGenerador;
 import com.avbravo.wizardjmoordb.messages.MessagesPropertiesGenerador;
 import com.avbravo.wizardjmoordb.generador.xml.PersistenceXMLGenerador;
 import com.avbravo.wizardjmoordb.generador.xml.PomXMLGenerador;
 import com.avbravo.wizardjmoordb.generador.generales.ResourcesFilesGenerador;
-import com.avbravo.wizardjmoordb.generador.roles.RolesGenerador;
+import com.avbravo.wizardjmoordb.roles.RolesGenerador;
 import com.avbravo.wizardjmoordb.generador.gen.SearchGenerador;
 import com.avbravo.wizardjmoordb.sevices.ServicesGenerador;
 import com.avbravo.wizardjmoordb.generador.css.CssLayoutCssGenerador;
-import com.avbravo.wizardjmoordb.generador.roles.ValidadorRolesGenerador;
+import com.avbravo.wizardjmoordb.roles.ValidadorRolesGenerador;
 import com.avbravo.wizardjmoordb.generador.web.componentes.ActivoxhtmlGenerador;
 import com.avbravo.wizardjmoordb.generador.web.componentes.DialogoeliminarxhtmlGenerador;
 import com.avbravo.wizardjmoordb.generador.web.componentes.EIiminarxhtmlGenerador;
@@ -142,10 +141,9 @@ public class Generador implements Serializable {
     MesesGenerador mesesGenerador;
     @Inject
     ManagementThemesGenerador managementThemesGenerador;
+    
     @Inject
-    MenuElementoGenerador menuElementoGenerador;
-    @Inject
-    MenuBeansGenerador menuBeansGenerador;
+    ApplicationMenuGenerador menuBeansGenerador;
     @Inject
     RolesGenerador rolesGenerador;
     @Inject
@@ -608,7 +606,7 @@ public class Generador implements Serializable {
             proyectoJEE.setPathSearch(proyectoJEE.getPath() + "search" + proyectoJEE.getSeparator());
             proyectoJEE.setPathReportes(proyectoJEE.getPath() + "reportes" + proyectoJEE.getSeparator());
 
-            proyectoJEE.setPathMenu(proyectoJEE.getPath() + "menu" + proyectoJEE.getSeparator());
+           
             proyectoJEE.setPathRoles(proyectoJEE.getPath() + "roles" + proyectoJEE.getSeparator());
 
             proyectoJEE.setPathProperties(proyectoJEE.getPathMainResources() + proyectoJEE.getSeparator() + proyectoJEE.getPaquetePath() + proyectoJEE.getSeparator() + "properties" + proyectoJEE.getSeparator());
@@ -772,7 +770,7 @@ public class Generador implements Serializable {
                     /*
                     menu
                      */
-                    menuElementoGenerador.generar();
+        
                     menuBeansGenerador.generar();
                     /*
                     ejb

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb.generador.roles;
+package com.avbravo.wizardjmoordb.roles;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
@@ -68,7 +68,7 @@ public class RolesGenerador implements Serializable {
 
                 Utilidades.searchAdd(ruta, "private static final long serialVersionUID = 1L;", "public class " + archivo + " implements Serializable{", false);
                 Utilidades.searchAdd(ruta, "@Inject", "public class " + archivo + " implements Serializable{", false);
-                Utilidades.searchAdd(ruta, "MenuBeans menuBeans;", "@Inject", false);
+                Utilidades.searchAdd(ruta, "ApplicationMenu applicationMenu;", "@Inject", false);
 
                 /**
                  * generar los metodos
@@ -77,13 +77,13 @@ public class RolesGenerador implements Serializable {
                 Utilidades.addNotFoundMethod(ruta, "public void activar() {", activar(), "public class " + archivo + " implements Serializable{", false);
 
                 /*
-                 verificar si habilita  barraMenu
+                 verificar si habilita  menuBar
                  */
 
                 for (String s:mySesion.getMenubarList()) {
 
-                    String barra = "menuBeans.setBarraMenu" + s + "(Boolean.TRUE);";
-                    Utilidades.searchAdd(ruta, barra, "public void activar() {", false);
+                    String barra = "applicationMenu.setMenuBar" + s + "(Boolean.TRUE);";
+                    Utilidades.searchAdd(ruta, barra, "public void enabled() {", false);
                 }
 
                 /*
@@ -91,8 +91,8 @@ public class RolesGenerador implements Serializable {
                  */
                 for (Entidad entidad : mySesion.getEntidadList()) {
 
-                    String menuelemento = "menuBeans.get" + entidad.getTabla() + "().habilitar(Boolean.TRUE);";
-                    Utilidades.searchAdd(ruta, menuelemento, "public void activar() {", false);
+                    String menuelemento = "applicationMenu.get" + entidad.getTabla() + "().initialize(Boolean.TRUE);";
+                    Utilidades.searchAdd(ruta, menuelemento, "public void enabled() {", false);
 
                 }
 
@@ -111,7 +111,7 @@ public class RolesGenerador implements Serializable {
              * agregar los imports
              */
 
-            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".menu.MenuBeans;", "package", false);
+//            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".menu.MenuBeans;", "package", false);
             Utilidades.searchAdd(ruta, "import javax.inject.Inject;", "package", false);
             Utilidades.searchAdd(ruta, "import javax.inject.Named;", "package", false);
             Utilidades.searchAdd(ruta, "import javax.enterprise.context.RequestScoped;", "package", false);
@@ -153,7 +153,7 @@ public class RolesGenerador implements Serializable {
                     fw.write("*/" + "\r\n");
                     fw.write("package " + proyectoJEE.getPaquete() + ".roles;" + "\r\n");
                     fw.write("" + "\r\n");
-                    fw.write("import " + proyectoJEE.getPaquete() + ".menu.MenuBeans;" + "\r\n");
+//                    fw.write("import " + proyectoJEE.getPaquete() + ".menu.MenuBeans;" + "\r\n");
                     fw.write("import javax.inject.Inject;" + "\r\n");
                     fw.write("import javax.inject.Named;" + "\r\n");
                     fw.write("import javax.enterprise.context.RequestScoped;" + "\r\n");
@@ -169,13 +169,13 @@ public class RolesGenerador implements Serializable {
                     fw.write("private static final long serialVersionUID = 1L;" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write(" @Inject" + "\r\n");
-                    fw.write(" MenuBeans menuBeans;" + "\r\n");
+                    fw.write(" ApplicationMenu applicationMenu;" + "\r\n");
                     fw.write("    /**" + "\r\n");
                     fw.write("     * Creates a new instance of " + archivo + "\r\n");
                     fw.write("     */" + "\r\n");
                     fw.write("    public " + archivo + "() {" + "\r\n");
                     fw.write("    }" + "\r\n");
-                    fw.write(" public void activar() {" + "\r\n");
+                    fw.write(" public void enabled() {" + "\r\n");
                     fw.write("        /*" + "\r\n");
                     fw.write("         *barra" + "\r\n");
                     fw.write("         */" + "\r\n");
@@ -183,14 +183,14 @@ public class RolesGenerador implements Serializable {
 
 
                     for (String s: mySesion.getMenubarList()) {
-                        fw.write("      menuBeans.setBarraMenu" + s + "(Boolean.TRUE);" + "\r\n");
+                        fw.write("      applicationMenu.setMenuBar" + s + "(Boolean.TRUE);" + "\r\n");
                     }
                     fw.write("        /*" + "\r\n");
                     fw.write("         *menu" + "\r\n");
                     fw.write("         */" + "\r\n");
                     fw.write("        " + "\r\n");
                     for (Entidad entidad : mySesion.getEntidadList()) {
-                        fw.write("      menuBeans.get" + entidad.getTabla() + "().habilitar(Boolean.TRUE);" + "\r\n");
+                        fw.write("      applicationMenu.get" + entidad.getTabla() + "().initialize(Boolean.TRUE);" + "\r\n");
                     }
 
                     fw.write("     " + "\r\n");

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb.generador.roles;
+package com.avbravo.wizardjmoordb.roles;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
@@ -69,7 +69,7 @@ public class ValidadorRolesGenerador implements Serializable {
                 Utilidades.searchAdd(ruta, "private static final long serialVersionUID = 1L;", "public class ValidadorRoles implements Serializable{", false);
                 Utilidades.searchAdd(ruta, "@Inject", "public class ValidadorRoles implements Serializable{", false);
 
-                Utilidades.searchAddTextAndInject(ruta, "MenuBeans menuBeans;", "public class ValidadorRoles implements Serializable{", false);
+                Utilidades.searchAddTextAndInject(ruta, "ApplicationMenu applicationMenu;", "public class ValidadorRoles implements Serializable{", false);
                 Utilidades.searchAddTextAndInject(ruta, "ResourcesFiles rf;", "public class ValidadorRoles implements Serializable{", false);
 
                 for (String s : mySesion.getRolesList()) {
@@ -111,7 +111,7 @@ public class ValidadorRolesGenerador implements Serializable {
              * agregar los imports
              */
 
-            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".menu.MenuBeans;", "package", false);
+//            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".menu.MenuBeans;", "package", false);
             Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".generales.JSFUtil;", "package", false);
             Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".generales.ResourcesFiles;", "package", false);
             Utilidades.searchAdd(ruta, "import javax.inject.Inject;", "package", false);
@@ -155,7 +155,7 @@ public class ValidadorRolesGenerador implements Serializable {
                     fw.write("*/" + "\r\n");
                     fw.write("package " + proyectoJEE.getPaquete() + ".roles;" + "\r\n");
                     fw.write("" + "\r\n");
-                    fw.write("import " + proyectoJEE.getPaquete() + ".menu.MenuBeans;" + "\r\n");
+//                    fw.write("import " + proyectoJEE.getPaquete() + ".menu.MenuBeans;" + "\r\n");
                     fw.write("import " + proyectoJEE.getPaquete() + ".generales.JSFUtil;" + "\r\n");
                     fw.write("import " + proyectoJEE.getPaquete() + ".generales.ResourcesFiles;" + "\r\n");
                     fw.write("import javax.inject.Inject;" + "\r\n");
@@ -173,7 +173,7 @@ public class ValidadorRolesGenerador implements Serializable {
                     fw.write("private static final long serialVersionUID = 1L;" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write(" @Inject" + "\r\n");
-                    fw.write(" MenuBeans menuBeans;" + "\r\n");
+                    fw.write(" ApplicationMenu applicationMenu;" + "\r\n");
                     fw.write(" @Inject" + "\r\n");
                     fw.write(" ResourcesFiles rf;" + "\r\n");
 
@@ -190,13 +190,13 @@ public class ValidadorRolesGenerador implements Serializable {
                     fw.write("            switch (rolvalidacion) {" + "\r\n");
                     for (String s : mySesion.getRolesList()) {
                         fw.write("            case " + "\"" + Utilidades.letterToLower(s) + "\": " + "\r\n");
-                        fw.write("                rol" + s + ".activar();" + "\r\n");
+                        fw.write("                rol" + s + ".enabled();" + "\r\n");
                         fw.write("                 break;" + "\r\n");
 
                     }
 
                     fw.write("            default:" + "\r\n");
-                    fw.write("                menuBeans.habilitarTodo(false);" + "\r\n");
+                    fw.write("                applicationMenu.enabledAll(false);" + "\r\n");
                     fw.write("                ok = Boolean.FALSE;" + "\r\n");
                     fw.write("                JSFUtil.warningDialog(rf.getMensajeArb(\"warning.title\")," + "\r\n");
                     fw.write("                        rf.getMensajeArb(\"info.sinrolasignado\"));" + "\r\n");
@@ -255,7 +255,7 @@ public class ValidadorRolesGenerador implements Serializable {
             texto += "       try {" + "\r\n";
             texto += "            switch (rolvalidacion) {" + "\r\n";
             texto += "                default:" + "\r\n";
-            texto += "                    menuBeans.habilitarTodo(false);" + "\r\n";
+            texto += "                    applicationMenu.enbaledAll(false);" + "\r\n";
             texto += "                    ok = Boolean.FALSE;" + "\r\n";
             texto += "                    JSFUtil.warningDialog(rf.getMensajeArb(\"warning.title\")," + "\r\n";
             texto += "                            rf.getMensajeArb(\"info.sinrolasignado\"));" + "\r\n";

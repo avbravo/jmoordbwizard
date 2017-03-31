@@ -42,7 +42,7 @@ public class ProyectoJEE  implements Serializable {
      * JEE
      */
     private String pathController = path + "controller" + separator;
-    private String pathMenu = path + "menu" + separator;
+    //private String pathMenu = path + "menu" + separator;
     private String pathRoles = path + "roles" + separator;
     private String pathUtil = path + "util" + separator;
 
@@ -149,13 +149,7 @@ public class ProyectoJEE  implements Serializable {
         this.pathController = pathController;
     }
 
-    public String getPathMenu() {
-        return pathMenu;
-    }
-
-    public void setPathMenu(String pathMenu) {
-        this.pathMenu = pathMenu;
-    }
+   
 
     public String getPathRoles() {
         return pathRoles;

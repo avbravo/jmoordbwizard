@@ -85,9 +85,7 @@ public class Directorios implements Serializable {
             if (!Utilidades.searchDirectorie(proyectoJEE.getPath() + "util")) {
                 Utilidades.mkdir(proyectoJEE.getPath() + "util");
             }
-            if (!Utilidades.searchDirectorie(proyectoJEE.getPath() + "menu")) {
-                Utilidades.mkdir(proyectoJEE.getPath() + "menu");
-            }
+          
            
             if (!Utilidades.searchDirectorie(proyectoJEE.getPath() + "roles")) {
                 Utilidades.mkdir(proyectoJEE.getPath() + "roles");
