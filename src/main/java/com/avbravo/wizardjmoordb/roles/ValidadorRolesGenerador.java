@@ -112,8 +112,8 @@ public class ValidadorRolesGenerador implements Serializable {
              */
 
 //            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".menu.MenuBeans;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".generales.JSFUtil;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".generales.ResourcesFiles;", "package", false);
+            Utilidades.searchAdd(ruta, "import com.avbravo.avbravoutils.JsfUtil;", "package", false);
+            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".util.ResourcesFiles;", "package", false);
             Utilidades.searchAdd(ruta, "import javax.inject.Inject;", "package", false);
             Utilidades.searchAdd(ruta, "import javax.inject.Named;", "package", false);
             Utilidades.searchAdd(ruta, "import javax.enterprise.context.RequestScoped;", "package", false);
@@ -156,8 +156,8 @@ public class ValidadorRolesGenerador implements Serializable {
                     fw.write("package " + proyectoJEE.getPaquete() + ".roles;" + "\r\n");
                     fw.write("" + "\r\n");
 //                    fw.write("import " + proyectoJEE.getPaquete() + ".menu.MenuBeans;" + "\r\n");
-                    fw.write("import " + proyectoJEE.getPaquete() + ".generales.JSFUtil;" + "\r\n");
-                    fw.write("import " + proyectoJEE.getPaquete() + ".generales.ResourcesFiles;" + "\r\n");
+                    fw.write("import com.avbravo.avbravoutils.JsfUtil;" + "\r\n");
+                    fw.write("import " + proyectoJEE.getPaquete() + ".util.ResourcesFiles;" + "\r\n");
                     fw.write("import javax.inject.Inject;" + "\r\n");
                     fw.write("import javax.inject.Named;" + "\r\n");
                     fw.write("import javax.enterprise.context.RequestScoped;" + "\r\n");
@@ -198,11 +198,11 @@ public class ValidadorRolesGenerador implements Serializable {
                     fw.write("            default:" + "\r\n");
                     fw.write("                applicationMenu.enabledAll(false);" + "\r\n");
                     fw.write("                ok = Boolean.FALSE;" + "\r\n");
-                    fw.write("                JSFUtil.warningDialog(rf.getMensajeArb(\"warning.title\")," + "\r\n");
+                    fw.write("                JsfUtil.warningDialog(rf.getMensajeArb(\"warning.title\")," + "\r\n");
                     fw.write("                        rf.getMensajeArb(\"info.sinrolasignado\"));" + "\r\n");
                     fw.write("             }" + "\r\n");
                     fw.write("         } catch (Exception e) {" + "\r\n");
-                    fw.write("             JSFUtil.addErrorMessage(\"validarRoles() \" + e.getLocalizedMessage());" + "\r\n");
+                    fw.write("             JsfUtil.addErrorMessage(\"validarRoles() \" + e.getLocalizedMessage());" + "\r\n");
                     fw.write("         }" + "\r\n");
                     fw.write("         return ok;" + "\r\n");
                     fw.write("     }" + "\r\n");
@@ -257,11 +257,11 @@ public class ValidadorRolesGenerador implements Serializable {
             texto += "                default:" + "\r\n";
             texto += "                    applicationMenu.enbaledAll(false);" + "\r\n";
             texto += "                    ok = Boolean.FALSE;" + "\r\n";
-            texto += "                    JSFUtil.warningDialog(rf.getMensajeArb(\"warning.title\")," + "\r\n";
+            texto += "                    JsfUtil.warningDialog(rf.getMensajeArb(\"warning.title\")," + "\r\n";
             texto += "                            rf.getMensajeArb(\"info.sinrolasignado\"));" + "\r\n";
             texto += "             }" + "\r\n";
             texto += "        } catch (Exception e) {" + "\r\n";
-            texto += "            JSFUtil.addErrorMessage(\"validarRoles() \" + e.getLocalizedMessage());" + "\r\n";
+            texto += "            JsfUtil.addErrorMessage(\"validarRoles() \" + e.getLocalizedMessage());" + "\r\n";
             texto += "        }" + "\r\n";
             texto += "        return ok;" + "\r\n";
             texto += "}" + "\r\n";
