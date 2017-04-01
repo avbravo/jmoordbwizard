@@ -214,14 +214,14 @@ public class ResourcesFilesGenerador implements Serializable {
                     fw.write("     *Devuelve el mensaje Mrb" + "\r\n");
                     fw.write("     */" + "\r\n");
                     fw.write("" + "\r\n");
-                    fw.write("    public String getMensajeMrb(String mensaje) {" + "\r\n");
+                    fw.write("    public String getMessage(String mensaje) {" + "\r\n");
                     fw.write("        return mrb.getString(mensaje);" + "\r\n");
                     fw.write("    }" + "\r\n");
                     fw.write("    /*" + "\r\n");
                     fw.write("     *Devuelve el mensaje Arb" + "\r\n");
                     fw.write("     */" + "\r\n");
                     fw.write("" + "\r\n");
-                    fw.write("    public String getMensajeArb(String mensaje) {" + "\r\n");
+                    fw.write("    public String getAppMessage(String mensaje) {" + "\r\n");
                     fw.write("        return arb.getString(mensaje);" + "\r\n");
                     fw.write("    }" + "\r\n");
                     fw.write("" + "\r\n");

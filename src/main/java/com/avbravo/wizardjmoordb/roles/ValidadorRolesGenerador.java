@@ -198,8 +198,8 @@ public class ValidadorRolesGenerador implements Serializable {
                     fw.write("            default:" + "\r\n");
                     fw.write("                applicationMenu.enabledAll(false);" + "\r\n");
                     fw.write("                ok = Boolean.FALSE;" + "\r\n");
-                    fw.write("                JsfUtil.warningDialog(rf.getMensajeArb(\"warning.title\")," + "\r\n");
-                    fw.write("                        rf.getMensajeArb(\"info.sinrolasignado\"));" + "\r\n");
+                    fw.write("                JsfUtil.warningDialog(rf.getAppMessage(\"warning.title\")," + "\r\n");
+                    fw.write("                        rf.getAppMessage(\"info.sinrolasignado\"));" + "\r\n");
                     fw.write("             }" + "\r\n");
                     fw.write("         } catch (Exception e) {" + "\r\n");
                     fw.write("             JsfUtil.addErrorMessage(\"validarRoles() \" + e.getLocalizedMessage());" + "\r\n");

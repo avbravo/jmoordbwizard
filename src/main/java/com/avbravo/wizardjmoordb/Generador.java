@@ -585,7 +585,6 @@ public class Generador implements Serializable {
             proyectoJEE.setPathController(proyectoJEE.getPath() + "controller" + proyectoJEE.getSeparator());
             proyectoJEE.setPathUtil(proyectoJEE.getPath() + "util" + proyectoJEE.getSeparator());
 
-            proyectoJEE.setPathSearch(proyectoJEE.getPath() + "search" + proyectoJEE.getSeparator());
             proyectoJEE.setPathReportes(proyectoJEE.getPath() + "reportes" + proyectoJEE.getSeparator());
 
            

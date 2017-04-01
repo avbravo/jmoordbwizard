@@ -7,6 +7,7 @@ package com.avbravo.wizardjmoordb.controller;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
+import com.avbravo.wizardjmoordb.ProyectoEJB;
 import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.beans.Atributos;
 import com.avbravo.wizardjmoordb.beans.Entidad;
@@ -20,7 +21,6 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
@@ -41,6 +41,8 @@ public class ControllerGenerador implements Serializable {
     MySesion mySesion;
     @Inject
     ProyectoJEE proyectoJEE;
+    @Inject
+    ProyectoEJB proyectoEJB;
 
     /**
      * Creates a new instance of Facade
@@ -49,7 +51,7 @@ public class ControllerGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
             for (Entidad e : mySesion.getEntidadList()) {
-                procesar(e, e.getTabla(), proyectoJEE.getPathController()+ e.getTabla() + "Controller.java");
+                procesar(e, e.getTabla(), proyectoJEE.getPathController() + e.getTabla() + "Controller.java");
             }
 
         } catch (Exception e) {
@@ -64,51 +66,6 @@ public class ControllerGenerador implements Serializable {
             Path path = Paths.get(ruta);
             if (Files.notExists(path, new LinkOption[]{LinkOption.NOFOLLOW_LINKS})) {
                 crearFile(entidad, ruta, archivo);
-            } else {
-                generarImport(ruta);
-                //con @Inject
-                Utilidades.searchAddTextAndInject(ruta, "ResourcesFiles rf;", "public class " + Utilidades.letterToUpper(entidad.getTabla()) + "Search implements Serializable, ISearch {", false);
-                Utilidades.searchAddTextAndInject(ruta, "GestorImpresion gestorImpresion;", "public class " + Utilidades.letterToUpper(entidad.getTabla()) + "Search implements Serializable, ISearch {", false);
-                Utilidades.searchAddTextAndInject(ruta, "LoginBean loginBean;", "public class " + Utilidades.letterToUpper(entidad.getTabla()) + "Search implements Serializable, ISearch {", false);
-                Utilidades.searchAddTextAndInject(ruta, Utilidades.letterToUpper(entidad.getTabla()) + "Facade " + Utilidades.letterToLower(entidad.getTabla()) + "Facade;", "public class " + Utilidades.letterToUpper(entidad.getTabla()) + "Search implements Serializable, ISearch {", false);
-                Utilidades.searchAddTextAndInject(ruta, Utilidades.letterToUpper(entidad.getTabla()) + "Services " + Utilidades.letterToLower(entidad.getTabla()) + "Services;", "public class " + Utilidades.letterToUpper(entidad.getTabla()) + "Search implements Serializable, ISearch {", false);
-                //Estos sin Inject
-                String titulo = "public class " + Utilidades.letterToUpper(entidad.getTabla()) + "Search implements Serializable, ISearch {";
-                String services = Utilidades.letterToUpper(entidad.getTabla()) + " " + Utilidades.letterToLower(entidad.getTabla()) + " = new " + Utilidades.letterToUpper(entidad.getTabla()) + "();";
-
-                Utilidades.searchAdd(ruta, services, titulo, false);
-                Utilidades.searchAdd(ruta, Utilidades.letterToUpper(entidad.getTabla()) + " selected " + " = new " + Utilidades.letterToUpper(entidad.getTabla()) + "();", titulo, false);
-                Utilidades.searchAdd(ruta, "private List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> filtered  = new ArrayList<>();", titulo, false);
-                Utilidades.searchAdd(ruta, "private List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> items = new ArrayList<>();", titulo, false);
-                Utilidades.searchAdd(ruta, "private List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> itemsCollection = new ArrayList<>();", titulo, false);
-                Utilidades.searchAdd(ruta, "private List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> " + Utilidades.letterToLower(entidad.getTabla()) + "List = new ArrayList<>();", titulo, false);
-                Utilidades.searchAdd(ruta, "@Named", "public class", true);
-                Utilidades.searchAdd(ruta, "@Getter", "public class", true);
-                Utilidades.searchAdd(ruta, "@Setter", "public class", true);
-                Utilidades.searchAdd(ruta, "@ViewScoped", "public class", true);
-                Utilidades.searchAdd(ruta, "private static final long serialVersionUID = 1L;", "public class", false);
-
-                /*
-                metodos
-                 */
-                Utilidades.addNotFoundMethod(ruta, "public void init() {", init(), "public class " + Utilidades.letterToUpper(entidad.getTabla()) + "Search implements Serializable, ISearch {", false);
-                Utilidades.addNotFoundMethod(ruta, "public String clear() {", clear(entidad), "public class " + Utilidades.letterToUpper(entidad.getTabla()) + "Search implements Serializable, ISearch {", false);
-                Utilidades.addNotFoundMethod(ruta, "public void iniciar() {", iniciar(entidad), "public class " + Utilidades.letterToUpper(entidad.getTabla()) + "Search implements Serializable, ISearch {", false);
-                Utilidades.addNotFoundMethod(ruta, "public void iniciar(String value) {", iniciarParametro(entidad), "public class " + Utilidades.letterToUpper(entidad.getTabla()) + "Search implements Serializable, ISearch {", false);
-                Utilidades.addNotFoundMethod(ruta, "public String showAll() {", showAll(entidad), "public class " + Utilidades.letterToUpper(entidad.getTabla()) + "Search implements Serializable, ISearch {", false);
-                Utilidades.addNotFoundMethod(ruta, "public String listar() {", listar(), "public class " + Utilidades.letterToUpper(entidad.getTabla()) + "Search implements Serializable, ISearch {", false);
-                Utilidades.addNotFoundMethod(ruta, "public String delete() {", delete(entidad), "public class " + Utilidades.letterToUpper(entidad.getTabla()) + "Search implements Serializable, ISearch {", false);
-                Utilidades.addNotFoundMethod(ruta, "public List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> getItems() {", getItems(entidad), "public class " + Utilidades.letterToUpper(entidad.getTabla()) + "Search implements Serializable, ISearch {", false);
-                Utilidades.addNotFoundMethod(ruta, "public String changeItems() {", changeItems(entidad), "public class " + Utilidades.letterToUpper(entidad.getTabla()) + "Search implements Serializable, ISearch {", false);
-                Utilidades.addNotFoundMethod(ruta, "public List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> getItemsCollection() {", getItemsCollection(entidad), "public class " + Utilidades.letterToUpper(entidad.getTabla()) + "Search implements Serializable, ISearch {", false);
-                Utilidades.addNotFoundMethod(ruta, "public String imprimirTodos() {", imprimirTodos(entidad), "public class " + Utilidades.letterToUpper(entidad.getTabla()) + "Search implements Serializable, ISearch {", false);
-                Utilidades.addNotFoundMethod(ruta, "public void onCellEdit(CellEditEvent event) {", onCellEdit(), "public class " + Utilidades.letterToUpper(entidad.getTabla()) + "Search implements Serializable, ISearch {", false);
-                Utilidades.addNotFoundMethod(ruta, "public void handleSelect(SelectEvent event) {", handleSelect(entidad), "public class " + Utilidades.letterToUpper(entidad.getTabla()) + "Search implements Serializable, ISearch {", false);
-                Utilidades.addNotFoundMethod(ruta, "public String delete(Object t) {", deleteObject(entidad), "public class " + Utilidades.letterToUpper(entidad.getTabla()) + "Search implements Serializable, ISearch {", false);
-
-                /**
-                 * generar los metodos
-                 */
             }
 
         } catch (Exception e) {
@@ -116,45 +73,6 @@ public class ControllerGenerador implements Serializable {
         }
         return true;
 
-    }
-
-    private void generarImport(String ruta) {
-        try {
-            /**
-             * agregar los imports
-             */
-
-            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".entity.*;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".ejb.*;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".services.*;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".interfaces.*;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".services.*;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".util.*;", "package", false);
-            Utilidades.searchAdd(ruta, "import com.avbravo.avbravoutils.JsfUtil;", "package", false);
-            Utilidades.searchAdd(ruta, "import com.avbravo.avbravoutils.printer.Printer;", "package", false);
-            Utilidades.searchAdd(ruta, "import java.util.ArrayList;", "package", false);
-            Utilidades.searchAdd(ruta, "import java.io.Serializable;", "package", false);
-            Utilidades.searchAdd(ruta, "import java.util.HashMap;", "package", false);
-            Utilidades.searchAdd(ruta, "import java.util.List;", "package", false);
-            Utilidades.searchAdd(ruta, "import java.util.logging.Logger;", "package", false);
-            Utilidades.searchAdd(ruta, "import java.util.Optional;", "package", false);
-            Utilidades.searchAdd(ruta, "import javax.annotation.PostConstruct;", "package", false);
-            Utilidades.searchAdd(ruta, "import javax.faces.view.ViewScoped;", "package", false);
-            Utilidades.searchAdd(ruta, "import javax.inject.Inject;", "package", false);
-            Utilidades.searchAdd(ruta, "import javax.inject.Named;", "package", false);
-            Utilidades.searchAdd(ruta, "import javax.faces.context.FacesContext;", "package", false);
-            Utilidades.searchAdd(ruta, "import org.primefaces.context.RequestContext;", "package", false);
-            Utilidades.searchAdd(ruta, "import org.primefaces.event.SelectEvent;", "package", false);
-  
-            
-        
-
-
-
-
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("generarImport() " + e.getLocalizedMessage());
-        }
     }
 
     /**
@@ -173,6 +91,19 @@ public class ControllerGenerador implements Serializable {
             if (file.exists()) {
                 // El fichero ya existe
             } else {
+                String nameClass = Utilidades.letterToUpper(entidad.getTabla());
+                String nameEntity = Utilidades.letterToLower(entidad.getTabla());
+                String primaryKey = "";
+                String primaryKeyUpper = "";
+            Boolean esInteger = false;
+            String entity = Utilidades.letterToLower(archivo);
+            for (Atributos a : entidad.getAtributosList()) {
+                if (a.getEsPrimaryKey()) {
+                    primaryKey = Utilidades.letterToUpper(a.getNombre());
+                    esInteger = a.getTipo().equals("Integer");
+                }
+            }
+            primaryKeyUpper =Utilidades.letterToUpper(primaryKey);
                 // El fichero no existe y hay que crearlo
                 bw = new BufferedWriter(new FileWriter(archivo));
                 bw.close();
@@ -186,17 +117,13 @@ public class ControllerGenerador implements Serializable {
                     fw.write("* To change this template file, choose Tools | Templates" + "\r\n");
                     fw.write(" * and open the template in the editor." + "\r\n");
                     fw.write("*/" + "\r\n");
-                    fw.write("package " + proyectoJEE.getPaquete() + ".search;" + "\r\n");
+                    fw.write("package " + proyectoJEE.getPaquete() + ".controller;" + "\r\n");
                     fw.write("" + "\r\n");
 
-
-            
-            
-            
-                        
-                    fw.write("import " + proyectoJEE.getPaquete() + ".entity.*; " + "\r\n");
-                    fw.write("import " + proyectoJEE.getPaquete() + ".ejb.*; " + "\r\n");
-                    fw.write("import " + proyectoJEE.getPaquete() + ".services.*; " + "\r\n");
+                    fw.write("import " + proyectoEJB.getPaquete() + ".entity.*; " + "\r\n");
+                    fw.write("import " +  proyectoEJB.getPaquete() + ".ejb.*; " + "\r\n");
+                    fw.write("import " +  proyectoEJB.getPaquete() + ".datamodel.*; " + "\r\n");
+                    fw.write("import " +  proyectoEJB.getPaquete() + ".services.*; " + "\r\n");
                     fw.write("import " + proyectoJEE.getPaquete() + ".interfaces.*; " + "\r\n");
                     fw.write("import " + proyectoJEE.getPaquete() + ".util.*; " + "\r\n");
                     fw.write("import com.avbravo.avbravoutils.JsfUtil;" + "\r\n");
@@ -214,7 +141,7 @@ public class ControllerGenerador implements Serializable {
                     fw.write("import javax.faces.context.FacesContext;" + "\r\n");
                     fw.write("import org.primefaces.context.RequestContext; " + "\r\n");
                     fw.write("import org.primefaces.event.SelectEvent;" + "\r\n");
-                    
+
                     fw.write("" + "\r\n");
                     fw.write("/**" + "\r\n");
                     fw.write(" *" + "\r\n");
@@ -222,181 +149,355 @@ public class ControllerGenerador implements Serializable {
                     fw.write(" */" + "\r\n");
                     fw.write("@Named" + "\r\n");
                     fw.write("@ViewScoped" + "\r\n");
-                    fw.write("public class " + Utilidades.letterToUpper(entidad.getTabla()) + "Controller implements Serializable, IController  {" + "\r\n");
-                    fw.write("private static final long serialVersionUID = 1L;" + "\r\n");
-                    
-                    fw.write("private Boolean found = false;" + "\r\n");
-                    fw.write("private Boolean forsearch = false;" + "\r\n");
-                    fw.write("private Boolean writable = false;" + "\r\n");
-
+                    fw.write("public class " + nameClass + "Controller implements Serializable, IController  {" + "\r\n");
+                    fw.write("    private static final long serialVersionUID = 1L;" + "\r\n");
+                    fw.write("    private Boolean found = false;" + "\r\n");
+                    fw.write("    private Boolean forsearch = false;" + "\r\n");
+                    fw.write("    private Boolean writable = false;" + "\r\n");
+                    fw.write("    //DataModel" + "\r\n");
+                    fw.write("    private " + nameClass + "DataModel " + nameEntity + "DataModel;" + "\r\n");
                     fw.write("" + "\r\n");
+                    fw.write("    //Entity" + "\r\n");
+
+                    fw.write("    " + nameClass + " " + nameEntity + ";" + "\r\n");
+                    fw.write("    " + nameClass + " " + nameEntity + "Selected;" + "\r\n");
+                    fw.write("" + "\r\n");
+                    fw.write("    //List" + "\r\n");
+                    fw.write("     List<" + nameClass + "> " + nameEntity + "List = new ArrayList<>();" + "\r\n");
+                    fw.write("     List<" + nameClass + "> " + nameEntity + "Filtered = new ArrayList<>();" + "\r\n");
+                    fw.write("" + "\r\n");
+                    fw.write("    //Facade" + "\r\n");
+                    fw.write("     @Inject" + "\r\n");
+                    fw.write("     " + nameClass + "Facade " + nameEntity + "Facade;" + "\r\n");
+                    fw.write("" + "\r\n");
+                    fw.write("    //Services" + "\r\n");
                     fw.write("    @Inject" + "\r\n");
-                    fw.write("    " + Utilidades.letterToUpper(entidad.getTabla()) + "Facade " + Utilidades.letterToLower(entidad.getTabla()) + "Facade; \r\n");
+                    fw.write("    " + nameClass + "Services " + nameEntity + "Services;" + "\r\n");
                     fw.write("    @Inject" + "\r\n");
                     fw.write("    ResourcesFiles rf;" + "\r\n");
                     fw.write("    @Inject" + "\r\n");
                     fw.write("    Printer printer;" + "\r\n");
                     fw.write("    @Inject" + "\r\n");
                     fw.write("    LoginController loginController;" + "\r\n");
-                    fw.write("    " + Utilidades.letterToUpper(entidad.getTabla()) + " " + Utilidades.letterToLower(entidad.getTabla()) + " = new " + Utilidades.letterToUpper(entidad.getTabla()) + "();" + "\r\n");
-                    fw.write("    " + Utilidades.letterToUpper(entidad.getTabla()) + " selected  = new " + Utilidades.letterToUpper(entidad.getTabla()) + "();" + "\r\n");
-                    fw.write("    private List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> filtered  = new ArrayList<>(); " + "\r\n");
-                    fw.write("    private List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> " + Utilidades.letterToLower(entidad.getTabla()) + "List = new ArrayList<>(); " + "\r\n");
-                    fw.write("    private List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> items = new ArrayList<>(); " + "\r\n");
-                    fw.write("    private List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> itemsCollection = new ArrayList<>(); " + "\r\n");
 
-                    fw.write("    @Inject" + "\r\n");
-                    fw.write("    " + Utilidades.letterToUpper(entidad.getTabla()) + "Services " + Utilidades.letterToUpper(entidad.getTabla()) + "Services;" + "\r\n");
-                    fw.write("" + "\r\n");
+                    fw.write("    public " + nameClass + "Services get" + nameClass + "Services() {" + "\r\n");
+                    fw.write("        return " + nameEntity + "Services;" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    public void set" + nameClass + "Services(" + nameClass + "Services " + nameEntity + "Services) {" + "\r\n");
+                    fw.write("        this." + nameEntity + "Services = " + nameEntity + "Services;" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    public List<" + nameClass + "> get" + nameClass + "List() {" + "\r\n");
+                    fw.write("        return " + nameEntity + "List;" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    public void set" + nameClass + "List(List<" + nameClass + "> " + nameEntity + "List) {" + "\r\n");
+                    fw.write("        this." + nameEntity + "List = " + nameEntity + "List;" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    public List<" + nameClass + "> get" + nameClass + "Filtered() {" + "\r\n");
+                    fw.write("        return " + nameEntity + "Filtered;" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    public void set" + nameClass + "Filtered(List<" + nameClass + "> " + nameEntity + "Filtered) {" + "\r\n");
+                    fw.write("        this." + nameEntity + "Filtered = " + nameEntity + "Filtered;" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    public " + nameClass + " get" + nameClass + "() {" + "\r\n");
+                    fw.write("        return " + nameEntity + ";" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    public void set" + nameClass + "(" + nameClass + " " + nameEntity + ") {" + "\r\n");
+                    fw.write("        this." + nameEntity + " = " + nameEntity + ";" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    public " + nameClass + " get" + nameClass + "Selected() {" + "\r\n");
+                    fw.write("        return " + nameEntity + "Selected;" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    public void set" + nameClass + "Selected(" + nameClass + " " + nameEntity + "Selected) {" + "\r\n");
+                    fw.write("        this." + nameEntity + "Selected = " + nameEntity + "Selected;" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    public " + nameClass + "DataModel get" + nameClass + "DataModel() {" + "\r\n");
+                    fw.write("        return " + nameEntity + "DataModel;" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    public void set" + nameClass + "DataModel(" + nameClass + "DataModel " + nameEntity + "DataModel) {" + "\r\n");
+                    fw.write("        this." + nameEntity + "DataModel = " + nameEntity + "DataModel;" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    public Boolean getFound() {" + "\r\n");
+                    fw.write("        return found;" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    public void setFound(Boolean found) {" + "\r\n");
+                    fw.write("        this.found = found;" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    public Boolean getForsearch() {" + "\r\n");
+                    fw.write("        return forsearch;" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    public void setForsearch(Boolean forsearch) {" + "\r\n");
+                    fw.write("        this.forsearch = forsearch;" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    public Boolean getWritable() {" + "\r\n");
+                    fw.write("        return writable;" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    public void setWritable(Boolean writable) {" + "\r\n");
+                    fw.write("        this.writable = writable;" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
                     //init
+                    /**
+                     * Creates a new instance of " + nameClass + "Controller
+                     */
                     fw.write("    @PostConstruct" + "\r\n");
                     fw.write("    public void init() {" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("    }" + "\r\n");
-
-                    //clear
-                    fw.write("    @Override" + "\r\n");
-                    fw.write("    public String clear() {" + "\r\n");
-                    fw.write("        " + Utilidades.letterToLower(entidad.getTabla()) + "List = new ArrayList<>();" + "\r\n");
-                    fw.write("        return null;" + "\r\n");
-                    fw.write("    }" + "\r\n");
-
-                    //iniciar
-                    fw.write("    @Override" + "\r\n");
-                    fw.write("    public void iniciar() {" + "\r\n");
-                    fw.write("        " + Utilidades.letterToLower(entidad.getTabla()) + "List = " + Utilidades.letterToLower(entidad.getTabla()) + "Facade.findAll();" + "\r\n");
-                    fw.write("    }" + "\r\n");
-                    fw.write("" + "\r\n");
-                    //iniciar(String value)
-                    fw.write("    @Override" + "\r\n");
-                    fw.write("    public void iniciar(String value) {" + "\r\n");
-                    fw.write("    // utilice un parametro y un findBy si desea cargar registros en base a una condicion " + "\r\n");
-                    fw.write("        " + Utilidades.letterToLower(entidad.getTabla()) + "List = " + Utilidades.letterToLower(entidad.getTabla()) + "Facade.findAll();" + "\r\n");
-                    fw.write("    }" + "\r\n");
-                    fw.write("" + "\r\n");
-                    //showAll()
-                    fw.write("    @Override" + "\r\n");
-                    fw.write("    public String showAll() {" + "\r\n");
                     fw.write("        try {" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("            " + Utilidades.letterToLower(entidad.getTabla()) + "List = " + Utilidades.letterToLower(entidad.getTabla()) + "Facade.findAll();" + "\r\n");
-                    fw.write("" + "\r\n");
+                    fw.write("            found = false;" + "\r\n");
+                    fw.write("            forsearch = false;" + "\r\n");
+                    fw.write("            " + nameEntity + "List = new ArrayList<>();" + "\r\n");
+                    fw.write("            " + nameEntity + "Filtered = new ArrayList<>();" + "\r\n");
+                    fw.write("            " + nameEntity + " = new " + nameClass + "();" + "\r\n");
+                    fw.write("            " + nameEntity + "Filtered = " + nameEntity + "List;" + "\r\n");
+                    fw.write("            " + nameEntity + "DataModel = new " + nameClass + "DataModel(" + nameEntity + "List);" + "\r\n");
+                    fw.write("            String "+primaryKey+" = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get(\""+primaryKey+"\");" + "\r\n");
+                    fw.write("            if ("+primaryKey+" != null) {" + "\r\n");
+                    fw.write("                Optional<" + nameClass + "> optional = " + nameEntity + "Facade.find(\""+primaryKey+"\", "+primaryKey+");" + "\r\n");
+                    fw.write("                if (optional.isPresent()) {" + "\r\n");
+                    fw.write("                    " + nameEntity + " = optional.get();" + "\r\n");
+                    fw.write("                    " + nameEntity + "Selected = " + nameEntity + ";" + "\r\n");
+                    fw.write("                    found = true;" + "\r\n");
+                    fw.write("                    forsearch = true;" + "\r\n");
+                    fw.write("                    writable = true;" + "\r\n");
+                    fw.write("                    RequestContext.getCurrentInstance().update(\":form:content\");" + "\r\n");
+                    fw.write("                }" + "\r\n");
+                    fw.write("            }" + "\r\n");
                     fw.write("        } catch (Exception e) {" + "\r\n");
-                    fw.write("            JSFUtil.addErrorMessage(e.getLocalizedMessage());" + "\r\n");;
+                    fw.write("            JsfUtil.addErrorMessage(\"init() \" + e.getLocalizedMessage());" + "\r\n");
                     fw.write("        }" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    public " + nameClass + "Controller() {" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    @Override" + "\r\n");
+                    fw.write("    public void reset() {" + "\r\n");
+                    fw.write("        found = false;" + "\r\n");
+                    fw.write("        RequestContext.getCurrentInstance().reset(\":form:content\");" + "\r\n");
+                    fw.write("        prepareNew();" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    @Override" + "\r\n");
+                    fw.write("    public String prepareNew() {" + "\r\n");
+                    fw.write("        " + nameEntity + " = new " + nameClass + "();" + "\r\n");
+                    fw.write("        found = false;" + "\r\n");
+                    fw.write("        forsearch = false;" + "\r\n");
+                    fw.write("        writable = false;" + "\r\n");
                     fw.write("        return \"\";" + "\r\n");
                     fw.write("    }" + "\r\n");
-//delete()
+
+                    fw.write("    @Override" + "\r\n");
+                    fw.write("    public String prepareEdit() {" + "\r\n");
+                    fw.write("        return \"/pages/" + nameEntity + "/view.xhtml\";" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    @Override" + "\r\n");
+                    fw.write("    public String open() {" + "\r\n");
+                    fw.write("        found = false;" + "\r\n");
+                    fw.write("        forsearch = true;" + "\r\n");
+                    fw.write("        writable = false;" + "\r\n");
+                    fw.write("        " + nameEntity + " = new " + nameClass + "();" + "\r\n");
+                    fw.write("        " + nameEntity + "Selected = new " + nameClass + "();" + "\r\n");
+                    fw.write("        return \"\";" + "\r\n");
+                    fw.write("    }" + "\r\n");
+                    fw.write("    @Override" + "\r\n");
+                    fw.write("    public String showAll() {" + "\r\n");
+                    fw.write("    try {" + "\r\n");
+                    fw.write("        " + nameEntity + "List = new ArrayList<>();" + "\r\n");
+                    fw.write("        " + nameEntity + "Filtered = new ArrayList<>();" + "\r\n");
+                    fw.write("        " + nameEntity + "List = " + nameEntity + "Facade.findAll();" + "\r\n");
+                    fw.write("        " + nameEntity + "Filtered = " + nameEntity + "List;" + "\r\n");
+                    fw.write("        " + nameEntity + "DataModel = new " + nameClass + "DataModel(" + nameEntity + "List);" + "\r\n");
+                    fw.write("        found = false;" + "\r\n");
+                    fw.write("    } catch (Exception e) {" + "\r\n");
+                    fw.write("        JsfUtil.addErrorMessage(\"showAll()\" + e.getLocalizedMessage());" + "\r\n");
+                    fw.write("    }" + "\r\n");
+                    fw.write("    return \"\";" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    @Override" + "\r\n");
+                    fw.write("    public String query() {" + "\r\n");
+                    fw.write("        try {" + "\r\n");
+                    fw.write("        writable = true;" + "\r\n");
+                    fw.write("        " + nameEntity + " = " + nameEntity + "Selected;" + "\r\n");
+                    fw.write("        found = true;" + "\r\n");
+                    fw.write("    } catch (Exception e) {" + "\r\n");
+                    fw.write("        JsfUtil.addErrorMessage(\"query()\" + e.getLocalizedMessage());" + "\r\n");
+                    fw.write("    }" + "\r\n");
+                    fw.write("    return \"\";" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    @Override" + "\r\n");
+                    fw.write("    public String verifyNew() {" + "\r\n");
+                    fw.write("        try {" + "\r\n");
+                    fw.write("        writable = false;" + "\r\n");
+                    fw.write("        found = false;" + "\r\n");
+                    fw.write("        forsearch = false;" + "\r\n");
+                    fw.write("        Optional<" + nameClass + "> optional = " + nameEntity + "Facade.findById(" + nameEntity + ");" + "\r\n");
+                    fw.write("        if (optional.isPresent()) {" + "\r\n");
+                    fw.write("            " + nameEntity + " = optional.get();" + "\r\n");
+                    fw.write("            " + nameEntity + "Selected = " + nameEntity + ";" + "\r\n");
+                    fw.write("            writable = true;" + "\r\n");
+                    fw.write("            found = true;" + "\r\n");
+                    fw.write("            forsearch = true;" + "\r\n");
+                    fw.write("            return \"\";" + "\r\n");
+                    fw.write("        }" + "\r\n");
+                    fw.write("        writable = true;" + "\r\n");
+                    fw.write("    } catch (Exception e) {" + "\r\n");
+                    fw.write("        JsfUtil.addErrorMessage(\"verifyNew()\" + e.getLocalizedMessage());" + "\r\n");
+                    fw.write("    }" + "\r\n");
+                    fw.write("    return \"\";" + "\r\n");
+                    fw.write("    }" + "\r\n");
+                    fw.write("    @Override" + "\r\n");
+                    fw.write("    public String save() {" + "\r\n");
+                    fw.write("        try {" + "\r\n");
+                    fw.write("        Optional<" + nameClass + "> optional = " + nameEntity + "Facade.findById(" + nameEntity + ");" + "\r\n");
+                    fw.write("        if (optional.isPresent()) {" + "\r\n");
+                    fw.write("            JsfUtil.warningDialog(rf.getAppMessage(\"info.message\"), rf.getAppMessage(\"warning.idexist\"));" + "\r\n");
+                    fw.write("            return null;" + "\r\n");
+                    fw.write("        }" + "\r\n");
+                    fw.write("        if (" + nameEntity + "Facade.save(" + nameEntity + ")) {" + "\r\n");
+                    fw.write("            JsfUtil.addSuccessMessage(rf.getAppMessage(\"info.save\"));" + "\r\n");
+                    fw.write("            reset();" + "\r\n");
+                    fw.write("        } else {" + "\r\n");
+                    fw.write("            JsfUtil.addSuccessMessage(\"save() \" + " + nameEntity + "Facade.getException().toString());" + "\r\n");
+                    fw.write("        }" + "\r\n");
+                    fw.write("      " + "\r\n");
+                    fw.write("    } catch (Exception e) {" + "\r\n");
+                    fw.write("        JsfUtil.addErrorMessage(\"save()\" + e.getLocalizedMessage());" + "\r\n");
+                    fw.write("    }" + "\r\n");
+                    fw.write("    return \"\";" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
+                    fw.write("    @Override" + "\r\n");
+                    fw.write("    public String edit() {" + "\r\n");
+                    fw.write("        try {" + "\r\n");
+                    fw.write("             " + nameEntity + "Facade.update(" + nameEntity + ");" + "\r\n");
+                    fw.write("        JsfUtil.addSuccessMessage(rf.getAppMessage(\"info.update\"));" + "\r\n");
+                    fw.write("    } catch (Exception e) {" + "\r\n");
+                    fw.write("        JsfUtil.addErrorMessage(\"edit()\" + e.getLocalizedMessage());" + "\r\n");
+                    fw.write("    }" + "\r\n");
+                    fw.write("    return \"\";" + "\r\n");
+                    fw.write("    }" + "\r\n");
+
                     fw.write("    @Override" + "\r\n");
                     fw.write("    public String delete() {" + "\r\n");
                     fw.write("        try {" + "\r\n");
-                    fw.write("            " + Utilidades.letterToLower(entidad.getTabla()) + "Facade.remove(selected);" + "\r\n");
-                    fw.write("            " + Utilidades.letterToLower(entidad.getTabla()) + "List.remove(selected);" + "\r\n");
+                    fw.write("            if (" + nameEntity + "Facade.delete(\""+primaryKey+"\", " + nameEntity + ".get"+primaryKeyUpper+"())) {" + "\r\n");
+                    fw.write("               JsfUtil.addSuccessMessage(rf.getAppMessage(\"info.delete\"));" + "\r\n");
+                    fw.write("               " + nameEntity + " = new " + nameClass + "();" + "\r\n");
+                    fw.write("               found = false;" + "\r\n");
+                    fw.write("               reset();" + "\r\n");
+                    fw.write("            }" + "\r\n");
                     fw.write("        } catch (Exception e) {" + "\r\n");
-                    fw.write("            JSFUtil.addErrorMessage(e.getLocalizedMessage());" + "\r\n");
-                    fw.write("        }" + "\r\n");
-                    fw.write("        return null;" + "\r\n");
-                    fw.write("    }" + "\r\n");
-                    fw.write("" + "\r\n");
-                    //getItems()
-                    fw.write("    @Override" + "\r\n");
-                    fw.write("    public List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> getItems() {" + "\r\n");
-                    fw.write("        try {" + "\r\n");
-//                    fw.write("            if (items == null) {" + "\r\n");
-                    fw.write("                items = " + Utilidades.letterToLower(entidad.getTabla()) + "Facade.findAll();" + "\r\n");
-//                    fw.write("            }" + "\r\n");
-                    fw.write("        } catch (Exception e) {" + "\r\n");
-                    fw.write("            JSFUtil.addErrorMessage(e.getLocalizedMessage());" + "\r\n");
-                    fw.write("        }" + "\r\n");
-                    fw.write("        return items;" + "\r\n");
-                    fw.write("    }" + "\r\n");
-                    fw.write("" + "\r\n");
-                    //changeItems()
-                    fw.write("    @Override" + "\r\n");
-                    fw.write("    public String changeItems() {" + "\r\n");
-                    fw.write("        try {" + "\r\n");
-                    fw.write("            items = " + Utilidades.letterToLower(entidad.getTabla()) + "Facade.findAll();" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("        } catch (Exception e) {" + "\r\n");
-                    fw.write("            JSFUtil.addErrorMessage(\"changeItems() \" + e.getLocalizedMessage());" + "\r\n");
+                    fw.write("            JsfUtil.addErrorMessage(\"delete() \" + e.getLocalizedMessage());" + "\r\n");
                     fw.write("        }" + "\r\n");
                     fw.write("        return \"\";" + "\r\n");
                     fw.write("    }" + "\r\n");
-                    fw.write("" + "\r\n");
 
-                    fw.write("    @Override" + "\r\n");
-                    fw.write("    public List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> getItemsCollection() {" + "\r\n");
+                    fw.write("    public String delete(" + nameClass + " " + nameEntity + ") {" + "\r\n");
                     fw.write("        try {" + "\r\n");
-                    fw.write("             //si desea obtener datos de una coleccion indiquela en esta seccion" + "\r\n");
-                    fw.write("            //itemsCollection = new ArrayList(" + Utilidades.letterToLower(entidad.getTabla()) + ".getOtherEntityCollection());" + "\r\n");
-                    fw.write("" + "\r\n");
+                    fw.write("            if (" + nameEntity + "Facade.delete(\""+primaryKey+"\", " + nameEntity + ".get"+primaryKeyUpper+"())) {" + "\r\n");
+                    fw.write("                JsfUtil.addSuccessMessage(rf.getAppMessage(\"info.delete\"));" + "\r\n");
+                    fw.write("                " + nameEntity + " = new " + nameClass + "();" + "\r\n");
+                    fw.write("                found = false;" + "\r\n");
+                    fw.write("            }" + "\r\n");
+                    fw.write("            showAll();" + "\r\n");
                     fw.write("        } catch (Exception e) {" + "\r\n");
-                    fw.write("            JSFUtil.addErrorMessage(e.getLocalizedMessage());" + "\r\n");
+                    fw.write("            JsfUtil.addErrorMessage(\"delete() \" + e.getLocalizedMessage());" + "\r\n");
                     fw.write("        }" + "\r\n");
-                    fw.write("        return itemsCollection;" + "\r\n");
+                    fw.write("        return \"/pages/" + nameEntity + "/list.xhtml\";" + "\r\n");
                     fw.write("    }" + "\r\n");
-                    fw.write("" + "\r\n");
-                    //
 
-//imprimirTodos
                     fw.write("    @Override" + "\r\n");
-                    fw.write("    public String imprimirTodos() {" + "\r\n");
+                    fw.write("    public String remove() {" + "\r\n");
                     fw.write("        try {" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("            String ruta = \"/resources/reportes/" + Utilidades.letterToLower(entidad.getTabla()) + "/" + Utilidades.letterToLower(entidad.getTabla()) + ".jasper\";" + "\r\n");
-                    fw.write("            HashMap parameters = new HashMap();" + "\r\n");
-                    fw.write("            //defina los parametros en el reporte y asigne valores desde aqui" + "\r\n");
-                    fw.write("            //parameters.put(key, value);" + "\r\n");
-                    fw.write("            gestorImpresion.imprimir(" + Utilidades.letterToLower(entidad.getTabla()) + "List, ruta, parameters);" + "\r\n");
-                    fw.write("        } catch (Exception ex) {" + "\r\n");
-                    fw.write("            JSFUtil.addErrorMessage(\"imprimir() \" + ex.getLocalizedMessage());" + "\r\n");
+                    fw.write("            " + nameEntity + " = " + nameEntity + "Selected;" + "\r\n");
+                    fw.write("            if (" + nameEntity + "Facade.delete(\""+primaryKey+"\", " + nameEntity + ".get"+primaryKeyUpper+"())) {" + "\r\n");
+                    fw.write("                " + nameEntity + "List.remove(" + nameEntity + ");" + "\r\n");
+                    fw.write("                " + nameEntity + "Filtered = " + nameEntity + "List;" + "\r\n");
+                    fw.write("                " + nameEntity + "DataModel = new " + nameClass + "DataModel(" + nameEntity + "List);" + "\r\n");
+                    fw.write("                " + nameEntity + " = new " + nameClass + "();" + "\r\n");
+                    fw.write("                " + nameEntity + "Selected = new " + nameClass + "();" + "\r\n");
+
+                    fw.write("                found = false;" + "\r\n");
+                    fw.write("                JsfUtil.addSuccessMessage(rf.getAppMessage(\"info.delete\"));" + "\r\n");
+                    fw.write("            }" + "\r\n");
+                    fw.write("        } catch (Exception e) {" + "\r\n");
+                    fw.write("            JsfUtil.addErrorMessage(\"remove()\" + e.getLocalizedMessage());" + "\r\n");
                     fw.write("        }" + "\r\n");
-                    fw.write("        return null;" + "\r\n");
+                    fw.write("        return \"\";" + "\r\n");
                     fw.write("    }" + "\r\n");
-                    fw.write("" + "\r\n");
 
                     fw.write("    @Override" + "\r\n");
-                    fw.write("    public String listar() {" + "\r\n");
-                    fw.write("        showAll();" + "\r\n");
-                    fw.write("        imprimirTodos();" + "\r\n");
-                    fw.write("        return null;" + "\r\n");
+                    fw.write("    public String deleteAll() {" + "\r\n");
+                    fw.write("        if (" + nameEntity + "Facade.deleteAll() != 0) {" + "\r\n");
+                    fw.write("            JsfUtil.addSuccessMessage(rf.getAppMessage(\"info.delete\"));" + "\r\n");
+                    fw.write("        }" + "\r\n");
+                    fw.write("        return \"\";" + "\r\n");
                     fw.write("    }" + "\r\n");
-                    fw.write("" + "\r\n");
 
                     fw.write("    @Override" + "\r\n");
-                    fw.write("    public void onCellEdit(CellEditEvent event) {" + "\r\n");
-                    fw.write("        throw new UnsupportedOperationException(\"Not supported yet.\");" + "\r\n");
+                    fw.write("    public String print() {" + "\r\n");
+                    fw.write("        try {" + "\r\n");
+                    fw.write("            List<" + nameClass + "> list = new ArrayList<>();" + "\r\n");
+                    fw.write("            list.add(" + nameEntity + ");" + "\r\n");
+                    fw.write("            String ruta = \"/resources/reportes/" + nameEntity + "/" + nameEntity + ".jasper\";" + "\r\n");
+                    fw.write("            HashMap parameters = new HashMap();" + "\r\n");
+                    fw.write("            // parameters.put(\"P_parametro\", \"valor\");" + "\r\n");
+                    fw.write("            printer.imprimir(list, ruta, parameters);" + "\r\n");
+                    fw.write("        } catch (Exception ex) {" + "\r\n");
+                    fw.write("            JsfUtil.addErrorMessage(\"imprimir() \" + ex.getLocalizedMessage());" + "\r\n");
+                    fw.write("        }" + "\r\n");
+                    fw.write("    return null;" + "\r\n");
                     fw.write("    }" + "\r\n");
-                    fw.write("" + "\r\n");
+
+                    fw.write("    @Override" + "\r\n");
+                    fw.write("    public String printAll() {" + "\r\n");
+                    fw.write("        try {" + "\r\n");
+                    fw.write("            List<" + nameClass + "> list = new ArrayList<>();" + "\r\n");
+                    fw.write("            if (" + nameEntity + "Filtered.isEmpty()) {" + "\r\n");
+                    fw.write("                list = " + nameEntity + "List;" + "\r\n");
+                    fw.write("            } else {" + "\r\n");
+                    fw.write("                list = " + nameEntity + "Filtered;" + "\r\n");
+                    fw.write("            }" + "\r\n");
+                    fw.write("            String ruta = \"/resources/reportes/" + nameEntity + "/" + nameEntity + ".jasper\";" + "\r\n");
+                    fw.write("            HashMap parameters = new HashMap();" + "\r\n");
+                    fw.write("            // parameters.put(\"P_parametro\", \"valor\");" + "\r\n");
+                    fw.write("            printer.imprimir(list, ruta, parameters);" + "\r\n");
+                    fw.write("         } catch (Exception ex) {" + "\r\n");
+                    fw.write("             JsfUtil.addErrorMessage(\"imprimir() \" + ex.getLocalizedMessage());" + "\r\n");
+                    fw.write("         }" + "\r\n");
+                    fw.write("         return null;" + "\r\n");
+                    fw.write("    }" + "\r\n");
 
                     fw.write("    @Override" + "\r\n");
                     fw.write("    public void handleSelect(SelectEvent event) {" + "\r\n");
                     fw.write("        try {" + "\r\n");
-                    fw.write("            " + Utilidades.letterToLower(entidad.getTabla()) + "List.removeAll(" + Utilidades.letterToLower(entidad.getTabla()) + "List);" + "\r\n");
-                    fw.write("            " + Utilidades.letterToLower(entidad.getTabla()) + "List.add(selected);" + "\r\n");
-                    fw.write("" + "\r\n");
+                    fw.write("            " + nameEntity + "List.removeAll(" + nameEntity + "List);" + "\r\n");
+                    fw.write("            " + nameEntity + "List.add(" + nameEntity + "Selected);" + "\r\n");
+                    fw.write("            " + nameEntity + "Filtered = " + nameEntity + "List;" + "\r\n");
+                    fw.write("            " + nameEntity + "DataModel = new " + nameClass + "DataModel(" + nameEntity + "List);" + "\r\n");
                     fw.write("        } catch (Exception ex) {" + "\r\n");
-                    fw.write("            JSFUtil.addErrorMessage(\"handleSelect() \" + ex.getLocalizedMessage());" + "\r\n");
-                    fw.write("" + "\r\n");
+                    fw.write("            JsfUtil.addErrorMessage(\"handleSelect() \" + ex.getLocalizedMessage());" + "\r\n");
                     fw.write("        }" + "\r\n");
-                    fw.write("" + "\r\n");
                     fw.write("    }" + "\r\n");
-                    fw.write("" + "\r\n");
-
-                    fw.write("    @Override" + "\r\n");
-                    fw.write("    public String delete(Object t) {" + "\r\n");
-                    fw.write("        try {" + "\r\n");
-                    fw.write("            " + Utilidades.letterToLower(entidad.getTabla()) + " = (" + Utilidades.letterToUpper(entidad.getTabla()) + ") t;" + "\r\n");
-                    fw.write("            " + Utilidades.letterToLower(entidad.getTabla()) + "List.remove(" + Utilidades.letterToLower(entidad.getTabla()) + ");" + "\r\n");
-                    fw.write("            " + Utilidades.letterToLower(entidad.getTabla()) + "Facade.remove(" + Utilidades.letterToLower(entidad.getTabla()) + ");" + "\r\n");
-                    fw.write("        } catch (Exception ex) {" + "\r\n");
-                    fw.write("            JSFUtil.addErrorMessage(\"delete()\" + ex.getLocalizedMessage());" + "\r\n");
-                    fw.write("        }" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("        return null;" + "\r\n");
-                    fw.write("    }" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("" + "\r\n");
@@ -415,297 +516,4 @@ public class ControllerGenerador implements Serializable {
         return false;
     }
 
-    private String init() {
-        try {
-
-            String texto = "";
-            texto += "    @PostConstruct" + "\r\n";
-            texto += "    public void init() {" + "\r\n";
-            texto += "" + "\r\n";
-            texto += "    }" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("init()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-
-    private String clear(Entidad entidad) {
-        try {
-
-            String texto = "";
-            //clear
-            texto += "    @Override" + "\r\n";
-            texto += "    public String clear() {" + "\r\n";
-            texto += "        " + Utilidades.letterToLower(entidad.getTabla()) + "List = new ArrayList<>();" + "\r\n";
-            texto += "        return null;" + "\r\n";
-            texto += "    }" + "\r\n";
-
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("clear()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-
-    private String iniciar(Entidad entidad) {
-        try {
-
-            String texto = "";
-            //iniciar
-            texto += "    @Override" + "\r\n";
-            texto += "    public void iniciar() {" + "\r\n";
-            texto += "        " + Utilidades.letterToLower(entidad.getTabla()) + "List = " + Utilidades.letterToLower(entidad.getTabla()) + "Facade.findAll();" + "\r\n";
-            texto += "    }" + "\r\n";
-            texto += "" + "\r\n";
-
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("iniciar()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-
-    private String deleteObject(Entidad entidad) {
-        try {
-
-            String texto = "";
-            texto += "    @Override" + "\r\n";
-            texto += "    public String delete(Object t) {" + "\r\n";
-            texto += "        try {" + "\r\n";
-            texto += "            " + Utilidades.letterToLower(entidad.getTabla()) + " = (" + Utilidades.letterToUpper(entidad.getTabla()) + ") t;" + "\r\n";
-            texto += "            " + Utilidades.letterToLower(entidad.getTabla()) + "List.remove(" + Utilidades.letterToLower(entidad.getTabla()) + ");" + "\r\n";
-            texto += "            " + Utilidades.letterToLower(entidad.getTabla()) + "Facade.remove(" + Utilidades.letterToLower(entidad.getTabla()) + ");" + "\r\n";
-            texto += "        } catch (Exception ex) {" + "\r\n";
-            texto += "            JSFUtil.addErrorMessage(\"delete()\" + ex.getLocalizedMessage());" + "\r\n";
-            texto += "        }" + "\r\n";
-            texto += "" + "\r\n";
-            texto += "        return null;" + "\r\n";
-            texto += "    }" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("deleteObject()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-
-    private String handleSelect(Entidad entidad) {
-        try {
-
-            String texto = "";
-            texto += "    @Override" + "\r\n";
-            texto += "    public void handleSelect(SelectEvent event) {" + "\r\n";
-            texto += "        try {" + "\r\n";
-            texto += "            " + Utilidades.letterToLower(entidad.getTabla()) + "List.removeAll(" + Utilidades.letterToLower(entidad.getTabla()) + "List);" + "\r\n";
-            texto += "            " + Utilidades.letterToLower(entidad.getTabla()) + "List.add(selected);" + "\r\n";
-            texto += "" + "\r\n";
-            texto += "        } catch (Exception ex) {" + "\r\n";
-            texto += "            JSFUtil.addErrorMessage(\"handleSelect() \" + ex.getLocalizedMessage());" + "\r\n";
-            texto += "" + "\r\n";
-            texto += "        }" + "\r\n";
-            texto += "" + "\r\n";
-            texto += "    }" + "\r\n";
-            texto += "" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("handleSelect()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-
-    private String onCellEdit() {
-        try {
-
-            String texto = "";
-            texto += "    @Override" + "\r\n";
-            texto += "    public void onCellEdit(CellEditEvent event) {" + "\r\n";
-            texto += "        throw new UnsupportedOperationException(\"Not supported yet.\");" + "\r\n";
-            texto += "    }" + "\r\n";
-            texto += "" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("onCellEdit()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-
-    private String listar() {
-        try {
-
-            String texto = "";
-            texto += "    @Override" + "\r\n";
-            texto += "    public String listar() {" + "\r\n";
-            texto += "        showAll();" + "\r\n";
-            texto += "        imprimirTodos();" + "\r\n";
-            texto += "        return null;" + "\r\n";
-            texto += "    }" + "\r\n";
-            texto += "" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("listar()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-
-    private String imprimirTodos(Entidad entidad) {
-        try {
-
-            String texto = "";
-//imprimirTodos
-            texto += "    @Override" + "\r\n";
-            texto += "    public String imprimirTodos() {" + "\r\n";
-            texto += "        try {" + "\r\n";
-            texto += "" + "\r\n";
-            texto += "            String ruta = \"/resources/reportes/" + Utilidades.letterToLower(entidad.getTabla()) + "/" + Utilidades.letterToLower(entidad.getTabla()) + ".jasper\";" + "\r\n";
-            texto += "            HashMap parameters = new HashMap();" + "\r\n";
-            texto += "            //defina los parametros en el reporte y asigne valores desde aqui" + "\r\n";
-            texto += "            //parameters.put(key, value);" + "\r\n";
-            texto += "            gestorImpresion.imprimir(" + Utilidades.letterToLower(entidad.getTabla()) + "List, ruta, parameters);" + "\r\n";
-            texto += "        } catch (Exception ex) {" + "\r\n";
-            texto += "            JSFUtil.addErrorMessage(\"imprimir() \" + ex.getLocalizedMessage());" + "\r\n";
-            texto += "        }" + "\r\n";
-            texto += "        return null;" + "\r\n";
-            texto += "    }" + "\r\n";
-            texto += "" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("imprimirTodos()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-
-    private String getItemsCollection(Entidad entidad) {
-        try {
-
-            String texto = "";
-            texto += "    @Override" + "\r\n";
-            texto += "    public List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> getItemsCollection() {" + "\r\n";
-            texto += "        try {" + "\r\n";
-            texto += "             //si desea obtener datos de una coleccion indiquela en esta seccion" + "\r\n";
-            texto += "            //itemsCollection = new ArrayList(" + Utilidades.letterToLower(entidad.getTabla()) + ".getOtherEntityCollection());" + "\r\n";
-            texto += "" + "\r\n";
-            texto += "        } catch (Exception e) {" + "\r\n";
-            texto += "            JSFUtil.addErrorMessage(e.getLocalizedMessage());" + "\r\n";
-            texto += "        }" + "\r\n";
-            texto += "        return itemsCollection;" + "\r\n";
-            texto += "    }" + "\r\n";
-            texto += "" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("getItemsCollection()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-
-    private String changeItems(Entidad entidad) {
-        try {
-
-            String texto = "";
-            //changeItems()
-            texto += "    @Override" + "\r\n";
-            texto += "    public String changeItems() {" + "\r\n";
-            texto += "        try {" + "\r\n";
-            texto += "            items = " + Utilidades.letterToLower(entidad.getTabla()) + "Facade.findAll();" + "\r\n";
-            texto += "" + "\r\n";
-            texto += "        } catch (Exception e) {" + "\r\n";
-            texto += "            JSFUtil.addErrorMessage(\"changeItems() \" + e.getLocalizedMessage());" + "\r\n";
-            texto += "        }" + "\r\n";
-            texto += "        return \"\";" + "\r\n";
-            texto += "    }" + "\r\n";
-            texto += "" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("changeItems()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-
-    private String getItems(Entidad entidad) {
-        try {
-
-            String texto = "";
-            //getItems()
-            texto += "    @Override" + "\r\n";
-            texto += "    public List<" + Utilidades.letterToUpper(entidad.getTabla()) + "> getItems() {" + "\r\n";
-            texto += "        try {" + "\r\n";
-//                    texto +="            if (items == null) {" + "\r\n";
-            texto += "                items = " + Utilidades.letterToLower(entidad.getTabla()) + "Facade.findAll();" + "\r\n";
-//                    texto +="            }" + "\r\n";
-            texto += "        } catch (Exception e) {" + "\r\n";
-            texto += "            JSFUtil.addErrorMessage(e.getLocalizedMessage());" + "\r\n";
-            texto += "        }" + "\r\n";
-            texto += "        return items;" + "\r\n";
-            texto += "    }" + "\r\n";
-            texto += "" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("getItems()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-
-    private String iniciarParametro(Entidad entidad) {
-        try {
-
-            String texto = "";
-            //iniciar(String value)
-            texto += "    @Override" + "\r\n";
-            texto += "    public void iniciar(String value) {" + "\r\n";
-            texto += "    // utilice un parametro y un findBy si desea cargar registros en base a una condicion " + "\r\n";
-            texto += "        " + Utilidades.letterToLower(entidad.getTabla()) + "List = " + Utilidades.letterToLower(entidad.getTabla()) + "Facade.findAll();" + "\r\n";
-            texto += "    }" + "\r\n";
-            texto += "" + "\r\n";
-
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("iniciarParametro()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-
-    private String showAll(Entidad entidad) {
-        try {
-
-            String texto = "";
-            //showAll()
-            texto += "    @Override" + "\r\n";
-            texto += "    public String showAll() {" + "\r\n";
-            texto += "        try {" + "\r\n";
-            texto += "" + "\r\n";
-            texto += "            " + Utilidades.letterToLower(entidad.getTabla()) + "List = " + Utilidades.letterToLower(entidad.getTabla()) + "Facade.findAll();" + "\r\n";
-            texto += "" + "\r\n";
-            texto += "        } catch (Exception e) {" + "\r\n";
-            texto += "            JSFUtil.addErrorMessage(e.getLocalizedMessage());" + "\r\n";;
-            texto += "        }" + "\r\n";
-            texto += "        return \"\";" + "\r\n";
-            texto += "    }" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("showAll()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-
-    private String delete(Entidad entidad) {
-        try {
-
-            String texto = "";
-//delete()
-            texto += "    @Override" + "\r\n";
-            texto += "    public String delete() {" + "\r\n";
-            texto += "        try {" + "\r\n";
-            texto += "            " + Utilidades.letterToLower(entidad.getTabla()) + "Facade.remove(selected);" + "\r\n";
-            texto += "            " + Utilidades.letterToLower(entidad.getTabla()) + "List.remove(selected);" + "\r\n";
-            texto += "        } catch (Exception e) {" + "\r\n";
-            texto += "            JSFUtil.addErrorMessage(e.getLocalizedMessage());" + "\r\n";
-            texto += "        }" + "\r\n";
-            texto += "        return null;" + "\r\n";
-            texto += "    }" + "\r\n";
-            texto += "" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("delete()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
 }
