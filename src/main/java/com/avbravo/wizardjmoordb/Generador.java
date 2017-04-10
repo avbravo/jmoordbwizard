@@ -15,7 +15,6 @@ import com.avbravo.wizardjmoordb.beans.EntidadMenu;
 import com.avbravo.wizardjmoordb.datamodel.DatamodelGenerador;
 import com.avbravo.wizardjmoordb.facade.FacadeGenerador;
 import com.avbravo.wizardjmoordb.generador.configuration.ConfigurationFileGenerador;
-import com.avbravo.wizardjmoordb.controller.ControllerGenerador;
 import com.avbravo.wizardjmoordb.converter.ConverterGenerador;
 import com.avbravo.wizardjmoordb.generador.css.DefaultCssGenerador;
 import com.avbravo.wizardjmoordb.generador.xml.FacesConfigXMLGenerador;
@@ -23,7 +22,6 @@ import com.avbravo.wizardjmoordb.generador.xml.FacesConfigXMLGenerador;
 import com.avbravo.wizardjmoordb.interfaces.IControllerGenerador;
 import com.avbravo.wizardjmoordb.idiomas.IdiomasGenerador;
 import com.avbravo.wizardjmoordb.information.InformationGenerador;
-import com.avbravo.wizardjmoordb.old.LoginBeanGenerador;
 import com.avbravo.wizardjmoordb.roles.ApplicationMenuGenerador;
 import com.avbravo.wizardjmoordb.messages.MessagesPropertiesGenerador;
 import com.avbravo.wizardjmoordb.generador.xml.PersistenceXMLGenerador;
@@ -31,6 +29,7 @@ import com.avbravo.wizardjmoordb.generador.xml.PomXMLGenerador;
 import com.avbravo.wizardjmoordb.resourcesfiles.ResourcesFilesGenerador;
 import com.avbravo.wizardjmoordb.roles.RolesGenerador;
 import com.avbravo.wizardjmoordb.controller.ControllerGenerador;
+import com.avbravo.wizardjmoordb.controller.LoginControllerGenerador;
 import com.avbravo.wizardjmoordb.sevices.ServicesGenerador;
 import com.avbravo.wizardjmoordb.generador.css.CssLayoutCssGenerador;
 import com.avbravo.wizardjmoordb.roles.ValidadorRolesGenerador;
@@ -131,7 +130,7 @@ public class Generador implements Serializable {
     @Inject
     ValidadorRolesGenerador validadorRolesGenerador;
     @Inject
-    LoginBeanGenerador loginBeanGenerador;
+    LoginControllerGenerador loginControllerGenerador;
     @Inject
     ConfigurationFileGenerador configurationFileGenerador;
     @Inject
@@ -740,7 +739,7 @@ public class Generador implements Serializable {
 
                     resourcesFilesGenerador.generar();
                     idiomasGenerador.generar();
-                    loginBeanGenerador.generar();
+                    loginControllerGenerador.generar();
                     /*
                     menu
                      */

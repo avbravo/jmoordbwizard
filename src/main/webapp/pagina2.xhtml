@@ -43,7 +43,8 @@
                                                />
                                 <f:converter binding="#{entidadConverter}" />
                            <p:ajax  process="entidad"  event="change"
-                                  update=":form:growl,:form:username,:form:password,:form:nombremostrar" 
+                                  update=":form:growl,:form:username,:form:password,
+                                  :form:nombremostrar,:form:idgrupo" 
                                          listener="#{entidadSearch.onChangeEntidadUser()}"/> 
                             </p:selectOneMenu>
 
@@ -98,11 +99,28 @@
                                          listener="#{entidadSearch.atributosNombreMostrarSeleccionado()}"/> 
                             </p:selectOneMenu>
 
+                             <p:outputLabel value="Id Groupo"/>
+                            <p:selectOneMenu  id="idgrupo" 
+                                              value="#{generador.mySesion.atributosIdGrupo}"  
+                                              required="true"     requiredMessage="Seleccione el grupo al que pertenece"
+
+                                              >
+                                <!-- TODO: update below reference to list of available items-->
+                                <f:selectItem itemLabel="Seleccione uno" itemValue="#{null}"/> 
+       <f:selectItems value="#{entidadSearch.listColumnasUser}" />
+
+
+                            </p:selectOneMenu>
+                            
+                            
+                             <h:outputText value="Un solo rol Relacionado: " />
+
+                            <b:selectBooleanCheckbox value="#{generador.mySesion.unsoloRol}" caption="Si"/>
 
                             <p:outputLabel value="Roles"/>
                             <p:selectOneMenu  id="roles" 
                                               value="#{generador.mySesion.entidadRoles}"  
-                                              required="true" requiredMessage="Seleccione el rol"
+                                          
 
                                               >
                                 <!-- TODO: update below reference to list of available items-->

@@ -64,10 +64,14 @@ public class MySesion implements Serializable {
     private String atributosUsername = "";
     private String atributosPassword = "";
     private String atributosNombreMostrar = "";
+    private String atributosIdGrupo ="";
+    
     // es la columna del grupo de usuario que se muestra
     private String atributosGrupousuarioMostrar = "";
 
     private Boolean multiplesRoles = false;
+    
+    private Boolean unsoloRol =false;
     //agrega el usuario logeado en los metodos para el crud 
     private Boolean addUserNameLogeado=false;
     //agrega la fecha para las enity del sistema en los crud
@@ -104,6 +108,25 @@ public class MySesion implements Serializable {
     List<EntidadMenu> entidadMenuList = new ArrayList<>();
      private List<String> masterDetailsList =  new ArrayList<>();
 
+    public String getAtributosIdGrupo() {
+        return atributosIdGrupo;
+    }
+
+    public void setAtributosIdGrupo(String atributosIdGrupo) {
+        this.atributosIdGrupo = atributosIdGrupo;
+    }
+
+    public Boolean getUnsoloRol() {
+        return unsoloRol;
+    }
+
+    public void setUnsoloRol(Boolean unsoloRol) {
+        this.unsoloRol = unsoloRol;
+    }
+
+     
+     
+     
     public String getDatabasename() {
         return databasename;
     }

@@ -35,10 +35,22 @@ public class EntidadSearch implements Serializable {
     List<String> listColumnas = new ArrayList<>();
     List<String> listColumnasUser = new ArrayList<>();
     List<String> listColumnasPassword = new ArrayList<>();
+    List<String> listIdGroup = new ArrayList<>();
     List<String> listColumnasNombreMostrar = new ArrayList<>();
     
      List<String> listColumnasGrupousuario = new ArrayList<>();
 
+    public List<String> getListIdGroup() {
+        return listIdGroup;
+    }
+
+    public void setListIdGroup(List<String> listIdGroup) {
+        this.listIdGroup = listIdGroup;
+    }
+
+     
+     
+     
     public List<String> getListColumnasGrupousuario() {
         return listColumnasGrupousuario;
     }
@@ -97,6 +109,7 @@ public class EntidadSearch implements Serializable {
            
            
             listColumnas = new ArrayList<>();
+            listIdGroup = new ArrayList<>();
             for (Atributos a : mySesion.getEntidadUser().getAtributosList()) {
                 if (a.getTipo().equals("String")) {
                     listColumnas.add(a.getNombre());
@@ -106,6 +119,7 @@ public class EntidadSearch implements Serializable {
             listColumnasUser = listColumnas;
             listColumnasPassword = listColumnas;
             listColumnasNombreMostrar = listColumnas;
+            listIdGroup = listColumnas;
         } catch (Exception e) {
             JSFUtil.addErrorMessage("onChangeEntidadUser() " + e.getLocalizedMessage());
         }
@@ -170,4 +184,16 @@ public class EntidadSearch implements Serializable {
         return null;
 
     }
+//    public String atributosNombreMostrarSeleccionado() {
+//        try {
+//
+////            listColumnasUser = mySesion.getEntidadUser().getAtributosList();
+////            listColumnasPassword = mySesion.getEntidadUser().getAtributosList();
+////            listColumnasNombreMostrar = mySesion.getEntidadUser().getAtributosList();
+//        } catch (Exception e) {
+//            JSFUtil.addErrorMessage("entidadUserSeleccionada() " + e.getLocalizedMessage());
+//        }
+//        return null;
+//
+//    }
 }

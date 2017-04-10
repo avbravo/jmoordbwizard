@@ -108,8 +108,14 @@ public class ConfigurationFilerRead implements Serializable {
                 case "atributosNombreMostrar":
                     mySesion.setAtributosNombreMostrar(descomponer(s, r));
                     break;
+                case "atributosIdGrupo":
+                    mySesion.setAtributosIdGrupo(descomponer(s, r));
+                    break;
                 case "entidadRoles":
                     mySesion.getEntidadRoles().setTabla(descomponer(s, r));
+                    break;
+                case "unsoloRol":
+                    mySesion.setUnsoloRol(descomponer(s, r).equals("true"));
                     break;
                 case "multiplesRoles":
                     mySesion.setMultiplesRoles(descomponer(s, r).equals("true"));

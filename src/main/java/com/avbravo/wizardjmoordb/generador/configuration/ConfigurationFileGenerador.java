@@ -40,8 +40,9 @@ public class ConfigurationFileGenerador implements Serializable {
     MySesion mySesion;
     @Inject
     ProyectoJEE proyectoJEE;
-@Inject
-FechasServices fechasServices;
+    @Inject
+    FechasServices fechasServices;
+
     /**
      * Creates a new instance of Facade
      */
@@ -99,11 +100,10 @@ FechasServices fechasServices;
                 File file2 = new File(ruta);
                 //Creamos un objeto para escribir caracteres en el archivo de prueba
                 try (FileWriter fw = new FileWriter(file)) {
-                    fw.write("" + "\r\n");
                     fw.write("/**" + "\r\n");
                     fw.write(" *" + "\r\n");
                     fw.write(" * @author: " + mySesion.getUsername() + "\r\n");
-                    fw.write(" * Fecha: " + fechasServices.getFechaActual()+ "\r\n");
+                    fw.write(" * Fecha: " + fechasServices.getFechaActual() + "\r\n");
                     fw.write(" */" + "\r\n");
                     fw.write("proyecto=" + proyectoJEE.getProyecto() + "\r\n");
                     fw.write("package=" + proyectoJEE.getPaquete() + "\r\n");
@@ -111,28 +111,30 @@ FechasServices fechasServices;
                     fw.write("atributosUsername=" + mySesion.getAtributosUsername() + "\r\n");
                     fw.write("atributosPassword=" + mySesion.getAtributosPassword() + "\r\n");
                     fw.write("atributosNombreMostrar=" + mySesion.getAtributosNombreMostrar() + "\r\n");
+                    fw.write("atributosIdGrupo=" + mySesion.getAtributosIdGrupo() + "\r\n");
                     fw.write("entidadRoles=" + mySesion.getEntidadRoles().getTabla() + "\r\n");
+                    fw.write("unsoloRol=" + mySesion.getUnsoloRol() + "\r\n");
                     fw.write("multiplesRoles=" + mySesion.getMultiplesRoles() + "\r\n");
-                    fw.write("opcionMenuReportes=" + mySesion.getOpcionMenuReportes()+ "\r\n");
-                    if(mySesion.getMultiplesRoles()){
-                     fw.write("entidadGruposUsuariosMultiples=" + mySesion.getEntidadGruposUsuariosMultiples().getTabla() + "\r\n");
-                    fw.write("atributosGrupousuarioMostrar=" + mySesion.getAtributosGrupousuarioMostrar() + "\r\n");
-                }else{
-                          fw.write("entidadGruposUsuariosMultiples=\"\" \r\n");
-                    fw.write("atributosGrupousuarioMostrar=\"\"\r\n");
+                    fw.write("opcionMenuReportes=" + mySesion.getOpcionMenuReportes() + "\r\n");
+                    if (mySesion.getMultiplesRoles()) {
+                        fw.write("entidadGruposUsuariosMultiples=" + mySesion.getEntidadGruposUsuariosMultiples().getTabla() + "\r\n");
+                        fw.write("atributosGrupousuarioMostrar=" + mySesion.getAtributosGrupousuarioMostrar() + "\r\n");
+                    } else {
+                        fw.write("entidadGruposUsuariosMultiples=\"\" \r\n");
+                        fw.write("atributosGrupousuarioMostrar=\"\"\r\n");
                     }
-                   
+
                     fw.write("roles=" + mySesion.getRoles() + "\r\n");
                     fw.write("numeroMenuBar=" + mySesion.getNumeroMenuBar() + "\r\n");
                     fw.write("titulosMenuBar=" + mySesion.getTitulosMenuBar() + "\r\n");
                     fw.write("addUserNameLogeado=" + mySesion.getAddUserNameLogeado() + "\r\n");
                     fw.write("addFechaSystema=" + mySesion.getAddFechaSystema() + "\r\n");
-                    
-                    fw.write("frameworkPrimefaces=" + mySesion.getFrameworkPrimefaces()+ "\r\n");
-                    fw.write("frameworkBootfaces=" + mySesion.getFrameworkBootfaces()   + "\r\n");
-                    fw.write("frameworkMaterialprime=" + mySesion.getFrameworkMaterialprime()+ "\r\n");
-                    for(EntidadMenu em:mySesion.getEntidadMenuList()){
-                         fw.write(Utilidades.letterToLower(em.getEntidad())+"_menu=" + em.getMenu()+ "\r\n");
+
+                    fw.write("frameworkPrimefaces=" + mySesion.getFrameworkPrimefaces() + "\r\n");
+                    fw.write("frameworkBootfaces=" + mySesion.getFrameworkBootfaces() + "\r\n");
+                    fw.write("frameworkMaterialprime=" + mySesion.getFrameworkMaterialprime() + "\r\n");
+                    for (EntidadMenu em : mySesion.getEntidadMenuList()) {
+                        fw.write(Utilidades.letterToLower(em.getEntidad()) + "_menu=" + em.getMenu() + "\r\n");
                     }
 
                     fw.close();
