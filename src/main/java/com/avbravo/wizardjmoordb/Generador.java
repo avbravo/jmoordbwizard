@@ -23,7 +23,7 @@ import com.avbravo.wizardjmoordb.generador.xml.FacesConfigXMLGenerador;
 import com.avbravo.wizardjmoordb.interfaces.IControllerGenerador;
 import com.avbravo.wizardjmoordb.idiomas.IdiomasGenerador;
 import com.avbravo.wizardjmoordb.information.InformationGenerador;
-import com.avbravo.wizardjmoordb.generador.generales.LoginBeanGenerador;
+import com.avbravo.wizardjmoordb.old.LoginBeanGenerador;
 import com.avbravo.wizardjmoordb.roles.ApplicationMenuGenerador;
 import com.avbravo.wizardjmoordb.messages.MessagesPropertiesGenerador;
 import com.avbravo.wizardjmoordb.generador.xml.PersistenceXMLGenerador;
