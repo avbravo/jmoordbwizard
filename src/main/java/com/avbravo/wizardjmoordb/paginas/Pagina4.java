@@ -172,15 +172,15 @@ public class Pagina4 implements Serializable {
 //            }
             
            
-            System.out.println("=============== root1");
+         //   System.out.println("=============== root1");
             for (TreeNode n : root1.getChildren()) {
                 
             
-                    System.out.println("data--> " + n.getData().toString());
+                  //  System.out.println("data--> " + n.getData().toString());
                  //  JSFUtil.addWarningMessage("data--> " + n.getData().toString());
                    
                 for(TreeNode x:n.getChildren()){
-                    System.out.println("---> x "+x.getData().toString());
+                 //   System.out.println("---> x "+x.getData().toString());
            //         JSFUtil.addWarningMessage("---> x "+x.getData().toString());
                 }
             
@@ -190,10 +190,10 @@ public class Pagina4 implements Serializable {
             System.out.println("============== root2");
             for (TreeNode n : root2.getChildren()) {
             
-                    System.out.println("data--> " + n.getData().toString());
-                    System.out.println("count--> " + n.getChildCount());
+//                    System.out.println("data--> " + n.getData().toString());
+//                    System.out.println("count--> " + n.getChildCount());
                 for(TreeNode x:n.getChildren()){
-                    System.out.println("---> x "+x.getData().toString());
+                  //  System.out.println("---> x "+x.getData().toString());
                 }
             
 

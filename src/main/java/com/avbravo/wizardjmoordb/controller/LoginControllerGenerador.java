@@ -521,18 +521,15 @@ public class LoginControllerGenerador implements Serializable {
                     } else {
 // cuando tiene multiples relaciones
 
-                        fw.write("               " + minuscula + " = optional.get();" + "\r\n");
-                        fw.write("               if (!" + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosPassword()) + "().equals(password)) {" + "\r\n");
-                        fw.write("                   JsfUtil.addSuccessMessage(rf.getAppMessage(\"login.passwordnotvalid\"));" + "\r\n");
-                        fw.write("                   return \"\";" + "\r\n");
-                        fw.write("               }" + "\r\n");
+
 
 //                            fw.write("            if (!" + primeraletra + ".get" + Utilidades.letterToUpper(mySesion.getAtributosPassword()) + "().equals(" + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosPassword()) + "())) {" + "\r\n");
 //                            fw.write("                JsfUtil.addSuccessMessage(rf.getMensajeArb(\"login.passwordnotvalid\"));" + "\r\n");
 //                            fw.write("                return \"\";" + "\r\n");
 //                            fw.write("            }" + "\r\n");
 //                            fw.write("            " + minuscula + " = " + primeraletra + ";" + "\r\n");
-                        fw.write("              private rolvalido=false;" + "\r\n");
+                        fw.write("            else{;" + "\r\n");
+                        fw.write("            private rolvalido=false;" + "\r\n");
                         fw.write("            List<" + Utilidades.letterToUpper(mySesion.getEntidadRoles().getTabla()) + "> list = new ArrayList<>();" + "\r\n");
                         String iduser = "";
                         for (Atributos a : mySesion.getEntidadUser().getAtributosList()) {
@@ -568,6 +565,7 @@ public class LoginControllerGenerador implements Serializable {
                         fw.write("               setLogeado(Boolean.TRUE);" + "\r\n");
                         fw.write("               return \"/index\";" + "\r\n");
                         fw.write("           }" + "\r\n");
+                         fw.write("       }" + "\r\n");
 
                     }//multiples relaciones
 
