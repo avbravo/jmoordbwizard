@@ -105,7 +105,7 @@ public class MySesion implements Serializable {
     /**
      * User Group
      */
-    private String typeUserGroup="Sin roles";
+    private String typeUserGroup="Without Roles";
     private Boolean typeUserGroupWithOutRol=false;
     private Boolean typeUserGroupField=false;
     private Boolean typeUserGroupEntity=false;

@@ -101,7 +101,7 @@
 
                             <p:outputLabel value="Type User group"/>
                             <p:selectOneMenu id="console" value="#{generador.mySesion.typeUserGroup}" style="width:125px">
-                                <f:selectItem itemLabel="Sin roles" itemValue="Sin roles"/> 
+                                <f:selectItem itemLabel="Without Roles" itemValue="Without Roles"/> 
                                 <f:selectItem itemLabel="Field" itemValue="Field" />
                                 <f:selectItem itemLabel="Entity" itemValue="Entity" />
                                 <f:selectItem itemLabel="List" itemValue="List" />
@@ -128,7 +128,7 @@
 
                                 </p:selectOneMenu>
                                 
-                                <p:selectOneMenu  id="roles" 
+                                <p:selectOneMenu  id="typeUserGroupEntity" 
                                                   value="#{generador.mySesion.entidadRoles}"  
 
                                                   rendered="#{generador.mySesion.typeUserGroupEntity}" 
@@ -141,7 +141,7 @@
                                                    itemLabel="#{entidadItem.tabla}"
                                                    />
                                     <f:converter binding="#{entidadConverter}" />
-                                    <p:ajax  process="roles"  event="change"
+                                    <p:ajax  process="typeUserGroupEntity"  event="change"
                                              update=":form:growl" 
                                              listener="#{generador.entidadSeleccionada()}"/> 
                                 </p:selectOneMenu>

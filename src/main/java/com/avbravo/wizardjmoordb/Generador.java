@@ -1118,6 +1118,9 @@ stopWeb/-Inf
             mySesion.setTypeUserGroupEntity(false);
             mySesion.setTypeUserGroupList(false);
             switch (mySesion.getTypeUserGroup()) {
+                case "Without Roles":
+                      mySesion.setTypeUserGroupWithOutRol(true);
+                    break;
                 case "Field":
                     mySesion.setTypeUserGroupField(true);
                     break;
