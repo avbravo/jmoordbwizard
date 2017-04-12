@@ -315,108 +315,173 @@ public class LoginControllerGenerador implements Serializable {
 
                     String minuscula = Utilidades.letterToLower(mySesion.getEntidadUser().getTabla());
                     String primeraletra = Utilidades.getFirstLetter(mySesion.getEntidadUser().getTabla()).toLowerCase();
-
-                    if (!mySesion.getMultiplesRoles()) {
-
+                    if (mySesion.getGruponotienerelacion()) {
                         fw.write("    public String doLogin() {" + "\r\n");
                         fw.write("        try {" + "\r\n");
                         fw.write("" + "\r\n");
                         fw.write("            loggedIn = true;" + "\r\n");
-                        //fw.write("            " + mySesion.getEntidadUser().getTabla() + " " + primeraletra + " = " + minuscula + "Facade.find(" + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosUsername()) + "()); " + "\r\n");
                         fw.write("            " + minuscula + "= new " + mySesion.getEntidadUser().getTabla() + "(); " + "\r\n");
                         fw.write("            if (username == null || password == null) {" + "\r\n");
                         fw.write("                JsfUtil.addWarningMessage(rf.getMensajeArb(\"login.usernamenotvalid\"));" + "\r\n");
                         fw.write("                return null;" + "\r\n");
                         fw.write("            }" + "\r\n");
-
                         fw.write("            " + minuscula + ".set" + Utilidades.letterToUpper(mySesion.getAtributosUsername()) + "(username); " + "\r\n");
                         fw.write("            Optional<" + mySesion.getEntidadUser().getTabla() + "> optional = " + minuscula + "Facade.findById(" + minuscula + ");" + "\r\n");
+                        fw.write("            if (!optional.isPresent()) {" + "\r\n");
+                        fw.write("                JsfUtil.addWarningMessage(rf.getAppMessage(\"login.usernamenotvalid\"));" + "\r\n");
+                        fw.write("                return null;" + "\r\n");
+                        fw.write("            }else{ " + "\r\n");
+                        fw.write("               " + minuscula + " = optional.get();" + "\r\n");
+                        fw.write("               if (!" + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosPassword()) + "().equals(password)) {" + "\r\n");
+                        fw.write("                   JsfUtil.addSuccessMessage(rf.getAppMessage(\"login.passwordnotvalid\"));" + "\r\n");
+                        fw.write("                   return \"\";" + "\r\n");
+                        fw.write("               }" + "\r\n");
+                        fw.write("               if (!validadorRoles.validarRoles(" + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosIdGrupo()) + "())) {" + "\r\n");
+                        fw.write("                   JsfUtil.addSuccessMessage(rf.getAppMessage(\"login.notienerolenelsistema\") + \" \" + " + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosIdGrupo()) + "());" + "\r\n");
+                        fw.write("                   loggedIn = false;" + "\r\n");
+                        fw.write("                   return \"\";" + "\r\n");
+                        fw.write("                }" + "\r\n");
+                        fw.write("           }" + "\r\n");
 
-                        fw.write("            if (!" + primeraletra + ".get" + Utilidades.letterToUpper(mySesion.getAtributosPassword()) + "().equals(" + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosPassword()) + "())) {" + "\r\n");
-                        fw.write("                JsfUtil.addSuccessMessage(rf.getMensajeArb(\"login.passwordnotvalid\"));" + "\r\n");
-                        fw.write("                return \"\";" + "\r\n");
-                        fw.write("            }" + "\r\n");
-                        fw.write("            " + minuscula + " = " + primeraletra + ";" + "\r\n");
-                        fw.write("            setLogeado(Boolean.TRUE);" + "\r\n");
-                        String idroles = "";
-                        for (Atributos a : mySesion.getEntidadRoles().getAtributosList()) {
-                            if (a.getEsPrimaryKey()) {
-                                idroles = a.getNombre();
-                            }
-                        }
-                        fw.write("            if (validadorRoles.validarRoles(" + minuscula + ".get" + Utilidades.letterToUpper(idroles) + "().get" + Utilidades.letterToUpper(idroles) + "())) {" + "\r\n");
-                        fw.write("                return \"/index\";" + "\r\n");
-                        fw.write("            }" + "\r\n");
-                        fw.write("" + "\r\n");
+                        fw.write("           loggedIn = true;" + "\r\n");
+                        fw.write("           foto = \"img/me.jpg\";" + "\r\n");
+
+//                        fw.write("            if (validadorRoles.validarRoles(" + minuscula + ".get" + Utilidades.letterToUpper(idroles) + "().get" + Utilidades.letterToUpper(idroles) + "())) {" + "\r\n");
+//                        fw.write("                return \"/index\";" + "\r\n");
+//                        fw.write("            }" + "\r\n");
+//                        fw.write("" + "\r\n");
+                        fw.write("            JsfUtil.addSuccessMessage(rf.getAppMessage(\"login.welcome\") + \" \" + " + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosNombreMostrar()) + "());" + "\r\n");
+                        fw.write("            return \"/faces/index.xhtml?faces-redirect=true\";" + "\r\n");
                         fw.write("        } catch (Exception e) {" + "\r\n");
-                        fw.write("            JsfUtil.addErrorMessage(e, \"verificarLogin()\");" + "\r\n");
+                        fw.write("            JsfUtil.addErrorMessage(e, \"doLogin()\");" + "\r\n");
                         fw.write("        }" + "\r\n");
                         fw.write("        return null;" + "\r\n");
                         fw.write("    }" + "\r\n");
 
                     } else {
+                        if (mySesion.getGrupounasolarelacion()) {
+
+                            fw.write("    public String doLogin() {" + "\r\n");
+                            fw.write("        try {" + "\r\n");
+                            fw.write("" + "\r\n");
+                            fw.write("            loggedIn = true;" + "\r\n");
+                            fw.write("            " + minuscula + "= new " + mySesion.getEntidadUser().getTabla() + "(); " + "\r\n");
+                            fw.write("            if (username == null || password == null) {" + "\r\n");
+                            fw.write("                JsfUtil.addWarningMessage(rf.getMensajeArb(\"login.usernamenotvalid\"));" + "\r\n");
+                            fw.write("                return null;" + "\r\n");
+                            fw.write("            }" + "\r\n");
+
+                            fw.write("            " + minuscula + ".set" + Utilidades.letterToUpper(mySesion.getAtributosUsername()) + "(username); " + "\r\n");
+                            fw.write("            Optional<" + mySesion.getEntidadUser().getTabla() + "> optional = " + minuscula + "Facade.findById(" + minuscula + ");" + "\r\n");
+                            fw.write("            if (!optional.isPresent()) {" + "\r\n");
+                            fw.write("                JsfUtil.addWarningMessage(rf.getAppMessage(\"login.usernamenotvalid\"));" + "\r\n");
+                            fw.write("                return null;" + "\r\n");
+                            fw.write("            }else{ " + "\r\n");
+                            fw.write("               " + minuscula + " = optional.get();" + "\r\n");
+                            fw.write("               if (!" + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosPassword()) + "().equals(password)) {" + "\r\n");
+                            fw.write("                   JsfUtil.addSuccessMessage(rf.getAppMessage(\"login.passwordnotvalid\"));" + "\r\n");
+                            fw.write("                   return \"\";" + "\r\n");
+                            fw.write("               }" + "\r\n");
+
+                            String idroles = "";
+                            for (Atributos a : mySesion.getEntidadRoles().getAtributosList()) {
+                                if (a.getEsPrimaryKey()) {
+                                    idroles = a.getNombre();
+                                }
+                            }
+                            fw.write("               if (!validadorRoles.validarRoles(" + minuscula + ".get" + Utilidades.letterToUpper(idroles) + "())) {" + "\r\n");
+                            fw.write("                   JsfUtil.addSuccessMessage(rf.getAppMessage(\"login.notienerolenelsistema\") + \" \" + " + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosIdGrupo()) + "());" + "\r\n");
+                            fw.write("                   loggedIn = false;" + "\r\n");
+                            fw.write("                   return \"\";" + "\r\n");
+                            fw.write("                }" + "\r\n");
+                            fw.write("           }" + "\r\n");
+
+                            fw.write("           loggedIn = true;" + "\r\n");
+                            fw.write("           foto = \"img/me.jpg\";" + "\r\n");
+
+                            fw.write("            JsfUtil.addSuccessMessage(rf.getAppMessage(\"login.welcome\") + \" \" + " + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosNombreMostrar()) + "());" + "\r\n");
+                            fw.write("            return \"/faces/index.xhtml?faces-redirect=true\";" + "\r\n");
+                            fw.write("        } catch (Exception e) {" + "\r\n");
+                            fw.write("            JsfUtil.addErrorMessage(e, \"doLogin()\");" + "\r\n");
+                            fw.write("        }" + "\r\n");
+                            fw.write("        return null;" + "\r\n");
+                            fw.write("    }" + "\r\n");
+
+                        } else {
 // cuando tiene multiples relaciones
-                        fw.write("    public String doLogin() {" + "\r\n");
-                        fw.write("        try {" + "\r\n");
-                        fw.write("" + "\r\n");
-                        fw.write("            loggedIn = true;" + "\r\n");
+                            fw.write("    public String doLogin() {" + "\r\n");
+                            fw.write("        try {" + "\r\n");
+                            fw.write("" + "\r\n");
+                            fw.write("            loggedIn = true;" + "\r\n");
 //                        fw.write("            " + mySesion.getEntidadUser().getTabla() + " " + primeraletra + " = " + minuscula + "Facade.find(" + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosUsername()) + "()); " + "\r\n");
-                        fw.write("            " + minuscula + "= new " + mySesion.getEntidadUser().getTabla() + "(); " + "\r\n");
-                        fw.write("            if (username == null || password == null) {" + "\r\n");
-                        fw.write("                JsfUtil.addWarningMessage(rf.getMensajeArb(\"login.usernamenotvalid\"));" + "\r\n");
-                        fw.write("                return null;" + "\r\n");
-                        fw.write("            }" + "\r\n");
-                        fw.write("            " + minuscula + ".set" + Utilidades.letterToUpper(mySesion.getAtributosUsername()) + "(username); " + "\r\n");
-                        fw.write("            Optional<" + mySesion.getEntidadUser().getTabla() + "> optional = " + minuscula + "Facade.findById(" + minuscula + ");" + "\r\n");
+                            fw.write("            " + minuscula + "= new " + mySesion.getEntidadUser().getTabla() + "(); " + "\r\n");
+                            fw.write("            if (username == null || password == null) {" + "\r\n");
+                            fw.write("                JsfUtil.addWarningMessage(rf.getMensajeArb(\"login.usernamenotvalid\"));" + "\r\n");
+                            fw.write("                return null;" + "\r\n");
+                            fw.write("            }" + "\r\n");
+                            fw.write("            " + minuscula + ".set" + Utilidades.letterToUpper(mySesion.getAtributosUsername()) + "(username); " + "\r\n");
+                            fw.write("            Optional<" + mySesion.getEntidadUser().getTabla() + "> optional = " + minuscula + "Facade.findById(" + minuscula + ");" + "\r\n");
 
-                        fw.write("            if (!" + primeraletra + ".get" + Utilidades.letterToUpper(mySesion.getAtributosPassword()) + "().equals(" + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosPassword()) + "())) {" + "\r\n");
-                        fw.write("                JsfUtil.addSuccessMessage(rf.getMensajeArb(\"login.passwordnotvalid\"));" + "\r\n");
-                        fw.write("                return \"\";" + "\r\n");
-                        fw.write("            }" + "\r\n");
-                        fw.write("            " + minuscula + " = " + primeraletra + ";" + "\r\n");
+                            fw.write("            if (!optional.isPresent()) {" + "\r\n");
+                            fw.write("                JsfUtil.addWarningMessage(rf.getAppMessage(\"login.usernamenotvalid\"));" + "\r\n");
+                            fw.write("                return null;" + "\r\n");
+                            fw.write("            }else{ " + "\r\n");
+                            fw.write("               " + minuscula + " = optional.get();" + "\r\n");
+                            fw.write("               if (!" + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosPassword()) + "().equals(password)) {" + "\r\n");
+                            fw.write("                   JsfUtil.addSuccessMessage(rf.getAppMessage(\"login.passwordnotvalid\"));" + "\r\n");
+                            fw.write("                   return \"\";" + "\r\n");
+                            fw.write("               }" + "\r\n");
 
-                        fw.write("            List<" + Utilidades.letterToUpper(mySesion.getEntidadRoles().getTabla()) + "> list = new ArrayList<>();" + "\r\n");
-                        String iduser = "";
-                        for (Atributos a : mySesion.getEntidadUser().getAtributosList()) {
-                            if (a.getEsPrimaryKey()) {
-                                iduser = a.getNombre();
+//                            fw.write("            if (!" + primeraletra + ".get" + Utilidades.letterToUpper(mySesion.getAtributosPassword()) + "().equals(" + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosPassword()) + "())) {" + "\r\n");
+//                            fw.write("                JsfUtil.addSuccessMessage(rf.getMensajeArb(\"login.passwordnotvalid\"));" + "\r\n");
+//                            fw.write("                return \"\";" + "\r\n");
+//                            fw.write("            }" + "\r\n");
+//                            fw.write("            " + minuscula + " = " + primeraletra + ";" + "\r\n");
+                            fw.write("              private rolvalido=false;" + "\r\n");
+                            fw.write("            List<" + Utilidades.letterToUpper(mySesion.getEntidadRoles().getTabla()) + "> list = new ArrayList<>();" + "\r\n");
+                            String iduser = "";
+                            for (Atributos a : mySesion.getEntidadUser().getAtributosList()) {
+                                if (a.getEsPrimaryKey()) {
+                                    iduser = a.getNombre();
+                                }
                             }
-                        }
-                        String idroles = "";
-                        for (Atributos a : mySesion.getEntidadRoles().getAtributosList()) {
-                            if (a.getEsPrimaryKey()) {
-                                idroles = a.getNombre();
+                            String idroles = "";
+                            for (Atributos a : mySesion.getEntidadRoles().getAtributosList()) {
+                                if (a.getEsPrimaryKey()) {
+                                    idroles = a.getNombre();
+                                }
                             }
-                        }
-                        String idgruposuario = "";
-                        for (Atributos a : mySesion.getEntidadGruposUsuariosMultiples().getAtributosList()) {
-                            if (a.getEsPrimaryKey()) {
-                                idgruposuario = a.getNombre();
+                            String idgruposuario = "";
+                            for (Atributos a : mySesion.getEntidadGruposUsuariosMultiples().getAtributosList()) {
+                                if (a.getEsPrimaryKey()) {
+                                    idgruposuario = a.getNombre();
+                                }
                             }
-                        }
 
-                        fw.write("            " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + ".set" + Utilidades.letterToUpper(iduser) + "(" + minuscula + ");" + "\r\n");
-                        fw.write("            list = " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + "Facade.findBy" + Utilidades.letterToUpper(iduser) + "(" + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + ".get" + Utilidades.letterToUpper(iduser) + "());" + "\r\n");
-                        fw.write("            for(" + Utilidades.letterToUpper(mySesion.getEntidadRoles().getTabla()) + " r: list){" + "\r\n");
-                        fw.write("                if(" + Utilidades.letterToLower(mySesion.getEntidadGruposUsuariosMultiples().getTabla()) + ".get" + Utilidades.letterToUpper(idgruposuario) + "().equals(r.get" + Utilidades.letterToUpper(idgruposuario) + "().get" + Utilidades.letterToUpper(idgruposuario) + "())){" + "\r\n");
-                        fw.write("                    rolvalido=Boolean.TRUE;" + "\r\n");
-                        fw.write("                }" + "\r\n");
-                        fw.write("            }" + "\r\n");
-                        fw.write("            if (!rolvalido) {" + "\r\n");
-                        fw.write("                 JsfUtil.addSuccessMessage(rf.getMensajeArb(\"warning.notieneasignadoesterol\"));" + "\r\n");
-                        fw.write("                 return \"\";" + "\r\n");
-                        fw.write("            }" + "\r\n");
-                        fw.write("            if (validadorRoles.validarRoles(" + Utilidades.letterToLower(mySesion.getEntidadGruposUsuariosMultiples().getTabla()) + ".get" + Utilidades.letterToUpper(mySesion.getAtributosGrupousuarioMostrar()) + "())) {" + "\r\n");
-                        fw.write("               setLogeado(Boolean.TRUE);" + "\r\n");
-                        fw.write("               return \"/index\";" + "\r\n");
-                        fw.write("           }" + "\r\n");
-                        fw.write("" + "\r\n");
-                        fw.write("        } catch (Exception e) {" + "\r\n");
-                        fw.write("            JsfUtil.addErrorMessage(e, \"verificarLogin()\");" + "\r\n");
-                        fw.write("        }" + "\r\n");
-                        fw.write("        return null;" + "\r\n");
-                        fw.write("    }" + "\r\n");
-                    }//multiples relaciones
+                            fw.write("            " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + ".set" + Utilidades.letterToUpper(iduser) + "(" + minuscula + ");" + "\r\n");
+                            fw.write("            list = " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + "Facade.findById" + Utilidades.letterToUpper(iduser) + "(" + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + ".get" + Utilidades.letterToUpper(iduser) + "());" + "\r\n");
+                            fw.write("            for(" + Utilidades.letterToUpper(mySesion.getEntidadRoles().getTabla()) + " r: list){" + "\r\n");
+                            fw.write("                if(" + Utilidades.letterToLower(mySesion.getEntidadGruposUsuariosMultiples().getTabla()) + ".get" + Utilidades.letterToUpper(idgruposuario) + "().equals(r.get" + Utilidades.letterToUpper(idgruposuario) + "().get" + Utilidades.letterToUpper(idgruposuario) + "())){" + "\r\n");
+                            fw.write("                    rolvalido=Boolean.TRUE;" + "\r\n");
+                            fw.write("                }" + "\r\n");
+                            fw.write("            }" + "\r\n");
+                            fw.write("            if (!rolvalido) {" + "\r\n");
+                            fw.write("                 JsfUtil.addSuccessMessage(rf.getMensajeArb(\"warning.notieneasignadoesterol\"));" + "\r\n");
+                            fw.write("                 return \"\";" + "\r\n");
+                            fw.write("            }" + "\r\n");
+                            fw.write("            if (validadorRoles.validarRoles(" + Utilidades.letterToLower(mySesion.getEntidadGruposUsuariosMultiples().getTabla()) + ".get" + Utilidades.letterToUpper(mySesion.getAtributosGrupousuarioMostrar()) + "())) {" + "\r\n");
+                            fw.write("               setLogeado(Boolean.TRUE);" + "\r\n");
+                            fw.write("               return \"/index\";" + "\r\n");
+                            fw.write("           }" + "\r\n");
+                            fw.write("" + "\r\n");
+                            fw.write("        } catch (Exception e) {" + "\r\n");
+                            fw.write("            JsfUtil.addErrorMessage(e, \"verificarLogin()\");" + "\r\n");
+                            fw.write("        }" + "\r\n");
+                            fw.write("        return null;" + "\r\n");
+                            fw.write("    }" + "\r\n");
+                        }//multiples relaciones
+
+                    }
 
 //logout()
                     fw.write("    public String logout() {" + "\r\n");

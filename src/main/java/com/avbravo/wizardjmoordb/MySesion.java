@@ -102,12 +102,58 @@ public class MySesion implements Serializable {
     private Boolean pagina4 =false;
     private Boolean pagina5=false;
     private Boolean pagina6 =false;
+    
+    private Boolean gruponotienerelacion=true;
+    private Boolean grupounasolarelacion=false;
+    private Boolean grupomultiplerelacion=false;
 
+    private String tipoRelacionGrupo="Sin relacion";
     
     //almacena las opciones del menu donde se indica a que menu se debe asignar los entity
     List<EntidadMenu> entidadMenuList = new ArrayList<>();
      private List<String> masterDetailsList =  new ArrayList<>();
 
+    public Boolean getGruponotienerelacion() {
+        return gruponotienerelacion;
+    }
+
+    public void setGruponotienerelacion(Boolean gruponotienerelacion) {
+        this.gruponotienerelacion = gruponotienerelacion;
+    }
+
+    public Boolean getGrupounasolarelacion() {
+        return grupounasolarelacion;
+    }
+
+    public void setGrupounasolarelacion(Boolean grupounasolarelacion) {
+        this.grupounasolarelacion = grupounasolarelacion;
+    }
+
+    public Boolean getGrupomultiplerelacion() {
+        return grupomultiplerelacion;
+    }
+
+    public void setGrupomultiplerelacion(Boolean grupomultiplerelacion) {
+        this.grupomultiplerelacion = grupomultiplerelacion;
+    }
+
+   
+
+     
+     
+     
+     
+    public String getTipoRelacionGrupo() {
+        return tipoRelacionGrupo;
+    }
+
+    public void setTipoRelacionGrupo(String tipoRelacionGrupo) {
+        this.tipoRelacionGrupo = tipoRelacionGrupo;
+    }
+
+     
+     
+     
     public String getAtributosIdGrupo() {
         return atributosIdGrupo;
     }

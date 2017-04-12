@@ -586,7 +586,6 @@ public class Generador implements Serializable {
 
             proyectoJEE.setPathReportes(proyectoJEE.getPath() + "reportes" + proyectoJEE.getSeparator());
 
-           
             proyectoJEE.setPathRoles(proyectoJEE.getPath() + "roles" + proyectoJEE.getSeparator());
 
             proyectoJEE.setPathProperties(proyectoJEE.getPathMainResources() + proyectoJEE.getSeparator() + proyectoJEE.getPaquetePath() + proyectoJEE.getSeparator() + "properties" + proyectoJEE.getSeparator());
@@ -743,7 +742,7 @@ public class Generador implements Serializable {
                     /*
                     menu
                      */
-        
+
                     menuBeansGenerador.generar();
                     /*
                     ejb
@@ -786,7 +785,7 @@ public class Generador implements Serializable {
                 interfaces
                      */
                     iControllerGenerador.generar();
-                   
+
 
                     /*
                 pom.xml
@@ -809,7 +808,6 @@ public class Generador implements Serializable {
                     /*
                 properties
                      */
-
 
                     messagesPropertiesGenerador.generar();
 
@@ -1106,6 +1104,37 @@ stopWeb/-Inf
         } catch (Exception e) {
             JSFUtil.addErrorMessage("mostrarDatosDelArchivoConfiguracion()" + e.getLocalizedMessage());
         }
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String onChangeTipoGrupo() {
+        try {
+         
+            mySesion.setGruponotienerelacion(false);
+            mySesion.setGrupounasolarelacion(false);
+            mySesion.setGrupomultiplerelacion(false);
+            switch (mySesion.getTipoRelacionGrupo()) {
+                case "Sin relacion":
+                    mySesion.setGruponotienerelacion(true);
+                    break;
+                case "Una relacion":
+                    mySesion.setGrupounasolarelacion(true);
+                    break;
+                case "Lista de relaciones":
+                    mySesion.setGrupomultiplerelacion(true);
+                    break;
+                default:
+                  JSFUtil.addWarningMessage("No se ha indicado un tipo correcto de grupo");  
+
+            }
+
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("changeTipoGrupo()" + e.getLocalizedMessage());
+        }
+        return "";
     }
 
     public String irPagina1() {
