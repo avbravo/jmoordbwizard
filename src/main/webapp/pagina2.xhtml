@@ -99,20 +99,25 @@
                                          listener="#{entidadSearch.atributosNombreMostrarSeleccionado()}"/> 
                             </p:selectOneMenu>
 
-                            <p:outputLabel value="User group"/>
-                            <p:selectOneMenu id="console" value="#{generador.mySesion.tipoRelacionGrupo}" style="width:125px">
-                                <f:selectItem itemLabel="Seleccione uno" itemValue="#{null}"/> 
-                                <f:selectItem itemLabel="Sin relacion" itemValue="Sin relacion" />
-                                <f:selectItem itemLabel="Una relacion" itemValue="Una relacion" />
-                                <f:selectItem itemLabel="Lista de relaciones" itemValue="Lista de relaciones" />
+                            <p:outputLabel value="Type User group"/>
+                            <p:selectOneMenu id="console" value="#{generador.mySesion.typeUserGroup}" style="width:125px">
+                                <f:selectItem itemLabel="Sin roles" itemValue="Sin roles"/> 
+                                <f:selectItem itemLabel="Field" itemValue="Field" />
+                                <f:selectItem itemLabel="Entity" itemValue="Entity" />
+                                <f:selectItem itemLabel="List" itemValue="List" />
                                 <p:ajax  process="console"  event="change"
-                                         update=":form:growl, :form:paneles" 
+                                         update=":form:growl, :form:paneles, :form:panelesLabel" 
                                          listener="#{generador.onChangeTipoGrupo()}"/> 
                             </p:selectOneMenu>
+                            <p:outputPanel id="panelesLabel">
+                                  <p:outputLabel value="Field" rendered="#{generador.mySesion.typeUserGroupField}" />
+                                  <p:outputLabel value="Entity" rendered="#{generador.mySesion.typeUserGroupEntity}" />
+                                  <h:outputText value="List " rendered="#{generador.mySesion.typeUserGroupList}"/>
+                            </p:outputPanel>
                             <p:outputPanel id="paneles">
-                                <p:outputLabel value="Field" rendered="#{generador.mySesion.gruponotienerelacion}" />
+                              
                                 <p:selectOneMenu  id="idgrupo" 
-                                                  rendered="#{generador.mySesion.gruponotienerelacion}" 
+                                                  rendered="#{generador.mySesion.typeUserGroupField}" 
                                                   value="#{generador.mySesion.atributosIdGrupo}"  
                                                   required="true"     requiredMessage="Seleccione el grupo al que pertenece"
                                                   >
@@ -122,11 +127,11 @@
 
 
                                 </p:selectOneMenu>
-                                <p:outputLabel value="Roles" rendered="#{generador.mySesion.grupounasolarelacion}" />
+                                
                                 <p:selectOneMenu  id="roles" 
                                                   value="#{generador.mySesion.entidadRoles}"  
 
-                                                  rendered="#{generador.mySesion.grupounasolarelacion}" 
+                                                  rendered="#{generador.mySesion.typeUserGroupEntity}" 
                                                   >
                                     <!-- TODO: update below reference to list of available items-->
                                     <f:selectItem itemLabel="Seleccione uno" itemValue="#{null}"/> 
@@ -142,16 +147,16 @@
                                 </p:selectOneMenu>
 
 
-                                <h:outputText value="Multiples roles: " rendered="#{generador.mySesion.grupomultiplerelacion}"/>
+                                
                                 <p:selectOneMenu  id="gruposusuariosmultiples" 
 
-                                                  rendered="#{generador.mySesion.grupomultiplerelacion}" 
+                                                  rendered="#{generador.mySesion.typeUserGroupList}" 
                                                   value="#{generador.mySesion.entidadGruposUsuariosMultiples}"  
 
 
                                                   >
                                     <!-- TODO: update below reference to list of available items-->
-                                    <f:selectItem itemLabel="Seleccione uno" itemValue="#{null}"/> 
+                                    <!--<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}"/>--> 
                                     <f:selectItems value="#{entidadSearch.listEntidad}"
                                                    var="entidadItem"
                                                    itemValue="#{entidadItem}"
@@ -164,107 +169,10 @@
                                 </p:selectOneMenu>
                             </p:outputPanel>
 
-                            <!--                            <p:outputLabel value="Id Grupo"/>
-                                                        <p:selectOneMenu  id="idgrupo2" 
-                                                                          value="#{generador.mySesion.atributosIdGrupo}"  
-                                                                          required="true"     requiredMessage="Seleccione el grupo al que pertenece"
-                            
-                                                                          >
-                                                             TODO: update below reference to list of available items
-                                                            <f:selectItem itemLabel="Seleccione uno" itemValue="#{null}"/> 
-                                                            <f:selectItems value="#{entidadSearch.listColumnasUser}" />
-                            
-                            
-                                                        </p:selectOneMenu>-->
-
-
-                            <!--                             <h:outputText value="Un solo rol Relacionado: " />
-                            
-                                                        <b:selectBooleanCheckbox value="#{generador.mySesion.unsoloRol}" caption="Si"/>
-                            
-                                                        <p:outputLabel value="Roles"/>
-                                                        <p:selectOneMenu  id="roles2" 
-                                                                          value="#{generador.mySesion.entidadRoles}"  
-                                                                      
-                            
-                                                                          >
-                                                             TODO: update below reference to list of available items
-                                                            <f:selectItem itemLabel="Seleccione uno" itemValue="#{null}"/> 
-                                                            <f:selectItems value="#{entidadSearch.listEntidad}"
-                                                                           var="entidadItem"
-                                                                           itemValue="#{entidadItem}"
-                                                                           itemLabel="#{entidadItem.tabla}"
-                                                                           />
-                                                            <f:converter binding="#{entidadConverter}" />
-                                                            <p:ajax  process="roles"  event="change"
-                                                                     update=":form:growl" 
-                                                                     listener="#{generador.entidadSeleccionada()}"/> 
-                                                        </p:selectOneMenu>
-                            
-                            
-                                                        <h:outputText value="Multiples roles: " />
-                            
-                            
-                                                        <b:selectBooleanCheckbox value="#{generador.mySesion.multiplesRoles}" caption="Si"/>
-                            
-                                                        <p:outputLabel id="labelgruposusuariosmultiples"  value="Grupos Usuarios" />
-                                                        <p:selectOneMenu  id="gruposusuariosmultiples2" 
-                              
-                                                                         
-                                                                          value="#{generador.mySesion.entidadGruposUsuariosMultiples}"  
-                            
-                            
-                                                                          >
-                                                             TODO: update below reference to list of available items
-                                                            <f:selectItem itemLabel="Seleccione uno" itemValue="#{null}"/> 
-                                                            <f:selectItems value="#{entidadSearch.listEntidad}"
-                                                                           var="entidadItem"
-                                                                           itemValue="#{entidadItem}"
-                                                                           itemLabel="#{entidadItem.tabla}"
-                                                                           />
-                                                            <f:converter binding="#{entidadConverter}" />
-                                                              <p:ajax  process="gruposusuariosmultiples"  event="change"
-                                                              update=":form:growl,:form:columnagrupousuario" 
-                                                                     listener="#{entidadSearch.onChangeEntidadGrupousuarios()}"/> 
-                                                        </p:selectOneMenu>
-                            
-                                                        <p:outputLabel value="Columna validar:"/>
-                                                        <p:selectOneMenu  id="columnagrupousuario" 
-                                                                          value="#{generador.mySesion.atributosGrupousuarioMostrar}"  
-                            
-                            
-                                                                          >
-                                                            <f:selectItem itemLabel="Seleccione uno" itemValue="#{null}"/>
-                                                            <f:selectItems value="#{entidadSearch.listColumnasGrupousuario}" />
-                            
-                            
-                            
-                                                        </p:selectOneMenu>-->
-
-
-
-
-
-
-
-
                         </h:panelGrid>
                         <f:facet name="footer">
 
-                            <!--                               <b:commandButton tooltip="Anterior" ajax="true" 
-                                                                             value="Anterior"
-                                                                          rendered="#{generador.mySesion.pagina1}" 
-                                                                           action="#{generador.irPagina1()}"
-                                                                             update="form:growl"  look="danger" >
-                                                                       <b:iconAwesome name="arrow-left" />
-                                                            </b:commandButton>
-                                                          <b:commandButton  ajax="false" title="Siguiente"
-                                                                              value="Siguiente"
-                                                                              rendered="#{generador.mySesion.pagina3}" 
-                                                                               action="#{generador.irPagina3()}"
-                                                                             update="form:growl" look="success" >
-                                                                 <b:iconAwesome name="arrow-right" />
-                                                            </b:commandButton>-->
+  
                             <p:commandButton 
                                 value="Anterior"
                                 rendered="#{generador.mySesion.pagina1}" 

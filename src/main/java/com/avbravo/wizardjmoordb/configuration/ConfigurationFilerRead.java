@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb.generador.configuration;
+package com.avbravo.wizardjmoordb.configuration;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
@@ -114,12 +114,24 @@ public class ConfigurationFilerRead implements Serializable {
                 case "entidadRoles":
                     mySesion.getEntidadRoles().setTabla(descomponer(s, r));
                     break;
-                case "unsoloRol":
-                    mySesion.setUnsoloRol(descomponer(s, r).equals("true"));
+
+                case "typeUserGroup":
+                    mySesion.setTypeUserGroup(descomponer(s, r));
                     break;
-                case "multiplesRoles":
-                    mySesion.setMultiplesRoles(descomponer(s, r).equals("true"));
+                case "typeUserGroupWithOutRol":
+                    mySesion.setTypeUserGroupWithOutRol(descomponer(s, r).equals("true"));
                     break;
+                case "typeUserGroupField":
+                    mySesion.setTypeUserGroupField(descomponer(s, r).equals("true"));
+                    break;
+
+                case "typeUserGroupEntity":
+                    mySesion.setTypeUserGroupEntity(descomponer(s, r).equals("true"));
+                    break;
+                case "typeUserGroupList":
+                    mySesion.setTypeUserGroupList(descomponer(s, r).equals("true"));
+                    break;
+
                 case "entidadGruposUsuariosMultiples":
                     mySesion.getEntidadGruposUsuariosMultiples().setTabla(descomponer(s, r));
                     break;

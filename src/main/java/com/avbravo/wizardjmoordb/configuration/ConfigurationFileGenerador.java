@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb.generador.configuration;
+package com.avbravo.wizardjmoordb.configuration;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
@@ -113,10 +113,14 @@ public class ConfigurationFileGenerador implements Serializable {
                     fw.write("atributosNombreMostrar=" + mySesion.getAtributosNombreMostrar() + "\r\n");
                     fw.write("atributosIdGrupo=" + mySesion.getAtributosIdGrupo() + "\r\n");
                     fw.write("entidadRoles=" + mySesion.getEntidadRoles().getTabla() + "\r\n");
-                    fw.write("unsoloRol=" + mySesion.getUnsoloRol() + "\r\n");
-                    fw.write("multiplesRoles=" + mySesion.getMultiplesRoles() + "\r\n");
+                    fw.write("typeUserGroup=" + mySesion.getTypeUserGroup() + "\r\n");
+                    fw.write("typeUserGroupWithOutRol=" + mySesion.getTypeUserGroupWithOutRol() + "\r\n");
+                    fw.write("typeUserGroupField=" + mySesion.getTypeUserGroupField() + "\r\n");
+                    fw.write("typeUserGroupEntity=" + mySesion.getTypeUserGroupEntity() + "\r\n");
+                    fw.write("typeUserGroupList=" + mySesion.getTypeUserGroupList() + "\r\n");
+                    
                     fw.write("opcionMenuReportes=" + mySesion.getOpcionMenuReportes() + "\r\n");
-                    if (mySesion.getMultiplesRoles()) {
+                    if (mySesion.getTypeUserGroupList()) {
                         fw.write("entidadGruposUsuariosMultiples=" + mySesion.getEntidadGruposUsuariosMultiples().getTabla() + "\r\n");
                         fw.write("atributosGrupousuarioMostrar=" + mySesion.getAtributosGrupousuarioMostrar() + "\r\n");
                     } else {

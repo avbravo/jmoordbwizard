@@ -142,7 +142,7 @@ public class HeaderxhtmlGenerador implements Serializable {
                     fw.write("                <div class=\"form-group\">" + "\r\n");
                     fw.write("                    <p:password rendered=\"#{!loginBean.logeado}\" value=\"#{loginBean." + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "." + Utilidades.letterToLower(mySesion.getAtributosPassword()) + "}\" placeholder=\"#{app['login.password']}\" />" + "\r\n");
                     fw.write("                </div> " + "\r\n");
-                    if(mySesion.getMultiplesRoles()){
+                    if(mySesion.getTypeUserGroupList()){
                          fw.write("                <div class=\"form-group\">" + "\r\n");
 
                     fw.write("                                <p:selectOneMenu rendered=\"#{!loginBean.logeado}\"   " + "\r\n");

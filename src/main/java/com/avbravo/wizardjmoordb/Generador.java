@@ -5,7 +5,7 @@
  */
 package com.avbravo.wizardjmoordb;
 
-import com.avbravo.wizardjmoordb.generador.configuration.ConfigurationFilerRead;
+import com.avbravo.wizardjmoordb.configuration.ConfigurationFilerRead;
 import com.avbravo.wizardjmoordb.generador.gen.EntidadGenerador;
 import com.avbravo.wizardjmoordb.provider.MongoClientProviderGenerador;
 import com.avbravo.wizardjmoordb.beans.Archivos;
@@ -14,7 +14,7 @@ import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.beans.EntidadMenu;
 import com.avbravo.wizardjmoordb.datamodel.DatamodelGenerador;
 import com.avbravo.wizardjmoordb.facade.FacadeGenerador;
-import com.avbravo.wizardjmoordb.generador.configuration.ConfigurationFileGenerador;
+import com.avbravo.wizardjmoordb.configuration.ConfigurationFileGenerador;
 import com.avbravo.wizardjmoordb.converter.ConverterGenerador;
 import com.avbravo.wizardjmoordb.generador.css.DefaultCssGenerador;
 import com.avbravo.wizardjmoordb.generador.xml.FacesConfigXMLGenerador;
@@ -686,7 +686,7 @@ public class Generador implements Serializable {
                 JSFUtil.addWarningMessage("El nombre del atributo para el username no debe ser el mismo que el del password");
                 return;
             }
-            if (!mySesion.getMultiplesRoles()) {
+            if (!mySesion.getTypeUserGroupList()) {
                 String idroles = "";
                 for (Atributos a : mySesion.getEntidadRoles().getAtributosList()) {
                     if (a.getEsPrimaryKey()) {
@@ -1113,21 +1113,22 @@ stopWeb/-Inf
     public String onChangeTipoGrupo() {
         try {
          
-            mySesion.setGruponotienerelacion(false);
-            mySesion.setGrupounasolarelacion(false);
-            mySesion.setGrupomultiplerelacion(false);
-            switch (mySesion.getTipoRelacionGrupo()) {
-                case "Sin relacion":
-                    mySesion.setGruponotienerelacion(true);
+            mySesion.setTypeUserGroupWithOutRol(false);
+            mySesion.setTypeUserGroupField(false);
+            mySesion.setTypeUserGroupEntity(false);
+            mySesion.setTypeUserGroupList(false);
+            switch (mySesion.getTypeUserGroup()) {
+                case "Field":
+                    mySesion.setTypeUserGroupField(true);
                     break;
-                case "Una relacion":
-                    mySesion.setGrupounasolarelacion(true);
+                case "Entity":
+                    mySesion.setTypeUserGroupEntity(true);
                     break;
-                case "Lista de relaciones":
-                    mySesion.setGrupomultiplerelacion(true);
+                case "List":
+                    mySesion.setTypeUserGroupList(true);
                     break;
                 default:
-                  JSFUtil.addWarningMessage("No se ha indicado un tipo correcto de grupo");  
+                  JSFUtil.addWarningMessage("No se ha indicado un tipo correcto de grupo "+mySesion.getTypeUserGroup());  
 
             }
 

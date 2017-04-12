@@ -44,6 +44,7 @@ public class LoginControllerGenerador implements Serializable {
 
     @Inject
     ProyectoEJB proyectoEJB;
+  
 
     /**
      * Creates a new instance of Facade
@@ -80,17 +81,17 @@ public class LoginControllerGenerador implements Serializable {
 
                 Utilidades.searchAdd(ruta, mySesion.getEntidadUser().getTabla() + " " + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + " = new " + mySesion.getEntidadUser().getTabla() + "();", "public class LoginController implements Serializable {", false);
                 Utilidades.searchAdd(ruta, mySesion.getEntidadRoles().getTabla() + " " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + " = new " + mySesion.getEntidadRoles().getTabla() + "();", "public class LoginController implements Serializable {", false);
-                if (mySesion.getMultiplesRoles()) {
+                if (mySesion.getTypeUserGroupList()) {
                     Utilidades.searchAdd(ruta, mySesion.getEntidadGruposUsuariosMultiples().getTabla() + " " + Utilidades.letterToLower(mySesion.getEntidadGruposUsuariosMultiples().getTabla()) + " = new " + mySesion.getEntidadGruposUsuariosMultiples().getTabla() + "();", "public class LoginController implements Serializable {", false);
                 }
 
-//                Utilidades.searchAddTextAndInject(ruta, "MenuBeans menuBeans;", "public class LoginController implements Serializable {", false);
+
                 Utilidades.searchAddTextAndInject(ruta, "ResourcesFiles rf;", "public class LoginController implements Serializable {", false);
                 Utilidades.searchAddTextAndInject(ruta, "ValidadorRoles validadorRoles;", "public class LoginController implements Serializable {", false);
 //                Utilidades.searchAddTextAndInject(ruta, "ManagementThemes managementThemes;", "public class LoginController implements Serializable {", false);
                 Utilidades.searchAddTextAndInject(ruta, mySesion.getEntidadUser().getTabla() + "Facade " + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "Facade;", "public class LoginController implements Serializable {", false);
                 Utilidades.searchAddTextAndInject(ruta, mySesion.getEntidadRoles().getTabla() + "Facade " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + "Facade;", "public class LoginController implements Serializable {", false);
-                if (mySesion.getMultiplesRoles()) {
+                if (mySesion.getTypeUserGroupList()) {
                     Utilidades.searchAddTextAndInject(ruta, mySesion.getEntidadGruposUsuariosMultiples().getTabla() + "Facade " + Utilidades.letterToLower(mySesion.getEntidadGruposUsuariosMultiples().getTabla()) + "Facade;", "public class LoginController implements Serializable {", false);
                 }
 
@@ -104,7 +105,7 @@ public class LoginControllerGenerador implements Serializable {
                  */
                 Utilidades.addNotFoundMethod(ruta, "public void init() {", init(), "public class LoginController implements Serializable {", false);
                 Utilidades.addNotFoundMethod(ruta, "public LoginController() {", loginController(), "public class LoginController implements Serializable {", false);
-                if (!mySesion.getMultiplesRoles()) {
+                if (!mySesion.getTypeUserGroupList()) {
                     Utilidades.addNotFoundMethod(ruta, "public String verificarLogin() {", verificarLogin(), "public class LoginController implements Serializable {", false);
                 } else {
 
@@ -191,6 +192,7 @@ public class LoginControllerGenerador implements Serializable {
 
                 File file2 = new File(ruta);
                 //Creamos un objeto para escribir caracteres en el archivo de prueba
+//                try (FileWriter fw = new FileWriter(file)) {
                 try (FileWriter fw = new FileWriter(file)) {
                     fw.write("/*" + "\r\n");
                     fw.write("* To change this license header, choose License Headers in Project Properties." + "\r\n");
@@ -245,7 +247,7 @@ public class LoginControllerGenerador implements Serializable {
                     fw.write("    @Inject" + "\r\n");
                     fw.write("    " + mySesion.getEntidadRoles().getTabla() + "Facade " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + "Facade;" + "\r\n");
                     fw.write("    " + mySesion.getEntidadRoles().getTabla() + " " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + " = new " + mySesion.getEntidadRoles().getTabla() + "();" + "\r\n");
-                    if (mySesion.getMultiplesRoles()) {
+                    if (mySesion.getTypeUserGroupList()) {
                         fw.write("    @Inject" + "\r\n");
                         fw.write("    " + mySesion.getEntidadGruposUsuariosMultiples().getTabla() + "Facade " + Utilidades.letterToLower(mySesion.getEntidadGruposUsuariosMultiples().getTabla()) + "Facade;" + "\r\n");
                         fw.write("    " + mySesion.getEntidadGruposUsuariosMultiples().getTabla() + " " + Utilidades.letterToLower(mySesion.getEntidadGruposUsuariosMultiples().getTabla()) + " = new " + mySesion.getEntidadGruposUsuariosMultiples().getTabla() + "();" + "\r\n");
@@ -315,7 +317,7 @@ public class LoginControllerGenerador implements Serializable {
 
                     String minuscula = Utilidades.letterToLower(mySesion.getEntidadUser().getTabla());
                     String primeraletra = Utilidades.getFirstLetter(mySesion.getEntidadUser().getTabla()).toLowerCase();
-                    if (mySesion.getGruponotienerelacion()) {
+                    if (mySesion.getTypeUserGroupField()) {
                         fw.write("    public String doLogin() {" + "\r\n");
                         fw.write("        try {" + "\r\n");
                         fw.write("" + "\r\n");
@@ -359,7 +361,7 @@ public class LoginControllerGenerador implements Serializable {
                         fw.write("    }" + "\r\n");
 
                     } else {
-                        if (mySesion.getGrupounasolarelacion()) {
+                        if (mySesion.getTypeUserGroupEntity()) {
 
                             fw.write("    public String doLogin() {" + "\r\n");
                             fw.write("        try {" + "\r\n");
@@ -637,7 +639,7 @@ public class LoginControllerGenerador implements Serializable {
             String primeraletra = Utilidades.getFirstLetter(mySesion.getEntidadUser().getTabla()).toLowerCase();
             String texto = "";
 
-            if (!mySesion.getMultiplesRoles()) {
+            if (!mySesion.getTypeUserGroupList()) {
 
                 texto += "    public String doLogin() {" + "\r\n";
                 texto += "        try {" + "\r\n";

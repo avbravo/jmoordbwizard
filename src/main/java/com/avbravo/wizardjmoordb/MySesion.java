@@ -69,9 +69,9 @@ public class MySesion implements Serializable {
     // es la columna del grupo de usuario que se muestra
     private String atributosGrupousuarioMostrar = "";
 
-    private Boolean multiplesRoles = false;
-    
-    private Boolean unsoloRol =false;
+//    private Boolean multiplesRoles = false;
+//    
+//    private Boolean unsoloRol =false;
     //agrega el usuario logeado en los metodos para el crud 
     private Boolean addUserNameLogeado=false;
     //agrega la fecha para las enity del sistema en los crud
@@ -102,56 +102,68 @@ public class MySesion implements Serializable {
     private Boolean pagina4 =false;
     private Boolean pagina5=false;
     private Boolean pagina6 =false;
-    
-    private Boolean gruponotienerelacion=true;
-    private Boolean grupounasolarelacion=false;
-    private Boolean grupomultiplerelacion=false;
+    /**
+     * User Group
+     */
+    private String typeUserGroup="Sin roles";
+    private Boolean typeUserGroupWithOutRol=false;
+    private Boolean typeUserGroupField=false;
+    private Boolean typeUserGroupEntity=false;
+    private Boolean typeUserGroupList=false;
 
-    private String tipoRelacionGrupo="Sin relacion";
+    
     
     //almacena las opciones del menu donde se indica a que menu se debe asignar los entity
     List<EntidadMenu> entidadMenuList = new ArrayList<>();
      private List<String> masterDetailsList =  new ArrayList<>();
 
-    public Boolean getGruponotienerelacion() {
-        return gruponotienerelacion;
+    public String getTypeUserGroup() {
+        return typeUserGroup;
     }
 
-    public void setGruponotienerelacion(Boolean gruponotienerelacion) {
-        this.gruponotienerelacion = gruponotienerelacion;
+    public void setTypeUserGroup(String typeUserGroup) {
+        this.typeUserGroup = typeUserGroup;
     }
 
-    public Boolean getGrupounasolarelacion() {
-        return grupounasolarelacion;
+    public Boolean getTypeUserGroupWithOutRol() {
+        return typeUserGroupWithOutRol;
     }
 
-    public void setGrupounasolarelacion(Boolean grupounasolarelacion) {
-        this.grupounasolarelacion = grupounasolarelacion;
+    public void setTypeUserGroupWithOutRol(Boolean typeUserGroupWithOutRol) {
+        this.typeUserGroupWithOutRol = typeUserGroupWithOutRol;
     }
 
-    public Boolean getGrupomultiplerelacion() {
-        return grupomultiplerelacion;
+    public Boolean getTypeUserGroupField() {
+        return typeUserGroupField;
     }
 
-    public void setGrupomultiplerelacion(Boolean grupomultiplerelacion) {
-        this.grupomultiplerelacion = grupomultiplerelacion;
+    public void setTypeUserGroupField(Boolean typeUserGroupField) {
+        this.typeUserGroupField = typeUserGroupField;
     }
 
-   
+    public Boolean getTypeUserGroupEntity() {
+        return typeUserGroupEntity;
+    }
+
+    public void setTypeUserGroupEntity(Boolean typeUserGroupEntity) {
+        this.typeUserGroupEntity = typeUserGroupEntity;
+    }
+
+    public Boolean getTypeUserGroupList() {
+        return typeUserGroupList;
+    }
+
+    public void setTypeUserGroupList(Boolean typeUserGroupList) {
+        this.typeUserGroupList = typeUserGroupList;
+    }
+
+    
+
+    
 
      
      
-     
-     
-    public String getTipoRelacionGrupo() {
-        return tipoRelacionGrupo;
-    }
-
-    public void setTipoRelacionGrupo(String tipoRelacionGrupo) {
-        this.tipoRelacionGrupo = tipoRelacionGrupo;
-    }
-
-     
+    
      
      
     public String getAtributosIdGrupo() {
@@ -162,13 +174,7 @@ public class MySesion implements Serializable {
         this.atributosIdGrupo = atributosIdGrupo;
     }
 
-    public Boolean getUnsoloRol() {
-        return unsoloRol;
-    }
-
-    public void setUnsoloRol(Boolean unsoloRol) {
-        this.unsoloRol = unsoloRol;
-    }
+   
 
      
      
@@ -371,14 +377,7 @@ public class MySesion implements Serializable {
         this.atributosGrupousuarioMostrar = atributosGrupousuarioMostrar;
     }
 
-    public Boolean getMultiplesRoles() {
-        return multiplesRoles;
-    }
-
-    public void setMultiplesRoles(Boolean multiplesRoles) {
-        this.multiplesRoles = multiplesRoles;
-    }
-
+    
     public Boolean getAddUserNameLogeado() {
         return addUserNameLogeado;
     }
