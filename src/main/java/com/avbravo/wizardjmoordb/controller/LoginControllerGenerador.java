@@ -87,33 +87,17 @@ public class LoginControllerGenerador implements Serializable {
 
                 Utilidades.searchAddTextAndInject(ruta, "ResourcesFiles rf;", "public class LoginController implements Serializable {", false);
                 Utilidades.searchAddTextAndInject(ruta, "ValidadorRoles validadorRoles;", "public class LoginController implements Serializable {", false);
-//                Utilidades.searchAddTextAndInject(ruta, "ManagementThemes managementThemes;", "public class LoginController implements Serializable {", false);
+
                 Utilidades.searchAddTextAndInject(ruta, mySesion.getEntidadUser().getTabla() + "Facade " + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "Facade;", "public class LoginController implements Serializable {", false);
                 Utilidades.searchAddTextAndInject(ruta, mySesion.getEntidadRoles().getTabla() + "Facade " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + "Facade;", "public class LoginController implements Serializable {", false);
                 if (mySesion.getTypeUserGroupList()) {
                     Utilidades.searchAddTextAndInject(ruta, mySesion.getEntidadGruposUsuariosMultiples().getTabla() + "Facade " + Utilidades.letterToLower(mySesion.getEntidadGruposUsuariosMultiples().getTabla()) + "Facade;", "public class LoginController implements Serializable {", false);
                 }
 
-//                for (String s : mySesion.getRolesList()) {
-//                    String barra = "Rol" + s + " rol" + Utilidades.convertirLetraMayuscula(s) + ";";
-//                    Utilidades.searchAddTextAndInjectBeforeNotFound(ruta, barra, "public class LoginController implements Serializable {", false);
-//
-//                }
                 /**
                  * generar los metodos
                  */
                 Utilidades.addNotFoundMethod(ruta, "public void init() {", init(), "public class LoginController implements Serializable {", false);
-                Utilidades.addNotFoundMethod(ruta, "public LoginController() {", loginController(), "public class LoginController implements Serializable {", false);
-                if (!mySesion.getTypeUserGroupList()) {
-//                    Utilidades.addNotFoundMethod(ruta, "public String verificarLogin() {", verificarLogin(), "public class LoginController implements Serializable {", false);
-                } else {
-
-                }
-
-                Utilidades.addNotFoundMethod(ruta, "public String logout() {", logout(), "public class LoginController implements Serializable {", false);
-                Utilidades.addNotFoundMethod(ruta, "public String irLogin() {", irLogin(), "public class LoginController implements Serializable {", false);
-                Utilidades.addNotFoundMethod(ruta, "public String cambiarContrasena() {", changePassword(), "public class LoginController implements Serializable {", false);
-//                Utilidades.addNotFoundMethod(ruta, "public String verificarLogin() {", verificarLogin(), "public class LoginController implements Serializable {", false);
 
 
                 /*
@@ -377,87 +361,16 @@ public class LoginControllerGenerador implements Serializable {
         return "";
     }
 
-    private String irLogin() {
-        try {
+    
+    
 
-            String texto = "";
-            texto += "" + "\r\n";
-            texto += "    public String irLogin() {" + "\r\n";
-            texto += "        return \"/faces/index\";" + "\r\n";
-            texto += "    }" + "\r\n";
-            texto += "" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("constructor()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-
-    private String changePassword() {
-        try {
-            String minuscula = Utilidades.letterToLower(mySesion.getEntidadUser().getTabla());
-            String texto = "";
-            texto += "    public String changePassword() {" + "\r\n";
-            texto += "        try {" + "\r\n";
-            texto += "            " + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "Facade.update(" + minuscula + ");" + "\r\n";
-            texto += "            JsfUtil.addSuccessMessage(rf.getMensajeArb(\"info.update\"));" + "\r\n";
-            texto += "        } catch (Exception e) {" + "\r\n";
-            texto += "            JsfUtil.addErrorMessage(e.getLocalizedMessage());" + "\r\n";
-            texto += "        }" + "\r\n";
-            texto += "        return null;" + "\r\n";
-            texto += "    }" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("changePassword()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-
-    private String loginController() {
-        try {
-
-            String texto = "";
-            texto += "    public LoginController() {" + "\r\n";
-            texto += "    }" + "\r\n";
-
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("loginBean()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
+    
 
     /**
      *
      * @return
      */
-    private String logout() {
-        try {
-
-            String texto = "";
-            texto += "   public String logout() {" + "\r\n";
-            texto += "       loggedIn = false;" + "\r\n";
-            texto += "       try {" + "\r\n";
-            texto += "           HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);" + "\r\n";
-            texto += "           if (session != null) {" + "\r\n";
-            texto += "               session.invalidate();" + "\r\n";
-            texto += "           }" + "\r\n";
-            texto += "           String url = (\"/" + proyectoJEE.getProyecto() + "/faces/index.xhtml?faces-redirect=true\");" + "\r\n";
-            texto += "           FacesContext fc = FacesContext.getCurrentInstance();" + "\r\n";
-            texto += "           ExternalContext ec = fc.getExternalContext();" + "\r\n";
-            texto += "           ec.redirect(url);" + "\r\n";
-            texto += "           return \"/" + proyectoJEE.getProyecto() + "/faces/login.xhtml?faces-redirect=true\";" + "\r\n";
-            texto += "       } catch (Exception e) {" + "\r\n";
-            texto += "           JsfUtil.addErrorMessage(e, \"logout()\");" + "\r\n";
-            texto += "       }" + "\r\n";
-            texto += "       return \"/" + proyectoJEE.getProyecto() + "/faces/login.xhtml?faces-redirect=true\";" + "\r\n";
-            texto += "   } " + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("logout()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
+   
 
     private String doLogin() {
         try {
@@ -511,8 +424,8 @@ public class LoginControllerGenerador implements Serializable {
                                 idroles = a.getNombre();
                             }
                         }
-                        fw.write("               if (!validadorRoles.validarRoles(" + minuscula + ".get"+Utilidades.letterToUpper(mySesion.getEntidadRoles().getTabla()) +"().get"+ Utilidades.letterToUpper(idroles) + "())) {" + "\r\n");
-                        fw.write("                   JsfUtil.addSuccessMessage(rf.getAppMessage(\"login.notienerolenelsistema\") + \" \" + " + minuscula + ".get"+Utilidades.letterToUpper(mySesion.getEntidadRoles().getTabla()) +"().get"+ Utilidades.letterToUpper(idroles) + "());" + "\r\n");
+                        fw.write("               if (!validadorRoles.validarRoles(" + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getEntidadRoles().getTabla()) + "().get" + Utilidades.letterToUpper(idroles) + "())) {" + "\r\n");
+                        fw.write("                   JsfUtil.addSuccessMessage(rf.getAppMessage(\"login.notienerolenelsistema\") + \" \" + " + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getEntidadRoles().getTabla()) + "().get" + Utilidades.letterToUpper(idroles) + "());" + "\r\n");
                         fw.write("                   loggedIn = false;" + "\r\n");
                         fw.write("                   return \"\";" + "\r\n");
                         fw.write("                }" + "\r\n");
@@ -521,51 +434,22 @@ public class LoginControllerGenerador implements Serializable {
                     } else {
 // cuando tiene multiples relaciones
 
-
-
-//                            fw.write("            if (!" + primeraletra + ".get" + Utilidades.letterToUpper(mySesion.getAtributosPassword()) + "().equals(" + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosPassword()) + "())) {" + "\r\n");
-//                            fw.write("                JsfUtil.addSuccessMessage(rf.getMensajeArb(\"login.passwordnotvalid\"));" + "\r\n");
-//                            fw.write("                return \"\";" + "\r\n");
-//                            fw.write("            }" + "\r\n");
-//                            fw.write("            " + minuscula + " = " + primeraletra + ";" + "\r\n");
-                        fw.write("            else{;" + "\r\n");
-                        fw.write("            private rolvalido=false;" + "\r\n");
-                        fw.write("            List<" + Utilidades.letterToUpper(mySesion.getEntidadRoles().getTabla()) + "> list = new ArrayList<>();" + "\r\n");
-                        String iduser = "";
-                        for (Atributos a : mySesion.getEntidadUser().getAtributosList()) {
-                            if (a.getEsPrimaryKey()) {
-                                iduser = a.getNombre();
-                            }
-                        }
                         String idroles = "";
                         for (Atributos a : mySesion.getEntidadRoles().getAtributosList()) {
                             if (a.getEsPrimaryKey()) {
                                 idroles = a.getNombre();
                             }
                         }
-                        String idgruposuario = "";
-                        for (Atributos a : mySesion.getEntidadGruposUsuariosMultiples().getAtributosList()) {
-                            if (a.getEsPrimaryKey()) {
-                                idgruposuario = a.getNombre();
-                            }
-                        }
+                        fw.write("// Recuerde que el List<> para los roles " + "\r\n");
+                        fw.write("// 1.Defina un combo en el formulario de login con los roles" + "\r\n");
+                        fw.write("// 2.Haga el binding con el entity roles que definio en LoginController" + "\r\n");
 
-                        fw.write("            " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + ".set" + Utilidades.letterToUpper(iduser) + "(" + minuscula + ");" + "\r\n");
-                        fw.write("            list = " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + "Facade.findById" + Utilidades.letterToUpper(iduser) + "(" + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + ".get" + Utilidades.letterToUpper(iduser) + "());" + "\r\n");
-                        fw.write("            for(" + Utilidades.letterToUpper(mySesion.getEntidadRoles().getTabla()) + " r: list){" + "\r\n");
-                        fw.write("                if(" + Utilidades.letterToLower(mySesion.getEntidadGruposUsuariosMultiples().getTabla()) + ".get" + Utilidades.letterToUpper(idgruposuario) + "().equals(r.get" + Utilidades.letterToUpper(idgruposuario) + "().get" + Utilidades.letterToUpper(idgruposuario) + "())){" + "\r\n");
-                        fw.write("                    rolvalido=Boolean.TRUE;" + "\r\n");
+                        fw.write("               if (!validadorRoles.validarRoles(" + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + ".get" + Utilidades.letterToUpper(idroles) + "())) {" + "\r\n");
+                        fw.write("                   JsfUtil.addSuccessMessage(rf.getAppMessage(\"login.notienerolenelsistema\") + \" \" + " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + ".get" + Utilidades.letterToUpper(idroles) + "());" + "\r\n");
+                        fw.write("                   loggedIn = false;" + "\r\n");
+                        fw.write("                   return \"\";" + "\r\n");
                         fw.write("                }" + "\r\n");
-                        fw.write("            }" + "\r\n");
-                        fw.write("            if (!rolvalido) {" + "\r\n");
-                        fw.write("                 JsfUtil.addSuccessMessage(rf.getMensajeArb(\"warning.notieneasignadoesterol\"));" + "\r\n");
-                        fw.write("                 return \"\";" + "\r\n");
-                        fw.write("            }" + "\r\n");
-                        fw.write("            if (validadorRoles.validarRoles(" + Utilidades.letterToLower(mySesion.getEntidadGruposUsuariosMultiples().getTabla()) + ".get" + Utilidades.letterToUpper(mySesion.getAtributosGrupousuarioMostrar()) + "())) {" + "\r\n");
-                        fw.write("               setLogeado(Boolean.TRUE);" + "\r\n");
-                        fw.write("               return \"/index\";" + "\r\n");
                         fw.write("           }" + "\r\n");
-                         fw.write("       }" + "\r\n");
 
                     }//multiples relaciones
 

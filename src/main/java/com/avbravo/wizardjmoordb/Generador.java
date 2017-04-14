@@ -679,9 +679,10 @@ public class Generador implements Serializable {
             }
             mySesion.setNumeroMenuBar(mySesion.getMenubarList().size());
 
-            if (mySesion.getEntidadUser().getTabla().equals(mySesion.getEntidadRoles().getTabla())) {
-                JSFUtil.addWarningMessage("El entity user no debe ser el mismo que el entity roles");
-            }
+//            if (mySesion.getEntidadUser().getTabla().equals(mySesion.getEntidadRoles().getTabla())) {
+//                JSFUtil.addWarningMessage("El entity user no debe ser el mismo que el entity roles");
+//            }
+            
             if (mySesion.getAtributosUsername().equals(mySesion.getAtributosPassword())) {
                 JSFUtil.addWarningMessage("El nombre del atributo para el username no debe ser el mismo que el del password");
                 return;
@@ -709,14 +710,14 @@ public class Generador implements Serializable {
                     JSFUtil.addWarningMessage("El entity de grupos usuarios no debe  ser el mismo que el entity user");
                     return;
                 }
-                if (mySesion.getEntidadGruposUsuariosMultiples().getTabla().equals(mySesion.getEntidadRoles().getTabla())) {
-                    JSFUtil.addWarningMessage("El entity de grupos usuarios no debe  ser el mismo que el entity roles");
-                    return;
-                }
-                if (mySesion.getAtributosGrupousuarioMostrar() == null || mySesion.getAtributosGrupousuarioMostrar().equals("")) {
-                    JSFUtil.addWarningMessage("Seleccione la columna del grupo de usuario para validar");
-                    return;
-                }
+//                if (mySesion.getEntidadGruposUsuariosMultiples().getTabla().equals(mySesion.getEntidadRoles().getTabla())) {
+//                    JSFUtil.addWarningMessage("El entity de grupos usuarios no debe  ser el mismo que el entity roles");
+//                    return;
+//                }
+//                if (mySesion.getAtributosGrupousuarioMostrar() == null || mySesion.getAtributosGrupousuarioMostrar().equals("")) {
+//                    JSFUtil.addWarningMessage("Seleccione la columna del grupo de usuario para validar");
+//                    return;
+//                }
             }
 
             //String idroles = 
