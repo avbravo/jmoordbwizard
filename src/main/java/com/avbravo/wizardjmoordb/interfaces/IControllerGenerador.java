@@ -49,7 +49,7 @@ public class IControllerGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("IController.java", proyectoJEE.getPathInterfaces()+ "IController.java");
+            procesar("IController.java", proyectoJEE.getPathInterfaces() + "IController.java");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -65,7 +65,7 @@ public class IControllerGenerador implements Serializable {
                 crearFile(ruta, archivo);
             } else {
                 generarImport(ruta);
- 
+
                 Utilidades.searchAdd(ruta, "public String open();", "public interface IController <T> {", false);
                 Utilidades.searchAdd(ruta, "public String prepareNew();", "public interface IController <T> {", false);
                 Utilidades.searchAdd(ruta, "public String verifyNew();", "public interface IController <T> {", false);
@@ -144,37 +144,36 @@ public class IControllerGenerador implements Serializable {
 
                     fw.write("public interface IController <T> {" + "\r\n");
                     fw.write("" + "\r\n");
-                     fw.write("    public String open();" + "\r\n");
+                    fw.write("    public String open();" + "\r\n");
 
-    fw.write("    public String prepareNew();" + "\r\n");
+                    fw.write("    public String prepareNew();" + "\r\n");
 
-    fw.write("    public String verifyNew();" + "\r\n");
+                    fw.write("    public String verifyNew();" + "\r\n");
 
-    fw.write("    public void reset();" + "\r\n");
+                    fw.write("    public void reset();" + "\r\n");
 
-    fw.write("    public String showAll();" + "\r\n");
+                    fw.write("    public String showAll();" + "\r\n");
 
-    fw.write("    public String save();" + "\r\n");
+                    fw.write("    public String save();" + "\r\n");
 
-    fw.write("    public String query();" + "\r\n");
+                    fw.write("    public String query();" + "\r\n");
 
-    fw.write("    public String edit();" + "\r\n");
+                    fw.write("    public String edit();" + "\r\n");
 
-    fw.write("    public String remove();" + "\r\n");
+                    fw.write("    public String remove();" + "\r\n");
 
-    fw.write("    public String delete();" + "\r\n");
+                    fw.write("    public String delete();" + "\r\n");
 
-    fw.write("    public String deleteAll();" + "\r\n");
+                    fw.write("    public String deleteAll();" + "\r\n");
 
-    fw.write("    public String print();" + "\r\n");
+                    fw.write("    public String print();" + "\r\n");
 
-    fw.write("    public String printAll();" + "\r\n");
+                    fw.write("    public String printAll();" + "\r\n");
 
-    fw.write("    public String prepareEdit();" + "\r\n");
+                    fw.write("    public String prepareEdit();" + "\r\n");
 
-    fw.write("    public void handleSelect(SelectEvent event);" + "\r\n");
-                    
-                   
+                    fw.write("    public void handleSelect(SelectEvent event);" + "\r\n");
+
                     fw.write("" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("" + "\r\n");

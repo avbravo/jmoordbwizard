@@ -95,15 +95,15 @@ public class ControllerGenerador implements Serializable {
                 String nameEntity = Utilidades.letterToLower(entidad.getTabla());
                 String primaryKey = "";
                 String primaryKeyUpper = "";
-            Boolean esInteger = false;
-            String entity = Utilidades.letterToLower(archivo);
-            for (Atributos a : entidad.getAtributosList()) {
-                if (a.getEsPrimaryKey()) {
-                    primaryKey = Utilidades.letterToUpper(a.getNombre());
-                    esInteger = a.getTipo().equals("Integer");
+                Boolean esInteger = false;
+                String entity = Utilidades.letterToLower(archivo);
+                for (Atributos a : entidad.getAtributosList()) {
+                    if (a.getEsPrimaryKey()) {
+                        primaryKey = a.getNombre();
+                        esInteger = a.getTipo().equals("Integer");
+                    }
                 }
-            }
-            primaryKeyUpper =Utilidades.letterToUpper(primaryKey);
+                primaryKeyUpper = Utilidades.letterToUpper(primaryKey);
                 // El fichero no existe y hay que crearlo
                 bw = new BufferedWriter(new FileWriter(archivo));
                 bw.close();
@@ -121,9 +121,9 @@ public class ControllerGenerador implements Serializable {
                     fw.write("" + "\r\n");
 
                     fw.write("import " + proyectoEJB.getPaquete() + ".entity.*; " + "\r\n");
-                    fw.write("import " +  proyectoEJB.getPaquete() + ".ejb.*; " + "\r\n");
-                    fw.write("import " +  proyectoEJB.getPaquete() + ".datamodel.*; " + "\r\n");
-                    fw.write("import " +  proyectoEJB.getPaquete() + ".services.*; " + "\r\n");
+                    fw.write("import " + proyectoEJB.getPaquete() + ".ejb.*; " + "\r\n");
+                    fw.write("import " + proyectoEJB.getPaquete() + ".datamodel.*; " + "\r\n");
+                    fw.write("import " + proyectoEJB.getPaquete() + ".services.*; " + "\r\n");
                     fw.write("import " + proyectoJEE.getPaquete() + ".interfaces.*; " + "\r\n");
                     fw.write("import " + proyectoJEE.getPaquete() + ".util.*; " + "\r\n");
                     fw.write("import com.avbravo.avbravoutils.JsfUtil;" + "\r\n");
@@ -180,6 +180,48 @@ public class ControllerGenerador implements Serializable {
                     fw.write("    @Inject" + "\r\n");
                     fw.write("    LoginController loginController;" + "\r\n");
 
+                    fw.write("    //List of Relations" + "\r\n");
+
+                    for (Atributos a : entidad.getAtributosList()) {
+                        if (!Utilidades.isJavaType(a.getTipo())) {
+                            fw.write("    List<" + a.getTipo() + "> " + a.getNombre() + "List;" + "\r\n");
+                        }
+                    }
+
+                    fw.write("    //Facade of Relations" + "\r\n");
+
+                    for (Atributos a : entidad.getAtributosList()) {
+                        if (!Utilidades.isJavaType(a.getTipo())) {
+                            fw.write("    @Inject" + "\r\n");
+                            fw.write("    " + a.getTipo() + "Facade " + a.getNombre() + "Facade;" + "\r\n");
+                        }
+                    }
+
+
+
+                    for (Atributos a : entidad.getAtributosList()) {
+                        if (!Utilidades.isJavaType(a.getTipo())) {
+                            fw.write("    public void set" + a.getTipo() + "List(List<" + a.getTipo() + "> " + a.getNombre() + "List){" + "\r\n");
+                            fw.write("        this." + a.getNombre() + "List =" + a.getNombre() + "List;" + "\r\n");
+                             fw.write("    }" + "\r\n");
+                        }
+                    }
+
+                 for (Atributos a : entidad.getAtributosList()) {
+                        if (!Utilidades.isJavaType(a.getTipo())) {
+                            fw.write("    public List<" + a.getTipo()+ "> get" + a.getTipo() + "List(){" + "\r\n");
+                            fw.write("        try{" + "\r\n");
+                            fw.write("           " + a.getNombre() + "List =" + a.getNombre() + "Facade.findAll();" + "\r\n");
+                             fw.write("       } catch (Exception e) {" + "\r\n");
+                             fw.write("         JsfUtil.addErrorMessage(e.getLocalizedMessage());" + "\r\n");
+                             fw.write("       }" + "\r\n");
+                             fw.write("       return " +  a.getNombre()+"List;"+"\r\n");
+                              fw.write("   }" + "\r\n");
+                        }
+                    }   
+                    
+                    
+                    
                     fw.write("    public " + nameClass + "Services get" + nameClass + "Services() {" + "\r\n");
                     fw.write("        return " + nameEntity + "Services;" + "\r\n");
                     fw.write("    }" + "\r\n");
@@ -266,9 +308,9 @@ public class ControllerGenerador implements Serializable {
                     fw.write("            " + nameEntity + " = new " + nameClass + "();" + "\r\n");
                     fw.write("            " + nameEntity + "Filtered = " + nameEntity + "List;" + "\r\n");
                     fw.write("            " + nameEntity + "DataModel = new " + nameClass + "DataModel(" + nameEntity + "List);" + "\r\n");
-                    fw.write("            String "+primaryKey+" = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get(\""+primaryKey+"\");" + "\r\n");
-                    fw.write("            if ("+primaryKey+" != null) {" + "\r\n");
-                    fw.write("                Optional<" + nameClass + "> optional = " + nameEntity + "Facade.find(\""+primaryKey+"\", "+primaryKey+");" + "\r\n");
+                    fw.write("            String " + primaryKey + " = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get(\"" + primaryKey + "\");" + "\r\n");
+                    fw.write("            if (" + primaryKey + " != null) {" + "\r\n");
+                    fw.write("                Optional<" + nameClass + "> optional = " + nameEntity + "Facade.find(\"" + primaryKey + "\", " + primaryKey + ");" + "\r\n");
                     fw.write("                if (optional.isPresent()) {" + "\r\n");
                     fw.write("                    " + nameEntity + " = optional.get();" + "\r\n");
                     fw.write("                    " + nameEntity + "Selected = " + nameEntity + ";" + "\r\n");
@@ -399,7 +441,7 @@ public class ControllerGenerador implements Serializable {
                     fw.write("    @Override" + "\r\n");
                     fw.write("    public String delete() {" + "\r\n");
                     fw.write("        try {" + "\r\n");
-                    fw.write("            if (" + nameEntity + "Facade.delete(\""+primaryKey+"\", " + nameEntity + ".get"+primaryKeyUpper+"())) {" + "\r\n");
+                    fw.write("            if (" + nameEntity + "Facade.delete(\"" + primaryKey + "\", " + nameEntity + ".get" + primaryKeyUpper + "())) {" + "\r\n");
                     fw.write("               JsfUtil.addSuccessMessage(rf.getAppMessage(\"info.delete\"));" + "\r\n");
                     fw.write("               " + nameEntity + " = new " + nameClass + "();" + "\r\n");
                     fw.write("               found = false;" + "\r\n");
@@ -413,7 +455,7 @@ public class ControllerGenerador implements Serializable {
 
                     fw.write("    public String delete(" + nameClass + " " + nameEntity + ") {" + "\r\n");
                     fw.write("        try {" + "\r\n");
-                    fw.write("            if (" + nameEntity + "Facade.delete(\""+primaryKey+"\", " + nameEntity + ".get"+primaryKeyUpper+"())) {" + "\r\n");
+                    fw.write("            if (" + nameEntity + "Facade.delete(\"" + primaryKey + "\", " + nameEntity + ".get" + primaryKeyUpper + "())) {" + "\r\n");
                     fw.write("                JsfUtil.addSuccessMessage(rf.getAppMessage(\"info.delete\"));" + "\r\n");
                     fw.write("                " + nameEntity + " = new " + nameClass + "();" + "\r\n");
                     fw.write("                found = false;" + "\r\n");
@@ -429,7 +471,7 @@ public class ControllerGenerador implements Serializable {
                     fw.write("    public String remove() {" + "\r\n");
                     fw.write("        try {" + "\r\n");
                     fw.write("            " + nameEntity + " = " + nameEntity + "Selected;" + "\r\n");
-                    fw.write("            if (" + nameEntity + "Facade.delete(\""+primaryKey+"\", " + nameEntity + ".get"+primaryKeyUpper+"())) {" + "\r\n");
+                    fw.write("            if (" + nameEntity + "Facade.delete(\"" + primaryKey + "\", " + nameEntity + ".get" + primaryKeyUpper + "())) {" + "\r\n");
                     fw.write("                " + nameEntity + "List.remove(" + nameEntity + ");" + "\r\n");
                     fw.write("                " + nameEntity + "Filtered = " + nameEntity + "List;" + "\r\n");
                     fw.write("                " + nameEntity + "DataModel = new " + nameClass + "DataModel(" + nameEntity + "List);" + "\r\n");
