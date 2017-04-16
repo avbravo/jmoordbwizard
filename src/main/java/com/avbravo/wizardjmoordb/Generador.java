@@ -33,10 +33,10 @@ import com.avbravo.wizardjmoordb.controller.LoginControllerGenerador;
 import com.avbravo.wizardjmoordb.sevices.ServicesGenerador;
 import com.avbravo.wizardjmoordb.generador.css.CssLayoutCssGenerador;
 import com.avbravo.wizardjmoordb.roles.ValidadorRolesGenerador;
-import com.avbravo.wizardjmoordb.generador.web.componentes.ActivoxhtmlGenerador;
-import com.avbravo.wizardjmoordb.generador.web.componentes.DialogoeliminarxhtmlGenerador;
-import com.avbravo.wizardjmoordb.generador.web.componentes.EIiminarxhtmlGenerador;
-import com.avbravo.wizardjmoordb.generador.web.componentes.ProcesarxhtmlGenerador;
+import com.avbravo.wizardjmoordb.old.ActivoxhtmlGenerador;
+import com.avbravo.wizardjmoordb.old.DialogoeliminarxhtmlGenerador;
+import com.avbravo.wizardjmoordb.old.EIiminarxhtmlGenerador;
+import com.avbravo.wizardjmoordb.old.ProcesarxhtmlGenerador;
 import com.avbravo.wizardjmoordb.generador.web.template.AccesodenegadoxhtmlGenerador;
 import com.avbravo.wizardjmoordb.generador.web.template.AcercadexhtmlGenerador;
 import com.avbravo.wizardjmoordb.generador.web.template.CambiarpasswordxhtmlGenerador;
@@ -193,14 +193,14 @@ public class Generador implements Serializable {
     CambiarpasswordxhtmlGenerador cambiarpasswordxhtmlGenerador;
     @Inject
     SearchxhtmlGenerador searchxhtmlGenerador;
-    @Inject
-    ActivoxhtmlGenerador activoxhtmlGenerador;
-    @Inject
-    DialogoeliminarxhtmlGenerador dialogoeliminarxhtmlGenerador;
-    @Inject
-    EIiminarxhtmlGenerador eIiminarxhtmlGenerador;
-    @Inject
-    ProcesarxhtmlGenerador procesarxhtmlGenerador;
+//    @Inject
+//    ActivoxhtmlGenerador activoxhtmlGenerador;
+//    @Inject
+//    DialogoeliminarxhtmlGenerador dialogoeliminarxhtmlGenerador;
+//    @Inject
+//    EIiminarxhtmlGenerador eIiminarxhtmlGenerador;
+//    @Inject
+//    ProcesarxhtmlGenerador procesarxhtmlGenerador;
     @Inject
     ReportesxhtmlGenerador reportesxhtmlGenerador;
 //    public Boolean enEjecucion=false;
@@ -573,8 +573,15 @@ public class Generador implements Serializable {
             proyectoJEE.setPathMainWebappResources(proyectoJEE.getPathMainWebapp() + proyectoJEE.getSeparator() + "resources");
             proyectoJEE.setPathMainWebappResourcesCss(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "css" + proyectoJEE.getSeparator());
 
-            proyectoJEE.setPathMainWebappResourcesImagenes(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "imagenes" + proyectoJEE.getSeparator());
-            proyectoJEE.setPathMainWebappResourcesComponentes(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "componentes" + proyectoJEE.getSeparator());
+            
+            proyectoJEE.setPathMainWebappResourcesAvbravo(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "avbravo" + proyectoJEE.getSeparator());
+            proyectoJEE.setPathMainWebappResourcesBootstrap(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "bootstrap" + proyectoJEE.getSeparator());
+            proyectoJEE.setPathMainWebappResourcesBootstrapcdn(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "bootstrapcdn" + proyectoJEE.getSeparator());
+            proyectoJEE.setPathMainWebappResourcesDist(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "dist" + proyectoJEE.getSeparator());
+            proyectoJEE.setPathMainWebappResourcesImg(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "img" + proyectoJEE.getSeparator());
+            proyectoJEE.setPathMainWebappResourcesIonicframework(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "ionicframework" + proyectoJEE.getSeparator());
+            
+            
             proyectoJEE.setPathMainWebappResourcesReportes(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "reportes" + proyectoJEE.getSeparator());
 
             proyectoJEE.setPathWebInf(proyectoJEE.getPathProyecto() + proyectoJEE.getSeparator() + "src" + proyectoJEE.getSeparator() + "main" + proyectoJEE.getSeparator() + "webapp" + proyectoJEE.getSeparator() + "WEB-INF" + proyectoJEE.getSeparator());
@@ -882,10 +889,10 @@ stopWeb/-Inf
                             /*
                 genera los componentes
                              */
-                            activoxhtmlGenerador.generar();
-                            dialogoeliminarxhtmlGenerador.generar();
-                            eIiminarxhtmlGenerador.generar();
-                            procesarxhtmlGenerador.generar();
+//                            activoxhtmlGenerador.generar();
+//                            dialogoeliminarxhtmlGenerador.generar();
+//                            eIiminarxhtmlGenerador.generar();
+//                            procesarxhtmlGenerador.generar();
                             break;
                         case "primefacespremium":
                             break;

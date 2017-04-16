@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb.generador.web.componentes;
+package com.avbravo.wizardjmoordb.old;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
@@ -47,7 +47,7 @@ public class ActivoxhtmlGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("activo.xhtml", proyectoJEE.getPathMainWebappResourcesComponentes() + proyectoJEE.getSeparator() + "activo.xhtml");
+            procesar("activo.xhtml", proyectoJEE.getPathMainWebappResourcesAvbravo()+ proyectoJEE.getSeparator() + "activo.xhtml");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());

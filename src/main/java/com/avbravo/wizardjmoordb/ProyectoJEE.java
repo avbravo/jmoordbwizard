@@ -58,9 +58,16 @@ public class ProyectoJEE  implements Serializable {
     private String pathMainWebappPages = "";
     private String pathMainWebappResources = "";
     private String pathMainWebappResourcesCss = "";
-    private String pathMainWebappResourcesImagenes = "";
-    private String pathMainWebappResourcesComponentes = "";
+//    private String pathMainWebappResourcesImagenes = "";
+//  private String pathMainWebappResourcesComponentes = "";
     private String pathMainWebappResourcesReportes = "";
+    private String pathMainWebappResourcesAvbravo= "";
+    private String pathMainWebappResourcesBootstrap= "";
+    private String pathMainWebappResourcesBootstrapcdn= "";
+        private String pathMainWebappResourcesDist= "";
+        private String pathMainWebappResourcesImg= "";
+        private String pathMainWebappResourcesIonicframework= "";
+        
 
     private String pathProperties = "";
     private String pathInterfaces = "";
@@ -69,6 +76,57 @@ public class ProyectoJEE  implements Serializable {
     
     private String pathReportes = "";
 
+    public String getPathMainWebappResourcesAvbravo() {
+        return pathMainWebappResourcesAvbravo;
+    }
+
+    public void setPathMainWebappResourcesAvbravo(String pathMainWebappResourcesAvbravo) {
+        this.pathMainWebappResourcesAvbravo = pathMainWebappResourcesAvbravo;
+    }
+
+    public String getPathMainWebappResourcesBootstrap() {
+        return pathMainWebappResourcesBootstrap;
+    }
+
+    public void setPathMainWebappResourcesBootstrap(String pathMainWebappResourcesBootstrap) {
+        this.pathMainWebappResourcesBootstrap = pathMainWebappResourcesBootstrap;
+    }
+
+    public String getPathMainWebappResourcesBootstrapcdn() {
+        return pathMainWebappResourcesBootstrapcdn;
+    }
+
+    public void setPathMainWebappResourcesBootstrapcdn(String pathMainWebappResourcesBootstrapcdn) {
+        this.pathMainWebappResourcesBootstrapcdn = pathMainWebappResourcesBootstrapcdn;
+    }
+
+    public String getPathMainWebappResourcesDist() {
+        return pathMainWebappResourcesDist;
+    }
+
+    public void setPathMainWebappResourcesDist(String pathMainWebappResourcesDist) {
+        this.pathMainWebappResourcesDist = pathMainWebappResourcesDist;
+    }
+
+    public String getPathMainWebappResourcesImg() {
+        return pathMainWebappResourcesImg;
+    }
+
+    public void setPathMainWebappResourcesImg(String pathMainWebappResourcesImg) {
+        this.pathMainWebappResourcesImg = pathMainWebappResourcesImg;
+    }
+
+    public String getPathMainWebappResourcesIonicframework() {
+        return pathMainWebappResourcesIonicframework;
+    }
+
+    public void setPathMainWebappResourcesIonicframework(String pathMainWebappResourcesIonicframework) {
+        this.pathMainWebappResourcesIonicframework = pathMainWebappResourcesIonicframework;
+    }
+
+    
+    
+    
     public String getPathProyecto() {
         return pathProyecto;
     }
@@ -239,21 +297,21 @@ public class ProyectoJEE  implements Serializable {
         this.pathMainWebappResourcesCss = pathMainWebappResourcesCss;
     }
 
-    public String getPathMainWebappResourcesImagenes() {
-        return pathMainWebappResourcesImagenes;
-    }
-
-    public void setPathMainWebappResourcesImagenes(String pathMainWebappResourcesImagenes) {
-        this.pathMainWebappResourcesImagenes = pathMainWebappResourcesImagenes;
-    }
-
-    public String getPathMainWebappResourcesComponentes() {
-        return pathMainWebappResourcesComponentes;
-    }
-
-    public void setPathMainWebappResourcesComponentes(String pathMainWebappResourcesComponentes) {
-        this.pathMainWebappResourcesComponentes = pathMainWebappResourcesComponentes;
-    }
+//    public String getPathMainWebappResourcesImagenes() {
+//        return pathMainWebappResourcesImagenes;
+//    }
+//
+//    public void setPathMainWebappResourcesImagenes(String pathMainWebappResourcesImagenes) {
+//        this.pathMainWebappResourcesImagenes = pathMainWebappResourcesImagenes;
+//    }
+//
+//    public String getPathMainWebappResourcesComponentes() {
+//        return pathMainWebappResourcesComponentes;
+//    }
+//
+//    public void setPathMainWebappResourcesComponentes(String pathMainWebappResourcesComponentes) {
+//        this.pathMainWebappResourcesComponentes = pathMainWebappResourcesComponentes;
+//    }
 
     public String getPathMainWebappResourcesReportes() {
         return pathMainWebappResourcesReportes;
