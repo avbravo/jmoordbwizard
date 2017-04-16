@@ -41,7 +41,8 @@ import com.avbravo.wizardjmoordb.generador.web.template.AccesodenegadoxhtmlGener
 import com.avbravo.wizardjmoordb.generador.web.template.AcercadexhtmlGenerador;
 import com.avbravo.wizardjmoordb.generador.web.template.CambiarpasswordxhtmlGenerador;
 import com.avbravo.wizardjmoordb.generador.web.template.ContentxhtmlGenerador;
-import com.avbravo.wizardjmoordb.generador.web.template.HeaderxhtmlGenerador;
+import com.avbravo.wizardjmoordb.generador.web.template.FooterxhtmlGenerador;
+import com.avbravo.wizardjmoordb.generador.web.template.RigthxhtmlGenerador;
 import com.avbravo.wizardjmoordb.generador.web.template.IndexxhtmlGenerador;
 import com.avbravo.wizardjmoordb.generador.web.template.LeftmenuxhtmlGenerador;
 import com.avbravo.wizardjmoordb.generador.web.template.MenuOptionsxhtmlGenerador;
@@ -167,7 +168,11 @@ public class Generador implements Serializable {
     @Inject
     TemplatexhtmlGenerador templatexhtmlGenerador;
     @Inject
-    HeaderxhtmlGenerador headerxhtmlGenerador;
+    FooterxhtmlGenerador footerxhtmlGenerador;
+    
+    @Inject
+    RigthxhtmlGenerador rigthxhtmlGenerador; 
+    
     @Inject
     MenuOptionsxhtmlGenerador menuOpcionesxhtmlGenerador;
     @Inject
@@ -840,7 +845,9 @@ stopWeb/-Inf
                    WEB
                              */
                             templatexhtmlGenerador.generar();
-                            headerxhtmlGenerador.generar();
+                            footerxhtmlGenerador.generar();
+                            rigthxhtmlGenerador.generar(); 
+                            
                             menuOpcionesxhtmlGenerador.generar();
                             leftmenuxhtmlGenerador.generar();
                             menusxhtmlGenerador.generar();

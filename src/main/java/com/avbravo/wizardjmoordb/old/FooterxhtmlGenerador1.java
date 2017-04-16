@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb.generador.web.template;
+package com.avbravo.wizardjmoordb.old;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
@@ -30,10 +30,10 @@ import javax.inject.Inject;
  */
 @Named
 @RequestScoped
-public class HeaderxhtmlGenerador implements Serializable {
+public class FooterxhtmlGenerador1 implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(HeaderxhtmlGenerador.class.getName());
+    private static final Logger LOG = Logger.getLogger(FooterxhtmlGenerador1.class.getName());
 
     @Inject
     MySesion mySesion;
@@ -47,7 +47,7 @@ public class HeaderxhtmlGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("header.xhtml", proyectoJEE.getPathMainWebapp() + proyectoJEE.getSeparator() + "header.xhtml");
+            procesar("footer.xhtml", proyectoJEE.getPathMainWebappPages() + proyectoJEE.getSeparator() + "footer.xhtml");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -63,22 +63,6 @@ public class HeaderxhtmlGenerador implements Serializable {
                 crearFile(ruta, archivo);
             }
 
-//            Utilidades.searchAdd(ruta, "<b:navBar  brand=\"#{men['menu.home']}\" brandHref=\"/" + proyectoJEE.getProyecto() + "/faces/index.xhtml\" inverse=\"true\" fixed=\"top\">", "<ui:composition>", false);
-//            Utilidades.searchAdd(ruta, "<b:commandButton rendered=\"#{!loginBean.logeado}\" action=\"#{loginBean.verificarLogin}\" value=\"#{app['boton.login']}\" look=\"primary\"  iconAlign=\"right\"/>", "</div>", false);
-//            Utilidades.searchAdd(ruta, "<b:label  text=\"#{loginBean." + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "." + Utilidades.letterToLower(mySesion.getAtributosNombreMostrar()) + "}\"  rendered=\"#{loginBean.logeado}\"/>", "<b:commandButton rendered=\"#{!loginBean.logeado}\" action=\"#{loginBean.verificarLogin}\" value=\"#{app['boton.login']}\" look=\"primary\"  iconAlign=\"right\"/>", false);
-//            Utilidades.searchAdd(ruta, "<b:commandButton rendered=\"#{loginBean.logeado}\" action=\"#{loginBean.logout()}\" value=\"#{app['boton.logout']}\" look=\"success\"  iconAlign=\"right\"/>", "<b:label  text=\"#{loginBean." + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "." + Utilidades.letterToLower(mySesion.getAtributosNombreMostrar()) + "}\"  rendered=\"#{loginBean.logeado}\"/>", false);
-//            Utilidades.searchAdd(archivo, "#{' '}", "</div>", Boolean.TRUE);
-
-            mySesion.getMenubarList().stream().forEach((s) -> {
-
-                Utilidades.searchAdd(ruta, "<ui:include src=\"menu" + Utilidades.letterToLower(s) + ".xhtml\"/>", "<b:navbarLinks>", Boolean.FALSE);
-
-            });
-            /**
-             * generar los metodos
-             */
-            Utilidades.addNotFoundMethodWithOutLine(ruta, "<b:inputText rendered=\"#{!loginBean.logeado}\" value=\"#{loginBean." + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "." + Utilidades.letterToLower(mySesion.getAtributosUsername()) + "}\" placeholder=\"#{app['login.username']}\" fieldSize=\"sm\"/>", username(), "<h:form styleClass=\"navbar-form navbar-right\">", false);
-            Utilidades.addNotFoundMethodWithOutLine(ruta, "<p:password rendered=\"#{!loginBean.logeado}\" value=\"#{loginBean." + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "." + Utilidades.letterToLower(mySesion.getAtributosPassword()) + "}\" placeholder=\"#{app['login.password']}\" />", password(), "</div>", false);
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("procesar() " + e.getLocalizedMessage());
@@ -112,7 +96,7 @@ public class HeaderxhtmlGenerador implements Serializable {
                 //Creamos un objeto para escribir caracteres en el archivo de prueba
                 try (FileWriter fw = new FileWriter(file)) {
 
-                    fw.write("<html xmlns=\"http://www.w3.org/1999/xhtml\"" + "\r\n");
+                    fw.write("<ui:composition xmlns=\"http://www.w3.org/1999/xhtml\"" + "\r\n");
                     fw.write("      xmlns:ui=\"http://java.sun.com/jsf/facelets\"" + "\r\n");
                     fw.write("      xmlns:h=\"http://xmlns.jcp.org/jsf/html\"" + "\r\n");
                     fw.write("      xmlns:b=\"http://bootsfaces.net/ui\"" + "\r\n");
@@ -126,7 +110,7 @@ public class HeaderxhtmlGenerador implements Serializable {
                         try {
                             fw.write("       <ui:include src=\"menu" + Utilidades.letterToLower(s) + ".xhtml\"/>" + "\r\n");
                         } catch (IOException ex) {
-                            Logger.getLogger(HeaderxhtmlGenerador.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(FooterxhtmlGenerador1.class.getName()).log(Level.SEVERE, null, ex);
                         }
 
                     });
@@ -183,32 +167,6 @@ public class HeaderxhtmlGenerador implements Serializable {
         return false;
     }
 
-    private String username() {
-        try {
-
-            String texto = "";
-            texto += "                <div class=\"form-group\">" + "\r\n";
-            texto += "                    <b:inputText rendered=\"#{!loginBean.logeado}\" value=\"#{loginBean." + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "." + Utilidades.letterToLower(mySesion.getAtributosUsername()) + "}\" placeholder=\"#{app['login.username']}\" fieldSize=\"sm\"/>" + "\r\n";
-            texto += "                </div>" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("username()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-
-    private String password() {
-        try {
-
-            String texto = "";
-            texto += "                <div class=\"form-group\">" + "\r\n";
-            texto += "<p:password rendered=\"#{!loginBean.logeado}\" value=\"#{loginBean." + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "." + Utilidades.letterToLower(mySesion.getAtributosPassword()) + "}\" placeholder=\"#{app['login.password']}\" />" + "\r\n";
-            texto += "                </div>" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("password()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
+  
 
 }
