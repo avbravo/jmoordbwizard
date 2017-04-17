@@ -5,7 +5,7 @@
  */
 package com.avbravo.wizardjmoordb;
 
-import com.avbravo.wizardjmoordb.configuration.ConfigurationFilerRead;
+import com.avbravo.wizardjmoordb.configurationfile.ConfigurationFilerRead;
 import com.avbravo.wizardjmoordb.old.EntidadGenerador;
 import com.avbravo.wizardjmoordb.provider.MongoClientProviderGenerador;
 import com.avbravo.wizardjmoordb.beans.Archivos;
@@ -14,7 +14,7 @@ import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.beans.EntidadMenu;
 import com.avbravo.wizardjmoordb.datamodel.DatamodelGenerador;
 import com.avbravo.wizardjmoordb.facade.FacadeGenerador;
-import com.avbravo.wizardjmoordb.configuration.ConfigurationFileGenerador;
+import com.avbravo.wizardjmoordb.configurationfile.ConfigurationFileGenerador;
 import com.avbravo.wizardjmoordb.converter.ConverterGenerador;
 import com.avbravo.wizardjmoordb.resources.DefaultCssGenerador;
 import com.avbravo.wizardjmoordb.old.FacesConfigXMLGenerador;
@@ -25,7 +25,7 @@ import com.avbravo.wizardjmoordb.information.InformationGenerador;
 import com.avbravo.wizardjmoordb.roles.ApplicationMenuGenerador;
 import com.avbravo.wizardjmoordb.messages.MessagesPropertiesGenerador;
 import com.avbravo.wizardjmoordb.old.PersistenceXMLGenerador;
-import com.avbravo.wizardjmoordb.old.PomXMLGenerador;
+import com.avbravo.wizardjmoordb.configuration.PomXMLGenerador;
 import com.avbravo.wizardjmoordb.resourcesfiles.ResourcesFilesGenerador;
 import com.avbravo.wizardjmoordb.roles.RolesGenerador;
 import com.avbravo.wizardjmoordb.controller.ControllerGenerador;
@@ -51,7 +51,7 @@ import com.avbravo.wizardjmoordb.old.PagexhtmlGenerador;
 import com.avbravo.wizardjmoordb.old.ReportesxhtmlGenerador;
 import com.avbravo.wizardjmoordb.old.SearchxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.TemplatexhtmlGenerador;
-import com.avbravo.wizardjmoordb.old.WebXMLGenerador;
+import com.avbravo.wizardjmoordb.configuration.WebXMLGenerador;
 import com.avbravo.wizardjmoordb.provider.CouchbaseClientProviderGenerador;
 import com.avbravo.wizardjmoordb.search.EntidadSearch;
 import com.avbravo.wizardjmoordb.utilidades.Terminal;
@@ -152,8 +152,8 @@ public class Generador implements Serializable {
     InformationGenerador informationGenerador;
     @Inject
     MessagesPropertiesGenerador messagesPropertiesGenerador;
-    @Inject
-    PersistenceXMLGenerador persistenceXMLGenerador;
+//    @Inject
+//    PersistenceXMLGenerador persistenceXMLGenerador;
     @Inject
     FacesConfigXMLGenerador facesConfigGenerador;
     @Inject
