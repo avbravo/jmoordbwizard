@@ -61,21 +61,21 @@ public class PomXMLGenerador implements Serializable {
                 JSFUtil.addWarningMessage("No existe el archivo pom.xml");
                 return false;
             } else {
-               Utilidades.addDependencies(ruta, "<groupId>org.primefaces</groupId>", primefaces(), "<dependencies>", false);
-               Utilidades.addDependencies(ruta, "<artifactId>commons-fileupload</artifactId>",fileupload(), "<dependencies>", false);
-               Utilidades.addDependencies(ruta, "<artifactId>eclipselink</artifactId>",persistence(), "<dependencies>", false);
-               Utilidades.addDependencies(ruta, "<artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>",jpamodelgenprocessor(), "<dependencies>", false);
-               Utilidades.addDependencies(ruta, "<artifactId>all-themes</artifactId>",themes(), "<dependencies>", false);
-               Utilidades.addDependencies(ruta, "<artifactId>mysql-connector-java</artifactId>",mysqlconnectorjava(), "<dependencies>", false);
-               Utilidades.addDependencies(ruta, "<artifactId>itext</artifactId>",itext(), "<dependencies>", false);
-               Utilidades.addDependencies(ruta, "<artifactId>jasperreports</artifactId>",jasperreports(), "<dependencies>", false);
-               Utilidades.addDependencies(ruta, "<artifactId>jfreechart</artifactId>",jfreechart(), "<dependencies>", false);
-               Utilidades.addDependencies(ruta, "<groupId>org.projectlombok</groupId>",projectlombok(), "<dependencies>", false);
-               Utilidades.addDependencies(ruta, "<artifactId>omnifaces</artifactId>",omnifaces(), "<dependencies>", false);
-               Utilidades.addDependencies(ruta, "<artifactId>commons-lang</artifactId>",commonslang(), "<dependencies>", false);
-               Utilidades.addDependencies(ruta, "<artifactId>javaee-web-api</artifactId>",javaeewebapi(), "<dependencies>", false);
-               Utilidades.addDependencies(ruta, "<artifactId>bootsfaces</artifactId>",bootsfaces(), "<dependencies>", false);
-               Utilidades.addDependencies(ruta, "<finalName>"+proyectoJEE.getProyecto()+"</finalName>",finalName(), "<build>", false);
+                Utilidades.addDependencies(ruta, "<artifactId>javaee-web-api</artifactId>", javaeewebapi(), "<dependencies>", false);
+                Utilidades.addDependencies(ruta, "<groupId>org.primefaces</groupId>", primefaces(), "<dependencies>", false);
+                Utilidades.addDependencies(ruta, "<artifactId>poi</artifactId>", poi(), "<dependencies>", false);
+                Utilidades.addDependencies(ruta, "<artifactId>poi-ooxml</artifactId>",poiooxml(), "<dependencies>", false);
+                Utilidades.addDependencies(ruta, "<artifactId>commons-fileupload</artifactId>", fileupload(), "<dependencies>", false);
+                Utilidades.addDependencies(ruta, "<artifactId>itext</artifactId>", itext(), "<dependencies>", false);
+                Utilidades.addDependencies(ruta, "<artifactId>jasperreports</artifactId>", jasperreports(), "<dependencies>", false);
+                Utilidades.addDependencies(ruta, "<artifactId>jfreechart</artifactId>", jfreechart(), "<dependencies>", false);
+//                Utilidades.addDependencies(ruta, "<groupId>org.projectlombok</groupId>", projectlombok(), "<dependencies>", false);
+                Utilidades.addDependencies(ruta, "<artifactId>omnifaces</artifactId>", omnifaces(), "<dependencies>", false);
+                Utilidades.addDependencies(ruta, "<artifactId>commons-lang</artifactId>", commonslang(), "<dependencies>", false);
+                Utilidades.addDependencies(ruta, "<artifactId>javaee-web-api</artifactId>", javaeewebapi(), "<dependencies>", false);
+                Utilidades.addDependencies(ruta, "<artifactId>bootsfaces</artifactId>", bootsfaces(), "<dependencies>", false);
+                Utilidades.addDependencies(ruta, "<groupId>org.webjars</groupId>", webjars(), "<dependencies>", false);
+                Utilidades.addDependencies(ruta, "<finalName>" + proyectoJEE.getProyecto() + "</finalName>", finalName(), "<build>", false);
             }
 
         } catch (Exception e) {
@@ -85,7 +85,6 @@ public class PomXMLGenerador implements Serializable {
 
     }
 
-  
     private String primefaces() {
         try {
 
@@ -93,7 +92,7 @@ public class PomXMLGenerador implements Serializable {
             texto += "        <dependency>" + "\r\n";
             texto += "            <groupId>org.primefaces</groupId>" + "\r\n";
             texto += "            <artifactId>primefaces</artifactId>" + "\r\n";
-            texto += "            <version>5.3</version>" + "\r\n";
+            texto += "            <version>6.0</version>" + "\r\n";
             texto += "            <type>jar</type>" + "\r\n";
             texto += "        </dependency>" + "\r\n";
             return texto;
@@ -102,6 +101,53 @@ public class PomXMLGenerador implements Serializable {
         }
         return "";
     }
+    private String poiooxml() {
+        try {
+
+            String texto = "";
+            texto += "        <dependency>" + "\r\n";
+            texto += "            <groupId>org.apache.poi</groupId>" + "\r\n";
+            texto += "            <artifactId>poi-ooxml</artifactId>" + "\r\n";
+            texto += "            <version>3.12</version>" + "\r\n";
+            texto += "        </dependency>" + "\r\n";
+            return texto;
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("org.primefaces()  " + e.getLocalizedMessage());
+        }
+        return "";
+    }
+    private String poi() {
+        try {
+
+            String texto = "";
+            texto += "        <dependency>" + "\r\n";
+            texto += "            <groupId>org.apache.poi</groupId>" + "\r\n";
+            texto += "            <artifactId>poi</artifactId>" + "\r\n";
+            texto += "            <version>3.12</version>" + "\r\n";
+            texto += "        </dependency>" + "\r\n";
+            return texto;
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("org.primefaces()  " + e.getLocalizedMessage());
+        }
+        return "";
+    }
+    private String javaeewebapi() {
+        try {
+
+            String texto = "";
+            texto += "        <dependency>" + "\r\n";
+            texto += "            <groupId>javax</groupId>" + "\r\n";
+            texto += "            <artifactId>javaee-web-api</artifactId>" + "\r\n";
+            texto += "            <version>7.0</version>" + "\r\n";
+            texto += "            <scope>provided</scope>" + "\r\n";
+            texto += "        </dependency>" + "\r\n";
+            return texto;
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("org.primefaces()  " + e.getLocalizedMessage());
+        }
+        return "";
+    }
+
     private String fileupload() {
         try {
 
@@ -117,68 +163,9 @@ public class PomXMLGenerador implements Serializable {
         }
         return "";
     }
-    private String persistence() {
-        try {
 
-            String texto = "";
-            texto += "        <dependency>" + "\r\n";
-            texto += "            <groupId>org.eclipse.persistence</groupId>" + "\r\n";
-            texto += "            <artifactId>eclipselink</artifactId>" + "\r\n";
-            texto += "           <version>2.5.2</version>" + "\r\n";
-            texto += "           <scope>provided</scope>" + "\r\n";
-            texto += "        </dependency>" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("fileupload()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-    private String jpamodelgenprocessor() {
-        try {
 
-            String texto = "";
-            texto += "        <dependency>" + "\r\n";
-            texto += "            <groupId>org.eclipse.persistence</groupId>" + "\r\n";
-            texto += "            <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>" + "\r\n";
-            texto += "            <version>2.5.2</version>" + "\r\n";
-            texto += "           <scope>provided</scope>" + "\r\n";
-            texto += "        </dependency>" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("jpamodelgenprocessor()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-    private String themes() {
-        try {
 
-            String texto = "";
-            texto += "        <dependency>" + "\r\n";
-            texto += "            <groupId>org.primefaces.themes</groupId>" + "\r\n";
-            texto += "            <artifactId>all-themes</artifactId>" + "\r\n";
-            texto += "            <version>1.0.10</version>" + "\r\n";
-            texto += "        </dependency>" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("themes()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-    private String mysqlconnectorjava() {
-        try {
-
-            String texto = "";
-            texto += "        <dependency>" + "\r\n";
-            texto += "             <groupId>mysql</groupId>" + "\r\n";
-            texto += "             <artifactId>mysql-connector-java</artifactId>" + "\r\n";
-            texto += "            <version>5.1.27</version>" + "\r\n";
-            texto += "        </dependency>" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("mysqlconnectorjava()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
     private String itext() {
         try {
 
@@ -194,6 +181,7 @@ public class PomXMLGenerador implements Serializable {
         }
         return "";
     }
+
     private String jasperreports() {
         try {
 
@@ -209,6 +197,7 @@ public class PomXMLGenerador implements Serializable {
         }
         return "";
     }
+
     private String jfreechart() {
         try {
 
@@ -224,21 +213,23 @@ public class PomXMLGenerador implements Serializable {
         }
         return "";
     }
-    private String projectlombok() {
-        try {
 
-            String texto = "";
-            texto += "        <dependency>" + "\r\n";
-            texto += "             <groupId>org.projectlombok</groupId>" + "\r\n";
-            texto += "             <artifactId>lombok</artifactId>" + "\r\n";
-            texto += "             <version>1.16.6</version>" + "\r\n";
-            texto += "        </dependency>" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("projectlombok()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
+//    private String projectlombok() {
+//        try {
+//
+//            String texto = "";
+//            texto += "        <dependency>" + "\r\n";
+//            texto += "             <groupId>org.projectlombok</groupId>" + "\r\n";
+//            texto += "             <artifactId>lombok</artifactId>" + "\r\n";
+//            texto += "             <version>1.16.6</version>" + "\r\n";
+//            texto += "        </dependency>" + "\r\n";
+//            return texto;
+//        } catch (Exception e) {
+//            JSFUtil.addErrorMessage("projectlombok()  " + e.getLocalizedMessage());
+//        }
+//        return "";
+//    }
+
     private String omnifaces() {
         try {
 
@@ -254,6 +245,7 @@ public class PomXMLGenerador implements Serializable {
         }
         return "";
     }
+
     private String commonslang() {
         try {
 
@@ -270,22 +262,9 @@ public class PomXMLGenerador implements Serializable {
         }
         return "";
     }
-    private String javaeewebapi() {
-        try {
 
-            String texto = "";
-            texto += "        <dependency>" + "\r\n";
-            texto += "             <groupId>javax</groupId>" + "\r\n";
-            texto += "             <artifactId>javaee-web-api</artifactId>" + "\r\n";
-            texto += "             <version>7.0</version>" + "\r\n";
-            texto += "             <scope>provided</scope>" + "\r\n";
-            texto += "        </dependency>" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("javaeewebapi()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
+   
+
     private String bootsfaces() {
         try {
 
@@ -293,7 +272,7 @@ public class PomXMLGenerador implements Serializable {
             texto += "        <dependency>" + "\r\n";
             texto += "             <groupId>net.bootsfaces</groupId>" + "\r\n";
             texto += "             <artifactId>bootsfaces</artifactId>" + "\r\n";
-            texto += "             <version>0.7.0</version>" + "\r\n";
+            texto += "             <version>0.9.1</version>" + "\r\n";
             texto += "             <scope>compile</scope>" + "\r\n";
             texto += "        </dependency>" + "\r\n";
             return texto;
@@ -302,11 +281,28 @@ public class PomXMLGenerador implements Serializable {
         }
         return "";
     }
+
+    private String webjars() {
+        try {
+
+            String texto = "";
+            texto += "        <dependency>" + "\r\n";
+            texto += "             <groupId>org.webjars</groupId>" + "\r\n";
+            texto += "             <artifactId>font-awesome</artifactId>" + "\r\n";
+            texto += "             <version>4.6.3</version>" + "\r\n";
+            texto += "        </dependency>" + "\r\n";
+            return texto;
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("webjars() " + e.getLocalizedMessage());
+        }
+        return "";
+    }
+
     private String finalName() {
         try {
 
             String texto = "";
-            texto += "        <finalName>"+proyectoJEE.getProyecto()+"</finalName>" + "\r\n";
+            texto += "        <finalName>" + proyectoJEE.getProyecto() + "</finalName>" + "\r\n";
             return texto;
         } catch (Exception e) {
             JSFUtil.addErrorMessage("finalName()  " + e.getLocalizedMessage());
