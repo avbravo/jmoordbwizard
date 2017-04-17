@@ -24,7 +24,6 @@ import com.avbravo.wizardjmoordb.idiomas.IdiomasGenerador;
 import com.avbravo.wizardjmoordb.information.InformationGenerador;
 import com.avbravo.wizardjmoordb.roles.ApplicationMenuGenerador;
 import com.avbravo.wizardjmoordb.messages.MessagesPropertiesGenerador;
-import com.avbravo.wizardjmoordb.old.PersistenceXMLGenerador;
 import com.avbravo.wizardjmoordb.configuration.PomXMLGenerador;
 import com.avbravo.wizardjmoordb.resourcesfiles.ResourcesFilesGenerador;
 import com.avbravo.wizardjmoordb.roles.RolesGenerador;
@@ -33,10 +32,6 @@ import com.avbravo.wizardjmoordb.controller.LoginControllerGenerador;
 import com.avbravo.wizardjmoordb.sevices.ServicesGenerador;
 import com.avbravo.wizardjmoordb.resources.CssLayoutCssGenerador;
 import com.avbravo.wizardjmoordb.roles.ValidadorRolesGenerador;
-import com.avbravo.wizardjmoordb.old.ActivoxhtmlGenerador;
-import com.avbravo.wizardjmoordb.old.DialogoeliminarxhtmlGenerador;
-import com.avbravo.wizardjmoordb.old.EIiminarxhtmlGenerador;
-import com.avbravo.wizardjmoordb.old.ProcesarxhtmlGenerador;
 import com.avbravo.wizardjmoordb.resources.AccesodenegadoxhtmlGenerador;
 import com.avbravo.wizardjmoordb.old.AcercadexhtmlGenerador;
 import com.avbravo.wizardjmoordb.old.CambiarpasswordxhtmlGenerador;
@@ -56,6 +51,7 @@ import com.avbravo.wizardjmoordb.provider.CouchbaseClientProviderGenerador;
 import com.avbravo.wizardjmoordb.search.EntidadSearch;
 import com.avbravo.wizardjmoordb.utilidades.Terminal;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
+import com.avbravo.wizardjmoordb.xhtml.LoginxhtmlGenerador;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -185,6 +181,9 @@ public class Generador implements Serializable {
     AccesodenegadoxhtmlGenerador accesodenegadoxhtmlGenerador;
     @Inject
     IndexxhtmlGenerador indexxhtmlGenerador;
+     @Inject
+     LoginxhtmlGenerador loginxhtmlGenerador;
+    
     @Inject
     PagexhtmlGenerador pagexhtmlGenerador;
     @Inject
@@ -861,6 +860,7 @@ stopWeb/-Inf
                             contextxhtmlGenerador.generar();
                             accesodenegadoxhtmlGenerador.generar();
                             indexxhtmlGenerador.generar();
+                            loginxhtmlGenerador.generar();
                             /*
                 generar el directorio para cada entity
                              */
