@@ -17,7 +17,7 @@ import com.avbravo.wizardjmoordb.facade.FacadeGenerador;
 import com.avbravo.wizardjmoordb.configurationfile.ConfigurationFileGenerador;
 import com.avbravo.wizardjmoordb.converter.ConverterGenerador;
 import com.avbravo.wizardjmoordb.resources.DefaultCssGenerador;
-import com.avbravo.wizardjmoordb.old.FacesConfigXMLGenerador;
+import com.avbravo.wizardjmoordb.configuration.FacesConfigXMLGenerador;
 
 import com.avbravo.wizardjmoordb.interfaces.IControllerGenerador;
 import com.avbravo.wizardjmoordb.idiomas.IdiomasGenerador;
@@ -35,12 +35,10 @@ import com.avbravo.wizardjmoordb.roles.ValidadorRolesGenerador;
 import com.avbravo.wizardjmoordb.resources.AccesodenegadoxhtmlGenerador;
 import com.avbravo.wizardjmoordb.old.AcercadexhtmlGenerador;
 import com.avbravo.wizardjmoordb.old.CambiarpasswordxhtmlGenerador;
-import com.avbravo.wizardjmoordb.old.ContentxhtmlGenerador;
+//import com.avbravo.wizardjmoordb.old.ContentxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.FooterxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.RigthxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.IndexxhtmlGenerador;
-import com.avbravo.wizardjmoordb.old.LeftmenuxhtmlGenerador;
-import com.avbravo.wizardjmoordb.old.MenuOptionsxhtmlGenerador;
 import com.avbravo.wizardjmoordb.old.MenusxhtmlGenerador;
 import com.avbravo.wizardjmoordb.old.PagexhtmlGenerador;
 import com.avbravo.wizardjmoordb.old.ReportesxhtmlGenerador;
@@ -52,6 +50,7 @@ import com.avbravo.wizardjmoordb.search.EntidadSearch;
 import com.avbravo.wizardjmoordb.utilidades.Terminal;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import com.avbravo.wizardjmoordb.xhtml.LoginxhtmlGenerador;
+import com.avbravo.wizardjmoordb.xhtml.TopxhtmlGenerador;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -165,18 +164,16 @@ public class Generador implements Serializable {
     TemplatexhtmlGenerador templatexhtmlGenerador;
     @Inject
     FooterxhtmlGenerador footerxhtmlGenerador;
-    
+    @Inject
+    TopxhtmlGenerador topxhtmlGenerador;
     @Inject
     RigthxhtmlGenerador rigthxhtmlGenerador; 
-    
-    @Inject
-    MenuOptionsxhtmlGenerador menuOpcionesxhtmlGenerador;
-    @Inject
-    LeftmenuxhtmlGenerador leftmenuxhtmlGenerador;
+  
+   
     @Inject
     MenusxhtmlGenerador menusxhtmlGenerador;
-    @Inject
-    ContentxhtmlGenerador contextxhtmlGenerador;
+//    @Inject
+//    ContentxhtmlGenerador contextxhtmlGenerador;
     @Inject
     AccesodenegadoxhtmlGenerador accesodenegadoxhtmlGenerador;
     @Inject
@@ -852,12 +849,12 @@ stopWeb/-Inf
                              */
                             templatexhtmlGenerador.generar();
                             footerxhtmlGenerador.generar();
+                           topxhtmlGenerador.generar();
                             rigthxhtmlGenerador.generar(); 
                             
-                            menuOpcionesxhtmlGenerador.generar();
-                            leftmenuxhtmlGenerador.generar();
+
                             menusxhtmlGenerador.generar();
-                            contextxhtmlGenerador.generar();
+//                            contextxhtmlGenerador.generar();
                             accesodenegadoxhtmlGenerador.generar();
                             indexxhtmlGenerador.generar();
                             loginxhtmlGenerador.generar();
