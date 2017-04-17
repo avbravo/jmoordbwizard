@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb.generador.web.template;
+package com.avbravo.wizardjmoordb.xhtml;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
@@ -29,10 +30,10 @@ import javax.inject.Inject;
  */
 @Named
 @RequestScoped
-public class MenuOptionsxhtmlGenerador implements Serializable {
+public class FooterxhtmlGenerador implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(MenuOptionsxhtmlGenerador.class.getName());
+    private static final Logger LOG = Logger.getLogger(FooterxhtmlGenerador.class.getName());
 
     @Inject
     MySesion mySesion;
@@ -46,7 +47,7 @@ public class MenuOptionsxhtmlGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("menuoptions.xhtml", proyectoJEE.getPathMainWebapp() + proyectoJEE.getSeparator() + "menuoptions.xhtml");
+            procesar("footer.xhtml", proyectoJEE.getPathMainWebappPages() + proyectoJEE.getSeparator() + "footer.xhtml");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -61,11 +62,6 @@ public class MenuOptionsxhtmlGenerador implements Serializable {
             if (Files.notExists(path, new LinkOption[]{LinkOption.NOFOLLOW_LINKS})) {
                 crearFile(ruta, archivo);
             }
-
-            Utilidades.searchAddWithoutLine(ruta, "<b:dropMenu rendered=\"#{loginBean.logeado}\" value=\"#{men['menu.opciones']}\" >", "<ui:composition>", false);
-            Utilidades.searchAddWithoutLine(ruta, "<b:navLink value=\"#{men['menu.cambiarcontrasena']}\"  rendered=\"#{loginBean.logeado}\" href=\"/faces/pages/usuarios/cambiarpassword.xhtml\" />", "<b:dropMenu rendered=\"#{loginBean.logeado}\" value=\"#{men['menu.opciones']}\" >", false);
-            Utilidades.searchAddWithoutLine(ruta, "<b:navLink value=\"#{men['menu.acercade']}\"  rendered=\"#{loginBean.logeado}\" href=\"/faces/pages/acercade/acercade.xhtml\" />", "<b:navLink value=\"#{men['menu.cambiarcontrasena']}\"  rendered=\"#{loginBean.logeado}\" href=\"/faces/pages/usuarios/cambiarpassword.xhtml\" />", false);
-            Utilidades.searchAddWithoutLine(ruta, "</b:dropMenu>", "<b:navLink value=\"#{men['menu.acercade']}\"  rendered=\"#{loginBean.logeado}\" href=\"/faces/pages/acercade/acercade.xhtml\" />", Boolean.TRUE);
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("procesar() " + e.getLocalizedMessage());
@@ -98,24 +94,25 @@ public class MenuOptionsxhtmlGenerador implements Serializable {
                 File file2 = new File(ruta);
                 //Creamos un objeto para escribir caracteres en el archivo de prueba
                 try (FileWriter fw = new FileWriter(file)) {
-                    fw.write("<?xml version='1.0' encoding='UTF-8' ?>" + "\r\n");
-                    fw.write("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" + "\r\n");
-                    fw.write("<html xmlns=\"http://www.w3.org/1999/xhtml\"" + "\r\n");
-                    fw.write("      xmlns:h=\"http://xmlns.jcp.org/jsf/html\"" + "\r\n");
-                    fw.write("      xmlns:ui=\"http://xmlns.jcp.org/jsf/facelets\"" + "\r\n");
-                    fw.write("      xmlns:p=\"http://primefaces.org/ui\"" + "\r\n");
-                    fw.write("      xmlns:b=\"http://bootsfaces.net/ui\">" + "\r\n");
-                    fw.write("    <h:body>" + "\r\n");
-                    fw.write("        <ui:composition>" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("            <b:dropMenu rendered=\"#{loginBean.logeado}\" value=\"#{men['menu.opciones']}\" >" + "\r\n");
-                    fw.write("                <b:navLink value=\"#{men['menu.cambiarcontrasena']}\"  rendered=\"#{loginBean.logeado}\" href=\"/faces/pages/usuarios/cambiarpassword.xhtml\" />" + "\r\n");
-                    fw.write("                <b:navLink value=\"#{men['menu.acercade']}\"  rendered=\"#{loginBean.logeado}\" href=\"/faces/pages/acercade/acercade.xhtml\" />" + "\r\n");
-                    fw.write("            </b:dropMenu>" + "\r\n");
-                    fw.write("        </ui:composition>" + "\r\n");
-                    fw.write("    </h:body>" + "\r\n");
-                    fw.write("</html>" + "\r\n");
 
+                    fw.write("<ui:composition xmlns=\"http://www.w3.org/1999/xhtml\"" + "\r\n");
+                    fw.write("      xmlns:ui=\"http://java.sun.com/jsf/facelets\"" + "\r\n");
+                    fw.write("      xmlns:h=\"http://xmlns.jcp.org/jsf/html\"" + "\r\n");
+                    fw.write("      xmlns:b=\"http://bootsfaces.net/ui\"" + "\r\n");
+                    fw.write("      xmlns:f=\"http://xmlns.jcp.org/jsf/core\"" + "\r\n");
+                    fw.write("      xmlns:p=\"http://primefaces.org/ui\">" + "\r\n");
+                    fw.write("" + "\r\n");
+                    fw.write("      <footer class=\"main-footer\">" + "\r\n");
+                    fw.write("          <!-- To the right -->" + "\r\n");
+                    fw.write("          <div class=\"pull-right hidden-xs\">" + "\r\n");
+                    fw.write("                            #{msg['footer.texto']}" + "\r\n");
+                    fw.write("          </div>" + "\r\n");
+                    fw.write("          <!-- Default to the left -->" + "\r\n");
+                    fw.write("          <strong>#{msg['footer.copyright']}<a href=\"#\">#{msg['footer.empresa']}</a>.</strong> " + "\r\n");
+                    fw.write("                          #{msg['footer.derechosreservados']}" + "\r\n");
+                    fw.write("      </footer>" + "\r\n");
+                    fw.write("    </ui:composition>" + "\r\n");
+                    fw.write("</html>" + "\r\n");
                     fw.close();
 
                 } catch (IOException ex) {

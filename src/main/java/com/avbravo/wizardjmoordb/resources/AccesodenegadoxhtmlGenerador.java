@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb.generador.web.template;
+package com.avbravo.wizardjmoordb.resources;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
@@ -30,10 +30,10 @@ import javax.inject.Inject;
  */
 @Named
 @RequestScoped
-public class FooterxhtmlGenerador implements Serializable {
+public class AccesodenegadoxhtmlGenerador implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(FooterxhtmlGenerador.class.getName());
+    private static final Logger LOG = Logger.getLogger(AccesodenegadoxhtmlGenerador.class.getName());
 
     @Inject
     MySesion mySesion;
@@ -47,7 +47,7 @@ public class FooterxhtmlGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("footer.xhtml", proyectoJEE.getPathMainWebappPages() + proyectoJEE.getSeparator() + "footer.xhtml");
+            procesar("accesodenegado.xhtml", proyectoJEE.getPathMainWebappResourcesAvbravo() + proyectoJEE.getSeparator() + "accesodenegado.xhtml");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -95,23 +95,31 @@ public class FooterxhtmlGenerador implements Serializable {
                 //Creamos un objeto para escribir caracteres en el archivo de prueba
                 try (FileWriter fw = new FileWriter(file)) {
 
-                    fw.write("<ui:composition xmlns=\"http://www.w3.org/1999/xhtml\"" + "\r\n");
-                    fw.write("      xmlns:ui=\"http://java.sun.com/jsf/facelets\"" + "\r\n");
+                    fw.write("<?xml version='1.0' encoding='UTF-8' ?>" + "\r\n");
+                    fw.write("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" + "\r\n");
+                    fw.write("<html xmlns=\"http://www.w3.org/1999/xhtml\"" + "\r\n");
                     fw.write("      xmlns:h=\"http://xmlns.jcp.org/jsf/html\"" + "\r\n");
-                    fw.write("      xmlns:b=\"http://bootsfaces.net/ui\"" + "\r\n");
-                    fw.write("      xmlns:f=\"http://xmlns.jcp.org/jsf/core\"" + "\r\n");
-                    fw.write("      xmlns:p=\"http://primefaces.org/ui\">" + "\r\n");
+                    fw.write("      xmlns:p=\"http://primefaces.org/ui\"" + "\r\n");
+                    fw.write("      xmlns:composite=\"http://java.sun.com/jsf/composite\"" + "\r\n");
+                    fw.write("      xmlns:b=\"http://bootsfaces.net/ui\">" + "\r\n");
+                    fw.write("    <composite:interface >" + "\r\n");
+                    fw.write("        <composite:attribute name=\"renderedcondition\" />" + "\r\n");
+                    fw.write("    </composite:interface>" + "\r\n");
+                    fw.write("    <composite:implementation>" + "\r\n");
                     fw.write("" + "\r\n");
-                    fw.write("      <footer class=\"main-footer\">" + "\r\n");
-                    fw.write("          <!-- To the right -->" + "\r\n");
-                    fw.write("          <div class=\"pull-right hidden-xs\">" + "\r\n");
-                    fw.write("                            #{msg['footer.texto']}" + "\r\n");
-                    fw.write("          </div>" + "\r\n");
-                    fw.write("          <!-- Default to the left -->" + "\r\n");
-                    fw.write("          <strong>#{msg['footer.copyright']}<a href=\"#\">#{msg['footer.empresa']}</a>.</strong> " + "\r\n");
-                    fw.write("                          #{msg['footer.derechosreservados']}" + "\r\n");
-                    fw.write("      </footer>" + "\r\n");
-                    fw.write("    </ui:composition>" + "\r\n");
+                    fw.write("        <h:form id=\"formaccesodenegado\" rendered=\"#{cc.attrs.renderedcondition}\">" + "\r\n");
+                    fw.write("" + "\r\n");
+                    fw.write("            <b:panel look=\"danger\" title=\"#{app['title.accesodenegado']}\">" + "\r\n");
+                    fw.write("" + "\r\n");
+                    fw.write("               <h:panelGrid columns=\"2\" cellpadding=\"5\">" + "\r\n");
+                    fw.write("                    <p:commandButton class=\"btn btn-success\" action=\"#{loginController.irLogin}\"" + "\r\n");
+                    fw.write("                                     value=\"#{app['button.return']}\" ajax=\"false\"/>" + "\r\n");
+                    fw.write("" + "\r\n");
+                    fw.write("                </h:panelGrid>" + "\r\n");
+                    fw.write("            </b:panel>" + "\r\n");
+                    fw.write("        </h:form>" + "\r\n");
+                    fw.write("    </composite:implementation>" + "\r\n");
+                    fw.write("" + "\r\n");
                     fw.write("</html>" + "\r\n");
                     fw.close();
 

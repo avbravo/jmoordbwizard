@@ -6,7 +6,7 @@
 package com.avbravo.wizardjmoordb.utilidades;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
-import static com.avbravo.wizardjmoordb.generador.gen.EntidadGenerador.DEFAULT_CHARSET;
+import static com.avbravo.wizardjmoordb.old.EntidadGenerador.DEFAULT_CHARSET;
 
 import java.io.BufferedReader;
 import java.io.File;

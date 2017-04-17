@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb.generador.web.template;
+package com.avbravo.wizardjmoordb.old;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
@@ -29,10 +30,10 @@ import javax.inject.Inject;
  */
 @Named
 @RequestScoped
-public class LeftmenuxhtmlGenerador implements Serializable {
+public class ContentxhtmlGenerador implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(LeftmenuxhtmlGenerador.class.getName());
+    private static final Logger LOG = Logger.getLogger(ContentxhtmlGenerador.class.getName());
 
     @Inject
     MySesion mySesion;
@@ -46,7 +47,7 @@ public class LeftmenuxhtmlGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("leftmenu.xhtml", proyectoJEE.getPathMainWebapp() + proyectoJEE.getSeparator() + "leftmenu.xhtml");
+            procesar("content.xhtml", proyectoJEE.getPathMainWebapp() + proyectoJEE.getSeparator() + "content.xhtml");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -62,7 +63,11 @@ public class LeftmenuxhtmlGenerador implements Serializable {
                 crearFile(ruta, archivo);
             }
 
-//            Utilidades.searchAdd(ruta, "<b:dropMenu rendered=\"#{loginBean.logeado}\" value=\"#{men['menu.opciones']}\" >", "<ui:composition>", false);
+            /**
+             * generar los metodos
+             */
+            Utilidades.addNotFoundMethod(ruta, "<ui:include src=\"leftmenu.xhtml\" />", leftmenu(), "<div class=\"row\">", false);
+            Utilidades.addNotFoundMethod(ruta, "<ui:insert name=\"content\" />", content(), "</div>", false);
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("procesar() " + e.getLocalizedMessage());
@@ -95,32 +100,23 @@ public class LeftmenuxhtmlGenerador implements Serializable {
                 File file2 = new File(ruta);
                 //Creamos un objeto para escribir caracteres en el archivo de prueba
                 try (FileWriter fw = new FileWriter(file)) {
+
                     fw.write("<html xmlns=\"http://www.w3.org/1999/xhtml\"" + "\r\n");
-                    fw.write("      xmlns:ui=\"http://java.sun.com/jsf/facelets\"" + "\r\n");
-                    fw.write("      xmlns:b=\"http://bootsfaces.net/ui\"" + "\r\n");
-                    fw.write("      xmlns:p=\"http://primefaces.org/ui\"" + "\r\n");
-                    fw.write("      xmlns:h=\"http://xmlns.jcp.org/jsf/html\">" + "\r\n");
+                    fw.write("      xmlns:ui=\"http://java.sun.com/jsf/facelets\">" + "\r\n");
+                    fw.write(" " + "\r\n");
                     fw.write("    <ui:composition>" + "\r\n");
-                    
-                    fw.write("        <b:column col-sm=\"3\" col-md=\"2\" styleClass=\"sidebar\">" + "\r\n");
-                    fw.write("            <b:listLinks>" + "\r\n");
-                    fw.write("                <b:navLink header=\"#{app['application.shorttitle']}\" />" + "\r\n");
-                    fw.write("                <b:navLink href=\"#\" value=\"Overview\" active=\"true\"/>" + "\r\n");
-                    fw.write("            </b:listLinks>" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("            <h:form>" + "\r\n");
-                    fw.write("                <p:commandLink action=\"#{idiomas.englishAction}\" value=\"#{app['language.english']}\"" + "\r\n");
-                    fw.write("                               immediate = \"true\" ajax = \"false\"/>" + "\r\n");
-                    fw.write("                <p:outputLabel value=\"|\"/>" + "\r\n");
-                    fw.write("                <p:commandLink  action=\"#{idiomas.spanishAction}\" value=\"#{app['language.spanish']}\"" + "\r\n");
-                    fw.write("                                immediate = \"true\" ajax = \"false\"  />" + "\r\n");
-                    fw.write("            </h:form> " + "\r\n");
-                    fw.write("" + "\r\n");
-                    
-                    fw.write("        </b:column>" + "\r\n");
+                    fw.write("        <div class=\"container-fluid\">" + "\r\n");
+                    fw.write("            <div class=\"row\">" + "\r\n");
+                    fw.write("                <div class=\"col-sm-3 col-md-2 sidebar\">" + "\r\n");
+                    fw.write("                    <ui:include src=\"leftmenu.xhtml\" />" + "\r\n");
+                    fw.write("                </div>" + "\r\n");
+                    fw.write("                <div class=\"col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main\">   " + "\r\n");
+                    fw.write("                    <ui:insert name=\"content\" />" + "\r\n");
+                    fw.write("                </div>" + "\r\n");
+                    fw.write("            </div>" + "\r\n");
+                    fw.write("        </div>" + "\r\n");
                     fw.write("    </ui:composition>" + "\r\n");
                     fw.write("</html>" + "\r\n");
-
                     fw.close();
 
                 } catch (IOException ex) {
@@ -132,6 +128,34 @@ public class LeftmenuxhtmlGenerador implements Serializable {
             JSFUtil.addErrorMessage("crearFile() " + e.getLocalizedMessage());
         }
         return false;
+    }
+
+    private String leftmenu() {
+        try {
+
+            String texto = "";
+            texto += "<div class=\"col-sm-3 col-md-2 sidebar\">" + "\r\n";
+            texto += "      <ui:include src=\"leftmenu.xhtml\" />" + "\r\n";
+            texto += "</div>" + "\r\n";
+            return texto;
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("leftmenu() " + e.getLocalizedMessage());
+        }
+        return "";
+    }
+
+    private String content() {
+        try {
+
+            String texto = "";
+            texto += "                <div class=\"col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main\">   " + "\r\n";
+            texto += "                    <ui:insert name=\"content\" />" + "\r\n";
+            texto += "                </div>" + "\r\n";
+            return texto;
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("content() " + e.getLocalizedMessage());
+        }
+        return "";
     }
 
 }

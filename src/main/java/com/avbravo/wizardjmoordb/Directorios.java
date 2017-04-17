@@ -105,74 +105,74 @@ public class Directorios implements Serializable {
             /**
              * bootstrap
              */
-            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesBootstrap())) {
-                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesBootstrap());
-            }
-
-            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesBootstrap() + "css")) {
-                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesBootstrap() + "css");
-            }
-            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesBootstrap() + "fonts")) {
-                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesBootstrap() + "fonts");
-            }
-            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesBootstrap() + "js")) {
-                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesBootstrap() + "js");
-            }
-
-            
-            
-            /*
-            Boostrapcdn
-             */
-            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesBootstrapcdn())) {
-                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesBootstrapcdn());
-            }
-            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesBootstrapcdn()+"css")) {
-                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesBootstrapcdn()+"css");
-            }
-            
-            
-            /*
-            dist
-            */
-            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesDist())) {
-                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesDist());
-            }
-            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesDist()+"css")) {
-                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesDist()+"css");
-            }
-            
-            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesDist()+"css"+proyectoEJB.getSeparator()+"skins")) {
-                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesDist()+"css"+proyectoEJB.getSeparator()+"skins");
-            }
-            
-             if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesDist()+"js")) {
-                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesDist()+"js");
-            }
-             
-              if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesDist()+"js"+proyectoEJB.getSeparator()+"pages")) {
-                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesDist()+"js"+proyectoEJB.getSeparator()+"pages");
-            }
-            /*
-            img
-            */
-            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesImg())) {
-                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesImg());
-            }
-            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesImg()+"credit")) {
-                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesImg()+"credit");
-            }
-            
-            /*
-            IonicFramework
-            */
-            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesIonicframework())) {
-                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesIonicframework());
-            }
-            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesIonicframework()+"css")) {
-                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesIonicframework()+"css");
-            }
-            
+//            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesBootstrap())) {
+//                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesBootstrap());
+//            }
+//
+//            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesBootstrap() + "css")) {
+//                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesBootstrap() + "css");
+//            }
+//            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesBootstrap() + "fonts")) {
+//                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesBootstrap() + "fonts");
+//            }
+//            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesBootstrap() + "js")) {
+//                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesBootstrap() + "js");
+//            }
+//
+//            
+//            
+//            /*
+//            Boostrapcdn
+//             */
+//            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesBootstrapcdn())) {
+//                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesBootstrapcdn());
+//            }
+//            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesBootstrapcdn()+"css")) {
+//                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesBootstrapcdn()+"css");
+//            }
+//            
+//            
+//            /*
+//            dist
+//            */
+//            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesDist())) {
+//                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesDist());
+//            }
+//            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesDist()+"css")) {
+//                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesDist()+"css");
+//            }
+//            
+//            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesDist()+"css"+proyectoEJB.getSeparator()+"skins")) {
+//                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesDist()+"css"+proyectoEJB.getSeparator()+"skins");
+//            }
+//            
+//             if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesDist()+"js")) {
+//                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesDist()+"js");
+//            }
+//             
+//              if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesDist()+"js"+proyectoEJB.getSeparator()+"pages")) {
+//                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesDist()+"js"+proyectoEJB.getSeparator()+"pages");
+//            }
+//            /*
+//            img
+//            */
+//            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesImg())) {
+//                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesImg());
+//            }
+//            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesImg()+"credit")) {
+//                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesImg()+"credit");
+//            }
+//            
+//            /*
+//            IonicFramework
+//            */
+//            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesIonicframework())) {
+//                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesIonicframework());
+//            }
+//            if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesIonicframework()+"css")) {
+//                Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesIonicframework()+"css");
+//            }
+//            
             /*
             Reportes
             */

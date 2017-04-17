@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb.generador.web.template;
+package com.avbravo.wizardjmoordb.old;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
@@ -30,10 +30,10 @@ import javax.inject.Inject;
  */
 @Named
 @RequestScoped
-public class ContentxhtmlGenerador implements Serializable {
+public class IndexxhtmlGenerador implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(ContentxhtmlGenerador.class.getName());
+    private static final Logger LOG = Logger.getLogger(IndexxhtmlGenerador.class.getName());
 
     @Inject
     MySesion mySesion;
@@ -47,7 +47,7 @@ public class ContentxhtmlGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("content.xhtml", proyectoJEE.getPathMainWebapp() + proyectoJEE.getSeparator() + "content.xhtml");
+            procesar("index.xhtml", proyectoJEE.getPathMainWebapp() + proyectoJEE.getSeparator() + "index.xhtml");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -66,8 +66,13 @@ public class ContentxhtmlGenerador implements Serializable {
             /**
              * generar los metodos
              */
-            Utilidades.addNotFoundMethod(ruta, "<ui:include src=\"leftmenu.xhtml\" />", leftmenu(), "<div class=\"row\">", false);
-            Utilidades.addNotFoundMethod(ruta, "<ui:insert name=\"content\" />", content(), "</div>", false);
+            Utilidades.searchAddWithoutLine(ruta, "xmlns:b=\"http://bootsfaces.net/ui\"", "xmlns:h=\"http://xmlns.jcp.org/jsf/html\"" , true);
+        Utilidades.searchAddWithoutLine(ruta, "xmlns:ui=\"http://xmlns.jcp.org/jsf/facelets\"", "xmlns:h=\"http://xmlns.jcp.org/jsf/html\"" , true);
+           Utilidades.searchAddWithoutLine(ruta, "<ui:composition template=\"./template.xhtml\">", "<h:body>" , false);
+           Utilidades.searchAddWithoutLine(ruta, "<ui:composition template=\"./template.xhtml\">", "<body>" , false);
+         Utilidades.searchAddWithoutLine(ruta, "</ui:composition>" ,"</h:body>" , true);
+          Utilidades.searchAddWithoutLine(ruta, "</ui:composition>" ,"</body>" , true);
+            
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("procesar() " + e.getLocalizedMessage());
@@ -101,21 +106,34 @@ public class ContentxhtmlGenerador implements Serializable {
                 //Creamos un objeto para escribir caracteres en el archivo de prueba
                 try (FileWriter fw = new FileWriter(file)) {
 
+                    fw.write("<?xml version='1.0' encoding='UTF-8' ?>" + "\r\n");
+                    fw.write("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" + "\r\n");
                     fw.write("<html xmlns=\"http://www.w3.org/1999/xhtml\"" + "\r\n");
-                    fw.write("      xmlns:ui=\"http://java.sun.com/jsf/facelets\">" + "\r\n");
-                    fw.write(" " + "\r\n");
-                    fw.write("    <ui:composition>" + "\r\n");
-                    fw.write("        <div class=\"container-fluid\">" + "\r\n");
-                    fw.write("            <div class=\"row\">" + "\r\n");
-                    fw.write("                <div class=\"col-sm-3 col-md-2 sidebar\">" + "\r\n");
-                    fw.write("                    <ui:include src=\"leftmenu.xhtml\" />" + "\r\n");
-                    fw.write("                </div>" + "\r\n");
-                    fw.write("                <div class=\"col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main\">   " + "\r\n");
-                    fw.write("                    <ui:insert name=\"content\" />" + "\r\n");
-                    fw.write("                </div>" + "\r\n");
-                    fw.write("            </div>" + "\r\n");
-                    fw.write("        </div>" + "\r\n");
-                    fw.write("    </ui:composition>" + "\r\n");
+                    fw.write("      xmlns:ui=\"http://xmlns.jcp.org/jsf/facelets\"" + "\r\n");
+                    fw.write("      xmlns:p=\"http://primefaces.org/ui\"" + "\r\n");
+                    fw.write("      xmlns:h=\"http://xmlns.jcp.org/jsf/html\"" + "\r\n");
+                    fw.write("      xmlns:f=\"http://xmlns.jcp.org/jsf/core\"" + "\r\n");
+                    fw.write("      xmlns:b=\"http://bootsfaces.net/ui\">" + "\r\n");
+                    fw.write("" + "\r\n");
+                    fw.write("    <h:body>" + "\r\n");
+                    fw.write("" + "\r\n");
+                    fw.write("        <ui:composition template=\"./template.xhtml\">" + "\r\n");
+                    fw.write("" + "\r\n");
+                    fw.write("            <ui:define name=\"content\">" + "\r\n");
+                    fw.write("                <f:view>" + "\r\n");
+                    fw.write("                    <h:form>" + "\r\n");
+                    fw.write("                        <b:panel look=\"primary\" title=\"#{app['application.title']}\">" + "\r\n");
+                    fw.write("                            <h:panelGrid columns=\"2\" cellpadding=\"5\">" + "\r\n");
+                    fw.write("                                <p:outputLabel value=\"#{app['application.title']}\"/>" + "\r\n");
+                    fw.write("                                <!--<p:graphicImage value=\"/resources/imagenes/logo.gif\" width=\"40\" height=\"50\"/>-->" + "\r\n");
+                    fw.write("                            </h:panelGrid>" + "\r\n");
+                    fw.write("                        </b:panel>" + "\r\n");
+                    fw.write("                        <p:growl id=\"growl\" showDetail=\"true\" />" + "\r\n");
+                    fw.write("                    </h:form>" + "\r\n");
+                    fw.write("                </f:view>" + "\r\n");
+                    fw.write("            </ui:define>" + "\r\n");
+                    fw.write("        </ui:composition>" + "\r\n");
+                    fw.write("    </h:body>" + "\r\n");
                     fw.write("</html>" + "\r\n");
                     fw.close();
 

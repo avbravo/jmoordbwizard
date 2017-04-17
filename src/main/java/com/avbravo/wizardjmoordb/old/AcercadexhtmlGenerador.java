@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb.generador.web.template;
+package com.avbravo.wizardjmoordb.old;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
@@ -30,10 +30,10 @@ import javax.inject.Inject;
  */
 @Named
 @RequestScoped
-public class CambiarpasswordxhtmlGenerador implements Serializable {
+public class AcercadexhtmlGenerador implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(CambiarpasswordxhtmlGenerador.class.getName());
+    private static final Logger LOG = Logger.getLogger(AcercadexhtmlGenerador.class.getName());
 
     @Inject
     MySesion mySesion;
@@ -47,7 +47,7 @@ public class CambiarpasswordxhtmlGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("cambiarpassword.xhtml", proyectoJEE.getPathMainWebappPages() + proyectoJEE.getSeparator() + "usuarios" + proyectoJEE.getSeparator() + "cambiarpassword.xhtml");
+            procesar("acercade.xhtml", proyectoJEE.getPathMainWebappPages() + proyectoJEE.getSeparator()+ "acercade"+ proyectoJEE.getSeparator()+"acercade.xhtml");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -97,7 +97,7 @@ public class CambiarpasswordxhtmlGenerador implements Serializable {
                 File file2 = new File(ruta);
                 //Creamos un objeto para escribir caracteres en el archivo de prueba
                 try (FileWriter fw = new FileWriter(file)) {
-                    String entidaduser = Utilidades.letterToLower(mySesion.getEntidadUser().getTabla());
+
                     fw.write("<?xml version='1.0' encoding='UTF-8' ?>" + "\r\n");
                     fw.write("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" + "\r\n");
                     fw.write("<html xmlns=\"http://www.w3.org/1999/xhtml\"" + "\r\n");
@@ -115,35 +115,21 @@ public class CambiarpasswordxhtmlGenerador implements Serializable {
                     fw.write("                <f:view> " + "\r\n");
                     fw.write("                    <h:form id=\"form\" prependId=\"false\" rendered=\"#{loginBean.logeado}\">" + "\r\n");
                     fw.write("                        <p:growl  id=\"growl\" />" + "\r\n");
-                    fw.write("                  " + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("                        <b:panel id=\"panel\" look=\"primary\" title=\"#{form['cambiarpassword.records']}\">" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("                            <h:panelGrid columns=\"2\" cellpadding=\"5\">" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("                                <p:outputLabel value=\"#{msg.username}\"  />" + "\r\n");
-                    fw.write("                                <p:outputLabel value=\"#{loginBean." + entidaduser + "." + Utilidades.letterToLower(mySesion.getAtributosUsername()) + "}\"/>" + "\r\n");
-                    fw.write("                                <p:outputLabel value=\"#{msg.nombre}\" />" + "\r\n");
-                    fw.write("                                <p:outputLabel value=\"#{loginBean." + entidaduser + "." + Utilidades.letterToLower(mySesion.getAtributosNombreMostrar()) + "}\"/>" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("                                <p:outputLabel value=\"#{msg.password}\" for=\"password\" />" + "\r\n");
-                    fw.write("                                <p:password id=\"password\" value=\"#{loginBean." + entidaduser + "." + Utilidades.letterToLower(mySesion.getAtributosPassword()) + "}\"  match=\"password2\" title=\"#{msg.password}\" required=\"true\" requiredMessage=\"#{msg.password} #{app['info.required']}\"/>" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("" + "\r\n");
-                    fw.write("                                <p:outputLabel for=\"password2\" value=\"#{app['info.repetirpassword']}*\" />  " + "\r\n");
-                    fw.write("                                <p:password id=\"password2\" value=\"#{loginBean." + entidaduser + "." + Utilidades.letterToLower(mySesion.getAtributosPassword()) + "}\" label=\"#{app['usuarios.password']} *\" required=\"true\"/>  " + "\r\n");
+                    fw.write("                        <b:panel id=\"panel\" look=\"primary\" title=\"#{form['acercade.records']}\">" + "\r\n");
                     fw.write("" + "\r\n");
-                    fw.write("                                <f:facet class=\"panel-footer\" name=\"footer\">" + "\r\n");
-                    fw.write("                                    <p:commandButton id=\"button_edit\" class=\"btn btn-primary\"" + "\r\n");
-                    fw.write("                                                     update=\"panel,growl\"" + "\r\n");
-                    fw.write("                                                     rendered=\"true\"" + "\r\n");
-                    fw.write("                                                     title=\"#{app['boton.update']}\"" + "\r\n");
-                    fw.write("                                                     value=\"#{app['boton.update']}\"" + "\r\n");
-                    fw.write("                                                     action=\"#{loginBean.cambiarContrasena()}\"/>" + "\r\n");
-                    fw.write("                                </f:facet>" + "\r\n");
+                    fw.write("                            <h:panelGrid columns=\"1\" cellpadding=\"5\">" + "\r\n");
                     fw.write("" + "\r\n");
+                    fw.write("                                <p:outputLabel value=\"#{app['label.title']}: #{app['application.title']}\"  />" + "\r\n");
+                    fw.write("                                <p:outputLabel value=\"#{app['label.shorttitle']}: #{app['application.shorttitle']}\"  />" + "\r\n");
+                    fw.write("                                <p:outputLabel value=\"#{app['label.version']}: #{app['application.version']}\"  />" + "\r\n");
+                    fw.write("" + "\r\n");
+                    fw.write("                                <p:outputLabel value=\"#{app['label.desarrolladopor']}: #{app['empresa.empresa']}\"  /> " + "\r\n");
+                    fw.write("                                <p:outputLabel value=\"#{app['label.pais']}: #{app['empresa.pais']}\"  /> " + "\r\n");
+                    fw.write("                                <p:outputLabel value=\"#{app['label.provincia']}: #{app['empresa.provincia']}\"  /> " + "\r\n");
+                    fw.write("                                <p:outputLabel value=\"#{app['label.email']}: #{app['empresa.email']}\"  /> " + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("                            </h:panelGrid>" + "\r\n");
                     fw.write("" + "\r\n");
@@ -172,7 +158,6 @@ public class CambiarpasswordxhtmlGenerador implements Serializable {
                     fw.write("" + "\r\n");
                     fw.write("    </body>" + "\r\n");
                     fw.write("</html>" + "\r\n");
-
                     fw.close();
 
                 } catch (IOException ex) {
