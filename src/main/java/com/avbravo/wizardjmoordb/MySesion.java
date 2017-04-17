@@ -33,8 +33,8 @@ public class MySesion implements Serializable {
     /*
     menu
      */
-    private Integer numeroMenuBar = 5; // numero de menu bar para el menu
-    private String titulosMenuBar = "Archivo, Editar,Reportes,Depurar,Ayuda"; //"Nombres de los elementos de la barra
+    private Integer numeroMenuBar = 3; // numero de menu bar para el menu
+    private String titulosMenuBar = "Registros,Reportes,Ayuda"; //"Nombres de los elementos de la barra
     private List<String> menubarList = new ArrayList<>(); //
     //opcion  para el menu de reportes
     private String opcionMenuReportes="";
