@@ -43,7 +43,7 @@ import com.avbravo.wizardjmoordb.old.CambiarpasswordxhtmlGenerador;
 import com.avbravo.wizardjmoordb.old.ContentxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.FooterxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.RigthxhtmlGenerador;
-import com.avbravo.wizardjmoordb.old.IndexxhtmlGenerador;
+import com.avbravo.wizardjmoordb.xhtml.IndexxhtmlGenerador;
 import com.avbravo.wizardjmoordb.old.LeftmenuxhtmlGenerador;
 import com.avbravo.wizardjmoordb.old.MenuOptionsxhtmlGenerador;
 import com.avbravo.wizardjmoordb.old.MenusxhtmlGenerador;
