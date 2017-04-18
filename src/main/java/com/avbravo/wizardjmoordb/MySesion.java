@@ -112,11 +112,48 @@ public class MySesion implements Serializable {
     private Boolean typeUserGroupList=false;
 
     
+    /**
+     * Autocomplete
+     */
+    private Integer maximoAutocomplete=4;
+    private Integer maximoAutocompleteItemLabel =3;
+    private Integer maximoAutocompleteItemTip=5;
     
     //almacena las opciones del menu donde se indica a que menu se debe asignar los entity
     List<EntidadMenu> entidadMenuList = new ArrayList<>();
-     private List<String> masterDetailsList =  new ArrayList<>();
+    
+    
+       private List<String> masterDetailsList =  new ArrayList<>();
 
+    public Integer getMaximoAutocomplete() {
+        return maximoAutocomplete;
+    }
+
+    public void setMaximoAutocomplete(Integer maximoAutocomplete) {
+        this.maximoAutocomplete = maximoAutocomplete;
+    }
+
+    public Integer getMaximoAutocompleteItemLabel() {
+        return maximoAutocompleteItemLabel;
+    }
+
+    public void setMaximoAutocompleteItemLabel(Integer maximoAutocompleteItemLabel) {
+        this.maximoAutocompleteItemLabel = maximoAutocompleteItemLabel;
+    }
+
+    public Integer getMaximoAutocompleteItemTip() {
+        return maximoAutocompleteItemTip;
+    }
+
+    public void setMaximoAutocompleteItemTip(Integer maximoAutocompleteItemTip) {
+        this.maximoAutocompleteItemTip = maximoAutocompleteItemTip;
+    }
+
+   
+
+       
+       
+       
     public String getTypeUserGroup() {
         return typeUserGroup;
     }

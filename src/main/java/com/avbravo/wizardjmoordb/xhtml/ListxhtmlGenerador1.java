@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb.old;
+package com.avbravo.wizardjmoordb.xhtml;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
@@ -32,10 +32,10 @@ import javax.inject.Inject;
  */
 @Named
 @RequestScoped
-public class SearchxhtmlGenerador implements Serializable {
+public class ListxhtmlGenerador1 implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(SearchxhtmlGenerador.class.getName());
+    private static final Logger LOG = Logger.getLogger(ListxhtmlGenerador1.class.getName());
 
     @Inject
     MySesion mySesion;
@@ -52,7 +52,8 @@ public class SearchxhtmlGenerador implements Serializable {
                 String name = Utilidades.letterToLower(entidad.getTabla());
 
                 String directorioentity = proyectoJEE.getPathMainWebappPages() + Utilidades.letterToLower(entidad.getTabla()) + proyectoJEE.getSeparator();
-                procesar(name + "search.xhtml", directorioentity + proyectoJEE.getSeparator() + name + "search.xhtml", entidad);
+//                procesar(name + "search.xhtml", directorioentity + proyectoJEE.getSeparator() + name + "search.xhtml", entidad);
+                procesar("list.xhtml", directorioentity + proyectoJEE.getSeparator() + "list.xhtml", entidad);
             }
 
         } catch (Exception e) {
@@ -68,23 +69,7 @@ public class SearchxhtmlGenerador implements Serializable {
             if (Files.notExists(path, new LinkOption[]{LinkOption.NOFOLLOW_LINKS})) {
                 crearFile(ruta, archivo, entidad);
             }
-//
-//            Utilidades.searchAdd(ruta, "<b:navBar  brand=\"#{men['menu.home']}\" brandHref=\"/" + mySesion.getProyecto() + "/faces/index.xhtml\" inverse=\"true\" fixed=\"top\">", "<ui:composition>", false);
-//            Utilidades.searchAdd(ruta, "<b:commandButton rendered=\"#{!loginBean.logeado}\" action=\"#{loginBean.verificarLogin}\" value=\"#{app['boton.login']}\" look=\"primary\"  iconAlign=\"right\"/>", "</div>", false);
-//            Utilidades.searchAdd(ruta, "<b:label  text=\"#{loginBean." + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "." + Utilidades.letterToLower(mySesion.getAtributosNombreMostrar()) + "}\"  rendered=\"#{loginBean.logeado}\"/>", "<b:commandButton rendered=\"#{!loginBean.logeado}\" action=\"#{loginBean.verificarLogin}\" value=\"#{app['boton.login']}\" look=\"primary\"  iconAlign=\"right\"/>", false);
-//            Utilidades.searchAdd(ruta, "<b:commandButton rendered=\"#{loginBean.logeado}\" action=\"#{loginBean.logout()}\" value=\"#{app['boton.logout']}\" look=\"success\"  iconAlign=\"right\"/>", "<b:label  text=\"#{loginBean." + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "." + Utilidades.letterToLower(mySesion.getAtributosNombreMostrar()) + "}\"  rendered=\"#{loginBean.logeado}\"/>", false);
-//            Utilidades.searchAdd(archivo, "#{' '}", "</div>", Boolean.TRUE);
 
-//            mySesion.getMenubarList().stream().forEach((s) -> {
-//
-//                Utilidades.searchAdd(ruta, "<ui:include src=\"menu" + Utilidades.letterToLower(s) + ".xhtml\"/>", "<b:navbarLinks>", Boolean.FALSE);
-//
-//            });
-            /**
-             * generar los metodos
-             */
-//            Utilidades.addNotFoundMethod(ruta, "<b:inputText rendered=\"#{!loginBean.logeado}\" value=\"#{loginBean." + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "." + Utilidades.letterToLower(mySesion.getAtributosUsername()) + "}\" placeholder=\"#{app['login.username']}\" fieldSize=\"sm\"/>", username(), "<h:form styleClass=\"navbar-form navbar-right\">", false);
-//            Utilidades.addNotFoundMethod(ruta, "<p:password rendered=\"#{!loginBean.logeado}\" value=\"#{loginBean." + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "." + Utilidades.letterToLower(mySesion.getAtributosPassword()) + "}\" placeholder=\"#{app['login.password']}\" />", password(), "</div>", false);
         } catch (Exception e) {
             JSFUtil.addErrorMessage("procesar() " + e.getLocalizedMessage());
         }
@@ -137,19 +122,29 @@ public class SearchxhtmlGenerador implements Serializable {
                     fw.write("<?xml version='1.0' encoding='UTF-8' ?>" + "\r\n");
                     fw.write("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" + "\r\n");
                     fw.write("<html xmlns=\"http://www.w3.org/1999/xhtml\"" + "\r\n");
-                    fw.write("      xmlns:ui=\"http://xmlns.jcp.org/jsf/facelets\"" + "\r\n");
+                    fw.write("      xmlns:ui=\"http://java.sun.com/jsf/facelets\"" + "\r\n");
                     fw.write("      xmlns:p=\"http://primefaces.org/ui\"" + "\r\n");
-                    fw.write("      xmlns:h=\"http://xmlns.jcp.org/jsf/html\"" + "\r\n");
+                    fw.write("      xmlns:h=\"http://java.sun.com/jsf/html\"" + "\r\n");
+                    fw.write("      xmlns:b=\"http://bootsfaces.net/ui\"" + "\r\n");
                     fw.write("      xmlns:f=\"http://xmlns.jcp.org/jsf/core\"" + "\r\n");
-                    fw.write("      xmlns:componentes=\"http://xmlns.jcp.org/jsf/composite/componentes\"" + "\r\n");
-                    fw.write("      xmlns:b=\"http://bootsfaces.net/ui\">" + "\r\n");
+                    fw.write("      xmlns:jsf=\"http://xmlns.jcp.org/jsf\"" + "\r\n");
+                    fw.write("      xmlns:avbravo=\"http://xmlns.jcp.org/jsf/composite/avbravo\">" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("    <body>" + "\r\n");
                     fw.write("" + "\r\n");
-                    fw.write("        <ui:composition template=\"./../../template.xhtml\">" + "\r\n");
+                    fw.write("        <ui:composition template=\"./../../WEB-INF/template.xhtml\">" + "\r\n");
+                    fw.write("            <ui:define name=\"top\">" + "\r\n");
+                    fw.write("                <h1>" + "\r\n");
+                    fw.write("                    #{msg['titlelist." + name + "']}" + "\r\n");
+                    fw.write("                    <small> </small>" + "\r\n");
+                    fw.write("                </h1>" + "\r\n");
                     fw.write("" + "\r\n");
+                    fw.write("            </ui:define>" + "\r\n");
+                    fw.write("            <!--" + "\r\n");
+                    fw.write("          Contenido" + "\r\n");
+                    fw.write("            -->" + "\r\n");
                     fw.write("            <ui:define name=\"content\">" + "\r\n");
-                    fw.write("                <f:view>" + "\r\n");
+                    
                     fw.write("                    <h:form id=\"form\" prependId=\"false\" rendered=\"#{menuBeans." + name + ".listar}\">" + "\r\n");
                     fw.write("                        <p:messages id=\"growl\" autoUpdate=\"true\"/>" + "\r\n");
                     fw.write("" + "\r\n");
@@ -160,31 +155,31 @@ public class SearchxhtmlGenerador implements Serializable {
                     // autocomplete para todos los campos
                     for (Atributos atributos : entidad.getAtributosList()) {
                         String columna = Utilidades.letterToLower(atributos.getNombre());
- if (atributos.getTipo().equals("String") ||atributos.getTipo().equals("Integer") ) {
-                               
-                        fw.write("                                <p:outputLabel   value=\"#{msg." + columna + "}\"  />" + "\r\n");
-                        fw.write("                                <p:autoComplete  id=\"" + columna + "\"  scrollHeight=\"250\"   dropdown=\"true\"    size=\"45\" " + "\r\n");
-                        fw.write("                                                 value=\"#{" + name + "Search.selected}\"  " + "\r\n");
-                        fw.write("                                                 completeMethod=\"#{" + name + "Search." + name + "Services.complete" + Utilidades.letterToUpper(columna) + "}\"  " + "\r\n");
-                        fw.write("                                                 var=\"p\"  " + "\r\n");
-                        fw.write("                                                 itemLabel=\"#{p." + columna + "}\"  itemValue=\"#{p}\"" + "\r\n");
-                        fw.write("                                                 forceSelection=\"true\"> " + "\r\n");
-                        fw.write("                                    <f:converter binding=\"#{" + name + "Converter}\" />" + "\r\n");
-                        fw.write("                                    <p:ajax event=\"itemSelect\" listener=\"#{" + name + "Search.handleSelect}\" update=\":form:panel, :form:datatable" + nameUpper + ",:form:growl\" />  " + "\r\n");
-                        fw.write("                                    <f:facet name=\"itemtip\">" + "\r\n");
-                        fw.write("                                        <h:panelGrid columns=\"2\" cellpadding=\"5\">" + "\r\n");
-                        for (Atributos atr : entidad.getAtributosList()) {
-                            fw.write("                                           <h:outputText value=\"#{p." + atr.getNombre() + "}\" />" + "\r\n");
-                        }
+                        if (atributos.getTipo().equals("String") || atributos.getTipo().equals("Integer")) {
 
-                        fw.write("                                        </h:panelGrid>" + "\r\n");
-                        fw.write("                                    </f:facet>" + "\r\n");
-                        fw.write("                                </p:autoComplete> " + "\r\n");
- }
+                            fw.write("                                <p:outputLabel   value=\"#{msg." + columna + "}\"  />" + "\r\n");
+                            fw.write("                                <p:autoComplete  id=\"" + columna + "\"  scrollHeight=\"250\"   dropdown=\"true\"    size=\"45\" " + "\r\n");
+                            fw.write("                                                 value=\"#{" + name + "Search.selected}\"  " + "\r\n");
+                            fw.write("                                                 completeMethod=\"#{" + name + "Search." + name + "Services.complete" + Utilidades.letterToUpper(columna) + "}\"  " + "\r\n");
+                            fw.write("                                                 var=\"p\"  " + "\r\n");
+                            fw.write("                                                 itemLabel=\"#{p." + columna + "}\"  itemValue=\"#{p}\"" + "\r\n");
+                            fw.write("                                                 forceSelection=\"true\"> " + "\r\n");
+                            fw.write("                                    <f:converter binding=\"#{" + name + "Converter}\" />" + "\r\n");
+                            fw.write("                                    <p:ajax event=\"itemSelect\" listener=\"#{" + name + "Search.handleSelect}\" update=\":form:panel, :form:datatable" + nameUpper + ",:form:growl\" />  " + "\r\n");
+                            fw.write("                                    <f:facet name=\"itemtip\">" + "\r\n");
+                            fw.write("                                        <h:panelGrid columns=\"2\" cellpadding=\"5\">" + "\r\n");
+                            for (Atributos atr : entidad.getAtributosList()) {
+                                fw.write("                                           <h:outputText value=\"#{p." + atr.getNombre() + "}\" />" + "\r\n");
+                            }
+
+                            fw.write("                                        </h:panelGrid>" + "\r\n");
+                            fw.write("                                    </f:facet>" + "\r\n");
+                            fw.write("                                </p:autoComplete> " + "\r\n");
+                        }
                     }
                     fw.write("                            </h:panelGrid>" + "\r\n");
                     //datatable
-                    
+
                     fw.write("                            <p:dataTable  id=\"datatable" + nameUpper + "\" " + "\r\n");
                     fw.write("                                          tableStyleClass=\"table table-striped table-hover dt-responsive\"" + "\r\n");
                     fw.write("                                          rows=\"7\" value=\"#{" + name + "Search." + name + "List}\" " + "\r\n");
@@ -280,34 +275,6 @@ public class SearchxhtmlGenerador implements Serializable {
             JSFUtil.addErrorMessage("crearFile() " + e.getLocalizedMessage());
         }
         return false;
-    }
-
-    private String username() {
-        try {
-
-            String texto = "";
-            texto += "                <div class=\"form-group\">" + "\r\n";
-            texto += "                    <b:inputText rendered=\"#{!loginBean.logeado}\" value=\"#{loginBean." + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "." + Utilidades.letterToLower(mySesion.getAtributosUsername()) + "}\" placeholder=\"#{app['login.username']}\" fieldSize=\"sm\"/>" + "\r\n";
-            texto += "                </div>" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("username()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-
-    private String password() {
-        try {
-
-            String texto = "";
-            texto += "                <div class=\"form-group\">" + "\r\n";
-            texto += "<p:password rendered=\"#{!loginBean.logeado}\" value=\"#{loginBean." + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "." + Utilidades.letterToLower(mySesion.getAtributosPassword()) + "}\" placeholder=\"#{app['login.password']}\" />" + "\r\n";
-            texto += "                </div>" + "\r\n";
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("password()  " + e.getLocalizedMessage());
-        }
-        return "";
     }
 
 }

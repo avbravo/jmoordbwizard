@@ -133,7 +133,14 @@ public class ConfigurationFileGenerador implements Serializable {
                     fw.write("titulosMenuBar=" + mySesion.getTitulosMenuBar() + "\r\n");
                     fw.write("addUserNameLogeado=" + mySesion.getAddUserNameLogeado() + "\r\n");
                     fw.write("addFechaSystema=" + mySesion.getAddFechaSystema() + "\r\n");
+                    /*
+                    autocomplete
+                    */
+                    fw.write("maximoAutocomplete=" + mySesion.getMaximoAutocomplete()+ "\r\n");
+                    fw.write("maximoAutocompleteItemLabel=" + mySesion.getMaximoAutocompleteItemLabel()+ "\r\n");
+                    fw.write("maximoAutocompleteItemTip=" + mySesion.getMaximoAutocompleteItemTip()+ "\r\n");
 
+                    
                     fw.write("frameworkPrimefaces=" + mySesion.getFrameworkPrimefaces() + "\r\n");
                     fw.write("frameworkBootfaces=" + mySesion.getFrameworkBootfaces() + "\r\n");
                     fw.write("frameworkMaterialprime=" + mySesion.getFrameworkMaterialprime() + "\r\n");

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb.old;
+package com.avbravo.wizardjmoordb.xhtml;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
@@ -52,7 +52,8 @@ public class PagexhtmlGenerador implements Serializable {
                 String name = Utilidades.letterToLower(entidad.getTabla());
 
                 String directorioentity = proyectoJEE.getPathMainWebappPages() + Utilidades.letterToLower(entidad.getTabla()) + proyectoJEE.getSeparator();
-                procesar(name + ".xhtml", directorioentity + proyectoJEE.getSeparator() + name + ".xhtml", entidad);
+//                procesar(name + ".xhtml", directorioentity + proyectoJEE.getSeparator() + name + ".xhtml", entidad);
+                procesar("view.xhtml", directorioentity + proyectoJEE.getSeparator() + "view.xhtml", entidad);
             }
 
         } catch (Exception e) {

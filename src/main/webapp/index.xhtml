@@ -30,23 +30,23 @@
                         <p:remoteCommand   update="form:growl,:form:panel"
                                            name="remoteshowNameProjectEJB" 
                                            actionListener="#{generador.showNameProjectEJB()}"/>
-                        
+
                         <p:remoteCommand   update="form:growl,:form:panel"
                                            name="remoteshowNameProjectJEE" 
                                            actionListener="#{generador.showNameProjectJEE()}"/>
-                        
-                        
+
+
                         <p:remoteCommand   update="form:growl,:form:panel"
                                            name="remotepaquete" 
                                            actionListener="#{generador.conectarEJB()}"/>
                         <b:panelGrid  colSpans="2,10" >
-                            
+
 
                             <h:outputText value="Source EJB Project:"/>
 
                             <b:inputText value="#{generador.proyectoEJB.pathProyecto}"
-                                          
-                                             onkeypress="if (event.keyCode == 13) {
+
+                                         onkeypress="if (event.keyCode == 13) {
                                                          remoteshowNameProjectEJB();
                                                          return false;
                                                      }"
@@ -73,50 +73,50 @@
                                 </f:facet>
                             </b:inputText>
 
-  <h:outputText value="Proyecto"/>
+                            <h:outputText value="Proyecto"/>
                             <b:inputText id="proyectoWeb" disabled="true"  value="#{generador.proyectoEJB.proyecto}" >
                                 <f:facet name="prepend">
                                     <b:iconAwesome name="archive" />
                                 </f:facet>
 
                             </b:inputText>
-                            
-  
-  
+
+
+
 
                             <h:outputText value="Paquete"/>
                             <h:panelGroup>
 
                                 <b:inputText value="#{generador.proyectoEJB.paquete}"
-                                          
+
                                              onkeypress="if (event.keyCode == 13) {
                                                          remotepaquete();
                                                          return false;
                                                      }">
-                                <f:facet name="prepend">
-                                    <b:iconAwesome name="folder-o" />
-                                </f:facet>
-                                <f:facet name="append">
-                                    <b:commandButton tooltip="Conectar" ajax="true" 
-                                                     value=""
-                                                     action="#{generador.conectarEJB()}"
-                                                     update="form:growl,:form:panel"  look="success" >
-                                        <b:iconAwesome name="cogs" />
-                                    </b:commandButton>
-                                </f:facet>
+                                    <f:facet name="prepend">
+                                        <b:iconAwesome name="folder-o" />
+                                    </f:facet>
+                                    <f:facet name="append">
+                                        <b:commandButton tooltip="Conectar" ajax="true" 
+                                                         value=""
+                                                         action="#{generador.conectarEJB()}"
+                                                         update="form:growl,:form:panel"  look="success" >
+                                            <b:iconAwesome name="cogs" />
+                                        </b:commandButton>
+                                    </f:facet>
                                 </b:inputText>
 
                             </h:panelGroup>
 
-                          
-                            
+
+
                             <h:outputText value="Source Web Project:"/>
 
                             <b:inputText value="#{generador.proyectoJEE.pathProyecto}"
                                          onkeypress="if (event.keyCode == 13) {
-                                                         remoteshowNameProjectJEE();
-                                                         return false;
-                                                     }">
+                                                     remoteshowNameProjectJEE();
+                                                     return false;
+                                                 }">
                                 <f:facet name="prepend">
                                     <b:commandButton tooltip="Sugerir ruta" ajax="true" 
                                                      action="#{generador.mostrarRutaJEE()}"
@@ -138,7 +138,7 @@
 
                                 </f:facet>
                             </b:inputText>
-  <h:outputText value="Proyecto"/>
+                            <h:outputText value="Proyecto"/>
                             <b:inputText id="proyecto" disabled="true"  value="#{generador.proyectoJEE.proyecto}" >
                                 <f:facet name="prepend">
                                     <b:iconAwesome name="archive" />
@@ -153,50 +153,47 @@
                                                          remotepaquete();
                                                          return false;
                                                      }">
-                                <f:facet name="prepend">
-                                    <b:iconAwesome name="folder-o" />
-                                </f:facet>
-                                <f:facet name="append">
-                                    <b:commandButton tooltip="Conectar" ajax="true" 
-                                                     value=""
-                                                     action="#{generador.conectarJEE()}"
-                                                     update="form:growl,:form:panel"  look="success" >
-                                        <b:iconAwesome name="cogs" />
-                                    </b:commandButton>
-                                </f:facet>
+                                    <f:facet name="prepend">
+                                        <b:iconAwesome name="folder-o" />
+                                    </f:facet>
+                                    <f:facet name="append">
+                                        <b:commandButton tooltip="Conectar" ajax="true" 
+                                                         value=""
+                                                         action="#{generador.conectarJEE()}"
+                                                         update="form:growl,:form:panel"  look="success" >
+                                            <b:iconAwesome name="cogs" />
+                                        </b:commandButton>
+                                    </f:facet>
                                 </b:inputText>
 
                             </h:panelGroup>
 
-                          
-                            
-                            
-                            
 
 
 
-  <p:outputLabel value="Template"/>
-                                <b:selectOneMenu id="estilo" value="#{generador.estilo}" >
-                                    <f:selectItem itemLabel="Bootfaces" itemValue="bootfaces" />
-                                    <f:selectItem itemLabel="Primefaces Premium Themes" itemValue="primefacespremium" />
-                                    <f:selectItem itemLabel="Basic" itemValue="basic" />
-                                    <f:selectItem itemLabel="AdminLTE" itemValue="adminlte" />
-                                    <f:selectItem itemLabel="MaterialPrime" itemValue="materialprime" />
-                                    
 
-                                </b:selectOneMenu>
-  <p:outputLabel value="DataBase"/>
-                                <b:selectOneMenu id="database" value="#{generador.mySesion.database}" >
-                                    <f:selectItem itemLabel="MongoDB" itemValue="mongodb" />
-                                    <f:selectItem itemLabel="Couchbase" itemValue="couchbase" />
-                                    <f:selectItem itemLabel="OrientDB" itemValue="orientdb" />
-                                    
-                                    
 
-                                </b:selectOneMenu>
-  
-  <p:outputLabel value="DataBase Name"/>
-  <b:inputText value="#{generador.mySesion.databasename}"/>
+
+
+                            <p:outputLabel value="Template"/>
+                            <b:selectOneMenu id="estilo" value="#{generador.estilo}" >
+                                <f:selectItem itemLabel="AdminLTE" itemValue="adminlte"  itemDescription="AdminLTE Bootstrap" />
+                                <f:selectItem itemDisabled="true" itemLabel="Primefaces Premium Themes" itemValue="primefacespremium" />                                   
+                                <f:selectItem itemDisabled="true" itemLabel="MaterialPrime" itemValue="materialprime" />
+
+                            </b:selectOneMenu>
+                            <p:outputLabel value="DataBase"/>
+                            <b:selectOneMenu id="database" value="#{generador.mySesion.database}" >
+                                <f:selectItem itemLabel="MongoDB" itemValue="mongodb" />
+                                <f:selectItem itemLabel="Couchbase" itemValue="couchbase" />
+                                <f:selectItem itemDisabled="true" itemLabel="OrientDB" itemValue="orientdb" />
+
+
+
+                            </b:selectOneMenu>
+
+                            <p:outputLabel value="DataBase Name"/>
+                            <b:inputText value="#{generador.mySesion.databasename}"/>
 
 
                         </b:panelGrid>

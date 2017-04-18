@@ -153,6 +153,15 @@ public class ConfigurationFilerRead implements Serializable {
                 case "addFechaSystema":
                     mySesion.setAddFechaSystema(descomponer(s, r).equals("true"));
                     break;
+                case "maximoAutocomplete":
+                    mySesion.setMaximoAutocomplete(Integer.parseInt(descomponer(s, r)));
+                    break;
+                case "maximoAutocompleteItemLabel":
+                    mySesion.setMaximoAutocompleteItemLabel(Integer.parseInt(descomponer(s, r)));
+                    break;
+                case "maximoAutocompleteItemTip":
+                    mySesion.setMaximoAutocompleteItemTip(Integer.parseInt(descomponer(s, r)));
+                    break;
 
                 case "frameworkPrimefaces":
                     mySesion.setFrameworkPrimefaces(descomponer(s, r).equals("true"));

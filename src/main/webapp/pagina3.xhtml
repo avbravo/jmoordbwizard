@@ -25,7 +25,7 @@
                              look="primary">
    <h:panelGrid columns="2" cellpadding="5">
 
-                            <p:outputLabel value="Titulos Menu"/>
+                            <p:outputLabel value="Menu"/>
                             <b:inputTextarea   rows="2" 
                                                tooltip="Separe los menu por comas(,)"
                                                value="#{generador.mySesion.titulosMenuBar}"
@@ -58,8 +58,53 @@
 
                                              style="width:255px"
                                              >
+                                 <f:facet name="prepend">
+                                        <b:iconAwesome name="fa-user-secret" />
+                                    </f:facet>
                                 <!--<f:ajax event="keyup" render="label"  />-->
                             </b:inputTextarea>
+
+
+                        </h:panelGrid>
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <p:outputLabel value="Maximo autocomplete en list.xhtml"/>
+                           <b:inputText value="#{generador.mySesion.maximoAutocomplete}"
+                                             tooltip="Maximo autocomplete en list.xhtml"
+                                             required="true" requiredMessage="Ingrese el maximo"
+                                                                                      >
+                                 <f:facet name="prepend">
+                                        <b:iconAwesome name="fa-list-ul" />
+                                    </f:facet>
+                                <!--<f:ajax event="keyup" render="label"  />-->
+                             </b:inputText>
+
+
+                        </h:panelGrid>
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <p:outputLabel value="Maximo itemLabel in autocomplete"/>
+                            <b:inputText value="#{generador.mySesion.maximoAutocompleteItemLabel}"
+                                             tooltip="Maximo campos en el itemLabel"
+                                             required="true" requiredMessage="Ingrese el maximo"                        
+                                             >
+                                 <f:facet name="prepend">
+                                        <b:iconAwesome name="fa-list-ul" />
+                                 </f:facet>
+                                 <!--<f:ajax event="keyup" render="label"  />-->
+                             </b:inputText>
+
+
+                        </h:panelGrid>
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <p:outputLabel value="Maximo itemTip in autocomplete"/>
+                            <b:inputText value="#{generador.mySesion.maximoAutocompleteItemTip}"
+                                             tooltip="Maximo campos en el itemTip"
+                                             required="true" requiredMessage="Ingrese el maximo"                          
+                                             >
+                                 <f:facet name="prepend">
+                                        <b:iconAwesome name="fa-list-ul" />
+                                    </f:facet>
+                                <!--<f:ajax event="keyup" render="label"  />-->
+                             </b:inputText>
 
 
                         </h:panelGrid>
@@ -83,20 +128,6 @@
 
                         <f:facet name="footer">
 
-                            <!--                                                     <b:commandButton tooltip="Anterior" ajax="true" 
-                                                                                                     value="Anterior"
-                                                                                                     rendered="#{generador.mySesion.pagina2}" 
-                                                                                                     action="#{generador.irPagina2()}"
-                                                                                                     update="form:growl"  look="danger" >
-                                                                                        <b:iconAwesome name="arrow-left" />
-                                                                                    </b:commandButton>
-                                                                                    <b:commandButton  ajax="true" title="Siguiente"
-                                                                                                      value="Siguiente"
-                                                                                                      rendered="#{generador.mySesion.pagina4}" 
-                                                                                                      action="#{generador.irPagina4()}"
-                                                                                                      update="form:growl" look="success" >
-                                                                                        <b:iconAwesome name="arrow-right" />
-                                                                                    </b:commandButton>-->
                             <p:commandButton 
                                 value="Anterior"
                                 rendered="#{generador.mySesion.pagina2}" 

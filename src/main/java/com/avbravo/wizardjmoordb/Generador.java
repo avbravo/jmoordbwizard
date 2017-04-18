@@ -39,10 +39,9 @@ import com.avbravo.wizardjmoordb.old.CambiarpasswordxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.FooterxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.RigthxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.IndexxhtmlGenerador;
-import com.avbravo.wizardjmoordb.old.MenusxhtmlGenerador;
-import com.avbravo.wizardjmoordb.old.PagexhtmlGenerador;
-import com.avbravo.wizardjmoordb.old.ReportesxhtmlGenerador;
-import com.avbravo.wizardjmoordb.old.SearchxhtmlGenerador;
+import com.avbravo.wizardjmoordb.xhtml.PagexhtmlGenerador;
+
+import com.avbravo.wizardjmoordb.xhtml.ListxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.TemplatexhtmlGenerador;
 import com.avbravo.wizardjmoordb.configuration.WebXMLGenerador;
 import com.avbravo.wizardjmoordb.provider.CouchbaseClientProviderGenerador;
@@ -191,18 +190,7 @@ public class Generador implements Serializable {
     @Inject
     CambiarpasswordxhtmlGenerador cambiarpasswordxhtmlGenerador;
     @Inject
-    SearchxhtmlGenerador searchxhtmlGenerador;
-//    @Inject
-//    ActivoxhtmlGenerador activoxhtmlGenerador;
-//    @Inject
-//    DialogoeliminarxhtmlGenerador dialogoeliminarxhtmlGenerador;
-//    @Inject
-//    EIiminarxhtmlGenerador eIiminarxhtmlGenerador;
-//    @Inject
-//    ProcesarxhtmlGenerador procesarxhtmlGenerador;
-    @Inject
-    ReportesxhtmlGenerador reportesxhtmlGenerador;
-//    public Boolean enEjecucion=false;
+    ListxhtmlGenerador listxhtmlGenerador;
 
     public String getEstilo() {
         return estilo;
@@ -721,28 +709,15 @@ public class Generador implements Serializable {
                     JSFUtil.addWarningMessage("El entity de grupos usuarios no debe  ser el mismo que el entity user");
                     return;
                 }
-//                if (mySesion.getEntidadGruposUsuariosMultiples().getTabla().equals(mySesion.getEntidadRoles().getTabla())) {
-//                    JSFUtil.addWarningMessage("El entity de grupos usuarios no debe  ser el mismo que el entity roles");
-//                    return;
-//                }
-//                if (mySesion.getAtributosGrupousuarioMostrar() == null || mySesion.getAtributosGrupousuarioMostrar().equals("")) {
-//                    JSFUtil.addWarningMessage("Seleccione la columna del grupo de usuario para validar");
-//                    return;
-//                }
+
             }
 
-            //String idroles = 
-//            if (!readPackageEntity()) {
-//                JSFUtil.addWarningMessage("No se encontraron entitys generados en " + proyectoEJB.getPathEntity());
-//
-//            } else {
-//                processEntity();
             if (!mySesion.getEntidadList().isEmpty()) {
 //                    cargarTree();
-                System.out.println("------------> " + tipoGeneracion);
+               
                 if (tipoGeneracion.equals("codigopaginas") || tipoGeneracion.equals("codigo")) {
 
-                    System.out.println("---------------------------entro a codigo");
+                    
                     /*
                     generales
                      */
@@ -775,6 +750,7 @@ public class Generador implements Serializable {
                             couchbaseClientProviderGenerador.generar();
                             break;
                         case "orientdb":
+                            JSFUtil.addWarningMessage("Aun no soportado Database: orientdb");
                             break;
 
                     }
@@ -833,9 +809,9 @@ public class Generador implements Serializable {
 
                 //verifica si debe generar las paginas
                 if (tipoGeneracion.equals("codigopaginas") || tipoGeneracion.equals("paginas")) {
-                    System.out.println("_------------------> entro a web");
+                   //Web
                     switch (estilo) {
-                        case "bootfaces":
+                        case "adminlte":
                             webXMLGenerador.generar();
                             /*
 stopWeb/-Inf
@@ -850,11 +826,11 @@ stopWeb/-Inf
                             /*
                    WEB
                              */
-                            templatexhtmlGenerador.generar();
-                            footerxhtmlGenerador.generar();
-                           topxhtmlGenerador.generar();
-                            rigthxhtmlGenerador.generar(); 
-                            leftxhtmlGenerador.generar(); 
+                             templatexhtmlGenerador.generar();
+                             footerxhtmlGenerador.generar();
+                             topxhtmlGenerador.generar();
+                             rigthxhtmlGenerador.generar(); 
+                             leftxhtmlGenerador.generar(); 
                             
 
 //                            menusxhtmlGenerador.generar();
@@ -871,37 +847,22 @@ stopWeb/-Inf
                                     Utilidades.mkdir(directorioentity);
                                 }
                             }
-                            String directorioacercade = proyectoJEE.getPathMainWebappPages() + "acercade" + proyectoJEE.getSeparator();
-                            if (!Utilidades.searchDirectorie(directorioacercade)) {
-                                Utilidades.mkdir(directorioacercade);
-                            }
-                            String directoriousuarios = proyectoJEE.getPathMainWebappPages() + "usuarios" + proyectoJEE.getSeparator();
-                            if (!Utilidades.searchDirectorie(directoriousuarios)) {
-                                Utilidades.mkdir(directoriousuarios);
-                            }
+
                             /*
                 generar las paginas
                              */
-                            acercadexhtmlGenerador.generar();
-                            cambiarpasswordxhtmlGenerador.generar();
+
                             pagexhtmlGenerador.generar();
-                            searchxhtmlGenerador.generar();
-                            reportesxhtmlGenerador.generar();
-                            /*
-                genera los componentes
-                             */
-//                            activoxhtmlGenerador.generar();
-//                            dialogoeliminarxhtmlGenerador.generar();
-//                            eIiminarxhtmlGenerador.generar();
-//                            procesarxhtmlGenerador.generar();
+                            listxhtmlGenerador.generar();
+                            
+
                             break;
                         case "primefacespremium":
+                            JSFUtil.addWarningMessage("Aun no soportado Template: primefacespremium");
                             break;
-                        case "basic":
-                            break;
-                        case "adminlte":
-                            break;
+                                               
                         case "materialprime":
+                            JSFUtil.addWarningMessage("Aun no soportado. Template: materialprime");
                             break;
                     }
 
