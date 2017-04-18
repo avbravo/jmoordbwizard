@@ -49,6 +49,7 @@ import com.avbravo.wizardjmoordb.provider.CouchbaseClientProviderGenerador;
 import com.avbravo.wizardjmoordb.search.EntidadSearch;
 import com.avbravo.wizardjmoordb.utilidades.Terminal;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
+import com.avbravo.wizardjmoordb.xhtml.LeftxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.LoginxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.TopxhtmlGenerador;
 import javax.inject.Named;
@@ -168,10 +169,12 @@ public class Generador implements Serializable {
     TopxhtmlGenerador topxhtmlGenerador;
     @Inject
     RigthxhtmlGenerador rigthxhtmlGenerador; 
+    @Inject
+    LeftxhtmlGenerador leftxhtmlGenerador;
   
    
-    @Inject
-    MenusxhtmlGenerador menusxhtmlGenerador;
+//    @Inject
+//    MenusxhtmlGenerador menusxhtmlGenerador;
 //    @Inject
 //    ContentxhtmlGenerador contextxhtmlGenerador;
     @Inject
@@ -851,9 +854,10 @@ stopWeb/-Inf
                             footerxhtmlGenerador.generar();
                            topxhtmlGenerador.generar();
                             rigthxhtmlGenerador.generar(); 
+                            leftxhtmlGenerador.generar(); 
                             
 
-                            menusxhtmlGenerador.generar();
+//                            menusxhtmlGenerador.generar();
 //                            contextxhtmlGenerador.generar();
                             accesodenegadoxhtmlGenerador.generar();
                             indexxhtmlGenerador.generar();

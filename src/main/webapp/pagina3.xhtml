@@ -7,7 +7,7 @@
 
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-      <title>>WizardJMoordb</title>
+        <title>>WizardJMoordb</title>
     </h:head>
     <h:body>
         <f:view>
@@ -16,32 +16,14 @@
                 <b:container> 
                     <b:row>
                         <b:column>
-                     <h1>WizardJMoordb!</h1>
+                            <h1>WizardJMoordb!</h1>
                         </b:column>
                     </b:row>
 
 
-                    <b:panel title="Roles (3/5)"
+                    <b:panel title="Menu (3/5)"
                              look="primary">
-
-
-                            <h:panelGrid columns="2" cellpadding="5">
-                            <p:outputLabel value="Roles"/>
-                            <b:inputTextarea value="#{generador.mySesion.roles}"
-                                             tooltip="Separe los roles por comas(,)"
-                                             required="true" requiredMessage="Ingrese los roles"
-                                             rows="2" 
-                                             placeholder="Administrador, Anonimo,Test"
-                                             
-                                             style="width:255px"
-                                             >
-                                <!--<f:ajax event="keyup" render="label"  />-->
-                            </b:inputTextarea>
-
-
-                        </h:panelGrid>
-
-                             <h:panelGrid columns="2" cellpadding="5">
+   <h:panelGrid columns="2" cellpadding="5">
 
                             <p:outputLabel value="Titulos Menu"/>
                             <b:inputTextarea   rows="2" 
@@ -50,7 +32,7 @@
                                                required="true" requiredMessage="Ingrese los titulos"
 
                                                placeholder="Archivo,Editar,Ayuda"
-                                                style="width:255px"
+                                               style="width:255px"
                                                >
                                 <!--<f:ajax event="keyup" render="labelmenu"  />-->
                             </b:inputTextarea>
@@ -59,22 +41,40 @@
                                                           <b:label text="Menu"/>
                                                         <b:label text="#{generador.mySesion.titulosMenuBar}" id="labelmenu"/>-->
 
-<!--                            <p:outputLabel value="Nota"/>
-                            <p:outputLabel value="Separe los menus por coma."/>-->
+                            <!--                            <p:outputLabel value="Nota"/>
+                                                        <p:outputLabel value="Separe los menus por coma."/>-->
 
 
 
                         </h:panelGrid>
 
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <p:outputLabel value="Roles"/>
+                            <b:inputTextarea value="#{generador.mySesion.roles}"
+                                             tooltip="Separe los roles por comas(,)"
+                                             required="true" requiredMessage="Ingrese los roles"
+                                             rows="2" 
+                                             placeholder="Administrador, Anonimo,Test"
 
-                             <h:panelGrid columns="2" cellpadding="5">
+                                             style="width:255px"
+                                             >
+                                <!--<f:ajax event="keyup" render="label"  />-->
+                            </b:inputTextarea>
+
+
+                        </h:panelGrid>
+
+                     
+
+
+                        <h:panelGrid columns="2" cellpadding="5">
 
                             <p:outputLabel value="Insertar User name logeado"/>
-                          <p:inputSwitch   value="#{generador.mySesion.addUserNameLogeado}"  />
+                            <p:inputSwitch   value="#{generador.mySesion.addUserNameLogeado}"  />
 
 
                             <p:outputLabel value="Insertar fecha sistema"/>
-                          <p:inputSwitch  value="#{generador.mySesion.addFechaSystema}"  />
+                            <p:inputSwitch  value="#{generador.mySesion.addFechaSystema}"  />
 
 
 
@@ -83,21 +83,21 @@
 
                         <f:facet name="footer">
 
-<!--                                                     <b:commandButton tooltip="Anterior" ajax="true" 
-                                                                         value="Anterior"
-                                                                         rendered="#{generador.mySesion.pagina2}" 
-                                                                         action="#{generador.irPagina2()}"
-                                                                         update="form:growl"  look="danger" >
-                                                            <b:iconAwesome name="arrow-left" />
-                                                        </b:commandButton>
-                                                        <b:commandButton  ajax="true" title="Siguiente"
-                                                                          value="Siguiente"
-                                                                          rendered="#{generador.mySesion.pagina4}" 
-                                                                          action="#{generador.irPagina4()}"
-                                                                          update="form:growl" look="success" >
-                                                            <b:iconAwesome name="arrow-right" />
-                                                        </b:commandButton>-->
-                           <p:commandButton 
+                            <!--                                                     <b:commandButton tooltip="Anterior" ajax="true" 
+                                                                                                     value="Anterior"
+                                                                                                     rendered="#{generador.mySesion.pagina2}" 
+                                                                                                     action="#{generador.irPagina2()}"
+                                                                                                     update="form:growl"  look="danger" >
+                                                                                        <b:iconAwesome name="arrow-left" />
+                                                                                    </b:commandButton>
+                                                                                    <b:commandButton  ajax="true" title="Siguiente"
+                                                                                                      value="Siguiente"
+                                                                                                      rendered="#{generador.mySesion.pagina4}" 
+                                                                                                      action="#{generador.irPagina4()}"
+                                                                                                      update="form:growl" look="success" >
+                                                                                        <b:iconAwesome name="arrow-right" />
+                                                                                    </b:commandButton>-->
+                            <p:commandButton 
                                 value="Anterior"
                                 rendered="#{generador.mySesion.pagina2}" 
                                 action="#{generador.irPagina2()}"
