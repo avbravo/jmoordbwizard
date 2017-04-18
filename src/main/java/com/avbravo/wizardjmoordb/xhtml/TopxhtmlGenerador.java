@@ -134,7 +134,7 @@ public class TopxhtmlGenerador implements Serializable {
                     fw.write("                                                        <a href=\"#\">" + "\r\n");
                     fw.write("                                                            <div class=\"pull-left\">" + "\r\n");
                     fw.write("                                                                <!-- User Image -->" + "\r\n");
-                    fw.write("                                                                <h:graphicImage library=\"img\" name=\"utp.png\" class=\"img-circle\" alt=\"User Image\"/>" + "\r\n");
+                    fw.write("                                                                <h:graphicImage library=\"img\" name=\"logo.png\" class=\"img-circle\" alt=\"User Image\"/>" + "\r\n");
                     fw.write("                                                            </div>" + "\r\n");
                     fw.write("                                                            <!-- Message title and timestamp -->" + "\r\n");
                     fw.write("                                                            <h4>" + "\r\n");
@@ -213,14 +213,14 @@ public class TopxhtmlGenerador implements Serializable {
                     fw.write("                                        <!-- Menu Toggle Button -->" + "\r\n");
                     fw.write("                                        <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">" + "\r\n");
                     fw.write("                                            <!-- The user image in the navbar-->" + "\r\n");
-                    fw.write("                                            <h:graphicImage library=\"img\" name=\"utp.png\" class=\"user-image\" alt=\"User Image\"/>" + "\r\n");
+                    fw.write("                                            <h:graphicImage library=\"img\" name=\"logo.png\" class=\"user-image\" alt=\"User Image\"/>" + "\r\n");
                     fw.write("                                            <!-- hidden-xs hides the username on small devices so only the image appears. -->" + "\r\n");
                     fw.write("                                            <span class=\"hidden-xs\">#{loginController.usuario.nombre}</span>" + "\r\n");
                     fw.write("                                        </a>" + "\r\n");
                     fw.write("                                        <ul class=\"dropdown-menu\">" + "\r\n");
                     fw.write("                                            <!-- The user image in the menu -->" + "\r\n");
                     fw.write("                                            <li class=\"user-header\">" + "\r\n");
-                    fw.write("                                                <h:graphicImage library=\"img\" name=\"utp.png\" class=\"img-circle\" alt=\"User Image\"/>" + "\r\n");
+                    fw.write("                                                <h:graphicImage library=\"img\" name=\"logo.png\" class=\"img-circle\" alt=\"User Image\"/>" + "\r\n");
                     fw.write("                                                <p>" + "\r\n");
                     fw.write("                                                    #{loginController.usuario.nombre}" + "\r\n");
                     fw.write("                                                    <!--<small>Member since Nov. 2012</small>-->" + "\r\n");

@@ -112,7 +112,6 @@ public class FooterxhtmlGenerador implements Serializable {
                     fw.write("                          #{msg['footer.derechosreservados']}" + "\r\n");
                     fw.write("      </footer>" + "\r\n");
                     fw.write("    </ui:composition>" + "\r\n");
-                    fw.write("</html>" + "\r\n");
                     fw.close();
 
                 } catch (IOException ex) {

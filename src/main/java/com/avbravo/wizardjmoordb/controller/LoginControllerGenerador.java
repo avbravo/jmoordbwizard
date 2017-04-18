@@ -323,7 +323,7 @@ public class LoginControllerGenerador implements Serializable {
                 fw.write("    public String changePassword() {" + "\r\n");
                 fw.write("        try {" + "\r\n");
                 fw.write("            " + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "Facade.update(" + minuscula + ");" + "\r\n");
-                fw.write("            JsfUtil.addSuccessMessage(rf.getMensajeArb(\"info.update\"));" + "\r\n");
+                fw.write("            JsfUtil.addSuccessMessage(rf.getAppMessage(\"info.update\"));" + "\r\n");
                 fw.write("        } catch (Exception e) {" + "\r\n");
                 fw.write("            JsfUtil.addErrorMessage(e.getLocalizedMessage());" + "\r\n");
                 fw.write("        }" + "\r\n");
@@ -382,7 +382,7 @@ public class LoginControllerGenerador implements Serializable {
             fw.write("            loggedIn = true;" + "\r\n");
             fw.write("            " + minuscula + "= new " + mySesion.getEntidadUser().getTabla() + "(); " + "\r\n");
             fw.write("            if (username == null || password == null) {" + "\r\n");
-            fw.write("                JsfUtil.addWarningMessage(rf.getMensajeArb(\"login.usernamenotvalid\"));" + "\r\n");
+            fw.write("                JsfUtil.addWarningMessage(rf.getAppMessage(\"login.usernamenotvalid\"));" + "\r\n");
             fw.write("                return null;" + "\r\n");
             fw.write("            }" + "\r\n");
             fw.write("            " + minuscula + ".set" + Utilidades.letterToUpper(mySesion.getAtributosUsername()) + "(username); " + "\r\n");
