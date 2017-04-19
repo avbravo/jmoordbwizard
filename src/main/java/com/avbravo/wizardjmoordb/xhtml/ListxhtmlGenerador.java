@@ -119,6 +119,7 @@ public class ListxhtmlGenerador implements Serializable {
                         }
                         // Genera los services para los objetos relacionados
                     }
+
                     fw.write("<?xml version='1.0' encoding='UTF-8' ?>" + "\r\n");
                     fw.write("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" + "\r\n");
                     fw.write("<html xmlns=\"http://www.w3.org/1999/xhtml\"" + "\r\n");
@@ -144,7 +145,6 @@ public class ListxhtmlGenerador implements Serializable {
                     fw.write("          Contenido" + "\r\n");
                     fw.write("            -->" + "\r\n");
                     fw.write("            <ui:define name=\"content\">" + "\r\n");
-
                     fw.write("                <h:form id=\"form\" rendered=\"#{loginController.loggedIn and applicationMenu." + name + ".list}\">" + "\r\n");
                     fw.write("                    <h:panelGroup id=\"content\" layout=\"block\"> " + "\r\n");
                     fw.write("                        <p:messages id=\"msgs\" autoUpdate=\"true\"/>" + "\r\n");
@@ -171,22 +171,23 @@ public class ListxhtmlGenerador implements Serializable {
                     Integer maximoAutocomplete = 0;
                     Integer maximoAutocompleteItemLabel = 0;
                     Integer maximoAutocompleteItemTip = 0;
-                    Integer contador =0;
+                    Integer contador = 0;
                     for (Atributos atributos : entidad.getAtributosList()) {
-                        maximoAutocomplete++;
+
                         if (maximoAutocomplete <= mySesion.getMaximoAutocomplete()) {
                             String columna = Utilidades.letterToLower(atributos.getNombre());
 
                             if (atributos.getTipo().equals("String") || atributos.getTipo().equals("Integer")) {
-
+                                maximoAutocomplete++;
                                 contador++;
                                 if (contador == 1) {
                                     fw.write("                                <div class=\"form-group row\">" + "\r\n");
-                                } else {
-                                    if (contador > 2) {
-                                        contador = 1;
-                                    }
                                 }
+//                                else {
+//                                    if (contador > 2) {
+//                                        contador = 1;
+//                                    }
+//                                }
 
                                 fw.write("                                    <p:outputLabel class=\"col-xs-2 col-form-label\" value=\"#{app['info.by']} #{msg['field." + columna + "']}\"/>" + "\r\n");
                                 fw.write("                                    <div class=\"col-xs-4\">" + "\r\n");
@@ -241,101 +242,90 @@ public class ListxhtmlGenerador implements Serializable {
                                 fw.write("                                    </div>" + "\r\n");
 
                             }
-                            if (contador == 1) {
-                                fw.write("                                </div>" + "\r\n");
+                            if (contador == 2) {
+                                fw.write("                                   </div>" + "\r\n");
+                                contador = 0;
                             }
                         }
                     }//for
+//                    fw.write("                                       </div>" + "\r\n");
+                    fw.write("                                 </div>" + "\r\n");
                     fw.write("                            </div>" + "\r\n");
-                    fw.write("                        </div>" + "\r\n");
+                    fw.write("                       </div>" + "\r\n");
+                    fw.write("                        <!--" + "\r\n");
+                    fw.write("                        body" + "\r\n");
+                    fw.write("                        -->" + "\r\n");
+                    fw.write("                        <div class=\"row form-body\">" + "\r\n");
 
-                    //------------------------------------------
-//---------------------------------------------------------------------
-                    //OLD
-                    //---------------------------------------------------------------------
-//                    fw.write("                            </h:panelGrid>" + "\r\n");
-                    //datatable
-                    fw.write("                            <p:dataTable  id=\"datatable" + nameUpper + "\" " + "\r\n");
-                    fw.write("                                          tableStyleClass=\"table table-striped table-hover dt-responsive\"" + "\r\n");
-                    fw.write("                                          rows=\"7\" value=\"#{" + name + "Search." + name + "List}\" " + "\r\n");
-                    fw.write("                                          var=\"item\"" + "\r\n");
-                    fw.write("                                          paginator=\"true\"" + "\r\n");
-                    fw.write("                                          paginatorTemplate=\"{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}\"" + "\r\n");
-                    fw.write("                                          rowsPerPageTemplate=\"5,10,15\"" + "\r\n");
-//                    fw.write("                                          rowKey=\"#{item." + columnKey + "}\"" + "\r\n");
-//                    fw.write("                                          selectionMode=\"single\"" + "\r\n");
-//                    fw.write("                                          selection=\"#{" + name + "Search.selected}\"" + "\r\n");
-//                    fw.write("                                          filteredValue=\"#{" + name + "Search.filtered}\" " + "\r\n");
-                    fw.write("                                          widgetVar=\"" + name + "Table\"" + "\r\n");
-                    fw.write("                                          >" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("" + "\r\n");
+                    fw.write("                            <p:dataTable id=\"dataTable\" var=\"item\" " + "\r\n");
+                    fw.write("                                         value=\"#{" + name + "Controller." + name + "DataModel}\"" + "\r\n");
+                    fw.write("                                         selectionMode=\"single\" " + "\r\n");
+                    fw.write("                                         widgetVar=\"widgetDataTable\"" + "\r\n");
+                    fw.write("                                         selection=\"#{" + name + "Controller." + name + "Selected}\"" + "\r\n");
+                    fw.write("                                         filteredValue=\"#{" + name + "Controller." + name + "Filtered}\"" + "\r\n");
+                    fw.write("                                         rowKey=\"#{item." + columnKey + "}\"" + "\r\n");
+                    fw.write("                                         rows=\"15\" " + "\r\n");
+                    fw.write("                                         paginator=\"true\" paginatorTemplate=\"{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}\"" + "\r\n");
+                    fw.write("                                         rowsPerPageTemplate=\"5,10,15\" emptyMessage=\"#{app['info.datatableempty']}\" reflow=\"true\">" + "\r\n");
+                    fw.write("                                <f:facet name=\"header\">" + "\r\n");
+                    fw.write("                                    <p:outputPanel>" + "\r\n");
+                    fw.write("                                        <div class=\"searchLoader\">" + "\r\n");
+                    fw.write("                                 <p:graphicImage  name=\"/img/search-loader.gif\"/>" + "\r\n");
+                    fw.write("                                        </div>" + "\r\n");
+                    fw.write("                                        <input type=\"text\" jsf:id=\"globalFilter\" jsf:onkeyup=\"PF('widgetDataTable').filter()\" class=\"search\" placeholder=\"#{app['button.search']}\"/>" + "\r\n");
+                    fw.write("                                    </p:outputPanel>" + "\r\n");
+                    fw.write("                                </f:facet>" + "\r\n");
+                    fw.write("                                <p:ajax event=\"rowSelect\" update=\":form:" + name + "Detaill\" oncomplete=\"PF('" + name + "Dialog').show()\" />" + "\r\n");
                     fw.write("" + "\r\n");
                     //campos
                     for (Atributos atributos : entidad.getAtributosList()) {
-
                         String columna = Utilidades.letterToLower(atributos.getNombre());
-                        fw.write("                                <p:column filterBy=\"#{item." + columna + "}\" sortBy=\"#{item." + columna + "}\">" + "\r\n");
-                        fw.write("                                    <f:facet name=\"header\">" + "\r\n");
-                        fw.write("                                        <p:outputLabel   value=\"#{msg." + columna + "}\"/>" + "\r\n");
-                        fw.write("                                    </f:facet>" + "\r\n");
-                        fw.write("                                    <p:outputLabel  value=\"#{item." + columna + "}\"/>" + "\r\n");
+                        fw.write("                                <p:column headerText=\"#{msg['field." + columna + "']}\" filterBy=\"#{item." + columna + "}\"" + "\r\n");
+                        fw.write("                                          sortBy=\"#{item." + columna + "}\"  filterMatchMode=\"contains\" >" + "\r\n");
+                        fw.write("                                    <h:outputText value=\"#{item." + columna + "}\" />" + "\r\n");
                         fw.write("                                </p:column>" + "\r\n");
                     }
 
-                    fw.write("                                <p:column >  " + "\r\n");
-                    fw.write("                                    <p:commandButton   icon=\"ui-icon-pencil\" action=\"#{" + name + "Controller.invocarEditar(item)}\" update=\":form:growl\"/> " + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("                                </p:column>" + "\r\n");
-                    fw.write("                                <p:column>" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("                                    <p:commandButton icon=\"ui-icon-trash\" actionListener=\"#{" + name + "Search.delete(item)}\" update=\":form:growl,:form:datatable" + nameUpper + "\" >" + "\r\n");
-                    fw.write("                                        <p:confirm header=\"#{app['dialog.delete']}\" message=\"#{app['info.doyouwantdelete']}\" icon=\"ui-icon-alert\" />" + "\r\n");
-                    fw.write("                                    </p:commandButton>" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("                                </p:column>" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("                            </p:dataTable>" + "\r\n");
-                    fw.write("                            <f:facet name=\"footer\">" + "\r\n");
+                    fw.write("                            <p:dialog header=\"#{msg['header." + name + "selected']}\" widgetVar=\"" + name + "Dialog\"  width=\"290\" height=\"200\"" + "\r\n");
+                    fw.write("                                      modal=\"true\" showEffect=\"fade\" hideEffect=\"fade\" resizable=\"false\" responsive=\"true\">" + "\r\n");
+                    fw.write("                                <p:outputPanel id=\"" + name + "Detaill\" style=\"text-align:center;\">" + "\r\n");
+                    fw.write("                                    <p:panelGrid  columns=\"2\" rendered=\"#{not empty " + name + "Controller." + name + "Selected}\" layout=\"grid\" styleClass=\"ui-panelgrid-blank\">" + "\r\n");
                     fw.write("" + "\r\n");
-                    fw.write("                                <p:commandButton class=\"btn btn-primary\" value=\"#{app['boton.return']}\"  action=\"" + name + "\"/>" + "\r\n");
+                    fw.write("                                        <p:outputLabel value=\"#{msg['field." + columnKey+ "']}\" style=\"font-weight: bold\"/>" + "\r\n");
+                    fw.write("                                        <p:outputLabel value=\"#{" + name + "Controller." + name + "Selected." + columnKey+ "}\" />" + "\r\n");
+                    fw.write("                                        <p:commandButton id=\"btnedit\" value=\"#{app['button.edit']}\"" + "\r\n");
+                    fw.write("                                                         class=\"btnn btnn-primary\"" + "\r\n");
+                    fw.write("                                                         rendered=\"#{applicationMenu." + name + ".edit}\"" + "\r\n");
+                    fw.write("                                                         icon=\"fa fa-edit Fs14 White\"  " + "\r\n");
+                    fw.write("                                                         oncomplete=\"PF('" + name + "Dialog').hide()\"" + "\r\n");
+                    fw.write("                                                         title=\"#{app['button.edit']}\"" + "\r\n");
+                    fw.write("                                                         update=\":form:msgs\"" + "\r\n");
+                    fw.write("                                                         action=\"#{" + name + "Controller.prepareEdit()}\"" + "\r\n");
+                    fw.write("                                                         >" + "\r\n");
                     fw.write("" + "\r\n");
-                    fw.write("                                <p:commandButton  " + "\r\n");
-                    fw.write("                                    class=\"btn btn-primary\" " + "\r\n");
-                    fw.write("                                    value=\"#{app['boton.showall']}\"" + "\r\n");
-                    fw.write("                                    icon=\"ui-icon-gear\"" + "\r\n");
-                    fw.write("                                    title=\"#{app['boton.showall']}\"" + "\r\n");
-                    fw.write("                                    onclick=\"PF('statusDialog').show();\"" + "\r\n");
-                    fw.write("                                    onsuccess=\"PF('statusDialog').hide();\"" + "\r\n");
-                    fw.write("                                    update =\"datatable" + nameUpper + ",growl\" action=\"#{" + name + "Search.showAll()}\"/>" + "\r\n");
-                    fw.write("                            </f:facet>" + "\r\n");
-                    fw.write("                        </b:panel>" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("                        <componentes:procesar/>" + "\r\n");
-                    fw.write("                        <p:confirmDialog global=\"true\" showEffect=\"fade\" hideEffect=\"explode\">" + "\r\n");
-                    fw.write("                            <p:commandButton value=\"#{app['boton.yes']}\" type=\"button\" styleClass=\"ui-confirmdialog-yes\" icon=\"ui-icon-check\" />" + "\r\n");
-                    fw.write("                            <p:commandButton value=\"#{app['boton.no']}\" type=\"button\" styleClass=\"ui-confirmdialog-no\" icon=\"ui-icon-close\" />" + "\r\n");
-                    fw.write("                        </p:confirmDialog>" + "\r\n");
-                    fw.write("                    </h:form>" + "\r\n");
-                    fw.write("                    <h:form rendered=\"#{!menuBeans." + name + ".listar}\">" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("                        <b:panel look=\"danger\" title=\"#{app['title.accesodenegado']}\">" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("                            <h:panelGrid columns=\"2\" cellpadding=\"5\">" + "\r\n");
-                    fw.write("                                <p:commandButton class=\"btn btn-success\" action=\"#{loginBean.irLogin}\"" + "\r\n");
-                    fw.write("                                                 value=\"#{app['boton.return']}\" ajax=\"false\"/>" + "\r\n");
-                    fw.write("                            </h:panelGrid>" + "\r\n");
-                    fw.write("                        </b:panel>" + "\r\n");
-                    fw.write("                    </h:form>" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("                </f:view>" + "\r\n");
+                    fw.write("                                            <f:param name=\"" + columnKey+ "\" value=\"#{" + name + "Controller." + name + "Selected." + columnKey+ "}\"/>" + "\r\n");
+                    fw.write("                                        </p:commandButton>" + "\r\n");
+                    fw.write("                                        <p:commandButton class=\"btnn btnn-danger\" value=\"#{app['button.delete']}\" " + "\r\n");
+                    fw.write("                                                         rendered=\"#{applicationMenu." + name + ".delete}\"" + "\r\n");
+                    fw.write("                                                         icon=\"fa fa-trash-o\"" + "\r\n");
+                    fw.write("                                                         process=\":form:content :form:dataTable\" action=\"#{" + name + "Controller.remove}\"  update=\":form:content\" > " + "\r\n");
+                    fw.write("                                            <p:confirm header=\"#{app['dialog.delete']}\" message=\"#{app['info.doyouwantdelete']}\" icon=\"ui-icon-alert\" />" + "\r\n");
+                    fw.write("                                        </p:commandButton>" + "\r\n");
+                    fw.write("                                    </p:panelGrid>" + "\r\n");
+                    fw.write("                                </p:outputPanel>" + "\r\n");
+                    fw.write("                            </p:dialog>" + "\r\n");
+                    fw.write("                        </div>" + "\r\n");
+                    fw.write("                    </h:panelGroup>" + "\r\n");
+                    fw.write("                    <p:confirmDialog severity=\"alert\" global=\"true\" showEffect=\"fade\" hideEffect=\"explode\">" + "\r\n");
+                    fw.write("                        <p:commandButton  class=\"btnn btnn-primary\" value=\"#{app['button.yes']}\" type=\"button\" styleClass=\"ui-confirmdialog-yes\" icon=\"ui-icon-check\" />" + "\r\n");
+                    fw.write("                        <p:commandButton class=\"btnn btnn-primary\" value=\"#{app['button.no']}\" type=\"button\" styleClass=\"ui-confirmdialog-no\" icon=\"ui-icon-close\" />" + "\r\n");
+                    fw.write("                    </p:confirmDialog>" + "\r\n");
+                    fw.write("                </h:form>" + "\r\n");
+                    fw.write("                <avbravo:accesodenegado renderedcondition=\"#{!loginController.loggedIn or !applicationMenu." + name + ".list}\" />" + "\r\n");
                     fw.write("            </ui:define>" + "\r\n");
-                    fw.write("" + "\r\n");
                     fw.write("        </ui:composition>" + "\r\n");
-                    fw.write("" + "\r\n");
                     fw.write("    </body>" + "\r\n");
                     fw.write("</html>" + "\r\n");
 
