@@ -39,7 +39,7 @@ import com.avbravo.wizardjmoordb.old.CambiarpasswordxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.FooterxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.RigthxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.IndexxhtmlGenerador;
-import com.avbravo.wizardjmoordb.xhtml.PagexhtmlGenerador;
+import com.avbravo.wizardjmoordb.xhtml.ViewxhtmlGenerador;
 
 import com.avbravo.wizardjmoordb.xhtml.ListxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.TemplatexhtmlGenerador;
@@ -184,7 +184,7 @@ public class Generador implements Serializable {
      LoginxhtmlGenerador loginxhtmlGenerador;
     
     @Inject
-    PagexhtmlGenerador pagexhtmlGenerador;
+    ViewxhtmlGenerador pagexhtmlGenerador;
     @Inject
     AcercadexhtmlGenerador acercadexhtmlGenerador;
     @Inject

@@ -32,10 +32,10 @@ import javax.inject.Inject;
  */
 @Named
 @RequestScoped
-public class PagexhtmlGenerador implements Serializable {
+public class ViewxhtmlGenerador1 implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(PagexhtmlGenerador.class.getName());
+    private static final Logger LOG = Logger.getLogger(ViewxhtmlGenerador1.class.getName());
 
     @Inject
     MySesion mySesion;
@@ -70,21 +70,7 @@ public class PagexhtmlGenerador implements Serializable {
                 crearFile(ruta, archivo, entidad);
             }
 
-//            Utilidades.searchAdd(ruta, "<b:navBar  brand=\"#{men['menu.home']}\" brandHref=\"/" + mySesion.getProyecto() + "/faces/index.xhtml\" inverse=\"true\" fixed=\"top\">", "<ui:composition>", false);
-//            Utilidades.searchAdd(ruta, "<b:commandButton rendered=\"#{!loginBean.logeado}\" action=\"#{loginBean.verificarLogin}\" value=\"#{app['boton.login']}\" look=\"primary\"  iconAlign=\"right\"/>", "</div>", false);
-//            Utilidades.searchAdd(ruta, "<b:label  text=\"#{loginBean." + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "." + Utilidades.letterToLower(mySesion.getAtributosNombreMostrar()) + "}\"  rendered=\"#{loginBean.logeado}\"/>", "<b:commandButton rendered=\"#{!loginBean.logeado}\" action=\"#{loginBean.verificarLogin}\" value=\"#{app['boton.login']}\" look=\"primary\"  iconAlign=\"right\"/>", false);
-//            Utilidades.searchAdd(ruta, "<b:commandButton rendered=\"#{loginBean.logeado}\" action=\"#{loginBean.logout()}\" value=\"#{app['boton.logout']}\" look=\"success\"  iconAlign=\"right\"/>", "<b:label  text=\"#{loginBean." + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "." + Utilidades.letterToLower(mySesion.getAtributosNombreMostrar()) + "}\"  rendered=\"#{loginBean.logeado}\"/>", false);
-//            Utilidades.searchAdd(archivo, "#{' '}", "</div>", Boolean.TRUE);
-//            mySesion.getMenubarList().stream().forEach((s) -> {
-//
-//                Utilidades.searchAdd(ruta, "<ui:include src=\"menu" + Utilidades.letterToLower(s) + ".xhtml\"/>", "<b:navbarLinks>", Boolean.FALSE);
-//
-//            });
-            /**
-             * generar los metodos //
-             */
-//            Utilidades.addNotFoundMethod(ruta, "<b:inputText rendered=\"#{!loginBean.logeado}\" value=\"#{loginBean." + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "." + Utilidades.letterToLower(mySesion.getAtributosUsername()) + "}\" placeholder=\"#{app['login.username']}\" fieldSize=\"sm\"/>", username(), "<h:form styleClass=\"navbar-form navbar-right\">", false);
-//            Utilidades.addNotFoundMethod(ruta, "<p:password rendered=\"#{!loginBean.logeado}\" value=\"#{loginBean." + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "." + Utilidades.letterToLower(mySesion.getAtributosPassword()) + "}\" placeholder=\"#{app['login.password']}\" />", password(), "</div>", false);
+
         } catch (Exception e) {
             JSFUtil.addErrorMessage("procesar() " + e.getLocalizedMessage());
         }
