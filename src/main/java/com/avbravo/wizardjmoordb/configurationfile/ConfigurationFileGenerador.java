@@ -118,7 +118,7 @@ public class ConfigurationFileGenerador implements Serializable {
                     fw.write("typeUserGroupField=" + mySesion.getTypeUserGroupField() + "\r\n");
                     fw.write("typeUserGroupEntity=" + mySesion.getTypeUserGroupEntity() + "\r\n");
                     fw.write("typeUserGroupList=" + mySesion.getTypeUserGroupList() + "\r\n");
-                    
+
                     fw.write("opcionMenuReportes=" + mySesion.getOpcionMenuReportes() + "\r\n");
                     if (mySesion.getTypeUserGroupList()) {
                         fw.write("entidadGruposUsuariosMultiples=" + mySesion.getEntidadGruposUsuariosMultiples().getTabla() + "\r\n");
@@ -135,12 +135,29 @@ public class ConfigurationFileGenerador implements Serializable {
                     fw.write("addFechaSystema=" + mySesion.getAddFechaSystema() + "\r\n");
                     /*
                     autocomplete
+                     */
+                    fw.write("maximoAutocomplete=" + mySesion.getMaximoAutocomplete() + "\r\n");
+                    fw.write("maximoAutocompleteItemLabel=" + mySesion.getMaximoAutocompleteItemLabel() + "\r\n");
+                    fw.write("maximoAutocompleteItemTip=" + mySesion.getMaximoAutocompleteItemTip() + "\r\n");
+                    /*
+                    field for row
                     */
-                    fw.write("maximoAutocomplete=" + mySesion.getMaximoAutocomplete()+ "\r\n");
-                    fw.write("maximoAutocompleteItemLabel=" + mySesion.getMaximoAutocompleteItemLabel()+ "\r\n");
-                    fw.write("maximoAutocompleteItemTip=" + mySesion.getMaximoAutocompleteItemTip()+ "\r\n");
+                    fw.write("fieldByRowView=" + mySesion.getFieldByRowView() + "\r\n");
+                    /*
+                    Button
+                    */
+                    fw.write("typeOfButton=" + mySesion.getTypeOfButton() + "\r\n");
+/*
+                    dates
+                    */
 
-                    
+fw.write("timeZone=" + mySesion.getTimeZone() + "\r\n");
+fw.write("patternDate=" + mySesion.getPatternDate() + "\r\n");
+fw.write("patternDateTime=" + mySesion.getPatternDateTime() + "\r\n");
+
+/*
+
+*/
                     fw.write("frameworkPrimefaces=" + mySesion.getFrameworkPrimefaces() + "\r\n");
                     fw.write("frameworkBootfaces=" + mySesion.getFrameworkBootfaces() + "\r\n");
                     fw.write("frameworkMaterialprime=" + mySesion.getFrameworkMaterialprime() + "\r\n");

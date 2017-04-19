@@ -121,42 +121,127 @@ public class ViewxhtmlGenerador implements Serializable {
                     fw.write("                    <small> </small>" + "\r\n");
                     fw.write("                </h1>" + "\r\n");
                     fw.write("" + "\r\n");
+                    fw.write("            </ui:define>" + "\r\n");
+                    fw.write("            <!--" + "\r\n");
+                    fw.write("          Contenido" + "\r\n");
+                    fw.write("            -->" + "\r\n");
+                    fw.write("            <ui:define name=\"content\">" + "\r\n");
+                    fw.write("                <h:form id=\"form\" rendered=\"#{loginController.loggedIn and applicationMenu." + name + ".query}\">" + "\r\n");
+                    fw.write("                    <h:panelGroup id=\"content\" layout=\"block\">           " + "\r\n");
+                    fw.write("                        <p:messages id=\"msgs\"/>" + "\r\n");
+                    fw.write("                        <div class=\"row form-header-2\" style=\"padding-top: 5px;\">" + "\r\n");
+                    fw.write("                            <div class=\"col-md-12 record-status-buttons\">   " + "\r\n");
+                    fw.write("                          " + "\r\n");
+                    fw.write("" + "\r\n");
+                    fw.write("                                <p:commandButton  icon=\"fa fa-plus\" class=\"btnn btnn-primary\" immediate=\"true\"" + "\r\n");
+                    fw.write("                                                  title=\"#{app['button.new']}\"  value=\"#{app['button.new']}\" " + "\r\n");
+                    fw.write("                                                  action=\"#{" + name + "Controller.prepareNew()}\" update=\":form:content\" /> " + "\r\n");
+                    fw.write("                                <p:commandButton class=\"btnn btnn-primary\"  icon=\"fa fa-folder-open-o\" title=\"#{app['button.query']}\" value=\"#{app['button.query']}\"  " + "\r\n");
+                    fw.write("                                                 action=\"#{" + name + "Controller.open()}\" update=\":form:content :form:autocomplete\" /> " + "\r\n");
+                    fw.write("                                <p:commandButton rendered=\"#{" + name + "Controller.writable and !" + name + "Controller.found and applicationMenu." + name + ".create}\"" + "\r\n");
+                    fw.write("                                                 class=\"btnn btnn-success\" icon=\"fa fa-floppy-o\" title=\"#{app['button.save']}\"" + "\r\n");
+                    fw.write("                                                 value=\"#{app['button.save']}\"  action=\"#{" + name + "Controller.save()}\"  update=\":form:content\" /> " + "\r\n");
+                    fw.write("" + "\r\n");
+                    fw.write("                                <p:commandButton rendered=\"#{" + name + "Controller.found and applicationMenu." + name + ".edit}\" " + "\r\n");
+                    fw.write("                                                 icon=\"fa fa-edit Fs14 White\" class=\"btnn btnn-success\" title=\"#{app['button.edit']}\"  value=\"#{app['button.edit']}\" process=\":form:content\" action=\"#{" + name + "Controller.edit()}\" update=\":form:content\" /> " + "\r\n");
+                    fw.write("" + "\r\n");
+                    fw.write("                                <p:commandButton rendered=\"#{" + name + "Controller.found and applicationMenu." + name + ".delete}\" " + "\r\n");
+                    fw.write("                                                 icon=\"fa fa-trash-o\" class=\"btnn btnn-danger\" title=\"#{app['button.delete']}\" value=\"#{app['button.delete']}\" process=\":form:content\" action=\"#{" + name + "Controller.delete()}\"  update=\":form:content\" > " + "\r\n");
+                    fw.write("                                    <p:confirm header=\"#{app['dialog.delete']}\" message=\"#{app['info.doyouwantdelete']}\" icon=\"ui-icon-alert\" />" + "\r\n");
+                    fw.write("                                </p:commandButton>" + "\r\n");
+                    fw.write("                                <p:commandButton rendered=\"#{" + name + "Controller.found}\" " + "\r\n");
+                    fw.write("                                                 class=\"btnn btnn-primary\" icon=\"fa fa-print\" title=\"#{app['button.print']}\" value=\"#{app['button.print']}\" process=\":form:content\" action=\"#{" + name + "Controller.print()}\" " + "\r\n");
+                    fw.write("                                                 ajax=\"false\" " + "\r\n");
+                    fw.write("                                                 update=\":form:content\" /> " + "\r\n");
+                    fw.write("" + "\r\n");
+                    fw.write("" + "\r\n");
+                    fw.write("                                <p:link class=\"fa fa-search btnn btnn-primary\" rendered=\"#{applicationMenu." + name + ".list}\" title=\"#{app['button.search']}\" value=\"#{app['button.search']}\" outcome=\"/pages/" + name + "/list\"/>" + "\r\n");
+                    fw.write("" + "\r\n");
+                    fw.write("                            </div>" + "\r\n");
+                    fw.write("                        </div>" + "\r\n");
+                    fw.write("                        <div class=\"row form-body\">" + "\r\n");
+                    fw.write("" + "\r\n");
 
                     // autocomplete es el campo llave
-
                     for (Atributos atributos : entidad.getAtributosList()) {
                         if (atributos.getEsPrimaryKey()) {
                             String columna = Utilidades.letterToLower(atributos.getNombre());
 
-                            fw.write("                                <p:outputLabel  rendered=\"#{!" + name + "Controller.nuevoregistro}\" value=\"#{msg." + columna + "}\" for=\"" + columna + "  \" />" + "\r\n");
-                            fw.write("                                <p:autoComplete  id=\"" + columna + "\"  scrollHeight=\"250\"   dropdown=\"true\"    size=\"45\" " + "\r\n");
-                            fw.write("                                                 rendered=\"#{!" + name + "Controller.nuevoregistro}\" " + "\r\n");
-                            fw.write("                                                 value=\"#{" + name + "Controller.selected}\"  " + "\r\n");
-                            fw.write("                                                 completeMethod=\"#{" + name + "Controller." + name + "Services.complete" + Utilidades.letterToUpper(columna) + "}\"  " + "\r\n");
-                            fw.write("                                                 var=\"p\"  " + "\r\n");
-                            fw.write("                                                 itemLabel=\"#{p." + columna + "}\"  itemValue=\"#{p}\"" + "\r\n");
-                            fw.write("                                                 forceSelection=\"true\"> " + "\r\n");
-                            fw.write("                                    <f:converter binding=\"#{" + name + "Converter}\" />" + "\r\n");
-                            fw.write("                                    <p:ajax event=\"itemSelect\" listener=\"#{" + name + "Controller.handleSelect}\" update=\":form:panel,:form:growl\" />  " + "\r\n");
-                            fw.write("                                    <f:facet name=\"itemtip\">" + "\r\n");
-                            fw.write("                                        <h:panelGrid columns=\"2\" cellpadding=\"5\">" + "\r\n");
+                            fw.write("                           <div class=\"form-group row\">" + "\r\n");
+                            fw.write("                                <p:outputLabel class=\"col-xs-2 col-form-label \" value=\"#{msg['field." + columna + "']}\"/>" + "\r\n");
+                            fw.write("" + "\r\n");
+                            fw.write("                                <div class=\"col-xs-4\">" + "\r\n");
+                            fw.write("                                    <p:remoteCommand  update=\":form:content\"" + "\r\n");
+                            fw.write("                                                      name=\"remote" + columna + "\" actionListener=\"#{" + name + "Controller.verifyNew()}\"/>" + "\r\n");
+                            fw.write("                                    <p:inputText id=\"name\" rendered=\"#{!" + name + "Controller.forsearch}\" " + "\r\n");
+                            fw.write("                                                 placeholder=\"#{app['info.ingresenuevodato']}\"" + "\r\n");
+                            fw.write("                                                 value=\"#{" + name + "Controller." + name + "." + columna + "}\" " + "\r\n");
+                            fw.write("                                                 class=\"required form-name-input fullWidth\" " + "\r\n");
+                            fw.write("                                                 onkeypress=\"if (event.keyCode == 13) {" + "\r\n");
+                            fw.write("                                                             remote" + columna + "();" + "\r\n");
+                            fw.write("                                                             return false;" + "\r\n");
+                            fw.write("                                                         }\"" + "\r\n");
+                            fw.write("                                                 />" + "\r\n");
+                            fw.write("                    " + "\r\n");
+                            fw.write("                                    <p:autoComplete rendered=\"#{" + name + "Controller.forsearch}\" scrollHeight=\"250\"   dropdown=\"false\"  size=\"45\"  " + "\r\n");
+                            fw.write("                                                    id=\"autocomplete\"" + "\r\n");
+                            fw.write("" + "\r\n");
+                            fw.write("                                                    placeholder=\"#{app['info.ingresedatobuscar']}\"" + "\r\n");
+                            fw.write("                                                    emptyMessage=\"#{app['info.nohayregistros']}\" " + "\r\n");
+                            fw.write("                                                    title=\"#{app['info.by']} #{msg['field." + columna + "']}\"" + "\r\n");
+                            fw.write("                                                    label=\"#{app['info.by']} #{msg['field." + columna + "']}\"" + "\r\n");
+                            fw.write("" + "\r\n");
+                            fw.write("                                                    alt=\"#{app['info.searchby']} #{msg['field." + columna + "']}\"" + "\r\n");
+                            fw.write("                                                    value=\"#{" + name + "Controller." + name + "Selected}\"  " + "\r\n");
+                            fw.write("                                                    completeMethod=\"#{" + name + "Controller." + name + "Services.completeIdaula}\"  " + "\r\n");
+                            fw.write("                                                    var=\"p\"" + "\r\n");
+                            //iemlabel
+                            String itemLabel = "itemLabel=\"#{p." + columna + "}";
+                            Integer contadorAgregados = 0;
                             for (Atributos atr : entidad.getAtributosList()) {
-                                fw.write("                                           <h:outputText value=\"#{p." + atr.getNombre() + "}\" />" + "\r\n");
+                                contadorAgregados++;
+                                if (!atr.getNombre().equals(columna)) {
+                                    if (contadorAgregados <= mySesion.getMaximoAutocompleteItemLabel()) {
+                                        itemLabel += " " + "#{p." + atr.getNombre() + "}";
+                                    }
+
+                                }
+
                             }
+                            itemLabel += " \"" + " />";
+                            fw.write("                                                         " + itemLabel + "\r\n");
 
-                            fw.write("                                        </h:panelGrid>" + "\r\n");
-                            fw.write("                                    </f:facet>" + "\r\n");
-                            fw.write("                                </p:autoComplete> " + "\r\n");
+                            //--itemlabel
+                            //  fw.write("                                                    itemLabel=\"#{p." + columna + "}\"" + "\r\n");
+                            fw.write("                                                    itemValue=\"#{p}\" forceSelection=\"true\"> " + "\r\n");
 
-                            //genera el campo para ingresar el valor si es String
-                            //de otro modo indica que es Integer autoincrementable no es necesario generarlo
-                            if (atributos.getTipo().equals("String")) {
-                                fw.write("                                <p:outputLabel  rendered=\"#{" + name + "Controller.nuevoregistro}\" value=\"#{msg." + columna + "}\" for=\"" + columna + "1\" />" + "\r\n");
-                                fw.write("                                <b:inputText rendered=\"#{" + name + "Controller.nuevoregistro}\" class=\"form-control\" id=\"" + columna + "1\"  value=\"#{" + name + "Controller." + name + "." + columna + "}\" title=\"#{msg." + columna + "}\" required=\"true\" " + "\r\n");
-                                fw.write("                                              requiredMessage=\"#{msg." + columna + "} #{app['info.required']}\"/> " + "\r\n");
+                            fw.write("                                        <f:converter binding=\"#{" + name + "Converter}\"/>" + "\r\n");
+                            fw.write("                                        <p:ajax event=\"itemSelect\" listener=\"#{" + name + "Controller.query}\"" + "\r\n");
+                            fw.write("                                                update=\" :form:msgs,:form:content\" />  " + "\r\n");
+                            fw.write("                                        <f:facet name=\"itemtip\">" + "\r\n");
+                            fw.write("                                            <h:panelGrid columns=\"1\" cellpadding=\"5\">" + "\r\n");
+                            fw.write("                                                    <h:outputText value=\"#{msg['field." + columna + "']} #{p." + columna + "}\" />" + "\r\n");
+                            contadorAgregados = 0;
+                            for (Atributos atr : entidad.getAtributosList()) {
+                                contadorAgregados++;
+                                if (!atr.getNombre().equals(columna)) {
+                                    if (contadorAgregados <= mySesion.getMaximoAutocompleteItemTip()) {
+                                        fw.write("                                                 <h:outputText value=\"#{msg['field." + atr.getNombre() + "']} #{p." + atr.getNombre() + "}\" />" + "\r\n");
+                                    }
+                                }
                             }
+//                            fw.write("                                                <h:outputText value=\"#{p." + columna + "}\" />" + "\r\n");
+//                            fw.write("                                                <h:outputText value=\"#{p.maximo}\" />" + "\r\n");
+                            fw.write("                                            </h:panelGrid>" + "\r\n");
+                            fw.write("                                        </f:facet>" + "\r\n");
+                            fw.write("                                    </p:autoComplete>   " + "\r\n");
+                            fw.write("                                </div>" + "\r\n");
+                            fw.write("                            </div>" + "\r\n");
+                            fw.write("" + "\r\n");
+                            fw.write("" + "\r\n");
+                            fw.write("" + "\r\n");
 
-                        }
+                        }//primaryKey
 
                     }
                     String columnKey = "";
@@ -173,11 +258,16 @@ public class ViewxhtmlGenerador implements Serializable {
                         if (a.getTipo().equals(mySesion.getEntidadUser().getTabla())) {
                             tieneUsername = true;
                         }
-                        // Genera los services para los objetos relacionados
-                    }
 
+                    }
+//getFieldByRowView()
+                    Integer contador = 0;
                     for (Atributos atr : entidad.getAtributosList()) {
                         if (!atr.getEsPrimaryKey()) {
+                            contador++;
+                            if (contador == 1) {
+                                fw.write("                            <div class=\"form-group row\" >" + "\r\n");
+                            }
                             String columna = Utilidades.letterToLower(atr.getNombre());
 //                            if (mySesion.getAddFechaSystema() && !columnDate.equals("")) {
 //                                fw.write("            " + Utilidades.letterToLower(entidad.getTabla()) + ".set" + Utilidades.letterToUpper(columnDate) + "(fechasServices.getFechaActual());" + "\r\n");
@@ -188,27 +278,34 @@ public class ViewxhtmlGenerador implements Serializable {
 //                            }
 
                             switch (atr.getTipo()) {
-                                case "String":
-                                    fw.write("" + "\r\n");
-                                    fw.write("                               <h:outputText value=\"#{msg." + atr.getNombre() + "}\" />" + "\r\n");
-                                    fw.write("" + "\r\n");
-                                    fw.write("                                <b:inputText  class=\"form-control\" id=\"" + columna + "\"  value=\"#{" + name + "Controller." + name + "." + columna + "}\" title=\"#{msg." + columna + "}\" required=\"true\" " + "\r\n");
-                                    fw.write("                                              requiredMessage=\"#{msg." + columna + "} #{app['info.required']}\"/> " + "\r\n");
-
-                                    break;
                                 case "Integer":
                                 case "Double":
                                 case "double":
+                                case "String":
+                                    fw.write("                                <p:outputLabel class=\"col-xs-2 col-form-label\" value=\"#{msg['field." + columna + "']}\"/>" + "\r\n");
+                                    fw.write("                                <div class=\"col-xs-4\">" + "\r\n");
                                     fw.write("" + "\r\n");
-                                    fw.write("                               <h:outputText value=\"#{msg." + atr.getNombre() + "}\" />" + "\r\n");
-                                    fw.write("" + "\r\n");
-                                    fw.write("                                <b:inputText  class=\"form-control\" id=\"" + columna + "\"  value=\"#{" + name + "Controller." + name + "." + columna + "}\" title=\"#{msg." + columna + "}\" required=\"true\" " + "\r\n");
-                                    fw.write("                                              requiredMessage=\"#{msg." + columna + "} #{app['info.required']}\"/> " + "\r\n");
+                                    fw.write("                                    <p:inputText rendered=\"#{" + name + "Controller.writable}\" id=\"" + columna + "\" class=\"fullWidth\" value=\"#{" + name + "Controller." + name + "." + columna + "}\"" + "\r\n");
+                                    fw.write("                                                 placeholder=\"#{msg['field." + columna + "']}\"  maxlength=\"55\" " + "\r\n");
+                                    fw.write("                                                 required=\"true\" requiredMessage=\"#{msg['field." + columna + "']} #{app['info.required']}\"/>" + "\r\n");
+                                    fw.write("                                </div>" + "\r\n");
+//-------------old
+                                   
 
                                     break;
+//                                case "Integer":
+//                                case "Double":
+//                                case "double":
+//                                    fw.write("" + "\r\n");
+//                                    fw.write("                                <p:outputLabel class=\"col-xs-2 col-form-label\" value=\"#{msg['field." + columna + "']}\"/>" + "\r\n");
+//                                    fw.write("" + "\r\n");
+//                                    fw.write("                                <b:inputText  class=\"form-control\" id=\"" + columna + "\"  value=\"#{" + name + "Controller." + name + "." + columna + "}\" title=\"#{msg." + columna + "}\" required=\"true\" " + "\r\n");
+//                                    fw.write("                                              requiredMessage=\"#{msg." + columna + "} #{app['info.required']}\"/> " + "\r\n");
+//
+//                                    break;
                                 case "Date":
                                     fw.write("" + "\r\n");
-                                    fw.write("                               <h:outputText value=\"#{msg." + atr.getNombre() + "}\" />" + "\r\n");
+                                    fw.write("                                <p:outputLabel class=\"col-xs-2 col-form-label\" value=\"#{msg['field." + columna + "']}\"/>" + "\r\n");
                                     fw.write("" + "\r\n");
 
                                     fw.write("                               <p:calendar value=\"#{" + name + "Controller." + name + "." + columna + "}\" id=\"" + columna + "\" size=\"10\" pattern=\"dd/MM/yyyy\" required=\"false\"/> " + "\r\n");
@@ -242,91 +339,23 @@ public class ViewxhtmlGenerador implements Serializable {
 
                         }
 
-                    }
+                    } //for
 
-//                    fw.write("" + "\r\n");
-//                    fw.write("                                <p:outputLabel value=\"#{msg.activo}\" for=\"activo\" />" + "\r\n");
-//                    fw.write("                                <b:selectOneMenu id=\"activo\" value=\"#{nivel1Controller.nivel1.activo}\"                     " + "\r\n");
-//                    fw.write("                                                 required=\"true\"" + "\r\n");
-//                    fw.write("                                                 requiredMessage=\"#{msg.activo} #{app['info.notnull']}\">" + "\r\n");
-//                    fw.write("                                    <f:selectItem itemLabel=\"#{app['boton.yes']}\" itemValue=\"si\" />" + "\r\n");
-//                    fw.write("                                    <f:selectItem itemLabel=\"#{app['boton.no']}\" itemValue=\"no\" />" + "\r\n");
-//                    fw.write("                                </b:selectOneMenu>" + "\r\n");
+                    fw.write("                    </h:panelGroup>" + "\r\n");
                     fw.write("" + "\r\n");
-                    fw.write("                            </h:panelGrid>" + "\r\n");
-                    fw.write("                            <f:facet class=\"panel-footer\" name=\"footer\">" + "\r\n");
-                    fw.write("                                <p:commandButton class=\"btn btn-primary\" value=\"#{app['boton.new']}\" update=\"panel\" process=\"@this\"" + "\r\n");
-                    fw.write("                                                 actionListener=\"#{" + name + "Controller.reset}\"  style=\"margin-right:20px;\" />" + "\r\n");
+                    fw.write("                    <p:confirmDialog global=\"true\" showEffect=\"fade\" hideEffect=\"explode\">" + "\r\n");
+                    fw.write("                        <p:commandButton value=\"#{app['button.yes']}\" type=\"button\" styleClass=\"ui-confirmdialog-yes\" icon=\"ui-icon-check\" />" + "\r\n");
+                    fw.write("                        <p:commandButton value=\"#{app['button.no']}\" type=\"button\" styleClass=\"ui-confirmdialog-no\" icon=\"ui-icon-close\" />" + "\r\n");
+                    fw.write("                    </p:confirmDialog>" + "\r\n");
+                    fw.write("                </h:form>" + "\r\n");
+                    fw.write("                <avbravo:accesodenegado renderedcondition=\"#{!loginController.loggedIn or !applicationMenu." + name + ".query}\" />" + "\r\n");
                     fw.write("" + "\r\n");
-                    fw.write("                                <p:commandButton  value=\"#{app['boton.query']}\" class=\"btn btn-primary\" icon=\"ui-icon-refresh\" update=\"panel\" " + "\r\n");
-                    fw.write("                                                  process=\"@this\" actionListener=\"#{" + name + "Controller.query()}\"  style=\"margin-right:20px;\" />" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("                                <p:button outcome=\"" + name + "search\" class=\"btn btn-primary\" value=\"#{app['boton.search']}\"/>" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("                                <p:commandButton  value=\"#{app['boton.update']}\" action=\"#{" + name + "Controller.edit()}\" class=\"btn btn-primary\" " + "\r\n");
-                    fw.write("                                                  rendered=\"#{" + name + "Controller.encontrado and menuBeans." + name + ".editar}\"" + "\r\n");
-                    fw.write("                                                  id=\"button_edit\"  update=\"growl\"    icon=\"ui-icon-pencil\" />" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("                                <p:commandButton class=\"btn btn-primary\" id=\"button_print\"  " + "\r\n");
-                    fw.write("                                                 value=\"#{app['boton.print']}\"" + "\r\n");
-                    fw.write("                                                 action=\"#{" + name + "Controller.imprimir()}\"" + "\r\n");
-                    fw.write("                                                 rendered=\"#{" + name + "Controller.encontrado}\"" + "\r\n");
-                    fw.write("                                                 icon=\"ui-icon-print\" ajax=\"false\" />" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("                                <p:commandButton class=\"btn btn-primary\" id=\"button_save\"" + "\r\n");
-                    fw.write("                                                 value=\"#{app['boton.save']}\"" + "\r\n");
-                    fw.write("                                                 icon=\"ui-icon-disk\"" + "\r\n");
-                    fw.write("                                                 update=\"form,growl\"" + "\r\n");
-                    fw.write("                                                 rendered=\"#{" + name + "Controller.nuevoregistro and menuBeans." + name + ".crear}\"" + "\r\n");
-                    fw.write("                                                 title=\"#{app['boton.save']}\"" + "\r\n");
-                    fw.write("                                                 action=\"#{" + name + "Controller.save()}\"/>" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("                                <p:commandButton class=\"btn btn-primary\"" + "\r\n");
-                    fw.write("                                                 icon=\"ui-icon-trash\"" + "\r\n");
-                    fw.write("                                                 update=\"form, growl\"" + "\r\n");
-                    fw.write("                                                 value=\"#{app['boton.delete']}\"" + "\r\n");
-                    fw.write("                                                 rendered=\"#{" + name + "Controller.encontrado and menuBeans." + name + ".eliminar}\"" + "\r\n");
-                    fw.write("                                                 actionListener=\"#{" + name + "Controller.delete}\"  >" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("                                    <p:confirm header=\"#{app['dialog.delete']}\" message=\"#{app['info.doyouwantdelete']}\" icon=\"ui-icon-alert\" />" + "\r\n");
-                    fw.write("                                </p:commandButton>" + "\r\n");
-                    fw.write("                            </f:facet>" + "\r\n");
-                    fw.write("                        </b:panel>" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("                        <p:confirmDialog global=\"true\" showEffect=\"fade\" hideEffect=\"explode\">" + "\r\n");
-                    fw.write("                            <p:commandButton value=\"#{app['boton.yes']}\" type=\"button\" styleClass=\"ui-confirmdialog-yes\" icon=\"ui-icon-check\" />" + "\r\n");
-                    fw.write("                            <p:commandButton value=\"#{app['boton.no']}\" type=\"button\" styleClass=\"ui-confirmdialog-no\" icon=\"ui-icon-close\" />" + "\r\n");
-                    fw.write("                        </p:confirmDialog>" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("                    </h:form>" + "\r\n");
-                    fw.write("                    <h:form rendered=\"#{!menuBeans." + name + ".consultar}\">" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("                        <b:panel look=\"danger\" title=\"#{app['title.accesodenegado']}\">" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("                            <h:panelGrid columns=\"2\" cellpadding=\"5\">" + "\r\n");
-                    fw.write("                                <p:commandButton class=\"btn btn-success\" action=\"#{loginBean.irLogin}\"" + "\r\n");
-                    fw.write("                                                 value=\"#{app['boton.return']}\" ajax=\"false\"/>" + "\r\n");
-                    fw.write("                            </h:panelGrid>" + "\r\n");
-                    fw.write("                        </b:panel>" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("                    </h:form>" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("                </f:view>" + "\r\n");
                     fw.write("            </ui:define>" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("        </ui:composition>" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("    </body>" + "\r\n");
                     fw.write("</html>" + "\r\n");
-
                     fw.close();
 
                 } catch (IOException ex) {

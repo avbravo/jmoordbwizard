@@ -162,11 +162,38 @@ public class ConfigurationFilerRead implements Serializable {
                 case "maximoAutocompleteItemTip":
                     mySesion.setMaximoAutocompleteItemTip(Integer.parseInt(descomponer(s, r)));
                     break;
+                case "fieldByRowView":
+                    mySesion.setFieldByRowView(Integer.parseInt(descomponer(s, r)));
+                    break;
 
+                    /*
+                    date
+                    */
+                case "timeZone":
+                    mySesion.setTimeZone(descomponer(s, r));
+                    break;
+                case "patternDate":
+                    mySesion.setPatternDate(descomponer(s, r));
+                    break;
+                case "patternDateTime":
+                    mySesion.setPatternDateTime(descomponer(s, r));
+                    break;
+                    
+                case "typeOfButton":
+                    mySesion.setTypeOfButton(descomponer(s, r));
+                    break;
+                    
+                
+                    /*
+                    
+                    */
                 case "frameworkPrimefaces":
                     mySesion.setFrameworkPrimefaces(descomponer(s, r).equals("true"));
                     break;
-
+                
+                    
+                    
+                    
                 case "frameworkBootfaces":
                     mySesion.setFrameworkBootfaces(descomponer(s, r).equals("true"));
                     break;

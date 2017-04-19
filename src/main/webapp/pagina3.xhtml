@@ -23,7 +23,7 @@
 
                     <b:panel title="Menu (3/5)"
                              look="primary">
-   <h:panelGrid columns="2" cellpadding="5">
+                        <h:panelGrid columns="4" cellpadding="5">
 
                             <p:outputLabel value="Menu"/>
                             <b:inputTextarea   rows="2" 
@@ -34,21 +34,12 @@
                                                placeholder="Archivo,Editar,Ayuda"
                                                style="width:255px"
                                                >
-                                <!--<f:ajax event="keyup" render="labelmenu"  />-->
+
+                                <f:facet name="prepend">
+                                    <b:iconAwesome name="fa-list-ul" />
+                                </f:facet>
                             </b:inputTextarea>
-                            <!--                            <b:label text="Roles" tooltip="Roles"/>
-                                                        <b:label text="#{generador.mySesion.roles}" id="label"/>
-                                                          <b:label text="Menu"/>
-                                                        <b:label text="#{generador.mySesion.titulosMenuBar}" id="labelmenu"/>-->
 
-                            <!--                            <p:outputLabel value="Nota"/>
-                                                        <p:outputLabel value="Separe los menus por coma."/>-->
-
-
-
-                        </h:panelGrid>
-
-                        <h:panelGrid columns="2" cellpadding="5">
                             <p:outputLabel value="Roles"/>
                             <b:inputTextarea value="#{generador.mySesion.roles}"
                                              tooltip="Separe los roles por comas(,)"
@@ -58,61 +49,106 @@
 
                                              style="width:255px"
                                              >
-                                 <f:facet name="prepend">
-                                        <b:iconAwesome name="fa-user-secret" />
-                                    </f:facet>
+                                <f:facet name="prepend">
+                                    <b:iconAwesome name="fa-user-secret" />
+                                </f:facet>
                                 <!--<f:ajax event="keyup" render="label"  />-->
                             </b:inputTextarea>
-
-
                         </h:panelGrid>
-                        <h:panelGrid columns="2" cellpadding="5">
-                            <p:outputLabel value="Maximo autocomplete en list.xhtml"/>
-                           <b:inputText value="#{generador.mySesion.maximoAutocomplete}"
-                                             tooltip="Maximo autocomplete en list.xhtml"
-                                             required="true" requiredMessage="Ingrese el maximo"
-                                                                                      >
-                                 <f:facet name="prepend">
-                                        <b:iconAwesome name="fa-list-ul" />
+
+
+                        <b:panel title="View.xhtml" look="primary">
+                            <h:panelGrid columns="4" cellpadding="5">
+                                <p:outputLabel value="Elementos  por fila"/>
+                                <b:selectOneMenu id="fieldByRowView" value="#{generador.mySesion.fieldByRowView}" >
+                                    <f:selectItem itemLabel="1" itemValue="1" />
+                                    <f:selectItem itemLabel="2" itemValue="2" />
+                                    <f:facet name="prepend">
+                                        <b:iconAwesome name="fa-columns" />
                                     </f:facet>
-                                <!--<f:ajax event="keyup" render="label"  />-->
-                             </b:inputText>
+                                </b:selectOneMenu>
 
-
-                        </h:panelGrid>
-                        <h:panelGrid columns="2" cellpadding="5">
-                            <p:outputLabel value="Maximo itemLabel in autocomplete"/>
-                            <b:inputText value="#{generador.mySesion.maximoAutocompleteItemLabel}"
-                                             tooltip="Maximo campos en el itemLabel"
-                                             required="true" requiredMessage="Ingrese el maximo"                        
-                                             >
-                                 <f:facet name="prepend">
-                                        <b:iconAwesome name="fa-list-ul" />
-                                 </f:facet>
-                                 <!--<f:ajax event="keyup" render="label"  />-->
-                             </b:inputText>
-
-
-                        </h:panelGrid>
-                        <h:panelGrid columns="2" cellpadding="5">
-                            <p:outputLabel value="Maximo itemTip in autocomplete"/>
-                            <b:inputText value="#{generador.mySesion.maximoAutocompleteItemTip}"
-                                             tooltip="Maximo campos en el itemTip"
-                                             required="true" requiredMessage="Ingrese el maximo"                          
-                                             >
-                                 <f:facet name="prepend">
-                                        <b:iconAwesome name="fa-list-ul" />
+        
+                                <p:outputLabel value="Tipo Botones"/>
+                                <b:selectOneMenu id="typeOfButton" value="#{generador.mySesion.typeOfButton}" >
+                                    <f:selectItem itemLabel="Texto" itemValue="Texto" />
+                                    <f:selectItem itemLabel="Iconos" itemValue="Iconos" />
+                                    <f:selectItem itemLabel="Texto e Iconos" itemValue="Texto e Iconos" />
+                                    <f:facet name="prepend">
+                                        <b:iconAwesome name="fa-floppy-o" />
                                     </f:facet>
-                                <!--<f:ajax event="keyup" render="label"  />-->
-                             </b:inputText>
+                                </b:selectOneMenu>
+
+                            </h:panelGrid>
+                            
+                            
+                        </b:panel>
+
+                        <b:panel title="Autocomplete " look="primary">
+                            <h:panelGrid columns="6" cellpadding="5">
+                                <p:outputLabel value="No. maximo  en list.xhtml"/>
 
 
-                        </h:panelGrid>
+                                <b:selectOneMenu id="maximoAutocomplete" value="#{generador.mySesion.maximoAutocomplete}" >
+                                    <f:selectItem itemLabel="1" itemValue="1" />
+                                    <f:selectItem itemLabel="2" itemValue="2" />
+                                    <f:selectItem itemLabel="3" itemValue="3" />
+                                    <f:selectItem itemLabel="4" itemValue="4" />
+                                    <f:selectItem itemLabel="5" itemValue="5" />
+                                    <f:selectItem itemLabel="6" itemValue="6" />
+                                    <f:selectItem itemLabel="7" itemValue="7" />
+                                    <f:selectItem itemLabel="8" itemValue="8" />
+                                    <f:selectItem itemLabel="9" itemValue="9" />
+                                    <f:selectItem itemLabel="10" itemValue="10" />
+                                    <f:facet name="prepend">
+                                        <b:iconAwesome name="fa-caret-square-o-down" />
+                                    </f:facet>
+                                </b:selectOneMenu>
 
-                     
+
+                                <p:outputLabel value="No. itemLabel"/>
+
+                                <b:selectOneMenu id="maximoAutocompleteItemLabel" value="#{generador.mySesion.maximoAutocompleteItemLabel}" >
+                                    <f:selectItem itemLabel="1" itemValue="1" />
+                                    <f:selectItem itemLabel="2" itemValue="2" />
+                                    <f:selectItem itemLabel="3" itemValue="3" />
+                                    <f:selectItem itemLabel="4" itemValue="4" />
+                                    <f:selectItem itemLabel="5" itemValue="5" />
+                                    <f:selectItem itemLabel="6" itemValue="6" />
+                                    <f:selectItem itemLabel="7" itemValue="7" />
+                                    <f:selectItem itemLabel="8" itemValue="8" />
+                                    <f:selectItem itemLabel="9" itemValue="9" />
+                                    <f:selectItem itemLabel="10" itemValue="10" />
+                                    <f:facet name="prepend">
+                                        <b:iconAwesome name="fa-caret-square-o-down" />
+                                    </f:facet>
+                                </b:selectOneMenu>
+                                <p:outputLabel value="No de itemTip"/>
 
 
-                        <h:panelGrid columns="2" cellpadding="5">
+                                <b:selectOneMenu id="maximoAutocompleteItemTip" value="#{generador.mySesion.maximoAutocompleteItemTip}" >
+                                    <f:selectItem itemLabel="1" itemValue="1" />
+                                    <f:selectItem itemLabel="2" itemValue="2" />
+                                    <f:selectItem itemLabel="3" itemValue="3" />
+                                    <f:selectItem itemLabel="4" itemValue="4" />
+                                    <f:selectItem itemLabel="5" itemValue="5" />
+                                    <f:selectItem itemLabel="6" itemValue="6" />
+                                    <f:selectItem itemLabel="7" itemValue="7" />
+                                    <f:selectItem itemLabel="8" itemValue="8" />
+                                    <f:selectItem itemLabel="9" itemValue="9" />
+                                    <f:selectItem itemLabel="10" itemValue="10" />
+                                    <f:facet name="prepend">
+                                        <b:iconAwesome name="fa-caret-square-o-down" />
+                                    </f:facet>
+                                </b:selectOneMenu>
+
+                            </h:panelGrid>
+
+
+                        </b:panel>
+
+
+                        <h:panelGrid columns="4" cellpadding="5">
 
                             <p:outputLabel value="Insertar User name logeado"/>
                             <p:inputSwitch   value="#{generador.mySesion.addUserNameLogeado}"  />

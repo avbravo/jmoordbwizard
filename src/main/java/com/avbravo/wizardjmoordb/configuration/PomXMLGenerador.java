@@ -272,7 +272,7 @@ public class PomXMLGenerador implements Serializable {
             texto += "        <dependency>" + "\r\n";
             texto += "             <groupId>net.bootsfaces</groupId>" + "\r\n";
             texto += "             <artifactId>bootsfaces</artifactId>" + "\r\n";
-            texto += "             <version>0.9.1</version>" + "\r\n";
+            texto += "             <version>1.0.2</version>" + "\r\n";
             texto += "             <scope>compile</scope>" + "\r\n";
             texto += "        </dependency>" + "\r\n";
             return texto;

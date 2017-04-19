@@ -110,7 +110,27 @@ public class MySesion implements Serializable {
     private Boolean typeUserGroupField=false;
     private Boolean typeUserGroupEntity=false;
     private Boolean typeUserGroupList=false;
-
+    
+    /**
+     * Date
+     * GMT+2
+     */
+    private String timeZone="";
+    private String patternDate="dd/MM/yyyy";
+    private String patternDateTime="HH:mm dd/MM/yyyy";
+    /*
+    Button
+    definir los valores: Texto,Iconos, Texto e Iconos
+    */
+    private String typeOfButton="Texto";
+    //
+    
+/**
+ * View
+ * Numero de elementos por fila en un formulario View
+ */
+    private Integer fieldByRowView = 1;
+    
     
     /**
      * Autocomplete
@@ -125,6 +145,55 @@ public class MySesion implements Serializable {
     
        private List<String> masterDetailsList =  new ArrayList<>();
 
+    public String getTypeOfButton() {
+        return typeOfButton;
+    }
+
+    public void setTypeOfButton(String typeOfButton) {
+        this.typeOfButton = typeOfButton;
+    }
+
+       
+       
+    public String getPatternDate() {
+        return patternDate;
+    }
+
+    public void setPatternDate(String patternDate) {
+        this.patternDate = patternDate;
+    }
+
+    public String getPatternDateTime() {
+        return patternDateTime;
+    }
+
+    public void setPatternDateTime(String patternDateTime) {
+        this.patternDateTime = patternDateTime;
+    }
+
+    
+
+       
+       
+    public String getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
+    }
+
+    public Integer getFieldByRowView() {
+        return fieldByRowView;
+    }
+
+    public void setFieldByRowView(Integer fieldByRowView) {
+        this.fieldByRowView = fieldByRowView;
+    }
+
+       
+       
+       
     public Integer getMaximoAutocomplete() {
         return maximoAutocomplete;
     }

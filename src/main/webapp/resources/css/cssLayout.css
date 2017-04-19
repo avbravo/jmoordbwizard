@@ -58,4 +58,18 @@
   text-decoration : underline;
 }
 
-
+.btnn-primary {
+    color: #ffffff !important;
+    background-color: #21b799 !important;
+    border-color: #21b799 !important;
+}
+.btnn-danger {
+    color: #ffffff !important;
+    background-color: #d9534f !important;
+    border-color:  #d43f3a !important;
+}
+.btnn-success {
+    color: #ffffff !important;
+    background-color: #5cb85c !important;
+    border-color: #4cae4c!important;
+}
