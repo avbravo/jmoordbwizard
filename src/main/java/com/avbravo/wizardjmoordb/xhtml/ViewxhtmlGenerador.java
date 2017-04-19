@@ -262,21 +262,17 @@ public class ViewxhtmlGenerador implements Serializable {
                     }
 //getFieldByRowView()
                     Integer contador = 0;
+                    Integer fieldsAgregados = 0;
+                    Integer contadorfieldByRowView = 0;
                     for (Atributos atr : entidad.getAtributosList()) {
                         if (!atr.getEsPrimaryKey()) {
                             contador++;
+                            fieldsAgregados++;
                             if (contador == 1) {
                                 fw.write("                            <div class=\"form-group row\" >" + "\r\n");
                             }
                             String columna = Utilidades.letterToLower(atr.getNombre());
-//                            if (mySesion.getAddFechaSystema() && !columnDate.equals("")) {
-//                                fw.write("            " + Utilidades.letterToLower(entidad.getTabla()) + ".set" + Utilidades.letterToUpper(columnDate) + "(fechasServices.getFechaActual());" + "\r\n");
-//                            }
-//                            //genero el username desde el login
-//                            if (mySesion.getAddUserNameLogeado() && tieneUsername) {
-//                                fw.write("            " + Utilidades.letterToLower(entidad.getTabla()) + ".set" + Utilidades.letterToUpper(mySesion.getAtributosUsername()) + "(loginBean.getUsuarios());" + "\r\n");
-//                            }
-
+                            contadorfieldByRowView++;
                             switch (atr.getTipo()) {
                                 case "Integer":
                                 case "Double":
@@ -289,26 +285,22 @@ public class ViewxhtmlGenerador implements Serializable {
                                     fw.write("                                                 placeholder=\"#{msg['field." + columna + "']}\"  maxlength=\"55\" " + "\r\n");
                                     fw.write("                                                 required=\"true\" requiredMessage=\"#{msg['field." + columna + "']} #{app['info.required']}\"/>" + "\r\n");
                                     fw.write("                                </div>" + "\r\n");
-//-------------old
-                                   
-
                                     break;
-//                                case "Integer":
-//                                case "Double":
-//                                case "double":
-//                                    fw.write("" + "\r\n");
-//                                    fw.write("                                <p:outputLabel class=\"col-xs-2 col-form-label\" value=\"#{msg['field." + columna + "']}\"/>" + "\r\n");
-//                                    fw.write("" + "\r\n");
-//                                    fw.write("                                <b:inputText  class=\"form-control\" id=\"" + columna + "\"  value=\"#{" + name + "Controller." + name + "." + columna + "}\" title=\"#{msg." + columna + "}\" required=\"true\" " + "\r\n");
-//                                    fw.write("                                              requiredMessage=\"#{msg." + columna + "} #{app['info.required']}\"/> " + "\r\n");
-//
-//                                    break;
-                                case "Date":
-                                    fw.write("" + "\r\n");
-                                    fw.write("                                <p:outputLabel class=\"col-xs-2 col-form-label\" value=\"#{msg['field." + columna + "']}\"/>" + "\r\n");
-                                    fw.write("" + "\r\n");
 
-                                    fw.write("                               <p:calendar value=\"#{" + name + "Controller." + name + "." + columna + "}\" id=\"" + columna + "\" size=\"10\" pattern=\"dd/MM/yyyy\" required=\"false\"/> " + "\r\n");
+                                case "Date":
+                                    fw.write("                                <p:outputLabel class=\"col-xs-2 col-form-label\" value=\"#{msg['field." + columna + "']}\"/>" + "\r\n");
+                                    fw.write("                                <div class=\"col-xs-4\">" + "\r\n");
+                                    fw.write("" + "\r\n");
+                                    fw.write("                                    <p:calendar rendered=\"#{" + name + "Controller.writable}\" id=\"" + columna + "\" class=\"fullWidth\" value=\"#{" + name + "Controller." + name + "." + columna + "}\"" + "\r\n");
+                                    fw.write("                                                 placeholder=\"#{msg['field." + columna + "']}\"  maxlength=\"55\" " + "\r\n");
+                                    if (!mySesion.getTimeZone().equals("")) {
+                                        fw.write("                                                 timeZone=" + mySesion.getTimeZone() + "" + "\r\n");
+                                    }
+                                    if (!mySesion.getPatternDate().equals("")) {
+                                        fw.write("                                                 pattern=" + mySesion.getPatternDate() + "" + "\r\n");
+                                    }
+                                    fw.write("                                                 required=\"true\" requiredMessage=\"#{msg['field." + columna + "']} #{app['info.required']}\"/>" + "\r\n");
+                                    fw.write("                                </div>" + "\r\n");
                                     break;
                                 default:
                                     //tipo relacionado
@@ -319,28 +311,69 @@ public class ViewxhtmlGenerador implements Serializable {
                                     } else {
                                         //generar el autocomplete del componente
                                         String nameRelational = Utilidades.letterToLower(atr.getTipo());
+                                        String columnKeyRelational = "";
+                                        for (Entidad entidad2 : mySesion.getEntidadList()) {
+                                            String name2 = Utilidades.letterToLower(entidad2.getTabla());
+                                            if (nameRelational.equals(name2)) {
+                                                for (Atributos a : entidad2.getAtributosList()) {
+                                                    if (a.getEsPrimaryKey()) {
+                                                        columnKeyRelational = a.getNombre();
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        fw.write("                                <p:outputLabel class=\"col-xs-2 col-form-label\" value=\"#{msg['field." + columna + "']}\"/>" + "\r\n");
+                                        fw.write("                                <div class=\"col-xs-4\">" + "\r\n");
                                         fw.write("" + "\r\n");
-                                        fw.write("                               <h:outputText value=\"#{msg." + atr.getNombre() + "}\" />" + "\r\n");
+                                        fw.write("                                    <b:selectOneMenu rendered=\"#{" + name + "Controller.writable}\"" + "\r\n");
+                                        fw.write("                                                     class=\"fullWidth required ui-selectonemenu-label ui-inputfield ui-corner-all\"" + "\r\n");
+                                        fw.write("                                                     id=\"" + columna + "\" value=\"#{" + name + "Controller." + name + "." + columna + "}\"  " + "\r\n");
+                                        fw.write("                                                  required=\"true\"   requiredMessage=\"#{msg['field." + columnKeyRelational + "']} #{app['info.required']}\"" + "\r\n");
+                                        fw.write("                                                     >" + "\r\n");
+                                        fw.write("                                        <!-- TODO: update below reference to list of available items-->" + "\r\n");
+                                        fw.write("                                        <f:selectItem itemLabel=\"#{" + name + "Controller." + name + "." + columna + "}\" " + "\r\n");
+                                        fw.write("                                                      itemValue=\"#{" + name + "Controller." + name + "." + columna + "}\"/>" + "\r\n");
+                                        fw.write("                                        <f:selectItems value=\"#{" + name + "Controller." + columna + "List}\"" + "\r\n");
+                                        fw.write("                                                       var=\"item\"" + "\r\n");
+                                        fw.write("                                                       itemValue=\"#{item}\"" + "\r\n");
+
+                                        fw.write("                                                       itemLabel=\"#{item." + columnKeyRelational + "}\"" + "\r\n");
+                                        fw.write("                                                       />" + "\r\n");
                                         fw.write("" + "\r\n");
-                                        fw.write("                               <p:selectOneMenu  id=\"" + columna + "\" " + "\r\n");
-                                        fw.write("                                              filter=\"true\" filterMatchMode=\"startsWith\" effect=\"fade\"" + "\r\n");
-                                        fw.write("                                              value=\"#{" + name + "Controller." + name + "." + columna + "}\"" + "\r\n");
-                                        fw.write("                                              required=\"true\" requiredMessage=\"#{msg." + columna + "} #{app['info.required']}\">" + "\r\n");
-                                        fw.write("                                   <!-- TODO: update below reference to list of available items-->" + "\r\n");
-                                        fw.write("                                   <f:converter binding=\"#{" + nameRelational + "Converter}\" />" + "\r\n");
-                                        fw.write("                                   <f:selectItems value=\"#{" + nameRelational + "Search.items}\"" + "\r\n");
-                                        fw.write("                                                  var=\"p\"" + "\r\n");
-                                        fw.write("                                                  itemValue=\"#{p}\"" + "\r\n");
-                                        fw.write("                                                  itemLabel=\"#{p." + columna + "}\"/>" + "\r\n");
-                                        fw.write("                                 </p:selectOneMenu>" + "\r\n");
+                                        fw.write("                                    </b:selectOneMenu>" + "\r\n");
+
+                                        fw.write("                                </div>" + "\r\n");
+
+                                        ///---------Old
+//                                        fw.write("" + "\r\n");
+//                                        fw.write("                               <h:outputText value=\"#{msg." + atr.getNombre() + "}\" />" + "\r\n");
+//                                        fw.write("" + "\r\n");
+//                                        fw.write("                               <p:selectOneMenu  id=\"" + columna + "\" " + "\r\n");
+//                                        fw.write("                                              filter=\"true\" filterMatchMode=\"startsWith\" effect=\"fade\"" + "\r\n");
+//                                        fw.write("                                              value=\"#{" + name + "Controller." + name + "." + columna + "}\"" + "\r\n");
+//                                        fw.write("                                              required=\"true\" requiredMessage=\"#{msg." + columna + "} #{app['info.required']}\">" + "\r\n");
+//                                        fw.write("                                   <!-- TODO: update below reference to list of available items-->" + "\r\n");
+//                                        fw.write("                                   <f:converter binding=\"#{" + nameRelational + "Converter}\" />" + "\r\n");
+//                                        fw.write("                                   <f:selectItems value=\"#{" + nameRelational + "Search.items}\"" + "\r\n");
+//                                        fw.write("                                                  var=\"p\"" + "\r\n");
+//                                        fw.write("                                                  itemValue=\"#{p}\"" + "\r\n");
+//                                        fw.write("                                                  itemLabel=\"#{p." + columna + "}\"/>" + "\r\n");
+//                                        fw.write("                                 </p:selectOneMenu>" + "\r\n");
                                     }
 
                             }
 
                         }
-
+                        if (contador.equals(mySesion.getFieldByRowView())) {
+                            fw.write("                            </div>" + "\r\n");
+                            contador = 0;
+                        }
                     } //for
+                    //si es impar la cantidad de datos y el numero de registros debe agregarse un dixv
+                    if ((fieldsAgregados.intValue() % 2 != 0 && mySesion.getFieldByRowView() % 2 == 0) || (fieldsAgregados.intValue() % 2 == 0 && mySesion.getFieldByRowView() % 2 != 0)) {
+                        fw.write("                       </div>" + "\r\n");
 
+                    }
                     fw.write("                    </h:panelGroup>" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("                    <p:confirmDialog global=\"true\" showEffect=\"fade\" hideEffect=\"explode\">" + "\r\n");
