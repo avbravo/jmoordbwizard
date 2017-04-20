@@ -172,12 +172,14 @@ public class ListxhtmlGenerador implements Serializable {
                     Integer maximoAutocompleteItemLabel = 0;
                     Integer maximoAutocompleteItemTip = 0;
                     Integer contador = 0;
+                    Integer sizeAgregados =0;
                     for (Atributos atributos : entidad.getAtributosList()) {
 
                         if (maximoAutocomplete <= mySesion.getMaximoAutocomplete()) {
                             String columna = Utilidades.letterToLower(atributos.getNombre());
 
-                            if (atributos.getTipo().equals("String") || atributos.getTipo().equals("Integer")) {
+                            if (atributos.getTipo().equals("String") || (atributos.getTipo().equals("Integer") && atributos.getEsPrimaryKey() )) {
+                                sizeAgregados++;
                                 maximoAutocomplete++;
                                 contador++;
                                 if (contador == 1) {
@@ -249,7 +251,15 @@ public class ListxhtmlGenerador implements Serializable {
                         }
                     }//for
 //                    fw.write("                                       </div>" + "\r\n");
-                    fw.write("                                 </div>" + "\r\n");
+
+//si es impar la cantidad de datos y el numero de registros debe agregarse un dixv
+                    if ((sizeAgregados.intValue() % 2 != 0)) {
+                        
+                        fw.write("                       </div>" + "\r\n");
+
+                    }
+//----------------
+//                    fw.write("                                 </div>" + "\r\n");
                     fw.write("                            </div>" + "\r\n");
                     fw.write("                       </div>" + "\r\n");
                     fw.write("                        <!--" + "\r\n");

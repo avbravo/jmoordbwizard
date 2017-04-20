@@ -356,10 +356,10 @@ public class ViewxhtmlGenerador implements Serializable {
                         }
                     } //for
                     //si es impar la cantidad de datos y el numero de registros debe agregarse un dixv
-                    if ((fieldsAgregados.intValue() % 2 != 0 && mySesion.getFieldByRowView() % 2 == 0) || (fieldsAgregados.intValue() % 2 == 0 && mySesion.getFieldByRowView() % 2 != 0)) {
-                        fw.write("                       </div>" + "\r\n");
-
-                    }
+//                    if ((fieldsAgregados.intValue() % 2 != 0 && mySesion.getFieldByRowView() % 2 == 0) || (fieldsAgregados.intValue() % 2 == 0 && mySesion.getFieldByRowView() % 2 != 0)) {
+//                        fw.write("                       </div>" + "\r\n");
+//
+//                    }
                     fw.write("                        </div> " + "\r\n");
                     fw.write("                    </h:panelGroup>" + "\r\n");
                     fw.write("" + "\r\n");
