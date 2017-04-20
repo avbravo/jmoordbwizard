@@ -81,6 +81,15 @@ public class MessagesPropertiesGenerador implements Serializable {
             mySesion.getEntidadList().stream().forEach((entity) -> {
                 Utilidades.searchAdd(ruta, "menu."+Utilidades.letterToLower(entity.getTabla())+"=" + entity.getTabla(), "# and open the template in the editor.", false);
             });
+            mySesion.getEntidadList().stream().forEach((entity) -> {
+                Utilidades.searchAdd(ruta, "titleview."+Utilidades.letterToLower(entity.getTabla())+"=" + entity.getTabla(), "# and open the template in the editor.", false);
+            });
+            mySesion.getEntidadList().stream().forEach((entity) -> {
+                Utilidades.searchAdd(ruta, "titlelist."+Utilidades.letterToLower(entity.getTabla())+"=" + entity.getTabla(), "# and open the template in the editor.", false);
+            });
+            
+            
+            Utilidades.searchAdd(ruta, "menu.menu=Menu", "# and open the template in the editor.", false);
             Utilidades.searchAdd(ruta, "application.title=" + proyectoJEE.getProyecto(), "# and open the template in the editor.", false);
             Utilidades.searchAdd(ruta, "application.shorttitle=" + proyectoJEE.getProyecto(), "application.title=", false);
             Utilidades.searchAdd(ruta, "application.sigla=" + proyectoJEE.getProyecto().substring(0, 1), "application.title=", false);

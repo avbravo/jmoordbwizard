@@ -687,7 +687,11 @@ public class Generador implements Serializable {
                 return;
             }
             if (!mySesion.getTypeUserGroupList()) {
+                System.out.println("test: mySesion.getTypeUserGroupList() "+mySesion.getTypeUserGroupList());
                 String idroles = "";
+                
+                System.out.println("mySesion.getEntidadRoles().getAtributosList() "+mySesion.getEntidadRoles().getAtributosList());
+
                 for (Atributos a : mySesion.getEntidadRoles().getAtributosList()) {
                     if (a.getEsPrimaryKey()) {
                         idroles = a.getNombre();

@@ -142,7 +142,7 @@ public class LeftxhtmlGenerador implements Serializable {
 
                         fw.write("            <h:panelGroup rendered=\"#{applicationMenu.menuBar" + Utilidades.letterToUpper(s) + "}\">" + "\r\n");
                         fw.write("                <li class=\"treeview\" >" + "\r\n");
-                        fw.write("                    <a href=\"#\"><i class=\"fa fa-link\"></i> <span>#{msg['menubar." + s + "']}</span> <i class=\"fa fa-angle-left pull-right\"></i></a>" + "\r\n");
+                        fw.write("                    <a href=\"#\"><i class=\"fa fa-link\"></i> <span>#{msg['menubar." +  Utilidades.letterToLower(s) + "']}</span> <i class=\"fa fa-angle-left pull-right\"></i></a>" + "\r\n");
                         fw.write("                    <ul class=\"treeview-menu\" rendered=\"#{applicationMenu.menuBar" + Utilidades.letterToUpper(s) + "}\">" + "\r\n");
                         fw.write("" + "\r\n");
                         for (EntidadMenu em : mySesion.getEntidadMenuList()) {

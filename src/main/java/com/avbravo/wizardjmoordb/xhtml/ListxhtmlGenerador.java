@@ -213,7 +213,7 @@ public class ListxhtmlGenerador implements Serializable {
                                     }
 
                                 }
-                                itemLabel += " \"" + " />";
+                                itemLabel += " \"" ;
                                 fw.write("                                                         " + itemLabel + "\r\n");
                                 //fw.write("                                                         itemLabel=\"#{p.cedula} #{p.nombre} #{p.apellido} \" " + "\r\n");
 

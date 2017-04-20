@@ -208,7 +208,7 @@ public class ViewxhtmlGenerador implements Serializable {
                                 }
 
                             }
-                            itemLabel += " \"" + " />";
+                            itemLabel += " \"" ;
                             fw.write("                                                         " + itemLabel + "\r\n");
 
                             //--itemlabel
@@ -344,21 +344,7 @@ public class ViewxhtmlGenerador implements Serializable {
 
                                         fw.write("                                </div>" + "\r\n");
 
-                                        ///---------Old
-//                                        fw.write("" + "\r\n");
-//                                        fw.write("                               <h:outputText value=\"#{msg." + atr.getNombre() + "}\" />" + "\r\n");
-//                                        fw.write("" + "\r\n");
-//                                        fw.write("                               <p:selectOneMenu  id=\"" + columna + "\" " + "\r\n");
-//                                        fw.write("                                              filter=\"true\" filterMatchMode=\"startsWith\" effect=\"fade\"" + "\r\n");
-//                                        fw.write("                                              value=\"#{" + name + "Controller." + name + "." + columna + "}\"" + "\r\n");
-//                                        fw.write("                                              required=\"true\" requiredMessage=\"#{msg." + columna + "} #{app['info.required']}\">" + "\r\n");
-//                                        fw.write("                                   <!-- TODO: update below reference to list of available items-->" + "\r\n");
-//                                        fw.write("                                   <f:converter binding=\"#{" + nameRelational + "Converter}\" />" + "\r\n");
-//                                        fw.write("                                   <f:selectItems value=\"#{" + nameRelational + "Search.items}\"" + "\r\n");
-//                                        fw.write("                                                  var=\"p\"" + "\r\n");
-//                                        fw.write("                                                  itemValue=\"#{p}\"" + "\r\n");
-//                                        fw.write("                                                  itemLabel=\"#{p." + columna + "}\"/>" + "\r\n");
-//                                        fw.write("                                 </p:selectOneMenu>" + "\r\n");
+                                        
                                     }
 
                             }
@@ -374,6 +360,7 @@ public class ViewxhtmlGenerador implements Serializable {
                         fw.write("                       </div>" + "\r\n");
 
                     }
+                    fw.write("                        </div> " + "\r\n");
                     fw.write("                    </h:panelGroup>" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("                    <p:confirmDialog global=\"true\" showEffect=\"fade\" hideEffect=\"explode\">" + "\r\n");

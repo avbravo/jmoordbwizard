@@ -68,50 +68,50 @@ public class LoginControllerGenerador implements Serializable {
             if (Files.notExists(path, new LinkOption[]{LinkOption.NOFOLLOW_LINKS})) {
                 crearFile(ruta, archivo);
             } else {
-                generarImport(ruta);
-
-                Utilidades.searchAdd(ruta, "private static final long serialVersionUID = 1L;", "public class LoginController implements Serializable {", false);
-                Utilidades.searchAdd(ruta, "private static final Logger LOG = Logger.getLogger(LoginController.class.getName());", "public class LoginController implements Serializable {", false);
-                Utilidades.searchAdd(ruta, "private String username;", "public class LoginController implements Serializable {", false);
-                Utilidades.searchAdd(ruta, "private String password;", "public class LoginController implements Serializable {", false);
-                Utilidades.searchAdd(ruta, "private String foto;", "public class LoginController implements Serializable {", false);
-                Utilidades.searchAdd(ruta, "private String id;", "public class LoginController implements Serializable {", false);
-                Utilidades.searchAdd(ruta, "private String key;", "public class LoginController implements Serializable {", false);
-                Utilidades.searchAdd(ruta, "Boolean loggedIn = false;", "public class LoginController implements Serializable {", false);
-
-                Utilidades.searchAdd(ruta, mySesion.getEntidadUser().getTabla() + " " + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + " = new " + mySesion.getEntidadUser().getTabla() + "();", "public class LoginController implements Serializable {", false);
-                Utilidades.searchAdd(ruta, mySesion.getEntidadRoles().getTabla() + " " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + " = new " + mySesion.getEntidadRoles().getTabla() + "();", "public class LoginController implements Serializable {", false);
-                if (mySesion.getTypeUserGroupList()) {
-                    Utilidades.searchAdd(ruta, mySesion.getEntidadGruposUsuariosMultiples().getTabla() + " " + Utilidades.letterToLower(mySesion.getEntidadGruposUsuariosMultiples().getTabla()) + " = new " + mySesion.getEntidadGruposUsuariosMultiples().getTabla() + "();", "public class LoginController implements Serializable {", false);
-                }
-
-                Utilidades.searchAddTextAndInject(ruta, "ResourcesFiles rf;", "public class LoginController implements Serializable {", false);
-                Utilidades.searchAddTextAndInject(ruta, "ValidadorRoles validadorRoles;", "public class LoginController implements Serializable {", false);
-
-                Utilidades.searchAddTextAndInject(ruta, mySesion.getEntidadUser().getTabla() + "Facade " + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "Facade;", "public class LoginController implements Serializable {", false);
-                Utilidades.searchAddTextAndInject(ruta, mySesion.getEntidadRoles().getTabla() + "Facade " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + "Facade;", "public class LoginController implements Serializable {", false);
-                if (mySesion.getTypeUserGroupList()) {
-                    Utilidades.searchAddTextAndInject(ruta, mySesion.getEntidadGruposUsuariosMultiples().getTabla() + "Facade " + Utilidades.letterToLower(mySesion.getEntidadGruposUsuariosMultiples().getTabla()) + "Facade;", "public class LoginController implements Serializable {", false);
-                }
-
-                /**
-                 * generar los metodos
-                 */
-                Utilidades.addNotFoundMethod(ruta, "public void init() {", init(), "public class LoginController implements Serializable {", false);
-
-
-                /*
-                 verificar si habilita  barraMenu
-                 */
-                for (String s : mySesion.getRolesList()) {
-                    String barra = "case " + "\"" + Utilidades.letterToUpper(s) + "\": ";
-                    Utilidades.searchAddRolCaseValidadorRoles(ruta, barra, " switch (rolvalidacion) {", false, s);
-                }
-                /*
-                default
-                 */
-                String barra = "default:";
-                Utilidades.searchAddDefaultValidadorRoles(ruta, barra, " switch (rolvalidacion) {", false);
+//                generarImport(ruta);
+//
+//                Utilidades.searchAdd(ruta, "private static final long serialVersionUID = 1L;", "public class LoginController implements Serializable {", false);
+//                Utilidades.searchAdd(ruta, "private static final Logger LOG = Logger.getLogger(LoginController.class.getName());", "public class LoginController implements Serializable {", false);
+//                Utilidades.searchAdd(ruta, "private String username;", "public class LoginController implements Serializable {", false);
+//                Utilidades.searchAdd(ruta, "private String password;", "public class LoginController implements Serializable {", false);
+//                Utilidades.searchAdd(ruta, "private String foto;", "public class LoginController implements Serializable {", false);
+//                Utilidades.searchAdd(ruta, "private String id;", "public class LoginController implements Serializable {", false);
+//                Utilidades.searchAdd(ruta, "private String key;", "public class LoginController implements Serializable {", false);
+//                Utilidades.searchAdd(ruta, "Boolean loggedIn = false;", "public class LoginController implements Serializable {", false);
+//
+//                Utilidades.searchAdd(ruta, mySesion.getEntidadUser().getTabla() + " " + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + " = new " + mySesion.getEntidadUser().getTabla() + "();", "public class LoginController implements Serializable {", false);
+//                Utilidades.searchAdd(ruta, mySesion.getEntidadRoles().getTabla() + " " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + " = new " + mySesion.getEntidadRoles().getTabla() + "();", "public class LoginController implements Serializable {", false);
+//                if (mySesion.getTypeUserGroupList()) {
+//                    Utilidades.searchAdd(ruta, mySesion.getEntidadGruposUsuariosMultiples().getTabla() + " " + Utilidades.letterToLower(mySesion.getEntidadGruposUsuariosMultiples().getTabla()) + " = new " + mySesion.getEntidadGruposUsuariosMultiples().getTabla() + "();", "public class LoginController implements Serializable {", false);
+//                }
+//
+//                Utilidades.searchAddTextAndInject(ruta, "ResourcesFiles rf;", "public class LoginController implements Serializable {", false);
+//                Utilidades.searchAddTextAndInject(ruta, "ValidadorRoles validadorRoles;", "public class LoginController implements Serializable {", false);
+//
+//                Utilidades.searchAddTextAndInject(ruta, mySesion.getEntidadUser().getTabla() + "Facade " + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "Facade;", "public class LoginController implements Serializable {", false);
+//                Utilidades.searchAddTextAndInject(ruta, mySesion.getEntidadRoles().getTabla() + "Facade " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + "Facade;", "public class LoginController implements Serializable {", false);
+//                if (mySesion.getTypeUserGroupList()) {
+//                    Utilidades.searchAddTextAndInject(ruta, mySesion.getEntidadGruposUsuariosMultiples().getTabla() + "Facade " + Utilidades.letterToLower(mySesion.getEntidadGruposUsuariosMultiples().getTabla()) + "Facade;", "public class LoginController implements Serializable {", false);
+//                }
+//
+//                /**
+//                 * generar los metodos
+//                 */
+//                Utilidades.addNotFoundMethod(ruta, "public void init() {", init(), "public class LoginController implements Serializable {", false);
+//
+//
+//                /*
+//                 verificar si habilita  barraMenu
+//                 */
+//                for (String s : mySesion.getRolesList()) {
+//                    String barra = "case " + "\"" + Utilidades.letterToUpper(s) + "\": ";
+//                    Utilidades.searchAddRolCaseValidadorRoles(ruta, barra, " switch (rolvalidacion) {", false, s);
+//                }
+//                /*
+//                default
+//                 */
+//                String barra = "default:";
+//                Utilidades.searchAddDefaultValidadorRoles(ruta, barra, " switch (rolvalidacion) {", false);
 
             }
 
@@ -122,35 +122,35 @@ public class LoginControllerGenerador implements Serializable {
 
     }
 
-    private void generarImport(String ruta) {
-        try {
-            /**
-             * agregar los imports
-             */
-
-            Utilidades.searchAdd(ruta, "import " + proyectoEJB.getPaquete() + ".entity.*;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + proyectoEJB.getPaquete() + ".ejb.*;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".roles.*;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".util.*;", "package", false);
-            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".roles.*;", "package", false);
-
-            Utilidades.searchAdd(ruta, "import com.avbravo.avbravoutils.JsfUtil;", "package", false);
-            Utilidades.searchAdd(ruta, "import javax.inject.Named;", "package", false);
-            Utilidades.searchAdd(ruta, "import java.util.logging.Logger;", "package", false);
-            Utilidades.searchAdd(ruta, "import java.io.Serializable;", "package", false);
-            Utilidades.searchAdd(ruta, "import java.util.ArrayList;", "package", false);
-            Utilidades.searchAdd(ruta, "import java.util.List;", "package", false);
-            Utilidades.searchAdd(ruta, "import java.util.Optional;", "package", false);
-            Utilidades.searchAdd(ruta, "import javax.annotation.PostConstruct;", "package", false);
-            Utilidades.searchAdd(ruta, "import javax.enterprise.context.SessionScoped;", "package", false);
-            Utilidades.searchAdd(ruta, "import javax.faces.context.ExternalContext;", "package", false);
-            Utilidades.searchAdd(ruta, "import javax.faces.context.FacesContext;", "package", false);
-            Utilidades.searchAdd(ruta, "import javax.servlet.http.HttpSession;", "package", false);
-
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("generarImport() " + e.getLocalizedMessage());
-        }
-    }
+//    private void generarImport(String ruta) {
+//        try {
+//            /**
+//             * agregar los imports
+//             */
+//
+//            Utilidades.searchAdd(ruta, "import " + proyectoEJB.getPaquete() + ".entity.*;", "package", false);
+//            Utilidades.searchAdd(ruta, "import " + proyectoEJB.getPaquete() + ".ejb.*;", "package", false);
+//            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".roles.*;", "package", false);
+//            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".util.*;", "package", false);
+//            Utilidades.searchAdd(ruta, "import " + proyectoJEE.getPaquete() + ".roles.*;", "package", false);
+//
+//            Utilidades.searchAdd(ruta, "import com.avbravo.avbravoutils.JsfUtil;", "package", false);
+//            Utilidades.searchAdd(ruta, "import javax.inject.Named;", "package", false);
+//            Utilidades.searchAdd(ruta, "import java.util.logging.Logger;", "package", false);
+//            Utilidades.searchAdd(ruta, "import java.io.Serializable;", "package", false);
+//            Utilidades.searchAdd(ruta, "import java.util.ArrayList;", "package", false);
+//            Utilidades.searchAdd(ruta, "import java.util.List;", "package", false);
+//            Utilidades.searchAdd(ruta, "import java.util.Optional;", "package", false);
+//            Utilidades.searchAdd(ruta, "import javax.annotation.PostConstruct;", "package", false);
+//            Utilidades.searchAdd(ruta, "import javax.enterprise.context.SessionScoped;", "package", false);
+//            Utilidades.searchAdd(ruta, "import javax.faces.context.ExternalContext;", "package", false);
+//            Utilidades.searchAdd(ruta, "import javax.faces.context.FacesContext;", "package", false);
+//            Utilidades.searchAdd(ruta, "import javax.servlet.http.HttpSession;", "package", false);
+//
+//        } catch (Exception e) {
+//            JSFUtil.addErrorMessage("generarImport() " + e.getLocalizedMessage());
+//        }
+//    }
 
     /**
      * deleteAll
@@ -226,9 +226,13 @@ public class LoginControllerGenerador implements Serializable {
                 fw.write("    @Inject" + "\r\n");
                 fw.write("    " + mySesion.getEntidadUser().getTabla() + "Facade " + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "Facade;" + "\r\n");
                 fw.write("    " + mySesion.getEntidadUser().getTabla() + " " + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + " = new " + mySesion.getEntidadUser().getTabla() + "();" + "\r\n");
-                fw.write("    @Inject" + "\r\n");
+                
+                if(mySesion.getTypeUserGroupEntity()){
+                    fw.write("    @Inject" + "\r\n");
                 fw.write("    " + mySesion.getEntidadRoles().getTabla() + "Facade " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + "Facade;" + "\r\n");
                 fw.write("    " + mySesion.getEntidadRoles().getTabla() + " " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + " = new " + mySesion.getEntidadRoles().getTabla() + "();" + "\r\n");
+                }
+                
                 if (mySesion.getTypeUserGroupList()) {
                     fw.write("    @Inject" + "\r\n");
                     fw.write("    " + mySesion.getEntidadGruposUsuariosMultiples().getTabla() + "Facade " + Utilidades.letterToLower(mySesion.getEntidadGruposUsuariosMultiples().getTabla()) + "Facade;" + "\r\n");
@@ -345,21 +349,21 @@ public class LoginControllerGenerador implements Serializable {
         return false;
     }
 
-    private String init() {
-        try {
-
-            String texto = "";
-            texto += "    @PostConstruct" + "\r\n";
-            texto += "    public void init() {" + "\r\n";
-            texto += "        loggedIn = false;" + "\r\n";
-            texto += "    }" + "\r\n";
-
-            return texto;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("constructor()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
+//    private String init() {
+//        try {
+//
+//            String texto = "";
+//            texto += "    @PostConstruct" + "\r\n";
+//            texto += "    public void init() {" + "\r\n";
+//            texto += "        loggedIn = false;" + "\r\n";
+//            texto += "    }" + "\r\n";
+//
+//            return texto;
+//        } catch (Exception e) {
+//            JSFUtil.addErrorMessage("constructor()  " + e.getLocalizedMessage());
+//        }
+//        return "";
+//    }
 
     
     
