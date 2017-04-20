@@ -35,6 +35,7 @@ public class FacesConfigXMLGenerador implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(FacesConfigXMLGenerador.class.getName());
 
+    
     @Inject
     MySesion mySesion;
     @Inject
