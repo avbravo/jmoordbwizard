@@ -193,7 +193,7 @@ public class ViewxhtmlGenerador implements Serializable {
                             fw.write("" + "\r\n");
                             fw.write("                                                    alt=\"#{app['info.searchby']} #{msg['field." + columna + "']}\"" + "\r\n");
                             fw.write("                                                    value=\"#{" + name + "Controller." + name + "Selected}\"  " + "\r\n");
-                            fw.write("                                                    completeMethod=\"#{" + name + "Controller." + name + "Services.complete"+columna+"}\"  " + "\r\n");
+                            fw.write("                                                    completeMethod=\"#{" + name + "Controller." + name + "Services.complete"+Utilidades.letterToUpper(columna)+"}\"  " + "\r\n");
                             fw.write("                                                    var=\"p\"" + "\r\n");
                             //iemlabel
                             String itemLabel = "itemLabel=\"#{p." + columna + "}";
