@@ -105,7 +105,7 @@ public class TopxhtmlGenerador implements Serializable {
                     fw.write("                         <p:growl id=\"growltop\" />" + "\r\n");
                     fw.write("                        <a href=\"/siu/faces/index.xhtml\" class=\"logo\">" + "\r\n");
                     fw.write("                            <!-- mini logo for sidebar mini 50x50 pixels -->" + "\r\n");
-                    fw.write("                            <span class=\"logo-mini\"><b>#{app['application.sigla']}</b></span>" + "\r\n");
+                    fw.write("                            <span class=\"logo-mini\"><b>#{msg['application.sigla']}</b></span>" + "\r\n");
                     fw.write("                            <!-- logo for regular state and mobile devices -->" + "\r\n");
                     fw.write("                            <span class=\"logo-lg\"><b>#{msg['application.title']}</b></span>" + "\r\n");
                     fw.write("                        </a>" + "\r\n");

@@ -70,25 +70,28 @@ public class MessagesPropertiesGenerador implements Serializable {
             }
 
             for (Entidad entidad : mySesion.getEntidadList()) {
+                    Utilidades.searchAdd(ruta, "header." + Utilidades.letterToLower(entidad.getTabla()) + "selected =" + Utilidades.letterToUpper(entidad.getTabla()) , "# and open the template in the editor.", false);
+
+            }
+            for (Entidad entidad : mySesion.getEntidadList()) {
                 for (Atributos atributos : entidad.getAtributosList()) {
                     Utilidades.searchAdd(ruta, "field." + Utilidades.letterToLower(atributos.getNombre()) + "=" + Utilidades.letterToUpper(atributos.getNombre()), "# and open the template in the editor.", false);
                 }
             }
 
-             for(String s:mySesion.getMenubarList()){
-            Utilidades.searchAdd(ruta, "menubar."+Utilidades.letterToLower(s)+"=" + s, "# and open the template in the editor.", false);
-        }
+            for (String s : mySesion.getMenubarList()) {
+                Utilidades.searchAdd(ruta, "menubar." + Utilidades.letterToLower(s) + "=" + s, "# and open the template in the editor.", false);
+            }
             mySesion.getEntidadList().stream().forEach((entity) -> {
-                Utilidades.searchAdd(ruta, "menu."+Utilidades.letterToLower(entity.getTabla())+"=" + entity.getTabla(), "# and open the template in the editor.", false);
+                Utilidades.searchAdd(ruta, "menu." + Utilidades.letterToLower(entity.getTabla()) + "=" + entity.getTabla(), "# and open the template in the editor.", false);
             });
             mySesion.getEntidadList().stream().forEach((entity) -> {
-                Utilidades.searchAdd(ruta, "titleview."+Utilidades.letterToLower(entity.getTabla())+"=" + entity.getTabla(), "# and open the template in the editor.", false);
+                Utilidades.searchAdd(ruta, "titleview." + Utilidades.letterToLower(entity.getTabla()) + "=" + entity.getTabla(), "# and open the template in the editor.", false);
             });
             mySesion.getEntidadList().stream().forEach((entity) -> {
-                Utilidades.searchAdd(ruta, "titlelist."+Utilidades.letterToLower(entity.getTabla())+"=" + entity.getTabla(), "# and open the template in the editor.", false);
+                Utilidades.searchAdd(ruta, "titlelist." + Utilidades.letterToLower(entity.getTabla()) + "=" + entity.getTabla(), "# and open the template in the editor.", false);
             });
-            
-            
+
             Utilidades.searchAdd(ruta, "menu.menu=Menu", "# and open the template in the editor.", false);
             Utilidades.searchAdd(ruta, "application.title=" + proyectoJEE.getProyecto(), "# and open the template in the editor.", false);
             Utilidades.searchAdd(ruta, "application.shorttitle=" + proyectoJEE.getProyecto(), "application.title=", false);

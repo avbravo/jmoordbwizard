@@ -109,7 +109,7 @@ public class TemplatexhtmlGenerador implements Serializable {
                     fw.write("            <f:loadBundle basename=\"" + proyectoJEE.getPaquete() + ".properties.messages\" var=\"msg\" />" + "\r\n");
                     fw.write("            <f:loadBundle basename=\"" + "com.avbravoutils.properties.application\" var=\"app\" />" + "\r\n");
                     fw.write("        </f:facet>" + "\r\n");
-                    fw.write("        <title><h:outputText value=\"#{app['application.title']}\"/></title>" + "\r\n");
+                    fw.write("        <title><h:outputText value=\"#{msg['application.title']}\"/></title>" + "\r\n");
 
                     fw.write("        <!-- Bootstrap core CSS -->" + "\r\n");
                     fw.write("" + "\r\n");
