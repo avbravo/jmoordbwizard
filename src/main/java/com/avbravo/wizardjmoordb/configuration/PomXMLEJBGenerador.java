@@ -7,12 +7,8 @@ package com.avbravo.wizardjmoordb.configuration;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
-import com.avbravo.wizardjmoordb.ProyectoJEE;
+import com.avbravo.wizardjmoordb.ProyectoEJB;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
@@ -37,7 +33,7 @@ public class PomXMLEJBGenerador implements Serializable {
     @Inject
     MySesion mySesion;
     @Inject
-    ProyectoJEE proyectoEJB;
+    ProyectoEJB proyectoEJB;
 
     /**
      * Creates a new instance of Facade

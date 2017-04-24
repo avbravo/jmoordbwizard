@@ -181,7 +181,7 @@ public class LoginxhtmlGenerador implements Serializable {
                     fw.write("                            <div class=\"row form-body\">" + "\r\n");
                     fw.write("                                <p:growl id=\"msgs\" widgetVar=\"growl\"/>" + "\r\n");
                     fw.write("                                <div class=\"form-group row\">" + "\r\n");
-                    fw.write("                                    <p:outputLabel class=\"col-xs-2 col-form-label\" value=\"#{app['label.cedula']}\"/>" + "\r\n");
+                    fw.write("                                    <p:outputLabel class=\"col-xs-2 col-form-label\" value=\"#{app['label.username']}\"/>" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("                                    <div class=\"col-xs-4\">" + "\r\n");
                     fw.write("                                        <p:inputText value=\"#{loginController.username}\" class=\"login-input\" id=\"username\" placeholder=\"#{app['login.email']}\"/>" + "\r\n");
