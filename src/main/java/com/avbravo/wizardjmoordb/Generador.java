@@ -703,10 +703,10 @@ public class Generador implements Serializable {
                         tienerolrelacionado = true;
                     }
                 }
-                if (!tienerolrelacionado) {
-                    JSFUtil.addWarningMessage("La entidad " + mySesion.getEntidadUser().getTabla() + " no tiene atributo relacionado con " + mySesion.getEntidadRoles().getTabla());
-                    //        return;
-                }
+//                if (!tienerolrelacionado) {
+//                    JSFUtil.addWarningMessage("La entidad " + mySesion.getEntidadUser().getTabla() + " no tiene atributo relacionado con " + mySesion.getEntidadRoles().getTabla());
+//                    //        return;
+//                }
             } else {
                 // con multiples roles
                 if (mySesion.getEntidadGruposUsuariosMultiples().getTabla().equals(mySesion.getEntidadUser().getTabla())) {

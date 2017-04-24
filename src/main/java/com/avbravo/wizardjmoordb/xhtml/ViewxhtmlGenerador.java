@@ -198,16 +198,17 @@ public class ViewxhtmlGenerador implements Serializable {
                             //iemlabel
                             String itemLabel = "itemLabel=\"#{p." + columna + "}";
                             Integer contadorAgregados = 0;
-                            for (Atributos atr : entidad.getAtributosList()) {
-                                contadorAgregados++;
-                                if (!atr.getNombre().equals(columna)) {
-                                    if (contadorAgregados <= mySesion.getMaximoAutocompleteItemLabel()) {
-                                        itemLabel += " " + "#{p." + atr.getNombre() + "}";
-                                    }
-
-                                }
-
-                            }
+                            //Aqui agrega atributos al itemLabel del autocomplete
+//                            for (Atributos atr : entidad.getAtributosList()) {
+//                                contadorAgregados++;
+//                                if (!atr.getNombre().equals(columna)) {
+//                                    if (contadorAgregados <= mySesion.getMaximoAutocompleteItemLabel()) {
+//                                        itemLabel += " " + "#{p." + atr.getNombre() + "}";
+//                                    }
+//
+//                                }
+//
+//                            }
                             itemLabel += " \"" ;
                             fw.write("                                                         " + itemLabel + "\r\n");
 
