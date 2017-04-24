@@ -18,6 +18,7 @@ import com.avbravo.wizardjmoordb.configurationfile.ConfigurationFileGenerador;
 import com.avbravo.wizardjmoordb.converter.ConverterGenerador;
 import com.avbravo.wizardjmoordb.resources.DefaultCssGenerador;
 import com.avbravo.wizardjmoordb.configuration.FacesConfigXMLGenerador;
+import com.avbravo.wizardjmoordb.configuration.PomXMLEJBGenerador;
 
 import com.avbravo.wizardjmoordb.interfaces.IControllerGenerador;
 import com.avbravo.wizardjmoordb.idiomas.IdiomasGenerador;
@@ -136,6 +137,8 @@ public class Generador implements Serializable {
 
     @Inject
     PomXMLGenerador pomXMLGenerador;
+    @Inject
+    PomXMLEJBGenerador pomXMLEJBGenerador;
 
     @Inject
     ServicesGenerador servicesGenerador;
@@ -782,6 +785,7 @@ public class Generador implements Serializable {
                     /*
                 pom.xml
                      */
+                    pomXMLEJBGenerador.generar();
                     pomXMLGenerador.generar();
                     /*
                 services
