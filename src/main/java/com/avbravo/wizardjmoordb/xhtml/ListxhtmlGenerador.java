@@ -172,13 +172,13 @@ public class ListxhtmlGenerador implements Serializable {
                     Integer maximoAutocompleteItemLabel = 0;
                     Integer maximoAutocompleteItemTip = 0;
                     Integer contador = 0;
-                    Integer sizeAgregados =0;
+                    Integer sizeAgregados = 0;
                     for (Atributos atributos : entidad.getAtributosList()) {
 
                         if (maximoAutocomplete <= mySesion.getMaximoAutocomplete()) {
                             String columna = Utilidades.letterToLower(atributos.getNombre());
 
-                            if (atributos.getTipo().equals("String") || (atributos.getTipo().equals("Integer") && atributos.getEsPrimaryKey() )) {
+                            if (atributos.getTipo().equals("String") || (atributos.getTipo().equals("Integer") && atributos.getEsPrimaryKey())) {
                                 sizeAgregados++;
                                 maximoAutocomplete++;
                                 contador++;
@@ -215,7 +215,7 @@ public class ListxhtmlGenerador implements Serializable {
                                     }
 
                                 }
-                                itemLabel += " \"" ;
+                                itemLabel += " \"";
                                 fw.write("                                                         " + itemLabel + "\r\n");
                                 //fw.write("                                                         itemLabel=\"#{p.cedula} #{p.nombre} #{p.apellido} \" " + "\r\n");
 
@@ -254,7 +254,7 @@ public class ListxhtmlGenerador implements Serializable {
 
 //si es impar la cantidad de datos y el numero de registros debe agregarse un dixv
                     if ((sizeAgregados.intValue() % 2 != 0)) {
-                        
+
                         fw.write("                       </div>" + "\r\n");
 
                     }
@@ -290,10 +290,22 @@ public class ListxhtmlGenerador implements Serializable {
                     //campos
                     for (Atributos atributos : entidad.getAtributosList()) {
                         String columna = Utilidades.letterToLower(atributos.getNombre());
-                        fw.write("                                <p:column headerText=\"#{msg['field." + columna + "']}\" filterBy=\"#{item." + columna + "}\"" + "\r\n");
-                        fw.write("                                          sortBy=\"#{item." + columna + "}\"  filterMatchMode=\"contains\" >" + "\r\n");
-                        fw.write("                                    <h:outputText value=\"#{item." + columna + "}\" />" + "\r\n");
-                        fw.write("                                </p:column>" + "\r\n");
+                        if (!JSFUtil.isTypeJava(atributos.getTipo())) {
+                            //es relacionado
+                            String field =JSFUtil.fieldRelational(atributos.getTipo(),atributos.getNombre(), mySesion.getEntidadList());
+                            String columnaRelational = columna+ "." +field;
+                            
+                            fw.write("                                <p:column headerText=\"#{msg['field." + field + "']}\" filterBy=\"#{item." + columnaRelational + "}\"" + "\r\n");
+                            fw.write("                                          sortBy=\"#{item." + columnaRelational + "}\"  filterMatchMode=\"contains\" >" + "\r\n");
+                            fw.write("                                    <h:outputText value=\"#{item." + columnaRelational + "}\" />" + "\r\n");
+                            fw.write("                                </p:column>" + "\r\n");
+                        } else {
+                            fw.write("                                <p:column headerText=\"#{msg['field." + columna + "']}\" filterBy=\"#{item." + columna + "}\"" + "\r\n");
+                            fw.write("                                          sortBy=\"#{item." + columna + "}\"  filterMatchMode=\"contains\" >" + "\r\n");
+                            fw.write("                                    <h:outputText value=\"#{item." + columna + "}\" />" + "\r\n");
+                            fw.write("                                </p:column>" + "\r\n");
+                        }
+
                     }
 
                     fw.write("" + "\r\n");
@@ -303,8 +315,8 @@ public class ListxhtmlGenerador implements Serializable {
                     fw.write("                                <p:outputPanel id=\"" + name + "Detaill\" style=\"text-align:center;\">" + "\r\n");
                     fw.write("                                    <p:panelGrid  columns=\"2\" rendered=\"#{not empty " + name + "Controller." + name + "Selected}\" layout=\"grid\" styleClass=\"ui-panelgrid-blank\">" + "\r\n");
                     fw.write("" + "\r\n");
-                    fw.write("                                        <p:outputLabel value=\"#{msg['field." + columnKey+ "']}\" style=\"font-weight: bold\"/>" + "\r\n");
-                    fw.write("                                        <p:outputLabel value=\"#{" + name + "Controller." + name + "Selected." + columnKey+ "}\" />" + "\r\n");
+                    fw.write("                                        <p:outputLabel value=\"#{msg['field." + columnKey + "']}\" style=\"font-weight: bold\"/>" + "\r\n");
+                    fw.write("                                        <p:outputLabel value=\"#{" + name + "Controller." + name + "Selected." + columnKey + "}\" />" + "\r\n");
                     fw.write("                                        <p:commandButton id=\"btnedit\" value=\"#{app['button.edit']}\"" + "\r\n");
                     fw.write("                                                         class=\"btnn btnn-primary\"" + "\r\n");
                     fw.write("                                                         rendered=\"#{applicationMenu." + name + ".edit}\"" + "\r\n");
@@ -315,7 +327,7 @@ public class ListxhtmlGenerador implements Serializable {
                     fw.write("                                                         action=\"#{" + name + "Controller.prepareEdit()}\"" + "\r\n");
                     fw.write("                                                         >" + "\r\n");
                     fw.write("" + "\r\n");
-                    fw.write("                                            <f:param name=\"" + columnKey+ "\" value=\"#{" + name + "Controller." + name + "Selected." + columnKey+ "}\"/>" + "\r\n");
+                    fw.write("                                            <f:param name=\"" + columnKey + "\" value=\"#{" + name + "Controller." + name + "Selected." + columnKey + "}\"/>" + "\r\n");
                     fw.write("                                        </p:commandButton>" + "\r\n");
                     fw.write("                                        <p:commandButton class=\"btnn btnn-danger\" value=\"#{app['button.delete']}\" " + "\r\n");
                     fw.write("                                                         rendered=\"#{applicationMenu." + name + ".delete}\"" + "\r\n");

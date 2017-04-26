@@ -5,6 +5,9 @@
  */
 package com.avbravo.wizardjmoordb;
 
+import com.avbravo.wizardjmoordb.beans.Atributos;
+import com.avbravo.wizardjmoordb.beans.Entidad;
+import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,7 +32,8 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @RequestScoped
 public class JSFUtil {
-   private static final long serialVersionUID = 1L;
+
+    private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(JSFUtil.class.getName());
 
     public static void addErrorMessage(Exception ex, String defaultMsg) {
@@ -219,5 +223,56 @@ public class JSFUtil {
 
     public String tmpDirectories() {
         return System.getProperty("java.io.tmpdir");
+    }
+
+    /**
+     * verifica si es un tipo de archivo Java
+     *
+     * @param tipo
+     * @return
+     */
+    public static Boolean isTypeJava(String tipo) {
+        try {
+            switch (tipo) {
+                case "Integer":
+                case "Double":
+                case "double":
+                case "String":
+
+                case "Date":
+                    return true;
+                default:
+                    return false;
+            }
+
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("isTypeJava() " + e.getLocalizedMessage());
+        }
+        return false;
+    }
+
+    /**
+     *
+     */
+    public static String fieldRelational(String tipo,String namefield, List<Entidad> list) {
+        try {
+//            String nameRelational = Utilidades.letterToLower(namefield);
+            String nameRelational = Utilidades.letterToLower(tipo);
+            String columnKeyRelational = "";
+            for (Entidad entidad2 : list) {
+                String name2 = Utilidades.letterToLower(entidad2.getTabla());
+                if (nameRelational.equals(name2)) {
+                    for (Atributos a : entidad2.getAtributosList()) {
+                        if (a.getEsPrimaryKey()) {
+                            columnKeyRelational = a.getNombre();
+                        }
+                    }
+                }
+            }
+            return columnKeyRelational;
+        } catch (Exception e) {
+             JSFUtil.addErrorMessage("fieldRelational() " + e.getLocalizedMessage());
+        }
+        return "";
     }
 }
