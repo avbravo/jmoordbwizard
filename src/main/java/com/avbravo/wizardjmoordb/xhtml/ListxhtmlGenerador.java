@@ -295,7 +295,7 @@ public class ListxhtmlGenerador implements Serializable {
                             String field =JSFUtil.fieldRelational(atributos.getTipo(),atributos.getNombre(), mySesion.getEntidadList());
                             String columnaRelational = columna+ "." +field;
                             
-                            fw.write("                                <p:column headerText=\"#{msg['field." + field + "']}\" filterBy=\"#{item." + columnaRelational + "}\"" + "\r\n");
+                            fw.write("                                <p:column headerText=\"#{msg['field." + columna + "']}\" filterBy=\"#{item." + columnaRelational + "}\"" + "\r\n");
                             fw.write("                                          sortBy=\"#{item." + columnaRelational + "}\"  filterMatchMode=\"contains\" >" + "\r\n");
                             fw.write("                                    <h:outputText value=\"#{item." + columnaRelational + "}\" />" + "\r\n");
                             fw.write("                                </p:column>" + "\r\n");
