@@ -231,7 +231,7 @@ public class LoginControllerGenerador implements Serializable {
                 doLogin();
 
 //logout()
-                fw.write("    public String logout() {" + "\r\n");
+                fw.write("    public String doLogout() {" + "\r\n");
                 fw.write("        loggedIn = false;" + "\r\n");
 
                 fw.write("        try {" + "\r\n");
