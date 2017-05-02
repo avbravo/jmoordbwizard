@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import org.primefaces.component.tree.Tree;
+import org.primefaces.model.TreeNode;
 
 /**
  *
@@ -39,7 +41,7 @@ public class Utilidades {
                 //existe
                 return true;
             } else {
-                                boolean creado = file.mkdir();
+                boolean creado = file.mkdir();
                 if (creado == true) {
                     // se creo exitosamente
                     return true;
@@ -318,9 +320,10 @@ public class Utilidades {
         }
         return false;
     }
+
     /*
     agrega sin introducir nueva linea
-    */
+     */
     public static boolean searchAddWithoutLine(String rutaArchivo, String textoInsertar, String textoBaseUbicar, Boolean antes) {
         try {
 
@@ -348,6 +351,7 @@ public class Utilidades {
         }
         return false;
     }
+
     /*
     busca si lo encuentra lo reemplaza
      */
@@ -513,6 +517,7 @@ public class Utilidades {
         }
         return false;
     }
+
     public static boolean addNotFoundMethodWithOutLine(String rutaArchivo, String titulometodo, String textoMetodo, String textoBaseUbicar, Boolean antes) {
         try {
 
@@ -604,6 +609,7 @@ public class Utilidades {
         }
         return false;
     }
+
     public static boolean addWithoutLine(String rutaArchivo, String search, String textoInsertar, boolean antes) {
         try {
 
@@ -643,6 +649,7 @@ public class Utilidades {
         }
         return false;
     }
+
     /*
      * reemplaza el texto en el archivo
      * InsertarTextoArchivo("/home/avbravo/Documentos/etiquetas.properties",
@@ -657,10 +664,8 @@ public class Utilidades {
             boolean encontrado = false;
             while ((line = reader.readLine()) != null) {
                 if (line.indexOf(search) != -1) {
-                    
-                  
-                        oldtext += textoNuevo + "\r\n" ;
-                  
+
+                    oldtext += textoNuevo + "\r\n";
 
                     encontrado = true;
 
@@ -684,6 +689,7 @@ public class Utilidades {
         }
         return false;
     }
+
     public static boolean replaceWithoutLine(String rutaArchivo, String search, String textoNuevo) {
         try {
 
@@ -693,10 +699,8 @@ public class Utilidades {
             boolean encontrado = false;
             while ((line = reader.readLine()) != null) {
                 if (line.indexOf(search) != -1) {
-                    
-                  
-                        oldtext += textoNuevo + "\r\n" ;
-                  
+
+                    oldtext += textoNuevo + "\r\n";
 
                     encontrado = true;
 
@@ -1315,8 +1319,8 @@ public class Utilidades {
             Path path = Paths.get(ruta);
             if (Files.notExists(path, new LinkOption[]{LinkOption.NOFOLLOW_LINKS})) {
 
-                JSFUtil.addWarningMessage("No existe el archivo persistence.xml en este proyecto" );
-               
+                JSFUtil.addWarningMessage("No existe el archivo persistence.xml en este proyecto");
+
                 return "";
             }
             String name = "";
@@ -1350,17 +1354,17 @@ public class Utilidades {
         }
         return "";
     }
+
     /*
     devuelve el ultimo caracter
-    */
+     */
     public static String getLastLetter(String texto) {
         try {
-if(texto.length()<=0){
-    return "";
-}
+            if (texto.length() <= 0) {
+                return "";
+            }
 
-           
-            return texto = texto.substring(texto.length()-1, texto.length());
+            return texto = texto.substring(texto.length() - 1, texto.length());
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("getLastLetter()" + e.getLocalizedMessage());
@@ -1529,21 +1533,21 @@ if(texto.length()<=0){
                     tipojava = "Long";
                     break;
                 case "byte[]":
-                    tipojava ="byte[]";
+                    tipojava = "byte[]";
                     break;
                 case "BigInteger":
-                    tipojava="BigInteger";
+                    tipojava = "BigInteger";
                     break;
                 case "Float":
-                    tipojava="Float";
+                    tipojava = "Float";
                 case "Short":
-                    tipojava="Short";
+                    tipojava = "Short";
                 case "Character":
-                    tipojava="Character";
+                    tipojava = "Character";
                 case "Boolean":
-                    tipojava="Boolean";
+                    tipojava = "Boolean";
                 case "Object":
-                    tipojava="Object";
+                    tipojava = "Object";
                     break;
             }
 
@@ -1553,4 +1557,136 @@ if(texto.length()<=0){
         return tipojava;
     }
 
+    /**
+     * getNumeroHijos devuelve el numero de hijos que tiene el Tree usado con
+     * los menus
+     *
+     * @return
+     */
+    public static Integer getNumeroHijos(TreeNode root) {
+        Integer contador = 0;
+        try {
+
+            for (TreeNode r : root.getChildren()) {
+                contador = r.getChildren().stream().map((_item) -> 1).reduce(contador, Integer::sum);
+
+            }
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("getNumeroHijos() " + e.getLocalizedMessage());
+        }
+        return contador;
+    }
+
+    /**
+     * verifica los nietos(padre-hijo-nietos)
+     *
+     * @param root
+     * @return
+     */
+    public static Boolean tieneNietos(TreeNode root) {
+        Boolean found = false;
+        try {
+
+            for (TreeNode r : root.getChildren()) {
+                for (TreeNode r1 : r.getChildren()) {
+                    if (r1.getChildCount() > 0) {
+                        found = true;
+                        break;
+                    }
+                }
+
+            }
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("tieneNietos() " + e.getLocalizedMessage());
+        }
+        return found;
+    }
+
+    /**
+     * muestra el tree
+     *
+     * @param root
+     * @return
+     */
+    public static String showTree(TreeNode root) {
+        try {
+
+            System.out.println("*******************************************");
+            System.out.println("        root2");
+            System.out.println(" # de Menus .getChildCount() " + root.getChildCount());
+
+            System.out.println("*******************************************");
+
+            for (TreeNode r : root.getChildren()) {
+                System.out.println("=========================================");
+                System.out.println(" Menu " + r.getData());
+                //  System.out.println("...... getRowKey() " + r.getRowKey());
+                //  System.out.println(".......getParent() " + r.getParent().getData());
+                //  System.out.println(".......getChildCount() " + r.getChildCount());
+
+                for (TreeNode r2 : r.getChildren()) {
+//                    System.out.println("---------------------------------------");
+                    System.out.println("--------->Submenu  " + r2.getData());
+                    // System.out.println("---------------->        getRowKey() " + r2.getRowKey());
+                    //System.out.println("---------------->        getChildCount() " + r2.getChildCount());
+                    // System.out.println("----------------->        getParent() " + r2.getParent().getData());
+//                    System.out.println("---------------------------------------");
+                }
+
+            }
+            System.out.println("=======================================");
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("show() " + e.getLocalizedMessage());
+        }
+        return "";
+    }
+
+    /**
+     * compone un menu con la estructura 
+     *  { Registros:[Paises]}{ Reportes:[Personas]}{ File:[Usuario]} 
+     * ({Reportes:[Paises]} {File:[]} Menu {} Submenu[] Registros: Personas,)
+     * Usuario Reportes: Paises File: <<No tiene nada>>
+     *
+     * @param root
+     * @return
+     */
+    public static String componerMenu(TreeNode root) {
+        String menu = "";
+        try {
+
+            System.out.println("*******************************************");
+            System.out.println("        root2");
+            System.out.println(" # de Menus .getChildCount() " + root.getChildCount());
+
+            System.out.println("*******************************************");
+
+            for (TreeNode r : root.getChildren()) {
+                menu += "{ " + r.getData() + ":[";
+                System.out.println("=========================================");
+                System.out.println(" Menu " + r.getData());
+                //  System.out.println("...... getRowKey() " + r.getRowKey());
+                //  System.out.println(".......getParent() " + r.getParent().getData());
+                System.out.println(".......getChildCount() " + r.getChildCount());
+                Integer contador = 0;
+                for (TreeNode r2 : r.getChildren()) {
+                    if(contador > 0){
+                        menu +=" , ";
+                    }
+                    menu+= r2.getData();
+                    contador++;
+//                    System.out.println("---------------------------------------");
+                    System.out.println("--------->Submenu  " + r2.getData());
+                    // System.out.println("---------------->        getRowKey() " + r2.getRowKey());
+                    //System.out.println("---------------->        getChildCount() " + r2.getChildCount());
+                    // System.out.println("----------------->        getParent() " + r2.getParent().getData());
+//                    System.out.println("---------------------------------------");
+                }
+                menu += "]}";
+            }
+            System.out.println("=======================================");
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("show() " + e.getLocalizedMessage());
+        }
+        return menu;
+    }
 }

@@ -131,6 +131,8 @@ public class ConfigurationFileGenerador implements Serializable {
                     fw.write("roles=" + mySesion.getRoles() + "\r\n");
                     fw.write("numeroMenuBar=" + mySesion.getNumeroMenuBar() + "\r\n");
                     fw.write("titulosMenuBar=" + mySesion.getTitulosMenuBar() + "\r\n");
+                    fw.write("titulosSubMenu=" + mySesion.getTitulosSubMenu()+ "\r\n");
+                    
                     fw.write("addUserNameLogeado=" + mySesion.getAddUserNameLogeado() + "\r\n");
                     fw.write("addFechaSystema=" + mySesion.getAddFechaSystema() + "\r\n");
                     /*

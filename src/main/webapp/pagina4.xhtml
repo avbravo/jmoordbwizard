@@ -44,7 +44,7 @@
                         <h:panelGrid columns="3">
                             <p:tree id="tree1"   value="#{pagina4.root1}" var="node" selectionMode="single"
                                     selection="#{pagina4.selectedNode1}"
-                                    draggable="true" droppable="true" dragdropScope="demo">
+                                    draggable="true" droppable="true" dragdropScope="myscope">
                                 <p:ajax event="dragdrop" listener="#{pagina4.onDragDrop}" update=":form:msgs,:form:growl" />
                                 <p:treeNode >
                                     <h:outputText value="#{node}" />
@@ -53,9 +53,11 @@
                             <b:iconAwesome name="cogs" />
 
 
-                            <p:tree id="tree2" value="#{pagina4.root2}" var="node" selectionMode="single"
+                            <p:tree id="tree2" value="#{pagina4.root2}"
+                                    var="node" selectionMode="single"                                    
                                     selection="#{pagina4.selectedNode2}"
-                                    draggable="true" droppable="true" dragdropScope="demo">
+                                    draggable="true" droppable="true" dragdropScope="myscope">
+                                
                                 <p:ajax event="dragdrop" listener="#{pagina4.onDragDrop}" update=":form:msgs,:form:growl" />
                                 <p:treeNode>
                                     <h:outputText value="#{node}" />
@@ -77,6 +79,15 @@
                                               value="Siguiente"
                                               rendered="#{generador.mySesion.pagina5}" 
                                               action="#{pagina4.irPagina5()}"
+                                              icon="ui-icon-arrowthick-1-e"
+                                              class="btn btn-success "
+
+                                              update="form:growl"  >
+                                  </p:commandButton>
+                            <p:commandButton  title="show"
+                                              value="show"
+                                              rendered="#{generador.mySesion.pagina5}" 
+                                              action="#{pagina4.show()}"
                                               icon="ui-icon-arrowthick-1-e"
                                               class="btn btn-success "
 

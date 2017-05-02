@@ -14,6 +14,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 
 /**
  *
@@ -22,22 +24,23 @@ import javax.inject.Inject;
 @Named(value = "mySesion")
 @SessionScoped
 public class MySesion implements Serializable {
-   private static final long serialVersionUID = 1L;
-    
-   
+
+    private static final long serialVersionUID = 1L;
+
     private String username = "";
     private String database;
     private String databasename;
+    private TreeNode treeNodeMenu;
 
-   
     /*
     menu
      */
     private Integer numeroMenuBar = 3; // numero de menu bar para el menu
     private String titulosMenuBar = "Registros,Reportes,Ayuda"; //"Nombres de los elementos de la barra
+    private String titulosSubMenu = ""; //"Nombres de los elementos de la barra
     private List<String> menubarList = new ArrayList<>(); //
     //opcion  para el menu de reportes
-    private String opcionMenuReportes="";
+    private String opcionMenuReportes = "";
     /*
     roles
      */
@@ -50,11 +53,10 @@ public class MySesion implements Serializable {
     private List<Entidad> ejbList = new ArrayList<>();
     private List<Archivos> controllerList = new ArrayList<>();
     private List<Archivos> searchList = new ArrayList<>();
-    
-    
+
     private Boolean frameworkPrimefaces = true;
-    private Boolean frameworkBootfaces =false;
-    private Boolean frameworkMaterialprime=false;
+    private Boolean frameworkBootfaces = false;
+    private Boolean frameworkMaterialprime = false;
     /*
     login
      */
@@ -64,8 +66,8 @@ public class MySesion implements Serializable {
     private String atributosUsername = "";
     private String atributosPassword = "";
     private String atributosNombreMostrar = "";
-    private String atributosIdGrupo ="";
-    
+    private String atributosIdGrupo = "";
+
     // es la columna del grupo de usuario que se muestra
     private String atributosGrupousuarioMostrar = "";
 
@@ -73,77 +75,100 @@ public class MySesion implements Serializable {
 //    
 //    private Boolean unsoloRol =false;
     //agrega el usuario logeado en los metodos para el crud 
-    private Boolean addUserNameLogeado=false;
+    private Boolean addUserNameLogeado = false;
     //agrega la fecha para las enity del sistema en los crud
-    private Boolean addFechaSystema=false;
+    private Boolean addFechaSystema = false;
 
     //registra los mensajes generales y de error 
     // para escribirlos en el archivo Information.txt
-    private List<String> errorList= new ArrayList<>();
+    private List<String> errorList = new ArrayList<>();
     private List<String> mensajesList = new ArrayList<>();
-/*
+    /*
     
-    */
-    private Boolean allTablesWithPrimaryKey=true;
+     */
+    private Boolean allTablesWithPrimaryKey = true;
     /*
     repositorio local,git,mercurial
-    */
+     */
 
-    private String tipoRepositorio="";
-    private String userRepositorio="";
-    private String passwordRepositorio="";
+    private String tipoRepositorio = "";
+    private String userRepositorio = "";
+    private String passwordRepositorio = "";
 
     /*
     paginas
-    */
-    private Boolean pagina1=false;
-    private Boolean pagina2=false;
-    private Boolean pagina3 =false;
-    private Boolean pagina4 =false;
-    private Boolean pagina5=false;
-    private Boolean pagina6 =false;
+     */
+    private Boolean pagina1 = false;
+    private Boolean pagina2 = false;
+    private Boolean pagina3 = false;
+    private Boolean pagina4 = false;
+    private Boolean pagina5 = false;
+    private Boolean pagina6 = false;
     /**
      * User Group
      */
-    private String typeUserGroup="Without Roles";
-    private Boolean typeUserGroupWithOutRol=false;
-    private Boolean typeUserGroupField=false;
-    private Boolean typeUserGroupEntity=false;
-    private Boolean typeUserGroupList=false;
-    
+    private String typeUserGroup = "Without Roles";
+    private Boolean typeUserGroupWithOutRol = false;
+    private Boolean typeUserGroupField = false;
+    private Boolean typeUserGroupEntity = false;
+    private Boolean typeUserGroupList = false;
+
     /**
-     * Date
-     * GMT+2
+     * Date GMT+2
      */
-    private String timeZone="";
-    private String patternDate="dd/MM/yyyy";
-    private String patternDateTime="HH:mm dd/MM/yyyy";
+    private String timeZone = "";
+    private String patternDate = "dd/MM/yyyy";
+    private String patternDateTime = "HH:mm dd/MM/yyyy";
     /*
     Button
     definir los valores: Texto,Iconos, Texto e Iconos
-    */
-    private String typeOfButton="Texto";
+     */
+    private String typeOfButton = "Texto";
     //
-    
-/**
- * View
- * Numero de elementos por fila en un formulario View
- */
+
+    /**
+     * View Numero de elementos por fila en un formulario View
+     */
     private Integer fieldByRowView = 1;
-    
-    
+
     /**
      * Autocomplete
      */
-    private Integer maximoAutocomplete=4;
-    private Integer maximoAutocompleteItemLabel =3;
-    private Integer maximoAutocompleteItemTip=5;
-    
+    private Integer maximoAutocomplete = 4;
+    private Integer maximoAutocompleteItemLabel = 3;
+    private Integer maximoAutocompleteItemTip = 5;
+
     //almacena las opciones del menu donde se indica a que menu se debe asignar los entity
     List<EntidadMenu> entidadMenuList = new ArrayList<>();
+
+    private List<String> masterDetailsList = new ArrayList<>();
+
+    //elemento de menu que sera almacenado
+
+    public String getTitulosSubMenu() {
+        return titulosSubMenu;
+    }
+
+    public void setTitulosSubMenu(String titulosSubMenu) {
+        this.titulosSubMenu = titulosSubMenu;
+    }
+    
+
+  
     
     
-       private List<String> masterDetailsList =  new ArrayList<>();
+    
+    public MySesion() {
+        treeNodeMenu = new DefaultTreeNode("Root2", null);
+    }
+
+    public TreeNode getTreeNodeMenu() {
+        return treeNodeMenu;
+    }
+
+    public void setTreeNodeMenu(TreeNode treeNodeMenu) {
+        this.treeNodeMenu = treeNodeMenu;
+    }
 
     public String getTypeOfButton() {
         return typeOfButton;
@@ -153,8 +178,6 @@ public class MySesion implements Serializable {
         this.typeOfButton = typeOfButton;
     }
 
-       
-       
     public String getPatternDate() {
         return patternDate;
     }
@@ -171,10 +194,6 @@ public class MySesion implements Serializable {
         this.patternDateTime = patternDateTime;
     }
 
-    
-
-       
-       
     public String getTimeZone() {
         return timeZone;
     }
@@ -191,9 +210,6 @@ public class MySesion implements Serializable {
         this.fieldByRowView = fieldByRowView;
     }
 
-       
-       
-       
     public Integer getMaximoAutocomplete() {
         return maximoAutocomplete;
     }
@@ -218,11 +234,6 @@ public class MySesion implements Serializable {
         this.maximoAutocompleteItemTip = maximoAutocompleteItemTip;
     }
 
-   
-
-       
-       
-       
     public String getTypeUserGroup() {
         return typeUserGroup;
     }
@@ -263,15 +274,6 @@ public class MySesion implements Serializable {
         this.typeUserGroupList = typeUserGroupList;
     }
 
-    
-
-    
-
-     
-     
-    
-     
-     
     public String getAtributosIdGrupo() {
         return atributosIdGrupo;
     }
@@ -280,11 +282,6 @@ public class MySesion implements Serializable {
         this.atributosIdGrupo = atributosIdGrupo;
     }
 
-   
-
-     
-     
-     
     public String getDatabasename() {
         return databasename;
     }
@@ -293,9 +290,6 @@ public class MySesion implements Serializable {
         this.databasename = databasename;
     }
 
-     
-     
-     
     public String getDatabase() {
         return database;
     }
@@ -304,9 +298,6 @@ public class MySesion implements Serializable {
         this.database = database;
     }
 
-     
-     
-     
     public String getUsername() {
         return username;
     }
@@ -483,7 +474,6 @@ public class MySesion implements Serializable {
         this.atributosGrupousuarioMostrar = atributosGrupousuarioMostrar;
     }
 
-    
     public Boolean getAddUserNameLogeado() {
         return addUserNameLogeado;
     }
@@ -611,9 +601,5 @@ public class MySesion implements Serializable {
     public void setMasterDetailsList(List<String> masterDetailsList) {
         this.masterDetailsList = masterDetailsList;
     }
-
-   
-
-   
 
 }

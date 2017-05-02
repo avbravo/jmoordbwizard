@@ -147,6 +147,9 @@ public class ConfigurationFilerRead implements Serializable {
                 case "titulosMenuBar":
                     mySesion.setTitulosMenuBar(descomponer(s, r));
                     break;
+                case "titulosSubMenu":
+                    mySesion.setTitulosSubMenu(descomponer(s, r));
+                    break;
                 case "addUserNameLogeado":
                     mySesion.setAddUserNameLogeado(descomponer(s, r).equals("true"));
                     break;
