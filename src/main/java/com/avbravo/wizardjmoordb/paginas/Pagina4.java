@@ -126,8 +126,8 @@ public class Pagina4 implements Serializable {
             TreeNode dropNode = event.getDropNode();
 
             int dropIndex = event.getDropIndex();
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dragged " + dragNode.getData(), "Dropped on " + dropNode.getData() + " at " + dropIndex);
-            FacesContext.getCurrentInstance().addMessage(null, message);
+//            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dragged " + dragNode.getData(), "Dropped on " + dropNode.getData() + " at " + dropIndex);
+//            FacesContext.getCurrentInstance().addMessage(null, message);
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("onDragDrop() " + e.getLocalizedMessage());
@@ -216,11 +216,7 @@ public class Pagina4 implements Serializable {
                                 }
                             }
                         }
-//                        m.getSubmenu().stream().filter((s) -> (!esSubmenuAgregado(s.getName()))).forEachOrdered((s) -> {
-//                            treeNodeList.stream().filter((n) -> (m.getName().equals(n.getData().toString()))).forEachOrdered((n) -> {
-//                                TreeNode nodeentidad = new DefaultTreeNode(s.getName(), n);
-//                            });
-//                        });
+
 
                     }
                 }
