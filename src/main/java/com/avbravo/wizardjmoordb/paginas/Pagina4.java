@@ -9,12 +9,13 @@ import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.beans.EntidadMenu;
+import com.avbravo.wizardjmoordb.menu.MyMenu;
+import com.avbravo.wizardjmoordb.menu.MySubmenu;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -49,6 +50,7 @@ public class Pagina4 implements Serializable {
     private TreeNode selectedNode1;
 
     private TreeNode selectedNode2;
+    List<String> agregadosList = new ArrayList<>();
 
     public EntidadMenu getSelected() {
         return selected;
@@ -92,6 +94,7 @@ public class Pagina4 implements Serializable {
     }
 
     public TreeNode getRoot1() {
+        init();
         return root1;
     }
 
@@ -142,17 +145,86 @@ public class Pagina4 implements Serializable {
     @PostConstruct
     public void init() {
         try {
+            agregadosList = new ArrayList<>();
             root1 = new DefaultTreeNode("Root", null);
-            TreeNode node0 = new DefaultTreeNode("Sin Asignar", root1);
-            mySesion.getEntidadList().forEach((entidad) -> {
-                TreeNode nodeentidad = new DefaultTreeNode(entidad.getTabla(), node0);
-            });
-
             root2 = new DefaultTreeNode("Root2", null);
+            TreeNode nodeDisponibles = new DefaultTreeNode("Disponibles", root1);
 
-            mySesion.getMenubarList().forEach((s) -> {
-                TreeNode items = new DefaultTreeNode(s, root2);
-            });
+            if (mySesion.getMymenuList().isEmpty()) {
+                //Primera vez no hay elementos de menu
+                mySesion.getEntidadList().forEach((entidad) -> {
+                    TreeNode nodeentidad = new DefaultTreeNode(entidad.getTabla(), nodeDisponibles);
+                });
+//root2
+                mySesion.getMenubarList().forEach((s) -> {
+                    TreeNode items = new DefaultTreeNode(s, root2);
+                });
+            } else {
+                /*
+                Crea lista root2 con los menu bar
+                 */
+
+                List<TreeNode> treeNodeList = new ArrayList<>();
+                mySesion.getMenubarList().forEach((s) -> {
+                    TreeNode items = new DefaultTreeNode(s, root2);
+                    treeNodeList.add(items);
+                });
+                /*
+                /Agrego los entitys al root disponibles que no estan en el menu previo
+                 */
+                mySesion.getEntidadList().stream().filter((entidad) -> (!searchSubmenu(entidad.getTabla()))).filter((entidad) -> (esSubmenuAgregado(entidad.getTabla()))).map((entidad) -> {
+                    TreeNode nodeentidad = new DefaultTreeNode(entidad.getTabla(), nodeDisponibles);
+                    return entidad;
+                }).forEachOrdered((entidad) -> {
+                    agregadosList.add(entidad.getTabla());
+                });
+
+
+                /*
+                Verificar los menus que se quitaron y agrega estos elementos como disponibles
+                
+                 */
+                for (MyMenu m : mySesion.getMymenuList()) {
+                    if (!searchMenu(m.getName())) {
+                        m.getSubmenu().stream().filter((s) -> (!esSubmenuAgregado(s.getName()))).map((s) -> {
+                            TreeNode nodeentidad = new DefaultTreeNode(s.getName(), nodeDisponibles);
+                            return s;
+                        }).forEachOrdered((s) -> {
+                            agregadosList.add(s.getName());
+                        });
+                    }
+                }
+
+                /*
+                Agregarlo al menu respectico
+                 */
+                for (MyMenu m : mySesion.getMymenuList()) {
+                    
+                    if (!m.getSubmenu().isEmpty()) {
+                        
+
+                        for (MySubmenu s : m.getSubmenu()) {
+
+                            if (!s.getName().equals("")) {
+
+                                if (!esSubmenuAgregado(s.getName())) {
+                                    for (TreeNode n : treeNodeList) {
+                                        if (m.getName().equals(n.getData().toString())) {
+                                            TreeNode nodeentidad = new DefaultTreeNode(s.getName(), n);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+//                        m.getSubmenu().stream().filter((s) -> (!esSubmenuAgregado(s.getName()))).forEachOrdered((s) -> {
+//                            treeNodeList.stream().filter((n) -> (m.getName().equals(n.getData().toString()))).forEachOrdered((n) -> {
+//                                TreeNode nodeentidad = new DefaultTreeNode(s.getName(), n);
+//                            });
+//                        });
+
+                    }
+                }
+            }
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("getEntidadMenuList() " + e.getLocalizedMessage());
@@ -160,12 +232,59 @@ public class Pagina4 implements Serializable {
 
     }
 
+    /*
+    verifica si se agrego
+     */
+    private Boolean esSubmenuAgregado(String submenu) {
+        try {
+            if (agregadosList.stream().anyMatch((s) -> (s.equals(submenu)))) {
+                return true;
+            }
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("getEntidadMenuList() " + e.getLocalizedMessage());
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param texto
+     * @return
+     */
+    private Boolean searchSubmenu(String texto) {
+        try {
+            System.out.println("Test---> searchSubmenu " + texto);
+            if (mySesion.getMymenuList().stream().anyMatch((m) -> (m.getSubmenu().stream().anyMatch((s) -> (texto.equals(s.getName())))))) {
+                return true;
+            } //comprobar los elementos de menus
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("searchSubmenu() " + e.getLocalizedMessage());
+        }
+        return false;
+    }
+
+    /*
+    verifica si existe ese menu definido
+     */
+    private Boolean searchMenu(String menubar) {
+        try {
+            if (mySesion.getMenubarList().stream().anyMatch((s) -> (s.equals(menubar)))) {
+                return true;
+            }
+            return false;
+
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("searchMenu() " + e.getLocalizedMessage());
+        }
+        return false;
+    }
+
     public String show() {
         try {
-       
-             Utilidades.showTree(root2);
-            System.out.println("compuesto: "+ Utilidades.componerMenu(root2));
-                     
+
+            Utilidades.showTree(root2);
+            System.out.println("compuesto: " + Utilidades.componerMenu(root2));
+
         } catch (Exception e) {
             JSFUtil.addErrorMessage("show() " + e.getLocalizedMessage());
         }
@@ -178,21 +297,21 @@ public class Pagina4 implements Serializable {
                 JSFUtil.addWarningMessage("No se puede avanzar a la siguiente pagina");
                 return "";
             }
-            if(Utilidades.getNumeroHijos(root1) > 1){
-               JSFUtil.addWarningMessage("Hay elementos del menu sin asignar...");
-                return ""; 
+            if (Utilidades.getNumeroHijos(root1) > 1) {
+                JSFUtil.addWarningMessage("Hay elementos del menu sin asignar...");
+                return "";
             }
-            
-            if(Utilidades.getNumeroHijos(root2) == 0){
-               JSFUtil.addWarningMessage("No hay elementos asignados al menu");
-                return ""; 
+
+            if (Utilidades.getNumeroHijos(root2) == 0) {
+                JSFUtil.addWarningMessage("No hay elementos asignados al menu");
+                return "";
             }
-            if(Utilidades.tieneNietos(root2)){
-              JSFUtil.addWarningMessage("Se colocaron menus dentro de otros elementos de m enu corrigalo.");
-                return "";   
+            if (Utilidades.tieneNietos(root2)) {
+                JSFUtil.addWarningMessage("Se colocaron menus dentro de otros elementos de m enu corrigalo.");
+                return "";
             }
-            
-            mySesion.setTitulosSubMenu( Utilidades.componerMenu(root2));
+
+            mySesion.setTitulosSubMenu(Utilidades.componerMenu(root2));
             mySesion.setTreeNodeMenu(root2);
             return "pagina5.xhtml";
         } catch (Exception e) {

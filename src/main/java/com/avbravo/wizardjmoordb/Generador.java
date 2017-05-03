@@ -1173,6 +1173,7 @@ stopWeb/-Inf
 
     public String irPagina4() {
         try {
+         
             mySesion.setMenubarList(Utilidades.descomponerMenu(mySesion.getTitulosMenuBar()));
             if (mySesion.getMenubarList().isEmpty() || mySesion.getMenubarList().size() == 0) {
                 JSFUtil.addWarningMessage("No se han especificado los titulos de los menus");
