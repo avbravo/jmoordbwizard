@@ -9,6 +9,7 @@ import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
 import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.beans.EntidadMenu;
+import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -149,6 +150,8 @@ public class ConfigurationFilerRead implements Serializable {
                     break;
                 case "titulosSubMenu":
                     mySesion.setTitulosSubMenu(descomponer(s, r));
+                    
+                    mySesion.setMymenuList(Utilidades.descomponerMenuString(mySesion.getTitulosSubMenu()));
                     break;
                 case "addUserNameLogeado":
                     mySesion.setAddUserNameLogeado(descomponer(s, r).equals("true"));

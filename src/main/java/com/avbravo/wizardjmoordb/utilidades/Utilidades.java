@@ -6,6 +6,8 @@
 package com.avbravo.wizardjmoordb.utilidades;
 
 import com.avbravo.wizardjmoordb.JSFUtil;
+import com.avbravo.wizardjmoordb.menu.MyMenu;
+import com.avbravo.wizardjmoordb.menu.MySubmenu;
 import static com.avbravo.wizardjmoordb.old.EntidadGenerador.DEFAULT_CHARSET;
 
 import java.io.BufferedReader;
@@ -22,7 +24,6 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
-import org.primefaces.component.tree.Tree;
 import org.primefaces.model.TreeNode;
 
 /**
@@ -1654,19 +1655,19 @@ public class Utilidades {
         String menu = "";
         try {
 
-            System.out.println("*******************************************");
-            System.out.println("        root2");
-            System.out.println(" # de Menus .getChildCount() " + root.getChildCount());
-
-            System.out.println("*******************************************");
+//            System.out.println("*******************************************");
+//            System.out.println("        root2");
+//            System.out.println(" # de Menus .getChildCount() " + root.getChildCount());
+//
+//            System.out.println("*******************************************");
 
             for (TreeNode r : root.getChildren()) {
                 menu += "{ " + r.getData() + ":[";
-                System.out.println("=========================================");
-                System.out.println(" Menu " + r.getData());
+//                System.out.println("=========================================");
+//                System.out.println(" Menu " + r.getData());
                 //  System.out.println("...... getRowKey() " + r.getRowKey());
                 //  System.out.println(".......getParent() " + r.getParent().getData());
-                System.out.println(".......getChildCount() " + r.getChildCount());
+//                System.out.println(".......getChildCount() " + r.getChildCount());
                 Integer contador = 0;
                 for (TreeNode r2 : r.getChildren()) {
                     if(contador > 0){
@@ -1675,7 +1676,7 @@ public class Utilidades {
                     menu+= r2.getData();
                     contador++;
 //                    System.out.println("---------------------------------------");
-                    System.out.println("--------->Submenu  " + r2.getData());
+//                    System.out.println("--------->Submenu  " + r2.getData());
                     // System.out.println("---------------->        getRowKey() " + r2.getRowKey());
                     //System.out.println("---------------->        getChildCount() " + r2.getChildCount());
                     // System.out.println("----------------->        getParent() " + r2.getParent().getData());
@@ -1683,10 +1684,51 @@ public class Utilidades {
                 }
                 menu += "]}";
             }
-            System.out.println("=======================================");
+//            System.out.println("=======================================");
         } catch (Exception e) {
             JSFUtil.addErrorMessage("show() " + e.getLocalizedMessage());
         }
         return menu;
+    }
+    
+    
+    /**
+     * 
+     * @param menu
+     * @return 
+     */
+     public static List<MyMenu> descomponerMenuString(String menu) {
+          List<MyMenu> listMymenu = new ArrayList<>();
+        try {
+          
+
+            System.out.println("" + menu);
+            String[] submenu = menu.split("]}");
+            for (String s : submenu) {
+
+                String titulo = s.replace("{", "").trim();
+                titulo = s.replace("{", "").trim().substring(0, titulo.indexOf(":"));
+                MyMenu myMenu = new MyMenu();
+                myMenu.setName(titulo);
+                /*
+                los items
+                 */
+                List<MySubmenu> listMySubmenu = new ArrayList<>();
+                String r = s.substring(s.indexOf("[") + 1);
+//                System.out.println("---->items " + r);
+                String[] items = r.split(",");
+                for (String i : items) {
+//                    System.out.println("--------->> " + i);
+                    MySubmenu ms = new MySubmenu();
+                    ms.setName(i);
+                    listMySubmenu.add(ms);
+                }
+                myMenu.setSubmenu(listMySubmenu);
+                listMymenu.add(myMenu);
+            }
+        } catch (Exception e) {
+            System.out.println("descomponer() " + e.getLocalizedMessage());
+        }
+        return listMymenu;
     }
 }

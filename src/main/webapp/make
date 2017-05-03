@@ -18,3 +18,19 @@ public int cantRows(){
     public int cantPages(){
         return this.cantRows()/5;
     }
+
+
+MENU
+ List<MyMenu> list=   r.descomponer("{ Registros:[Paises]}{ Reportes:[Personas,Usuario]}{ File:[]}");
+     
+     
+     for(MyMenu m:list){
+         System.out.println("<----> "+m.getName());
+         for(MySubmenu ms:m.getSubmenu()){
+             System.out.println("......... "+ms.getName());
+         }
+     }
+
+
+
+

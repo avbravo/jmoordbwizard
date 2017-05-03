@@ -8,12 +8,12 @@ package com.avbravo.wizardjmoordb;
 import com.avbravo.wizardjmoordb.beans.Archivos;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.beans.EntidadMenu;
+import com.avbravo.wizardjmoordb.menu.MyMenu;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.inject.Inject;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -39,6 +39,7 @@ public class MySesion implements Serializable {
     private String titulosMenuBar = "Registros,Reportes,Ayuda"; //"Nombres de los elementos de la barra
     private String titulosSubMenu = ""; //"Nombres de los elementos de la barra
     private List<String> menubarList = new ArrayList<>(); //
+    private List<MyMenu> mymenuList = new ArrayList<>();
     //opcion  para el menu de reportes
     private String opcionMenuReportes = "";
     /*
@@ -142,6 +143,16 @@ public class MySesion implements Serializable {
     List<EntidadMenu> entidadMenuList = new ArrayList<>();
 
     private List<String> masterDetailsList = new ArrayList<>();
+
+    public List<MyMenu> getMymenuList() {
+        return mymenuList;
+    }
+
+    public void setMymenuList(List<MyMenu> mymenuList) {
+        this.mymenuList = mymenuList;
+    }
+    
+    
 
     //elemento de menu que sera almacenado
 
