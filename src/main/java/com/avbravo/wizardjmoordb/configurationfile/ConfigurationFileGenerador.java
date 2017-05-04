@@ -5,7 +5,7 @@
  */
 package com.avbravo.wizardjmoordb.configurationfile;
 
-import com.avbravo.wizardjmoordb.JSFUtil;
+import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
 import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.beans.EntidadMenu;
@@ -132,6 +132,7 @@ public class ConfigurationFileGenerador implements Serializable {
                     fw.write("numeroMenuBar=" + mySesion.getNumeroMenuBar() + "\r\n");
                     fw.write("titulosMenuBar=" + mySesion.getTitulosMenuBar() + "\r\n");
                     fw.write("titulosSubMenu=" + mySesion.getTitulosSubMenu()+ "\r\n");
+                    fw.write("generarRemplazarMenu=" + mySesion.getGenerarRemplazarMenu()+ "\r\n");
                     
                     fw.write("addUserNameLogeado=" + mySesion.getAddUserNameLogeado() + "\r\n");
                     fw.write("addFechaSystema=" + mySesion.getAddFechaSystema() + "\r\n");

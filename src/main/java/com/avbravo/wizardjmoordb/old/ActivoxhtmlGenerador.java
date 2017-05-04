@@ -5,7 +5,7 @@
  */
 package com.avbravo.wizardjmoordb.old;
 
-import com.avbravo.wizardjmoordb.JSFUtil;
+import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
 import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;

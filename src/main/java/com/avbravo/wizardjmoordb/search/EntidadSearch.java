@@ -5,7 +5,7 @@
  */
 package com.avbravo.wizardjmoordb.search;
 
-import com.avbravo.wizardjmoordb.JSFUtil;
+import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
 import com.avbravo.wizardjmoordb.beans.Atributos;
 import com.avbravo.wizardjmoordb.beans.Entidad;

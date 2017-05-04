@@ -5,7 +5,7 @@
  */
 package com.avbravo.wizardjmoordb.xhtml;
 
-import com.avbravo.wizardjmoordb.JSFUtil;
+import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
 import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
@@ -64,7 +64,9 @@ public class IndexxhtmlGenerador implements Serializable {
                 crearFile(ruta, archivo);
             } else {
                 if (!Utilidades.search(ruta, "/pages/top.xhtml")) {
-                    String ruta2 = proyectoJEE.getPathMainWebapp() + proyectoJEE.getSeparator() + "index_copy" + JSFUtil.getUUID() + ".xhtml";
+//                    String ruta2 = proyectoJEE.getPathMainWebapp() + proyectoJEE.getSeparator() + "index_copy" + JSFUtil.getUUID() + ".xhtml";
+                    String ruta2 = proyectoJEE.getPathMainWebapp() + proyectoJEE.getSeparator() 
+                            + "index_copy_" + JSFUtil.generarNombreFechaMinutos()+ ".xhtml";
                     Path path2 = Paths.get(ruta2);
                     //No tiene el formato, se hara una copia y se creara uno nuevo
                     Files.copy(path, path2);

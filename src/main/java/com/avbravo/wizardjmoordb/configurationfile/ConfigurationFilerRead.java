@@ -5,7 +5,7 @@
  */
 package com.avbravo.wizardjmoordb.configurationfile;
 
-import com.avbravo.wizardjmoordb.JSFUtil;
+import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
 import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.beans.EntidadMenu;
@@ -147,6 +147,9 @@ public class ConfigurationFilerRead implements Serializable {
                     break;
                 case "titulosMenuBar":
                     mySesion.setTitulosMenuBar(descomponer(s, r));
+                    break;
+                case "generarRemplazarMenu":
+                    mySesion.setGenerarRemplazarMenu(descomponer(s, r));
                     break;
                 case "titulosSubMenu":
                     mySesion.setTitulosSubMenu(descomponer(s, r));

@@ -5,7 +5,7 @@
  */
 package com.avbravo.wizardjmoordb.converter;
 
-import com.avbravo.wizardjmoordb.JSFUtil;
+import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
 import com.avbravo.wizardjmoordb.beans.Atributos;
 import javax.inject.Named;

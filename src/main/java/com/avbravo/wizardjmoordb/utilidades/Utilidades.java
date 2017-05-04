@@ -5,7 +5,6 @@
  */
 package com.avbravo.wizardjmoordb.utilidades;
 
-import com.avbravo.wizardjmoordb.JSFUtil;
 import com.avbravo.wizardjmoordb.menu.MyMenu;
 import com.avbravo.wizardjmoordb.menu.MySubmenu;
 import static com.avbravo.wizardjmoordb.old.EntidadGenerador.DEFAULT_CHARSET;
@@ -1655,36 +1654,20 @@ public class Utilidades {
         String menu = "";
         try {
 
-//            System.out.println("*******************************************");
-//            System.out.println("        root2");
-//            System.out.println(" # de Menus .getChildCount() " + root.getChildCount());
-//
-//            System.out.println("*******************************************");
 
             for (TreeNode r : root.getChildren()) {
                 menu += "{ " + r.getData() + ":[";
-//                System.out.println("=========================================");
-//                System.out.println(" Menu " + r.getData());
-                //  System.out.println("...... getRowKey() " + r.getRowKey());
-                //  System.out.println(".......getParent() " + r.getParent().getData());
-//                System.out.println(".......getChildCount() " + r.getChildCount());
                 Integer contador = 0;
                 for (TreeNode r2 : r.getChildren()) {
                     if(contador > 0){
-                        menu +=" , ";
+                        menu +=",";
                     }
                     menu+= r2.getData();
                     contador++;
-//                    System.out.println("---------------------------------------");
-//                    System.out.println("--------->Submenu  " + r2.getData());
-                    // System.out.println("---------------->        getRowKey() " + r2.getRowKey());
-                    //System.out.println("---------------->        getChildCount() " + r2.getChildCount());
-                    // System.out.println("----------------->        getParent() " + r2.getParent().getData());
-//                    System.out.println("---------------------------------------");
                 }
                 menu += "]}";
             }
-//            System.out.println("=======================================");
+
         } catch (Exception e) {
             JSFUtil.addErrorMessage("show() " + e.getLocalizedMessage());
         }

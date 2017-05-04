@@ -5,6 +5,7 @@
  */
 package com.avbravo.wizardjmoordb;
 
+import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.configurationfile.ConfigurationFilerRead;
 import com.avbravo.wizardjmoordb.old.EntidadGenerador;
 import com.avbravo.wizardjmoordb.provider.MongoClientProviderGenerador;
@@ -170,11 +171,10 @@ public class Generador implements Serializable {
     @Inject
     TopxhtmlGenerador topxhtmlGenerador;
     @Inject
-    RigthxhtmlGenerador rigthxhtmlGenerador; 
+    RigthxhtmlGenerador rigthxhtmlGenerador;
     @Inject
     LeftxhtmlGenerador leftxhtmlGenerador;
-  
-   
+
 //    @Inject
 //    MenusxhtmlGenerador menusxhtmlGenerador;
 //    @Inject
@@ -183,9 +183,9 @@ public class Generador implements Serializable {
     AccesodenegadoxhtmlGenerador accesodenegadoxhtmlGenerador;
     @Inject
     IndexxhtmlGenerador indexxhtmlGenerador;
-     @Inject
-     LoginxhtmlGenerador loginxhtmlGenerador;
-    
+    @Inject
+    LoginxhtmlGenerador loginxhtmlGenerador;
+
     @Inject
     ViewxhtmlGenerador pagexhtmlGenerador;
     @Inject
@@ -563,15 +563,13 @@ public class Generador implements Serializable {
             proyectoJEE.setPathMainWebappResources(proyectoJEE.getPathMainWebapp() + proyectoJEE.getSeparator() + "resources");
             proyectoJEE.setPathMainWebappResourcesCss(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "css" + proyectoJEE.getSeparator());
 
-            
             proyectoJEE.setPathMainWebappResourcesAvbravo(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "avbravo" + proyectoJEE.getSeparator());
             proyectoJEE.setPathMainWebappResourcesBootstrap(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "bootstrap" + proyectoJEE.getSeparator());
             proyectoJEE.setPathMainWebappResourcesBootstrapcdn(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "bootstrapcdn" + proyectoJEE.getSeparator());
             proyectoJEE.setPathMainWebappResourcesDist(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "dist" + proyectoJEE.getSeparator());
             proyectoJEE.setPathMainWebappResourcesImg(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "img" + proyectoJEE.getSeparator());
             proyectoJEE.setPathMainWebappResourcesIonicframework(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "ionicframework" + proyectoJEE.getSeparator());
-            
-            
+
             proyectoJEE.setPathMainWebappResourcesReportes(proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "reportes" + proyectoJEE.getSeparator());
 
             proyectoJEE.setPathWebInf(proyectoJEE.getPathProyecto() + proyectoJEE.getSeparator() + "src" + proyectoJEE.getSeparator() + "main" + proyectoJEE.getSeparator() + "webapp" + proyectoJEE.getSeparator() + "WEB-INF" + proyectoJEE.getSeparator());
@@ -684,16 +682,15 @@ public class Generador implements Serializable {
 //            if (mySesion.getEntidadUser().getTabla().equals(mySesion.getEntidadRoles().getTabla())) {
 //                JSFUtil.addWarningMessage("El entity user no debe ser el mismo que el entity roles");
 //            }
-            
             if (mySesion.getAtributosUsername().equals(mySesion.getAtributosPassword())) {
                 JSFUtil.addWarningMessage("El nombre del atributo para el username no debe ser el mismo que el del password");
                 return;
             }
             if (!mySesion.getTypeUserGroupList()) {
-                System.out.println("test: mySesion.getTypeUserGroupList() "+mySesion.getTypeUserGroupList());
+                System.out.println("test: mySesion.getTypeUserGroupList() " + mySesion.getTypeUserGroupList());
                 String idroles = "";
-                
-                System.out.println("mySesion.getEntidadRoles().getAtributosList() "+mySesion.getEntidadRoles().getAtributosList());
+
+                System.out.println("mySesion.getEntidadRoles().getAtributosList() " + mySesion.getEntidadRoles().getAtributosList());
 
                 for (Atributos a : mySesion.getEntidadRoles().getAtributosList()) {
                     if (a.getEsPrimaryKey()) {
@@ -721,10 +718,9 @@ public class Generador implements Serializable {
 
             if (!mySesion.getEntidadList().isEmpty()) {
 //                    cargarTree();
-               
+
                 if (tipoGeneracion.equals("codigopaginas") || tipoGeneracion.equals("codigo")) {
 
-                    
                     /*
                     generales
                      */
@@ -817,7 +813,7 @@ public class Generador implements Serializable {
 
                 //verifica si debe generar las paginas
                 if (tipoGeneracion.equals("codigopaginas") || tipoGeneracion.equals("paginas")) {
-                   //Web
+                    //Web
                     switch (estilo) {
                         case "adminlte":
                             webXMLGenerador.generar();
@@ -834,12 +830,11 @@ stopWeb/-Inf
                             /*
                    WEB
                              */
-                             templatexhtmlGenerador.generar();
-                             footerxhtmlGenerador.generar();
-                             topxhtmlGenerador.generar();
-                             rigthxhtmlGenerador.generar(); 
-                             leftxhtmlGenerador.generar(); 
-                            
+                            templatexhtmlGenerador.generar();
+                            footerxhtmlGenerador.generar();
+                            topxhtmlGenerador.generar();
+                            rigthxhtmlGenerador.generar();
+                            leftxhtmlGenerador.generar();
 
 //                            menusxhtmlGenerador.generar();
 //                            contextxhtmlGenerador.generar();
@@ -859,16 +854,14 @@ stopWeb/-Inf
                             /*
                 generar las paginas
                              */
-
                             pagexhtmlGenerador.generar();
                             listxhtmlGenerador.generar();
-                            
 
                             break;
                         case "primefacespremium":
                             JSFUtil.addWarningMessage("Aun no soportado Template: primefacespremium");
                             break;
-                                               
+
                         case "materialprime":
                             JSFUtil.addWarningMessage("Aun no soportado. Template: materialprime");
                             break;
@@ -1097,14 +1090,14 @@ stopWeb/-Inf
      */
     public String onChangeTipoGrupo() {
         try {
-         
+
             mySesion.setTypeUserGroupWithOutRol(false);
             mySesion.setTypeUserGroupField(false);
             mySesion.setTypeUserGroupEntity(false);
             mySesion.setTypeUserGroupList(false);
             switch (mySesion.getTypeUserGroup()) {
                 case "Without Roles":
-                      mySesion.setTypeUserGroupWithOutRol(true);
+                    mySesion.setTypeUserGroupWithOutRol(true);
                     break;
                 case "Field":
                     mySesion.setTypeUserGroupField(true);
@@ -1116,7 +1109,7 @@ stopWeb/-Inf
                     mySesion.setTypeUserGroupList(true);
                     break;
                 default:
-                  JSFUtil.addWarningMessage("No se ha indicado un tipo correcto de grupo "+mySesion.getTypeUserGroup());  
+                    JSFUtil.addWarningMessage("No se ha indicado un tipo correcto de grupo " + mySesion.getTypeUserGroup());
 
             }
 
@@ -1173,7 +1166,7 @@ stopWeb/-Inf
 
     public String irPagina4() {
         try {
-         
+
             mySesion.setMenubarList(Utilidades.descomponerMenu(mySesion.getTitulosMenuBar()));
             if (mySesion.getMenubarList().isEmpty() || mySesion.getMenubarList().size() == 0) {
                 JSFUtil.addWarningMessage("No se han especificado los titulos de los menus");
@@ -1196,7 +1189,7 @@ stopWeb/-Inf
                 mySesion.getEntidadMenuList().add(em);
 
             }
-mySesion.iniciarTree();
+            mySesion.iniciarTree();
             return "pagina4.xhtml";
         } catch (Exception e) {
             JSFUtil.addErrorMessage("irPagina4() " + e.getLocalizedMessage());

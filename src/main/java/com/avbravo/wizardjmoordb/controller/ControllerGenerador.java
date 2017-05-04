@@ -5,7 +5,7 @@
  */
 package com.avbravo.wizardjmoordb.controller;
 
-import com.avbravo.wizardjmoordb.JSFUtil;
+import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
 import com.avbravo.wizardjmoordb.ProyectoEJB;
 import com.avbravo.wizardjmoordb.ProyectoJEE;

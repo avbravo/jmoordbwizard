@@ -3,16 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb;
+package com.avbravo.wizardjmoordb.utilidades;
 
 import com.avbravo.wizardjmoordb.beans.Atributos;
 import com.avbravo.wizardjmoordb.beans.Entidad;
-import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -274,5 +275,41 @@ public class JSFUtil {
              JSFUtil.addErrorMessage("fieldRelational() " + e.getLocalizedMessage());
         }
         return "";
+    }
+    
+    /**
+     * genera un nombre con formato
+     * año_mes_dia
+     * por ejemplo: 2017_05_12
+     * @return 
+     */
+    public static String generarNombreFecha(){
+        String name="";
+        try{
+            LocalDate currentDate = LocalDate.now();
+            name=currentDate.getYear()+"_"+currentDate.getMonth()+"_"+currentDate.getDayOfMonth();            
+          } catch (Exception e) {
+             JSFUtil.addErrorMessage("generarNombreFecha() " + e.getLocalizedMessage());
+        }
+        return name;
+    }
+     /**
+     * genera un nombre con formato
+     * año_mes_dia_hora_minutos_segundos
+     * por ejemplo: 2017_05_12_10_25_12
+     * @re
+     */
+    public static String generarNombreFechaMinutos(){
+        String name="";
+        try{
+            LocalDate currentDate = LocalDate.now();
+            LocalTime currentTime = LocalTime.now();
+            name=currentDate.getYear()+"_"+currentDate.getMonth()+"_"+
+                    currentDate.getDayOfMonth()
+                    +"_"+currentTime.getHour()+"_"+currentTime.getMinute()+"_"+currentTime.getSecond();            
+          } catch (Exception e) {
+             JSFUtil.addErrorMessage("generarNombreFechaMinutos() " + e.getLocalizedMessage());
+        }
+        return name;
     }
 }

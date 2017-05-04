@@ -5,7 +5,7 @@
  */
 package com.avbravo.wizardjmoordb.paginas;
 
-import com.avbravo.wizardjmoordb.JSFUtil;
+import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.beans.EntidadMenu;

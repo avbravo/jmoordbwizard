@@ -6,10 +6,12 @@
 package com.avbravo.wizardjmoordb.xhtml;
 
 import com.avbravo.wizardjmoordb.old.*;
-import com.avbravo.wizardjmoordb.JSFUtil;
+import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
 import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.beans.EntidadMenu;
+import com.avbravo.wizardjmoordb.menu.MyMenu;
+import com.avbravo.wizardjmoordb.menu.MySubmenu;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -24,6 +26,8 @@ import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 
 /**
  *
@@ -49,9 +53,6 @@ public class LeftxhtmlGenerador implements Serializable {
 
             procesar("left.xhtml", proyectoJEE.getPathMainWebappPages() + proyectoJEE.getSeparator() + "left.xhtml");
 
-//            mySesion.getMenubarList().stream().forEach((s) -> {
-//                procesar(s, "menu" + Utilidades.letterToLower(s) + ".xhtml", proyectoJEE.getPathMainWebapp() + proyectoJEE.getSeparator() + "menu" + Utilidades.letterToLower(s) + ".xhtml");
-//            });
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
 
@@ -64,24 +65,17 @@ public class LeftxhtmlGenerador implements Serializable {
             Path path = Paths.get(ruta);
             if (Files.notExists(path, new LinkOption[]{LinkOption.NOFOLLOW_LINKS})) {
                 crearFile(ruta, archivo);
+            } else {
+                if (mySesion.getGenerarRemplazarMenu().equals("generar")) {
+                    String ruta2 = proyectoJEE.getPathMainWebappPages() + proyectoJEE.getSeparator() + "left_copy_" + JSFUtil.generarNombreFechaMinutos() + ".xhtml";
+                    Path path2 = Paths.get(ruta2);
+                    //No tiene el formato, se hara una copia y se creara uno nuevo
+                    Files.copy(path, path2);
+                    Files.delete(path);
+                    crearFile(ruta, archivo);
+                }
             }
 
-//            for (EntidadMenu em : mySesion.getEntidadMenuList()) {
-//
-////                if (Utilidades.letterToLower(barramenu).equals(Utilidades.letterToLower(em.getMenu()))) {
-////                    Utilidades.searchAdd(ruta, "<b:navLink value=\"#{men['menu." + Utilidades.letterToLower(em.getEntidad()) + "']}\"   rendered=\"#{menuBeans." + Utilidades.letterToLower(em.getEntidad()) + ".consultar}\" href=\"/faces/pages/" + Utilidades.letterToLower(em.getEntidad()) + "/" + Utilidades.letterToLower(em.getEntidad()) + ".xhtml\" />", "<b:dropMenu rendered=\"#{menuBeans.barra" + Utilidades.letterToUpper(barramenu) + "}\" value=\"#{men['menubar." + Utilidades.letterToLower(barramenu) + "']}\" >", Boolean.FALSE);
-//                Utilidades.searchAddWithoutLine(ruta, "<b:navLink value=\"#{men['menu." + Utilidades.letterToLower(em.getEntidad()) + "']}\"   rendered=\"#{menuBeans." + Utilidades.letterToLower(em.getEntidad()) + ".consultar}\" href=\"/faces/pages/" + Utilidades.letterToLower(em.getEntidad()) + "/" + Utilidades.letterToLower(em.getEntidad()) + ".xhtml\" />", "</b:dropMenu>", Boolean.TRUE);
-//
-////                }
-//            }
-            //las opciones de reportes
-//            if (barramenu.equals(mySesion.getOpcionMenuReportes())) {
-//
-//                for (EntidadMenu em : mySesion.getEntidadMenuList()) {
-//                    Utilidades.searchAddWithoutLine(ruta, "<b:navLink value=\"#{men['menu." + Utilidades.letterToLower(em.getEntidad()) + "']}\"   rendered=\"#{menuBeans." + Utilidades.letterToLower(em.getEntidad()) + ".listar}\" href=\"/faces/pages/" + Utilidades.letterToLower(em.getEntidad()) + "/" + Utilidades.letterToLower(em.getEntidad()) + "reportes.xhtml\" />", "</b:dropMenu>", Boolean.TRUE);
-//                }
-//
-//            }
         } catch (Exception e) {
             JSFUtil.addErrorMessage("procesar() " + e.getLocalizedMessage());
         }
@@ -113,7 +107,7 @@ public class LeftxhtmlGenerador implements Serializable {
                 File file2 = new File(ruta);
                 //Creamos un objeto para escribir caracteres en el archivo de prueba
                 try (FileWriter fw = new FileWriter(file)) {
-                   
+
                     fw.write("<ui:composition xmlns=\"http://www.w3.org/1999/xhtml\"" + "\r\n");
                     fw.write("                xmlns:h=\"http://xmlns.jcp.org/jsf/html\"" + "\r\n");
                     fw.write("                xmlns:ui=\"http://xmlns.jcp.org/jsf/facelets\"" + "\r\n");
@@ -137,38 +131,27 @@ public class LeftxhtmlGenerador implements Serializable {
                     fw.write("            <li class=\"header\">#{msg['menu.menu']}</li>" + "\r\n");
                     fw.write("" + "\r\n");
 
-//              mySesion.getMenubarList().stream().forEach((s) -> {
-                    for (String s : mySesion.getMenubarList()) {
-
-                        fw.write("            <h:panelGroup rendered=\"#{applicationMenu.menuBar" + Utilidades.letterToUpper(s) + "}\">" + "\r\n");
+                    for (MyMenu m : mySesion.getMymenuList()) {
+                        fw.write("            <h:panelGroup rendered=\"#{applicationMenu.menuBar" + Utilidades.letterToUpper(m.getName()) + "}\">" + "\r\n");
                         fw.write("                <li class=\"treeview\" >" + "\r\n");
-                        fw.write("                    <a href=\"#\"><i class=\"fa fa-link\"></i> <span>#{msg['menubar." +  Utilidades.letterToLower(s) + "']}</span> <i class=\"fa fa-angle-left pull-right\"></i></a>" + "\r\n");
-                        fw.write("                    <ul class=\"treeview-menu\" rendered=\"#{applicationMenu.menuBar" + Utilidades.letterToUpper(s) + "}\">" + "\r\n");
+                        fw.write("                    <a href=\"#\"><i class=\"fa fa-link\"></i> <span>#{msg['menubar." + Utilidades.letterToLower(m.getName()) + "']}</span> <i class=\"fa fa-angle-left pull-right\"></i></a>" + "\r\n");
+                        fw.write("                    <ul class=\"treeview-menu\" rendered=\"#{applicationMenu.menuBar" + Utilidades.letterToUpper(m.getName()) + "}\">" + "\r\n");
                         fw.write("" + "\r\n");
-                        for (EntidadMenu em : mySesion.getEntidadMenuList()) {
-                            if (Utilidades.letterToLower(s).equals(Utilidades.letterToLower(em.getMenu()))) {
+                        for (MySubmenu s : m.getSubmenu()) {
+                            if (!s.getName().equals("")) {
                                 fw.write("                        <li> " + "\r\n");
-                                fw.write("                            <p:link value=\"#{msg['menu." + Utilidades.letterToLower(em.getEntidad()) + "']}\" rendered=\"#{applicationMenu." + Utilidades.letterToLower(em.getEntidad()) + ".menu}\" outcome=\"/pages/" + Utilidades.letterToLower(em.getEntidad()) + "/view\"/>" + "\r\n");
+                                fw.write("                            <p:link value=\"#{msg['menu." + Utilidades.letterToLower(s.getName()) + "']}\" rendered=\"#{applicationMenu." + Utilidades.letterToLower(s.getName()) + ".menu}\" outcome=\"/pages/" + Utilidades.letterToLower(s.getName()) + "/view\"/>" + "\r\n");
                                 fw.write("                        </li>" + "\r\n");
+
                             }
                         }
-
                         fw.write("   " + "\r\n");
                         fw.write("                    </ul>" + "\r\n");
                         fw.write("                </li>" + "\r\n");
                         fw.write("            </h:panelGroup>" + "\r\n");
 
-                        // procesar(s, "menu" + Utilidades.letterToLower(s) + ".xhtml", proyectoJEE.getPathMainWebapp() + proyectoJEE.getSeparator() + "menu" + Utilidades.letterToLower(s) + ".xhtml");
                     }
 
-////                    fw.write("               <b:dropMenu rendered=\"#{menuBeans.barraMenu" + Utilidades.letterToUpper(barraMenu) + "}\" value=\"#{men['menubar." + Utilidades.letterToLower(barraMenu) + "']}\" >" + "\r\n");
-//                    for (EntidadMenu em : mySesion.getEntidadMenuList()) {
-//                        if (Utilidades.letterToLower(barraMenu).equals(Utilidades.letterToLower(em.getMenu()))) {
-//                            fw.write("                <b:navLink value=\"#{men['menu." + Utilidades.letterToLower(em.getEntidad()) + "']}\"   rendered=\"#{menuBeans." + Utilidades.letterToLower(em.getEntidad()) + ".consultar}\" href=\"/faces/pages/" + Utilidades.letterToLower(em.getEntidad()) + "/" + Utilidades.letterToLower(em.getEntidad()) + ".xhtml\" />");
-//                            fw.write("\r\n");
-//                        }
-//
-//                    }
                     fw.write("        </ul><!-- /.sidebar-menu -->" + "\r\n");
                     fw.write("    </h:form>" + "\r\n");
                     fw.write("" + "\r\n");

@@ -5,6 +5,7 @@
  */
 package com.avbravo.wizardjmoordb;
 
+import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.beans.Archivos;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.beans.EntidadMenu;
@@ -126,6 +127,7 @@ public class MySesion implements Serializable {
     definir los valores: Texto,Iconos, Texto e Iconos
      */
     private String typeOfButton = "Texto";
+    private String generarRemplazarMenu="";
     //
 
     /**
@@ -154,6 +156,15 @@ public class MySesion implements Serializable {
     private TreeNode selectedNode2;
     List<String> agregadosList = new ArrayList<>();
 
+    public String getGenerarRemplazarMenu() {
+        return generarRemplazarMenu;
+    }
+
+    public void setGenerarRemplazarMenu(String generarRemplazarMenu) {
+        this.generarRemplazarMenu = generarRemplazarMenu;
+    }
+
+    
     public List<MyMenu> getMymenuList() {
         return mymenuList;
     }

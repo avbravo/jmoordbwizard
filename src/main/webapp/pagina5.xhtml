@@ -43,11 +43,19 @@
 
 
                         
-                                <p:outputLabel value="Generar"/>
-                                <b:selectOneMenu id="tipoGeneracion" value="#{generador.tipoGeneracion}" >
-                                    <f:selectItem itemLabel="Completo (Código y Páginas)" itemValue="codigopaginas" />
-                                    <f:selectItem itemLabel="Código Solamente" itemValue="codigo" />
-                                    <f:selectItem itemLabel="Páginas Solamente" itemValue="paginas" />
+                            <p:outputLabel value="Generar"/>
+                            <b:selectOneMenu id="tipoGeneracion" value="#{generador.tipoGeneracion}" >
+                                <f:selectItem itemLabel="Completo (Código y Páginas)" itemValue="codigopaginas" />
+                                <f:selectItem itemLabel="Código Solamente" itemValue="codigo" />
+                                <f:selectItem itemLabel="Páginas Solamente" itemValue="paginas" />
+
+                            </b:selectOneMenu>
+                            
+                             <p:outputLabel value="Menu"/>
+                             <b:selectOneMenu id="menu" value="#{generador.mySesion.generarRemplazarMenu}" >
+                                    <f:selectItem itemLabel="Generar" itemValue="generar" />
+                                    <f:selectItem itemLabel="No Generar" itemValue="nogenerar" />
+                                    
 
                                 </b:selectOneMenu>
 
