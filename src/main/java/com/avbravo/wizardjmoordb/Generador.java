@@ -82,7 +82,7 @@ public class Generador implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(Generador.class.getName());
     private boolean skip;
-    private Boolean generado=false;
+    private Boolean generado = false;
     private TreeNode root;
     private TreeNode selectedNode;
     private Boolean proyectoValidoEJB = false;
@@ -287,10 +287,8 @@ public class Generador implements Serializable {
         this.generado = generado;
     }
 
-    
-    
     public Generador() {
-        generado=false;
+        generado = false;
     }
 
     @PostConstruct
@@ -302,13 +300,13 @@ public class Generador implements Serializable {
 
         proyectoValidoEJB = false;
         proyectoValidoJEE = false;
-        generado=false;
+        generado = false;
 
     }
 
     public String clearEJB() {
         try {
-            
+
             mySesion.setPagina1(false);
             mySesion.setPagina2(false);
             mySesion.setPagina3(false);
@@ -618,6 +616,9 @@ public class Generador implements Serializable {
                 return "";
             }
 
+            if (!JSFUtil.isWeb(proyectoJEE.getPathWebInf() + "web.xml")) {
+                return "";
+            }
             processEntity();
             cargarTree();
             if (!mySesion.getEntidadList().isEmpty()) {
@@ -641,7 +642,7 @@ public class Generador implements Serializable {
     }
 
     public String create() {
-generado=false;
+        generado = false;
         if (!proyectoValidoEJB) {
             JSFUtil.addErrorMessage("Este no es un proyecto EJB que cumple los requerimientos");
             return "";
@@ -651,13 +652,12 @@ generado=false;
             return "";
         }
 
-
         construct(proyectoJEE.getPath());
 
         clearEJB();
         clearJEE();
 
-       generado=true;
+        generado = true;
         return "";
     }
 
@@ -701,10 +701,8 @@ generado=false;
                 return;
             }
             if (!mySesion.getTypeUserGroupList()) {
-                
-                String idroles = "";
 
-                
+                String idroles = "";
 
                 for (Atributos a : mySesion.getEntidadRoles().getAtributosList()) {
                     if (a.getEsPrimaryKey()) {
@@ -1151,11 +1149,14 @@ stopWeb/-Inf
 
     public String irPagina2() {
         try {
+            if (!JSFUtil.isWeb(proyectoJEE.getPathWebInf() + "web.xml")) {
+                return "";
+            }
             if (!mySesion.getPagina2()) {
                 JSFUtil.addWarningMessage("No se puede avanzar a la siguiente pagina");
                 return "";
             }
-            generado=false;
+            generado = false;
             return "pagina2.xhtml";
         } catch (Exception e) {
             JSFUtil.addErrorMessage("irPagina2() " + e.getLocalizedMessage());

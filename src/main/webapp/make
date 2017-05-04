@@ -8,6 +8,7 @@ public List<Usuario> paginate(int min , int max){
                 .getResultList();
         return list;
     }
+
 public int cantRows(){
         String sql = "SELECT COUNT(u) FROM Usuario u";
         Query query = em.createQuery(sql);

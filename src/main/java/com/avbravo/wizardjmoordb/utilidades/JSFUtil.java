@@ -12,6 +12,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -311,5 +315,22 @@ public class JSFUtil {
              JSFUtil.addErrorMessage("generarNombreFechaMinutos() " + e.getLocalizedMessage());
         }
         return name;
+    }
+    /**
+     * 
+     * @return 
+     */
+    public static Boolean isWeb(String ruta){
+            try {
+    
+            Path path = Paths.get(ruta);
+            if (Files.notExists(path, new LinkOption[]{LinkOption.NOFOLLOW_LINKS})) {
+                JSFUtil.addWarningMessage("No existe el archivo web.xml No es un proyecto web");
+                return false;
+            }
+            } catch (Exception e) {
+                 JSFUtil.addErrorMessage("isWeb()) " + e.getLocalizedMessage());
+            }
+            return false;
     }
 }
