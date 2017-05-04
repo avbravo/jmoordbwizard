@@ -18,7 +18,7 @@
                 <b:container> 
                     <b:row>
                         <b:column>
-                      <h1>WizardJMoordb!</h1>
+                            <h1>WizardJMoordb!</h1>
                         </b:column>
                     </b:row>
 
@@ -42,7 +42,7 @@
                             <h:outputText value="#{generador.proyectoJEE.paquete}" styleClass="outputLabel"/>
 
 
-                        
+
                             <p:outputLabel value="Generar"/>
                             <b:selectOneMenu id="tipoGeneracion" value="#{generador.tipoGeneracion}" >
                                 <f:selectItem itemLabel="Completo (Código y Páginas)" itemValue="codigopaginas" />
@@ -50,30 +50,28 @@
                                 <f:selectItem itemLabel="Páginas Solamente" itemValue="paginas" />
 
                             </b:selectOneMenu>
-                            
-                             <p:outputLabel value="Menu"/>
-                             <b:selectOneMenu id="menu" value="#{generador.mySesion.generarRemplazarMenu}" >
-                                    <f:selectItem itemLabel="Generar" itemValue="generar" />
-                                    <f:selectItem itemLabel="No Generar" itemValue="nogenerar" />
-                                    
 
-                                </b:selectOneMenu>
-
-                                <p:outputLabel value="Entity"/>
-                                <p:tree  value="#{generador.root}" 
-                                         selectionMode="single"
-                                         id="tree"
-                                         selection="#{generador.selectedNode}"
-                                         var="node" dynamic="true">
-                                    <p:treeNode>
-                                        <h:outputText value="#{node}" />
-                                    </p:treeNode>
+                            <p:outputLabel value="Menu"/>
+                            <b:selectOneMenu id="menu" value="#{generador.mySesion.generarRemplazarMenu}" >
+                                <f:selectItem itemLabel="Generar" itemValue="generar" />
+                                <f:selectItem itemLabel="No Generar" itemValue="nogenerar" />
 
 
+                            </b:selectOneMenu>
 
-                                </p:tree>
+                            <p:outputLabel value="Entity"/>
+                            <p:tree  value="#{generador.root}" 
+                                     selectionMode="single"
+                                     id="tree"
+                                     selection="#{generador.selectedNode}"
+                                     var="node" dynamic="true">
+                                <p:treeNode>
+                                    <h:outputText value="#{node}" />
+                                </p:treeNode>
 
 
+
+                            </p:tree>
 
 
 
@@ -82,32 +80,37 @@
 
 
 
-                            </b:panelGrid>
 
 
-                            <f:facet name="footer">
-  <p:commandButton label="Anterior"
+                        </b:panelGrid>
 
-                                                 value="Anterior"
-                                                 rendered="#{generador.mySesion.pagina4}" 
-                                                 action="#{generador.irPagina4()}"
-                                                 icon="ui-icon-arrowthick-1-w"
-                                                 update="form:growl"  class="btn btn-danger" >
 
-                                </p:commandButton>
-                                <p:commandButton 
-                                    class="btn btn-success  " 
+                        <f:facet name="footer">
+                            <p:commandButton label="Anterior"
 
-                                    id="button_generar"  
-                                    disabled="false"
-                                    value="Generar" actionListener="#{generador.create()}" update=":form:growl"
-                                    oncomplete="$('.modalPseudoClass').modal();return false;"     
-                                    >
+                                             value="Anterior"
+                                             rendered="#{!generador.generado}"
+                                             
+                                             action="#{generador.irPagina4()}"
+                                             icon="ui-icon-arrowthick-1-w"
+                                             update="form:growl"  class="btn btn-danger" >
 
-                                </p:commandButton>
-                              
-                                <!--<b:button value="Trigger (JavaScript)" look="success" onclick="$('.modalPseudoClass').modal();return false;" size="lg"/>-->
-                            </f:facet>
+                            </p:commandButton>
+                            <p:commandButton 
+                                class="btn btn-success" 
+rendered="#{!generador.generado}"
+                                id="button_generar"  
+                                disabled="false"
+                                value="Generar" actionListener="#{generador.create()}" 
+                                update=":form:growl,:form:panel, :form:linkInicio"
+                                oncomplete="$('.modalPseudoClass').modal();return false;"     
+                                >
+
+                            </p:commandButton>
+                            <p:link  class="btn btn-success" 
+                                value="Inicio" id="linkInicio"  rendered="#{generador.generado}"  outcome="/index"/>
+                            <!--<b:button value="Trigger (JavaScript)" look="success" onclick="$('.modalPseudoClass').modal();return false;" size="lg"/>-->
+                        </f:facet>
                     </b:panel>
                 </b:container>
                 <!--                 <javscaz:procesar/>-->
@@ -118,7 +121,10 @@
 
                     <f:facet name="footer">
 
-                        <b:button value="Cerrar" look="primary" dismiss="modal" onclick="return false;"/>
+                        <b:button value="Cerrar" look="primary"
+                                  outcome="index"
+                                  dismiss="modal" onclick="return false;"/>
+
 
                     </f:facet>
                 </b:modal>  

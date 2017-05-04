@@ -82,6 +82,7 @@ public class Generador implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(Generador.class.getName());
     private boolean skip;
+    private Boolean generado=false;
     private TreeNode root;
     private TreeNode selectedNode;
     private Boolean proyectoValidoEJB = false;
@@ -278,7 +279,18 @@ public class Generador implements Serializable {
         this.proyectoJEE = proyectoJEE;
     }
 
+    public Boolean getGenerado() {
+        return generado;
+    }
+
+    public void setGenerado(Boolean generado) {
+        this.generado = generado;
+    }
+
+    
+    
     public Generador() {
+        generado=false;
     }
 
     @PostConstruct
@@ -290,11 +302,13 @@ public class Generador implements Serializable {
 
         proyectoValidoEJB = false;
         proyectoValidoJEE = false;
+        generado=false;
 
     }
 
     public String clearEJB() {
         try {
+            
             mySesion.setPagina1(false);
             mySesion.setPagina2(false);
             mySesion.setPagina3(false);
@@ -575,8 +589,6 @@ public class Generador implements Serializable {
             proyectoJEE.setPathWebInf(proyectoJEE.getPathProyecto() + proyectoJEE.getSeparator() + "src" + proyectoJEE.getSeparator() + "main" + proyectoJEE.getSeparator() + "webapp" + proyectoJEE.getSeparator() + "WEB-INF" + proyectoJEE.getSeparator());
             String path = proyectoJEE.getPath();
             proyectoJEE.setPath(path);
-//            System.out.println("=================================================");
-//            System.out.println("getPath() "+proyectoEJB.getPath());
             /*
             asigna los path
              */
@@ -629,7 +641,7 @@ public class Generador implements Serializable {
     }
 
     public String create() {
-
+generado=false;
         if (!proyectoValidoEJB) {
             JSFUtil.addErrorMessage("Este no es un proyecto EJB que cumple los requerimientos");
             return "";
@@ -639,11 +651,13 @@ public class Generador implements Serializable {
             return "";
         }
 
-//        enEjecucion=true;
+
         construct(proyectoJEE.getPath());
-//        enEjecucion=false;
-//        return "";
-//        return "pagina6.xhtml";
+
+        clearEJB();
+        clearJEE();
+
+       generado=true;
         return "";
     }
 
@@ -687,10 +701,10 @@ public class Generador implements Serializable {
                 return;
             }
             if (!mySesion.getTypeUserGroupList()) {
-                System.out.println("test: mySesion.getTypeUserGroupList() " + mySesion.getTypeUserGroupList());
+                
                 String idroles = "";
 
-                System.out.println("mySesion.getEntidadRoles().getAtributosList() " + mySesion.getEntidadRoles().getAtributosList());
+                
 
                 for (Atributos a : mySesion.getEntidadRoles().getAtributosList()) {
                     if (a.getEsPrimaryKey()) {
@@ -1141,6 +1155,7 @@ stopWeb/-Inf
                 JSFUtil.addWarningMessage("No se puede avanzar a la siguiente pagina");
                 return "";
             }
+            generado=false;
             return "pagina2.xhtml";
         } catch (Exception e) {
             JSFUtil.addErrorMessage("irPagina2() " + e.getLocalizedMessage());
@@ -1168,7 +1183,7 @@ stopWeb/-Inf
         try {
 
             mySesion.setMenubarList(Utilidades.descomponerMenu(mySesion.getTitulosMenuBar()));
-            
+
             if (mySesion.getMenubarList().isEmpty() || mySesion.getMenubarList().size() == 0) {
                 JSFUtil.addWarningMessage("No se han especificado los titulos de los menus");
                 return "";

@@ -1704,7 +1704,7 @@ public class Utilidades {
                 for (String i : items) {
 //                    System.out.println("--------->> " + i);
                     MySubmenu ms = new MySubmenu();
-                    ms.setName(i);
+                    ms.setName(i.trim());
                     listMySubmenu.add(ms);
                 }
                 myMenu.setSubmenu(listMySubmenu);
