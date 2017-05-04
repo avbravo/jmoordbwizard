@@ -1650,7 +1650,7 @@ public class Utilidades {
      * @param root
      * @return
      */
-    public static String componerMenu(TreeNode root) {
+    public static String componerMenuFromTreeNode(TreeNode root) {
         String menu = "";
         try {
 
@@ -1660,8 +1660,9 @@ public class Utilidades {
                 Integer contador = 0;
                 for (TreeNode r2 : r.getChildren()) {
                     if(contador > 0){
-                        menu +=",";
+                        menu +=" , ";
                     }
+                 
                     menu+= r2.getData();
                     contador++;
                 }
@@ -1669,7 +1670,7 @@ public class Utilidades {
             }
 
         } catch (Exception e) {
-            JSFUtil.addErrorMessage("show() " + e.getLocalizedMessage());
+            JSFUtil.addErrorMessage("componerMenuFromTreeNode() " + e.getLocalizedMessage());
         }
         return menu;
     }

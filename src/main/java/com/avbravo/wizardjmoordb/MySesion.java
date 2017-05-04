@@ -127,7 +127,7 @@ public class MySesion implements Serializable {
     definir los valores: Texto,Iconos, Texto e Iconos
      */
     private String typeOfButton = "Texto";
-    private String generarRemplazarMenu="";
+    private String generarRemplazarMenu = "";
     //
 
     /**
@@ -146,8 +146,8 @@ public class MySesion implements Serializable {
     List<EntidadMenu> entidadMenuList = new ArrayList<>();
 
     private List<String> masterDetailsList = new ArrayList<>();
-    
-      private TreeNode root1;
+
+    private TreeNode root1;
 
     private TreeNode root2;
 
@@ -164,7 +164,6 @@ public class MySesion implements Serializable {
         this.generarRemplazarMenu = generarRemplazarMenu;
     }
 
-    
     public List<MyMenu> getMymenuList() {
         return mymenuList;
     }
@@ -172,11 +171,8 @@ public class MySesion implements Serializable {
     public void setMymenuList(List<MyMenu> mymenuList) {
         this.mymenuList = mymenuList;
     }
-    
-    
 
     //elemento de menu que sera almacenado
-
     public String getTitulosSubMenu() {
         return titulosSubMenu;
     }
@@ -224,12 +220,12 @@ public class MySesion implements Serializable {
     public void setAgregadosList(List<String> agregadosList) {
         this.agregadosList = agregadosList;
     }
-    
-/**
- * 
- */
-  public void iniciarTree(){
-              try {
+
+    /**
+     *
+     */
+    public void iniciarTree() {
+        try {
 
             agregadosList = new ArrayList<>();
             root1 = new DefaultTreeNode("Root", null);
@@ -249,21 +245,30 @@ public class MySesion implements Serializable {
                 /*
                 Crea lista root2 con los menu bar
                  */
-
+           
                 List<TreeNode> treeNodeList = new ArrayList<>();
-               menubarList.forEach((s) -> {
+                menubarList.forEach((s) -> {
                     TreeNode items = new DefaultTreeNode(s, root2);
                     treeNodeList.add(items);
                 });
                 /*
                 /Agrego los entitys al root disponibles que no estan en el menu previo
                  */
-                entidadList.stream().filter((entidad) -> (!searchSubmenu(entidad.getTabla()))).filter((entidad) -> (esSubmenuAgregado(entidad.getTabla()))).map((entidad) -> {
+
+            
+            
+                
+                entidadList.stream().filter((entidad) -> 
+                        (!searchSubmenu(entidad.getTabla()))).map((entidad) -> {
                     TreeNode nodeentidad = new DefaultTreeNode(entidad.getTabla(), nodeDisponibles);
                     return entidad;
                 }).forEachOrdered((entidad) -> {
                     agregadosList.add(entidad.getTabla());
-                });
+                });        
+               
+     
+                       
+             
 
 
                 /*
@@ -285,9 +290,8 @@ public class MySesion implements Serializable {
                 Agregarlo al menu respectico
                  */
                 for (MyMenu m : mymenuList) {
-                    
+
                     if (!m.getSubmenu().isEmpty()) {
-                        
 
                         for (MySubmenu s : m.getSubmenu()) {
 
@@ -303,7 +307,6 @@ public class MySesion implements Serializable {
                             }
                         }
 
-
                     }
                 }
             }
@@ -311,12 +314,10 @@ public class MySesion implements Serializable {
         } catch (Exception e) {
             JSFUtil.addErrorMessage("getEntidadMenuList() " + e.getLocalizedMessage());
         }
-  }
-    
-    
-    
+    }
+
     public MySesion() {
-        
+
         treeNodeMenu = new DefaultTreeNode("Root2", null);
     }
 
@@ -760,9 +761,7 @@ public class MySesion implements Serializable {
         this.masterDetailsList = masterDetailsList;
     }
 
-    
-    
-     /*
+    /*
     verifica si se agrego
      */
     private Boolean esSubmenuAgregado(String submenu) {
@@ -783,13 +782,22 @@ public class MySesion implements Serializable {
      */
     private Boolean searchSubmenu(String texto) {
         try {
+            System.out.println("mymenuList.size() "+mymenuList.size());
+            for(MyMenu m:mymenuList){
+                System.out.println("<<< "+m.getName());
+                for(MySubmenu s:m.getSubmenu()){
+                    System.out.println("++++++ "+s.getName());
+                }
+            }
             System.out.println("Test---> searchSubmenu " + texto);
-            if (mymenuList.stream().anyMatch((m) -> (m.getSubmenu().stream().anyMatch((s) -> (texto.equals(s.getName())))))) {
+            if (mymenuList.stream().anyMatch((m) -> (m.getSubmenu().stream().anyMatch((s) -> (texto.trim().equals(s.getName().trim())))))) {
+                System.out.println("..................encontrado");
                 return true;
             } //comprobar los elementos de menus
         } catch (Exception e) {
             JSFUtil.addErrorMessage("searchSubmenu() " + e.getLocalizedMessage());
         }
+        System.out.println("..................no fue encontrado");
         return false;
     }
 

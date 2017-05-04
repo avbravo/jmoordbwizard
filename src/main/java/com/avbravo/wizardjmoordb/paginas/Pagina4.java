@@ -162,7 +162,7 @@ public class Pagina4 implements Serializable {
                 return "";
             }
 
-            mySesion.setTitulosSubMenu(Utilidades.componerMenu(mySesion.getRoot2()));
+            mySesion.setTitulosSubMenu(Utilidades.componerMenuFromTreeNode(mySesion.getRoot2()));
             mySesion.setTreeNodeMenu(mySesion.getRoot2());
             mySesion.iniciarTree();
             return "pagina5.xhtml";
