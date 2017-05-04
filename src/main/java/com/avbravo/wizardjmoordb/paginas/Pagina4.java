@@ -94,7 +94,7 @@ public class Pagina4 implements Serializable {
     }
 
     public TreeNode getRoot1() {
-        init();
+       // init();
         return root1;
     }
 
@@ -145,6 +145,7 @@ public class Pagina4 implements Serializable {
     @PostConstruct
     public void init() {
         try {
+
             agregadosList = new ArrayList<>();
             root1 = new DefaultTreeNode("Root", null);
             root2 = new DefaultTreeNode("Root2", null);
@@ -294,7 +295,7 @@ public class Pagina4 implements Serializable {
                 return "";
             }
             if (Utilidades.getNumeroHijos(root1) > 1) {
-                JSFUtil.addWarningMessage("Hay elementos del menu sin asignar...");
+                JSFUtil.addWarningMessage("Hay elementos del menu sin asignar..."+ Utilidades.getNumeroHijos(root1));
                 return "";
             }
 
