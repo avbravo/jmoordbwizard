@@ -1196,7 +1196,7 @@ stopWeb/-Inf
                 mySesion.getEntidadMenuList().add(em);
 
             }
-
+mySesion.iniciarTree();
             return "pagina4.xhtml";
         } catch (Exception e) {
             JSFUtil.addErrorMessage("irPagina4() " + e.getLocalizedMessage());

@@ -42,8 +42,8 @@
                       
 
                         <h:panelGrid columns="3">
-                            <p:tree id="tree1"   value="#{pagina4.root1}" var="node" selectionMode="single"
-                                    selection="#{pagina4.selectedNode1}"
+                            <p:tree id="tree1"   value="#{pagina4.mySesion.root1}" var="node" selectionMode="single"
+                                    selection="#{pagina4.mySesion.selectedNode1}"
                                     draggable="true" droppable="true" dragdropScope="myscope">
                                 <p:ajax event="dragdrop" listener="#{pagina4.onDragDrop}" update=":form:msgs,:form:growl" />
                                 <p:treeNode >
@@ -53,9 +53,9 @@
                             <b:iconAwesome name="cogs" />
 
 
-                            <p:tree id="tree2" value="#{pagina4.root2}"
+                            <p:tree id="tree2" value="#{pagina4.mySesion.root2}"
                                     var="node" selectionMode="single"                                    
-                                    selection="#{pagina4.selectedNode2}"
+                                    selection="#{pagina4.mySesion.selectedNode2}"
                                     draggable="true" droppable="true" dragdropScope="myscope">
                                 
                                 <p:ajax event="dragdrop" listener="#{pagina4.onDragDrop}" update=":form:msgs,:form:growl" />

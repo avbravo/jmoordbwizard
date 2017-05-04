@@ -9,6 +9,7 @@ import com.avbravo.wizardjmoordb.beans.Archivos;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.beans.EntidadMenu;
 import com.avbravo.wizardjmoordb.menu.MyMenu;
+import com.avbravo.wizardjmoordb.menu.MySubmenu;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -143,6 +144,15 @@ public class MySesion implements Serializable {
     List<EntidadMenu> entidadMenuList = new ArrayList<>();
 
     private List<String> masterDetailsList = new ArrayList<>();
+    
+      private TreeNode root1;
+
+    private TreeNode root2;
+
+    private TreeNode selectedNode1;
+
+    private TreeNode selectedNode2;
+    List<String> agregadosList = new ArrayList<>();
 
     public List<MyMenu> getMymenuList() {
         return mymenuList;
@@ -163,13 +173,139 @@ public class MySesion implements Serializable {
     public void setTitulosSubMenu(String titulosSubMenu) {
         this.titulosSubMenu = titulosSubMenu;
     }
-    
 
-  
+    public TreeNode getRoot1() {
+        return root1;
+    }
+
+    public void setRoot1(TreeNode root1) {
+        this.root1 = root1;
+    }
+
+    public TreeNode getRoot2() {
+        return root2;
+    }
+
+    public void setRoot2(TreeNode root2) {
+        this.root2 = root2;
+    }
+
+    public TreeNode getSelectedNode1() {
+        return selectedNode1;
+    }
+
+    public void setSelectedNode1(TreeNode selectedNode1) {
+        this.selectedNode1 = selectedNode1;
+    }
+
+    public TreeNode getSelectedNode2() {
+        return selectedNode2;
+    }
+
+    public void setSelectedNode2(TreeNode selectedNode2) {
+        this.selectedNode2 = selectedNode2;
+    }
+
+    public List<String> getAgregadosList() {
+        return agregadosList;
+    }
+
+    public void setAgregadosList(List<String> agregadosList) {
+        this.agregadosList = agregadosList;
+    }
+    
+/**
+ * 
+ */
+  public void iniciarTree(){
+              try {
+
+            agregadosList = new ArrayList<>();
+            root1 = new DefaultTreeNode("Root", null);
+            root2 = new DefaultTreeNode("Root2", null);
+            TreeNode nodeDisponibles = new DefaultTreeNode("Disponibles", root1);
+
+            if (mymenuList.isEmpty()) {
+                //Primera vez no hay elementos de menu
+                entidadList.forEach((entidad) -> {
+                    TreeNode nodeentidad = new DefaultTreeNode(entidad.getTabla(), nodeDisponibles);
+                });
+//root2
+                menubarList.forEach((s) -> {
+                    TreeNode items = new DefaultTreeNode(s, root2);
+                });
+            } else {
+                /*
+                Crea lista root2 con los menu bar
+                 */
+
+                List<TreeNode> treeNodeList = new ArrayList<>();
+               menubarList.forEach((s) -> {
+                    TreeNode items = new DefaultTreeNode(s, root2);
+                    treeNodeList.add(items);
+                });
+                /*
+                /Agrego los entitys al root disponibles que no estan en el menu previo
+                 */
+                entidadList.stream().filter((entidad) -> (!searchSubmenu(entidad.getTabla()))).filter((entidad) -> (esSubmenuAgregado(entidad.getTabla()))).map((entidad) -> {
+                    TreeNode nodeentidad = new DefaultTreeNode(entidad.getTabla(), nodeDisponibles);
+                    return entidad;
+                }).forEachOrdered((entidad) -> {
+                    agregadosList.add(entidad.getTabla());
+                });
+
+
+                /*
+                Verificar los menus que se quitaron y agrega estos elementos como disponibles
+                
+                 */
+                for (MyMenu m : mymenuList) {
+                    if (!searchMenu(m.getName())) {
+                        m.getSubmenu().stream().filter((s) -> (!esSubmenuAgregado(s.getName()))).map((s) -> {
+                            TreeNode nodeentidad = new DefaultTreeNode(s.getName(), nodeDisponibles);
+                            return s;
+                        }).forEachOrdered((s) -> {
+                            agregadosList.add(s.getName());
+                        });
+                    }
+                }
+
+                /*
+                Agregarlo al menu respectico
+                 */
+                for (MyMenu m : mymenuList) {
+                    
+                    if (!m.getSubmenu().isEmpty()) {
+                        
+
+                        for (MySubmenu s : m.getSubmenu()) {
+
+                            if (!s.getName().equals("")) {
+
+                                if (!esSubmenuAgregado(s.getName())) {
+                                    for (TreeNode n : treeNodeList) {
+                                        if (m.getName().equals(n.getData().toString())) {
+                                            TreeNode nodeentidad = new DefaultTreeNode(s.getName(), n);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("getEntidadMenuList() " + e.getLocalizedMessage());
+        }
+  }
     
     
     
     public MySesion() {
+        
         treeNodeMenu = new DefaultTreeNode("Root2", null);
     }
 
@@ -613,4 +749,52 @@ public class MySesion implements Serializable {
         this.masterDetailsList = masterDetailsList;
     }
 
+    
+    
+     /*
+    verifica si se agrego
+     */
+    private Boolean esSubmenuAgregado(String submenu) {
+        try {
+            if (agregadosList.stream().anyMatch((s) -> (s.equals(submenu)))) {
+                return true;
+            }
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("getEntidadMenuList() " + e.getLocalizedMessage());
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param texto
+     * @return
+     */
+    private Boolean searchSubmenu(String texto) {
+        try {
+            System.out.println("Test---> searchSubmenu " + texto);
+            if (mymenuList.stream().anyMatch((m) -> (m.getSubmenu().stream().anyMatch((s) -> (texto.equals(s.getName())))))) {
+                return true;
+            } //comprobar los elementos de menus
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("searchSubmenu() " + e.getLocalizedMessage());
+        }
+        return false;
+    }
+
+    /*
+    verifica si existe ese menu definido
+     */
+    private Boolean searchMenu(String menubar) {
+        try {
+            if (menubarList.stream().anyMatch((s) -> (s.equals(menubar)))) {
+                return true;
+            }
+            return false;
+
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("searchMenu() " + e.getLocalizedMessage());
+        }
+        return false;
+    }
 }
