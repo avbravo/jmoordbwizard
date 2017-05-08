@@ -328,6 +328,8 @@ public class JSFUtil {
                 JSFUtil.addWarningMessage("No existe el archivo web.xml No es un proyecto web");
                 return false;
             }
+            return true;
+            
             } catch (Exception e) {
                  JSFUtil.addErrorMessage("isWeb()) " + e.getLocalizedMessage());
             }

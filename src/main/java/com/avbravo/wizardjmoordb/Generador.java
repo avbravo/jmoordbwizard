@@ -1150,6 +1150,8 @@ stopWeb/-Inf
     public String irPagina2() {
         try {
             if (!JSFUtil.isWeb(proyectoJEE.getPathWebInf() + "web.xml")) {
+                 JSFUtil.addWarningMessage("No es un proyecto web valido" +proyectoJEE.getPathWebInf());
+                 System.out.println("path "+proyectoJEE.getPathWebInf() + "web.xml");
                 return "";
             }
             if (!mySesion.getPagina2()) {
