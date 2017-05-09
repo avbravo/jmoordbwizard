@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb;
+package com.avbravo.wizardjmoordb.directorios;
 
+import com.avbravo.wizardjmoordb.MySesion;
+import com.avbravo.wizardjmoordb.ProyectoEJB;
+import com.avbravo.wizardjmoordb.ProyectoJEE;
 import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import java.io.Serializable;
@@ -101,6 +104,7 @@ public class Directorios implements Serializable {
             if (!Utilidades.searchDirectorie(proyectoJEE.getPathMainWebappResourcesAvbravo())) {
                 Utilidades.mkdir(proyectoJEE.getPathMainWebappResourcesAvbravo());
             }
+            
             /**
              * bootstrap
              */
@@ -200,5 +204,22 @@ public class Directorios implements Serializable {
         }
         return false;
     }
+    
+    /*
+    crea los directorios para los reportes
+    */
+    public Boolean makeReportesDirectorios(String name){
+        try {
+       String path = proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + name + proyectoJEE.getSeparator();
+             if (!Utilidades.searchDirectorie(path)) {
+                Utilidades.mkdir(path);
+            }
+        } catch (Exception e) {
+               JSFUtil.addErrorMessage("makeReportesDirectorios() " + e.getLocalizedMessage());
+        }
+        return false;
+    }
+    
+    
 
 }

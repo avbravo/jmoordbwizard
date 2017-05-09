@@ -5,6 +5,7 @@
  */
 package com.avbravo.wizardjmoordb;
 
+import com.avbravo.wizardjmoordb.directorios.Directorios;
 import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.configurationfile.ConfigurationFilerRead;
 import com.avbravo.wizardjmoordb.old.EntidadGenerador;
@@ -730,6 +731,10 @@ public class Generador implements Serializable {
 
             if (!mySesion.getEntidadList().isEmpty()) {
 //                    cargarTree();
+// crea los directorios de los reportes
+                mySesion.getEntidadList().forEach((entidad) -> {
+                    directorios.makeReportesDirectorios(entidad.getTabla());
+                });
 
                 if (tipoGeneracion.equals("codigopaginas") || tipoGeneracion.equals("codigo")) {
 
@@ -1150,8 +1155,8 @@ stopWeb/-Inf
     public String irPagina2() {
         try {
             if (!JSFUtil.isWeb(proyectoJEE.getPathWebInf() + "web.xml")) {
-                 JSFUtil.addWarningMessage("No es un proyecto web valido" +proyectoJEE.getPathWebInf());
-                 System.out.println("path "+proyectoJEE.getPathWebInf() + "web.xml");
+                JSFUtil.addWarningMessage("No es un proyecto web valido" + proyectoJEE.getPathWebInf());
+                System.out.println("path " + proyectoJEE.getPathWebInf() + "web.xml");
                 return "";
             }
             if (!mySesion.getPagina2()) {
