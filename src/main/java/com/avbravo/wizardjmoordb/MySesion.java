@@ -172,7 +172,7 @@ public class MySesion implements Serializable {
         this.mymenuList = mymenuList;
     }
 
-    //elemento de menu que sera almacenado
+    
     public String getTitulosSubMenu() {
         return titulosSubMenu;
     }

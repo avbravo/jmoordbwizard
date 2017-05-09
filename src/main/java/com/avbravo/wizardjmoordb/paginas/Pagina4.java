@@ -130,17 +130,6 @@ public class Pagina4 implements Serializable {
 
    
 
-//    public String show() {
-//        try {
-//
-//            Utilidades.showTree(root2);
-//            System.out.println("compuesto: " + Utilidades.componerMenu(root2));
-//
-//        } catch (Exception e) {
-//            JSFUtil.addErrorMessage("show() " + e.getLocalizedMessage());
-//        }
-//        return "";
-//    }
 
     public String irPagina5() {
         try {
@@ -163,6 +152,7 @@ public class Pagina4 implements Serializable {
             }
 
             mySesion.setTitulosSubMenu(Utilidades.componerMenuFromTreeNode(mySesion.getRoot2()));
+            mySesion.setMymenuList(Utilidades.descomponerMenuString(mySesion.getTitulosSubMenu()));
             mySesion.setTreeNodeMenu(mySesion.getRoot2());
             mySesion.iniciarTree();
             return "pagina5.xhtml";

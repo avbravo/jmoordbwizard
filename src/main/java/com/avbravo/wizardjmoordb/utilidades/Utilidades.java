@@ -1674,6 +1674,7 @@ public class Utilidades {
         }
         return menu;
     }
+   
     
     
     /**
@@ -1699,10 +1700,10 @@ public class Utilidades {
                  */
                 List<MySubmenu> listMySubmenu = new ArrayList<>();
                 String r = s.substring(s.indexOf("[") + 1);
-//                System.out.println("---->items " + r);
+
                 String[] items = r.split(",");
                 for (String i : items) {
-//                    System.out.println("--------->> " + i);
+
                     MySubmenu ms = new MySubmenu();
                     ms.setName(i.trim());
                     listMySubmenu.add(ms);

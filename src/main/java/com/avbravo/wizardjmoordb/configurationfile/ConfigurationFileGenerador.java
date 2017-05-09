@@ -131,9 +131,9 @@ public class ConfigurationFileGenerador implements Serializable {
                     fw.write("roles=" + mySesion.getRoles() + "\r\n");
                     fw.write("numeroMenuBar=" + mySesion.getNumeroMenuBar() + "\r\n");
                     fw.write("titulosMenuBar=" + mySesion.getTitulosMenuBar() + "\r\n");
-                    fw.write("titulosSubMenu=" + mySesion.getTitulosSubMenu()+ "\r\n");
-                    fw.write("generarRemplazarMenu=" + mySesion.getGenerarRemplazarMenu()+ "\r\n");
-                    
+                    fw.write("titulosSubMenu=" + mySesion.getTitulosSubMenu() + "\r\n");
+                    fw.write("generarRemplazarMenu=" + mySesion.getGenerarRemplazarMenu() + "\r\n");
+
                     fw.write("addUserNameLogeado=" + mySesion.getAddUserNameLogeado() + "\r\n");
                     fw.write("addFechaSystema=" + mySesion.getAddFechaSystema() + "\r\n");
                     /*
@@ -144,23 +144,23 @@ public class ConfigurationFileGenerador implements Serializable {
                     fw.write("maximoAutocompleteItemTip=" + mySesion.getMaximoAutocompleteItemTip() + "\r\n");
                     /*
                     field for row
-                    */
+                     */
                     fw.write("fieldByRowView=" + mySesion.getFieldByRowView() + "\r\n");
                     /*
                     Button
-                    */
+                     */
                     fw.write("typeOfButton=" + mySesion.getTypeOfButton() + "\r\n");
-/*
+                    /*
                     dates
-                    */
+                     */
 
-fw.write("timeZone=" + mySesion.getTimeZone() + "\r\n");
-fw.write("patternDate=" + mySesion.getPatternDate() + "\r\n");
-fw.write("patternDateTime=" + mySesion.getPatternDateTime() + "\r\n");
+                    fw.write("timeZone=" + mySesion.getTimeZone() + "\r\n");
+                    fw.write("patternDate=" + mySesion.getPatternDate() + "\r\n");
+                    fw.write("patternDateTime=" + mySesion.getPatternDateTime() + "\r\n");
 
-/*
+                    /*
 
-*/
+                     */
                     fw.write("frameworkPrimefaces=" + mySesion.getFrameworkPrimefaces() + "\r\n");
                     fw.write("frameworkBootfaces=" + mySesion.getFrameworkBootfaces() + "\r\n");
                     fw.write("frameworkMaterialprime=" + mySesion.getFrameworkMaterialprime() + "\r\n");
