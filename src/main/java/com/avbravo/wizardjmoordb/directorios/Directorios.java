@@ -210,7 +210,8 @@ public class Directorios implements Serializable {
     */
     public Boolean makeReportesDirectorios(String name){
         try {
-       String path = proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + name + proyectoJEE.getSeparator();
+            name = name.toLowerCase();
+       String path = proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator()+"reportes"+ proyectoJEE.getSeparator() + name + proyectoJEE.getSeparator();
              if (!Utilidades.searchDirectorie(path)) {
                 Utilidades.mkdir(path);
             }
