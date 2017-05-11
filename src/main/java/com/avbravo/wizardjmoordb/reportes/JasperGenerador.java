@@ -52,10 +52,10 @@ public class JasperGenerador implements Serializable {
             for (Entidad entidad : mySesion.getEntidadList()) {
                 String name = Utilidades.letterToLower(entidad.getTabla());
 
-                 String directorioreport  = proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator()+"reportes"+ proyectoJEE.getSeparator() + name + proyectoJEE.getSeparator();
-           //     String directorioentity = proyectoJEE.getPathMainWebappPages() + Utilidades.letterToLower(entidad.getTabla()) + proyectoJEE.getSeparator();
+                String directorioreport = proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "reportes" + proyectoJEE.getSeparator() + name + proyectoJEE.getSeparator();
+                //     String directorioentity = proyectoJEE.getPathMainWebappPages() + Utilidades.letterToLower(entidad.getTabla()) + proyectoJEE.getSeparator();
 //                procesar(name + ".xhtml", directorioentity + proyectoJEE.getSeparator() + name + ".xhtml", entidad);
-                procesar(name+".jrxml", directorioreport+ proyectoJEE.getSeparator() + name+".jrxml", entidad);
+                procesar(name + ".jrxml", directorioreport + proyectoJEE.getSeparator() + name + ".jrxml", entidad);
             }
 
         } catch (Exception e) {
@@ -105,215 +105,78 @@ public class JasperGenerador implements Serializable {
                 try (FileWriter fw = new FileWriter(file)) {
                     fw.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "\r\n");
                     fw.write("<jasperReport xmlns=\"http://jasperreports.sourceforge.net/jasperreports\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd\" name=\"report name\" pageWidth=\"595\" pageHeight=\"842\" columnWidth=\"535\" leftMargin=\"20\" rightMargin=\"20\" topMargin=\"20\" bottomMargin=\"20\" uuid=\"63ad1a18-4d4e-44e1-97f8-c1744418d899\">" + "\r\n");
-                    fw.write("<property name=\"ireport.zoom\" value=\"1.0\"/>" + "\r\n");
-                    fw.write("<property name=\"ireport.x\" value=\"0\"/>" + "\r\n");
-                    fw.write("<property name=\"ireport.y\" value=\"144\"/>" + "\r\n");
-                    fw.write("<property name=\"ireport.y\" value=\"144\"/>" + "\r\n");
-                    
-	
-	
+                    fw.write("        <property name=\"ireport.zoom\" value=\"1.0\"/>" + "\r\n");
+                    fw.write("        <property name=\"ireport.x\" value=\"0\"/>" + "\r\n");
+                    fw.write("        <property name=\"ireport.y\" value=\"144\"/>" + "\r\n");
+                    fw.write("        <property name=\"ireport.y\" value=\"144\"/>" + "\r\n");
+
                     fw.write("" + "\r\n");
 
-                    // autocomplete es el campo llave
                     for (Atributos atributos : entidad.getAtributosList()) {
-                        if (atributos.getEsPrimaryKey()) {
-                            String columna = Utilidades.letterToLower(atributos.getNombre());
+                        switch (atributos.getTipo()) {
+                            case "Integer":
+                                fw.write("        <field name=\"numero\" class=\"java.lang.Number\"/>" + "\r\n");
+                            case "Double":
+                            case "double":
+                                break;
+                            case "String":
+                                fw.write("        <field name=\"numero\" class=\"java.lang.String\"/>" + "\r\n");
+                                break;
 
-                            fw.write("                           <div class=\"form-group row\">" + "\r\n");
-                            fw.write("                                <p:outputLabel class=\"col-xs-2 col-form-label \" value=\"#{msg['field." + columna + "']}\"/>" + "\r\n");
-                            fw.write("" + "\r\n");
-                            fw.write("                                <div class=\"col-xs-4\">" + "\r\n");
-                            fw.write("                                    <p:remoteCommand  update=\":form:content\"" + "\r\n");
-                            fw.write("                                                      name=\"remote" + columna + "\" actionListener=\"#{" + name + "Controller.verifyNew()}\"/>" + "\r\n");
-                            fw.write("                                    <p:inputText id=\"name\" rendered=\"#{!" + name + "Controller.forsearch}\" " + "\r\n");
-                            fw.write("                                                 placeholder=\"#{app['info.ingresenuevodato']}\"" + "\r\n");
-                            fw.write("                                                 value=\"#{" + name + "Controller." + name + "." + columna + "}\" " + "\r\n");
-                            fw.write("                                                 class=\"required form-name-input fullWidth\" " + "\r\n");
-                            fw.write("                                                 onkeypress=\"if (event.keyCode == 13) {" + "\r\n");
-                            fw.write("                                                             remote" + columna + "();" + "\r\n");
-                            fw.write("                                                             return false;" + "\r\n");
-                            fw.write("                                                         }\"" + "\r\n");
-                            fw.write("                                                 />" + "\r\n");
-                            fw.write("                    " + "\r\n");
-                            fw.write("                                    <p:autoComplete rendered=\"#{" + name + "Controller.forsearch}\" scrollHeight=\"250\"   dropdown=\"false\"  size=\"45\"  " + "\r\n");
-                            fw.write("                                                    id=\"autocomplete\"" + "\r\n");
-                            fw.write("" + "\r\n");
-                            fw.write("                                                    placeholder=\"#{app['info.ingresedatobuscar']}\"" + "\r\n");
-                            fw.write("                                                    emptyMessage=\"#{app['info.nohayregistros']}\" " + "\r\n");
-                            fw.write("                                                    title=\"#{app['info.by']} #{msg['field." + columna + "']}\"" + "\r\n");
-                            fw.write("                                                    label=\"#{app['info.by']} #{msg['field." + columna + "']}\"" + "\r\n");
-                            fw.write("" + "\r\n");
-                            fw.write("                                                    alt=\"#{app['info.searchby']} #{msg['field." + columna + "']}\"" + "\r\n");
-                            fw.write("                                                    value=\"#{" + name + "Controller." + name + "Selected}\"  " + "\r\n");
-                            fw.write("                                                    completeMethod=\"#{" + name + "Controller." + name + "Services.complete"+Utilidades.letterToUpper(columna)+"}\"  " + "\r\n");
-                            fw.write("                                                    var=\"p\"" + "\r\n");
-                            //iemlabel
-                            String itemLabel = "itemLabel=\"#{p." + columna + "}";
-                            Integer contadorAgregados = 0;
-                            //Aqui agrega atributos al itemLabel del autocomplete
-//                            for (Atributos atr : entidad.getAtributosList()) {
-//                                contadorAgregados++;
-//                                if (!atr.getNombre().equals(columna)) {
-//                                    if (contadorAgregados <= mySesion.getMaximoAutocompleteItemLabel()) {
-//                                        itemLabel += " " + "#{p." + atr.getNombre() + "}";
-//                                    }
-//
-//                                }
-//
+                            case "Date":
+                                fw.write("        <field name=\"numero\" class=\"java.util.Date\"/>" + "\r\n");
+
+                            case "Boolean":
+                                fw.write("        <field name=\"numero\" class=\"java.lang.Boolean\"/>" + "\r\n");
+                                break;
+                            default:
+
+                        }
+
+////getFieldByRowView()
+//                            if (contador.equals(mySesion.getFieldByRowView())) {
+//                                fw.write("                            </div>" + "\r\n");
+//                                contador = 0;
 //                            }
-                            itemLabel += " \"" ;
-                            fw.write("                                                         " + itemLabel + "\r\n");
-
-                            //--itemlabel
-                            //  fw.write("                                                    itemLabel=\"#{p." + columna + "}\"" + "\r\n");
-                            fw.write("                                                    itemValue=\"#{p}\" forceSelection=\"true\"> " + "\r\n");
-
-                            fw.write("                                        <f:converter binding=\"#{" + name + "Converter}\"/>" + "\r\n");
-                            fw.write("                                        <p:ajax event=\"itemSelect\" listener=\"#{" + name + "Controller.query}\"" + "\r\n");
-                            fw.write("                                                update=\" :form:msgs,:form:content\" />  " + "\r\n");
-                            fw.write("                                        <f:facet name=\"itemtip\">" + "\r\n");
-                            fw.write("                                            <h:panelGrid columns=\"1\" cellpadding=\"5\">" + "\r\n");
-                            fw.write("                                                    <h:outputText value=\"#{msg['field." + columna + "']} #{p." + columna + "}\" />" + "\r\n");
-                            contadorAgregados = 0;
-                            for (Atributos atr : entidad.getAtributosList()) {
-                                contadorAgregados++;
-                                if (!atr.getNombre().equals(columna)) {
-                                    if (contadorAgregados <= mySesion.getMaximoAutocompleteItemTip()) {
-                                        fw.write("                                                 <h:outputText value=\"#{msg['field." + atr.getNombre() + "']} #{p." + atr.getNombre() + "}\" />" + "\r\n");
-                                    }
-                                }
-                            }
-//                            fw.write("                                                <h:outputText value=\"#{p." + columna + "}\" />" + "\r\n");
-//                            fw.write("                                                <h:outputText value=\"#{p.maximo}\" />" + "\r\n");
-                            fw.write("                                            </h:panelGrid>" + "\r\n");
-                            fw.write("                                        </f:facet>" + "\r\n");
-                            fw.write("                                    </p:autoComplete>   " + "\r\n");
-                            fw.write("                                </div>" + "\r\n");
-                            fw.write("                            </div>" + "\r\n");
-                            fw.write("" + "\r\n");
-                            fw.write("" + "\r\n");
-                            fw.write("" + "\r\n");
-
-                        }//primaryKey
-
-                    }
-                    String columnKey = "";
-                    String columnDate = "";
-                    Boolean tieneUsername = false;
-                    Boolean isIntegerKey = false;
-                    for (Atributos a : entidad.getAtributosList()) {
-                        if (a.getEsPrimaryKey()) {
-                            columnKey = a.getNombre();
-                            isIntegerKey = a.getTipo().equals("Integer");
-                        } else if (a.getTipo().equals("Date")) {
-                            columnDate = a.getNombre();
-                        }
-                        if (a.getTipo().equals(mySesion.getEntidadUser().getTabla())) {
-                            tieneUsername = true;
-                        }
-
-                    }
-//getFieldByRowView()
-                    Integer contador = 0;
-                    Integer fieldsAgregados = 0;
-                    Integer contadorfieldByRowView = 0;
-                    for (Atributos atr : entidad.getAtributosList()) {
-                        if (!atr.getEsPrimaryKey()) {
-                            contador++;
-                            fieldsAgregados++;
-                            if (contador == 1) {
-                                fw.write("                            <div class=\"form-group row\" >" + "\r\n");
-                            }
-                            String columna = Utilidades.letterToLower(atr.getNombre());
-                            contadorfieldByRowView++;
-                            switch (atr.getTipo()) {
-                                case "Integer":
-                                case "Double":
-                                case "double":
-                                case "String":
-                                    fw.write("                                <p:outputLabel class=\"col-xs-2 col-form-label\" value=\"#{msg['field." + columna + "']}\"/>" + "\r\n");
-                                    fw.write("                                <div class=\"col-xs-4\">" + "\r\n");
-                                    fw.write("" + "\r\n");
-                                    fw.write("                                    <p:inputText rendered=\"#{" + name + "Controller.writable}\" id=\"" + columna + "\" class=\"fullWidth\" value=\"#{" + name + "Controller." + name + "." + columna + "}\"" + "\r\n");
-                                    fw.write("                                                 placeholder=\"#{msg['field." + columna + "']}\"  maxlength=\"55\" " + "\r\n");
-                                    fw.write("                                                 required=\"true\" requiredMessage=\"#{msg['field." + columna + "']} #{app['info.required']}\"/>" + "\r\n");
-                                    fw.write("                                </div>" + "\r\n");
-                                    break;
-
-                                case "Date":
-                                    fw.write("                                <p:outputLabel class=\"col-xs-2 col-form-label\" value=\"#{msg['field." + columna + "']}\"/>" + "\r\n");
-                                    fw.write("                                <div class=\"col-xs-4\">" + "\r\n");
-                                    fw.write("" + "\r\n");
-                                    fw.write("                                    <p:calendar rendered=\"#{" + name + "Controller.writable}\" id=\"" + columna + "\" class=\"fullWidth\" value=\"#{" + name + "Controller." + name + "." + columna + "}\"" + "\r\n");
-                                    fw.write("                                                 placeholder=\"#{msg['field." + columna + "']}\"  maxlength=\"55\" " + "\r\n");
-                                    if (!mySesion.getTimeZone().equals("")) {
-                                        fw.write("                                                 timeZone=" + mySesion.getTimeZone() + "" + "\r\n");
-                                    }
-                                    if (!mySesion.getPatternDate().equals("")) {
-                                        fw.write("                                                 pattern=" + mySesion.getPatternDate() + "" + "\r\n");
-                                    }
-                                    fw.write("                                                 required=\"true\" requiredMessage=\"#{msg['field." + columna + "']} #{app['info.required']}\"/>" + "\r\n");
-                                    fw.write("                                </div>" + "\r\n");
-                                    break;
-                                default:
-                                    //tipo relacionado
-                                    // si es el username del loging
-                                    if (atr.getTipo().equals(mySesion.getEntidadUser().getTabla()) && mySesion.getAddUserNameLogeado()) {
-                                        //aqui no se genera nada
-
-                                    } else {
-                                        //generar el autocomplete del componente
-                                        String nameRelational = Utilidades.letterToLower(atr.getTipo());
-                                        String columnKeyRelational = "";
-                                        for (Entidad entidad2 : mySesion.getEntidadList()) {
-                                            String name2 = Utilidades.letterToLower(entidad2.getTabla());
-                                            if (nameRelational.equals(name2)) {
-                                                for (Atributos a : entidad2.getAtributosList()) {
-                                                    if (a.getEsPrimaryKey()) {
-                                                        columnKeyRelational = a.getNombre();
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        fw.write("                                <p:outputLabel class=\"col-xs-2 col-form-label\" value=\"#{msg['field." + columna + "']}\"/>" + "\r\n");
-                                        fw.write("                                <div class=\"col-xs-4\">" + "\r\n");
-                                        fw.write("" + "\r\n");
-                                        fw.write("                                    <b:selectOneMenu rendered=\"#{" + name + "Controller.writable}\"" + "\r\n");
-                                        fw.write("                                                     class=\"fullWidth required ui-selectonemenu-label ui-inputfield ui-corner-all\"" + "\r\n");
-                                        fw.write("                                                     id=\"" + columna + "\" value=\"#{" + name + "Controller." + name + "." + columna + "}\"  " + "\r\n");
-                                        fw.write("                                                  required=\"true\"   requiredMessage=\"#{msg['field." + columnKeyRelational + "']} #{app['info.required']}\"" + "\r\n");
-                                        fw.write("                                                     >" + "\r\n");
-                                        fw.write("                                        <!-- TODO: update below reference to list of available items-->" + "\r\n");
-                                        fw.write("                                        <f:selectItem itemLabel=\"#{" + name + "Controller." + name + "." + columna + "}\" " + "\r\n");
-                                        fw.write("                                                      itemValue=\"#{" + name + "Controller." + name + "." + columna + "}\"/>" + "\r\n");
-                                        fw.write("                                        <f:selectItems value=\"#{" + name + "Controller." + columna + "List}\"" + "\r\n");
-                                        fw.write("                                                       var=\"item\"" + "\r\n");
-                                        fw.write("                                                       itemValue=\"#{item}\"" + "\r\n");
-
-                                        fw.write("                                                       itemLabel=\"#{item." + columnKeyRelational + "}\"" + "\r\n");
-                                        fw.write("                                                       />" + "\r\n");
-                                        fw.write("" + "\r\n");
-                                        fw.write("                                    </b:selectOneMenu>" + "\r\n");
-
-                                        fw.write("                                </div>" + "\r\n");
-
-                                        
-                                    }
-
-                            }
-
-                        }
-                        if (contador.equals(mySesion.getFieldByRowView())) {
-                            fw.write("                            </div>" + "\r\n");
-                            contador = 0;
-                        }
                     } //for
                     //si es impar la cantidad de datos y el numero de registros debe agregarse un dixv
 //                    if ((fieldsAgregados.intValue() % 2 != 0 && mySesion.getFieldByRowView() % 2 == 0) || (fieldsAgregados.intValue() % 2 == 0 && mySesion.getFieldByRowView() % 2 != 0)) {
 //                        fw.write("                       </div>" + "\r\n");
 //
 //                    }
-                 
+                    fw.write("        <background>" + "\r\n");
+                    fw.write("		<band splitType=\"Stretch\"/>" + "\r\n");
+                    fw.write("	</background>" + "\r\n");
+                    fw.write("	<title>" + "\r\n");
+                    fw.write("		<band height=\"9\" splitType=\"Stretch\"/>" + "\r\n");
+                    fw.write("	</title>" + "\r\n");
+                    fw.write("      <pageHeader>" + "\r\n");
+                    fw.write("		<band height=\"55\" splitType=\"Stretch\">" + "\r\n");
+                    fw.write("			<staticText>" + "\r\n");
+                    fw.write("				<reportElement x=\"240\" y=\"18\" width=\"63\" height=\"20\" uuid=\"9e43e6b2-7c78-4094-bd32-bbce7a7ec79c\"/>" + "\r\n");
+                    fw.write("				<textElement>" + "\r\n");
+                    fw.write("					<font isBold=\"true\"/>" + "\r\n");
+                    fw.write("				</textElement>" + "\r\n");
+                    fw.write("				<text><![CDATA["+entidad.getTabla().toUpperCase()+"]]></text>" + "\r\n");
+                    fw.write("			</staticText>" + "\r\n");
+                    fw.write("                        <staticText>" + "\r\n");
+                    fw.write("				<reportElement x=\"373\" y=\"18\" width=\"34\" height=\"20\" uuid=\"14f76f42-77f2-4c4c-9596-6ec59fba0e85\"/>" + "\r\n");
+                    fw.write("				<textElement>" + "\r\n");
+                    fw.write("					<font isBold=\"true\"/>" + "\r\n");
+                    fw.write("				</textElement>" + "\r\n");
+                    fw.write("				<text><![CDATA[Fecha:]]></text>" + "\r\n");
+                    fw.write("			</staticText>" + "\r\n");
+                    fw.write("			<textField pattern=\"yyyy\">" + "\r\n");
+                    fw.write("				<reportElement x=\"411\" y=\"18\" width=\"100\" height=\"20\" uuid=\"ac376dee-b970-4156-8eeb-e121ce7a91a3\"/>" + "\r\n");
+                    fw.write("				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>" + "\r\n");
+                    fw.write("			</textField>" + "\r\n");
+                    fw.write("" + "\r\n");
+                    fw.write("		</band>" + "\r\n");
+                    fw.write("	</pageHeader>" + "\r\n");
+                    
+                    
+                    
+
                     fw.write("</jasperReport>" + "\r\n");
                     fw.close();
 
