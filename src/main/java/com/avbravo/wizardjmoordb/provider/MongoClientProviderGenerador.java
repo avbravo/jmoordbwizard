@@ -70,7 +70,7 @@ public class MongoClientProviderGenerador implements Serializable {
     private Boolean verificarFile() {
         try {
             String ruta = proyectoEJB.getPathProvider() + "MongoClientProvider.java";
-            System.out.println("ruta>>>>>>>>>>>>: "+ruta);
+            
             if (!Utilidades.existeArchivo(ruta)) {
                 createFile(ruta, "MongoClientProvider");
             }

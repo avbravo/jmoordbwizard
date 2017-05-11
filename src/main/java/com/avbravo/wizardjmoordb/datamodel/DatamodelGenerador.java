@@ -63,7 +63,7 @@ public class DatamodelGenerador implements Serializable {
 
     private Boolean procesar(Entidad entidad, String archivo, String ruta) {
         try {
-            System.out.println("Ruta:>>>> "+ruta);
+            
             Path path = Paths.get(ruta);
             if (Files.notExists(path, new LinkOption[]{LinkOption.NOFOLLOW_LINKS})) {
                 crearFile(ruta, entidad, archivo);

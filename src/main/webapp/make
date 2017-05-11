@@ -21,17 +21,14 @@ public int cantRows(){
     }
 
 
-MENU
- List<MyMenu> list=   r.descomponer("{ Registros:[Paises]}{ Reportes:[Personas,Usuario]}{ File:[]}");
-     
-     
-     for(MyMenu m:list){
-         System.out.println("<----> "+m.getName());
-         for(MySubmenu ms:m.getSubmenu()){
-             System.out.println("......... "+ms.getName());
-         }
-     }
-
+COLAPSAR CODIGO EN EL IDE
+ // <editor-fold defaultstate="collapsed" desc="Generated Code">   
+      public static String generateUniqueID() {
+        String strValue = "";
+        UUID idUnique = UUID.randomUUID();
+        strValue = idUnique.toString();
+        return strValue.toUpperCase();
+    }// </editor-fold>   
 
 
 

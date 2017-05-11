@@ -21,7 +21,7 @@ import javax.inject.Inject;
  *
  * @author avbravoserver
  */
-@Named(value = "directorios")
+@Named
 @RequestScoped
 public class Directorios implements Serializable {
 

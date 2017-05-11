@@ -37,6 +37,10 @@ public class JasperGenerador implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(JasperGenerador.class.getName());
+    Integer x[] = {0, 111, 222, 333, 444}; // son las x para los titulos
+    Integer width = 100;
+    Integer height = 20;
+    Integer fontSize = 9;
 
     @Inject
     MySesion mySesion;
@@ -46,24 +50,23 @@ public class JasperGenerador implements Serializable {
     /**
      * Creates a new instance of Facade
      */
+    // <editor-fold defaultstate="collapsed" desc="generar">  
     public void generar() {
         try {
             //recorrer el entity para verificar que existan todos los EJB
-            for (Entidad entidad : mySesion.getEntidadList()) {
+            mySesion.getEntidadList().forEach((entidad) -> {
                 String name = Utilidades.letterToLower(entidad.getTabla());
-
                 String directorioreport = proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "reportes" + proyectoJEE.getSeparator() + name + proyectoJEE.getSeparator();
-                //     String directorioentity = proyectoJEE.getPathMainWebappPages() + Utilidades.letterToLower(entidad.getTabla()) + proyectoJEE.getSeparator();
-//                procesar(name + ".xhtml", directorioentity + proyectoJEE.getSeparator() + name + ".xhtml", entidad);
-                procesar(name + ".jrxml", directorioreport + proyectoJEE.getSeparator() + name + ".jrxml", entidad);
-            }
+                procesar("all" + ".jrxml", directorioreport + proyectoJEE.getSeparator() + "all" + ".jrxml", entidad);
+            });
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
 
         }
-    }
+    }// </editor-fold>  
 
+    // <editor-fold defaultstate="collapsed" desc="procesar">  
     private Boolean procesar(String archivo, String ruta, Entidad entidad) {
         try {
 
@@ -78,14 +81,17 @@ public class JasperGenerador implements Serializable {
         return true;
 
     }
+// </editor-fold> 
 
     /**
-     * deleteAll
      *
-     * @param entidad
+     * @param path
      * @param archivo
+     * @param entidad
      * @return
+     * @throws IOException
      */
+    // <editor-fold defaultstate="collapsed" desc="crearFile"> 
     private Boolean crearFile(String path, String archivo, Entidad entidad) throws IOException {
         try {
             String name = Utilidades.letterToLower(entidad.getTabla());
@@ -108,28 +114,73 @@ public class JasperGenerador implements Serializable {
                     fw.write("        <property name=\"ireport.zoom\" value=\"1.0\"/>" + "\r\n");
                     fw.write("        <property name=\"ireport.x\" value=\"0\"/>" + "\r\n");
                     fw.write("        <property name=\"ireport.y\" value=\"144\"/>" + "\r\n");
-                    fw.write("        <property name=\"ireport.y\" value=\"144\"/>" + "\r\n");
 
                     fw.write("" + "\r\n");
 
                     for (Atributos atributos : entidad.getAtributosList()) {
+                        System.out.println("Tipo de dato::::::::::::>>> " + atributos.getTipo());
+                        name = atributos.getNombre().toLowerCase();
                         switch (atributos.getTipo()) {
+
                             case "Integer":
-                                fw.write("        <field name=\"numero\" class=\"java.lang.Number\"/>" + "\r\n");
+                            case "int":
+                                fw.write("        <field name=\"" + name + "\" class=\"java.lang.Number\"/>" + "\r\n");
                             case "Double":
                             case "double":
                                 break;
                             case "String":
-                                fw.write("        <field name=\"numero\" class=\"java.lang.String\"/>" + "\r\n");
+                            case "Character":
+                                fw.write("        <field name=\"" + name + "\" class=\"java.lang.String\"/>" + "\r\n");
                                 break;
 
                             case "Date":
-                                fw.write("        <field name=\"numero\" class=\"java.util.Date\"/>" + "\r\n");
-
+                                fw.write("        <field name=\"" + name + "\" class=\"java.util.Date\"/>" + "\r\n");
+                                break;
+                            case "Timestamp":
+                                fw.write("        <field name=\"" + name + "\" class=\"java.sql.Timestamp\"/>" + "\r\n");
+                                break;
+                            case "Time":
+                                fw.write("        <field name=\"" + name + "\" class=\"java.sql.Time\"/>" + "\r\n");
+                                break;
                             case "Boolean":
-                                fw.write("        <field name=\"numero\" class=\"java.lang.Boolean\"/>" + "\r\n");
+                                fw.write("        <field name=\"" + name + "\" class=\"java.lang.Boolean\"/>" + "\r\n");
+                                break;
+                            case "BigInteger":
+                            case "Long":
+                            case "long":
+                                fw.write("        <field name=\"" + name + "\" class=\"java.lang.Long\"/>" + "\r\n");
+                                break;
+                            case "byte[]":
+                                fw.write("        <field name=\"" + name + "\" class=\"java.lang.Byte\"/>" + "\r\n");
+                                break;
+                            case "Float":
+                                fw.write("        <field name=\"" + name + "\" class=\"java.lang.Float\"/>" + "\r\n");
+                                break;
+
+                            case "Short":
+                                fw.write("        <field name=\"" + name + "\" class=\"java.lang.Short\"/>" + "\r\n");
+                                break;
+                            case "InputStream":
+                                fw.write("        <field name=\"" + name + "\" class=\"java.io.InputStream\"/>" + "\r\n");
+                                break;
+                            case "Collection":
+                                fw.write("        <field name=\"" + name + "\" class=\"java.util.Collection\"/>" + "\r\n");
+                                break;
+                            case "List":
+                                fw.write("        <field name=\"" + name + "\" class=\"java.util.List\"/>" + "\r\n");
+                                break;
+
+                            case "Object":
+
+                                fw.write("        <field name=\"" + name + "\" class=\"java.lang.Object\"/>" + "\r\n");
                                 break;
                             default:
+                                if (esTipoList(atributos.getTipo())) {
+                                    //Es una lista
+                                    fw.write("        <field name=\"" + name + "\" class=\"java.util.List\"/>" + "\r\n");
+                                } else {
+fw.write("        <field name=\"" + name + "\" class=\"java.lang.Object\"/>" + "\r\n");
+                                }
 
                         }
 
@@ -157,7 +208,7 @@ public class JasperGenerador implements Serializable {
                     fw.write("				<textElement>" + "\r\n");
                     fw.write("					<font isBold=\"true\"/>" + "\r\n");
                     fw.write("				</textElement>" + "\r\n");
-                    fw.write("				<text><![CDATA["+entidad.getTabla().toUpperCase()+"]]></text>" + "\r\n");
+                    fw.write("				<text><![CDATA[" + entidad.getTabla().toUpperCase() + "]]></text>" + "\r\n");
                     fw.write("			</staticText>" + "\r\n");
                     fw.write("                        <staticText>" + "\r\n");
                     fw.write("				<reportElement x=\"373\" y=\"18\" width=\"34\" height=\"20\" uuid=\"14f76f42-77f2-4c4c-9596-6ec59fba0e85\"/>" + "\r\n");
@@ -173,10 +224,77 @@ public class JasperGenerador implements Serializable {
                     fw.write("" + "\r\n");
                     fw.write("		</band>" + "\r\n");
                     fw.write("	</pageHeader>" + "\r\n");
-                    
-                    
-                    
+                    fw.write("" + "\r\n");
+                    /**
+                     * columnHeader
+                     */
+                    fw.write("	<columnHeader>" + "\r\n");
+                    fw.write("	    <band height=\"22\" splitType=\"Stretch\">" + "\r\n");
 
+                    Integer contador = 0;
+
+                    for (Atributos atributos : entidad.getAtributosList()) {
+                        if (contador < 5) {
+                            fw.write("            <staticText>" + "\r\n");
+                            fw.write("                <reportElement x=\"" + x[contador] + "\" y=\"0\" width=\"" + this.width + "\" height=\"" + this.height + "\" uuid=\"" + Utilidades.generateUniqueID() + "\"/>" + "\r\n");
+                            fw.write("                <text><![CDATA[" + Utilidades.letterToUpper(atributos.getNombre()) + "]]></text>" + "\r\n");
+                            fw.write("            </staticText>" + "\r\n");
+                            contador++;
+                        }
+                    }
+
+                    fw.write("	    </band>" + "\r\n");
+                    fw.write("	</columnHeader>" + "\r\n");
+                    //Detalle
+                    fw.write("	<detail>" + "\r\n");
+                    fw.write("	    <band height=\"23\" splitType=\"Stretch\">" + "\r\n");
+                    contador = 0;
+                    for (Atributos atributos : entidad.getAtributosList()) {
+                        if (contador < 5) {
+                            fw.write("            <textField>" + "\r\n");
+                            fw.write("                <reportElement x=\"" + x[contador] + "\" y=\"0\" width=\"" + this.width + "\" height=\"" + this.height + "\" uuid=\"" + Utilidades.generateUniqueID() + "\"/>" + "\r\n");
+                            fw.write("                <textElement>" + "\r\n");
+                            fw.write("                    <font size=\"" + this.fontSize + "\"/>" + "\r\n");
+                            fw.write("                </textElement>" + "\r\n");
+                            if (esTipoList(atributos.getTipo())) {
+                                //Es una lista
+                            }
+                            if (!esTipoPojo(atributos.getTipo())) {
+                                fw.write("                <textFieldExpression><![CDATA[$F{" + atributos.getNombre().toLowerCase() + "}]]></textFieldExpression>" + "\r\n");
+                            } else {
+                                fw.write("                <textFieldExpression><![CDATA[$F{" + atributos.getNombre().toLowerCase() + "}.toString()]]></textFieldExpression>" + "\r\n");
+                            }
+
+                            fw.write("            </textField>" + "\r\n");
+                            contador++;
+                        }
+                    }
+
+                    fw.write("	    </band>" + "\r\n");
+                    fw.write("	</detail>" + "\r\n");
+
+                    //Summary
+                    fw.write("    <columnFooter>" + "\r\n");
+                    fw.write("        <band height=\"45\" splitType=\"Stretch\"/>" + "\r\n");
+                    fw.write("    </columnFooter>" + "\r\n");
+                    fw.write("    <pageFooter>" + "\r\n");
+                    fw.write("        <band height=\"54\" splitType=\"Stretch\">" + "\r\n");
+                    fw.write("            <staticText>" + "\r\n");
+                    fw.write("                <reportElement x=\"407\" y=\"17\" width=\"36\" height=\"20\" uuid=\"3d031e27-b1b6-47c8-bee2-2105f7a564b2\"/>" + "\r\n");
+                    fw.write("                <textElement>" + "\r\n");
+                    fw.write("                    <font isBold=\"true\"/>" + "\r\n");
+                    fw.write("                </textElement>" + "\r\n");
+                    fw.write("                <text><![CDATA[Pag.:]]></text>" + "\r\n");
+                    fw.write("            </staticText>" + "\r\n");
+                    fw.write("            <textField>" + "\r\n");
+                    fw.write("                <reportElement x=\"446\" y=\"17\" width=\"100\" height=\"20\" uuid=\"e0da8ee5-bb5c-4545-8272-3c5e0c2c00eb\"/>" + "\r\n");
+                    fw.write("                <textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>" + "\r\n");
+                    fw.write("            </textField>" + "\r\n");
+                    fw.write("        </band>" + "\r\n");
+                    fw.write("    </pageFooter>" + "\r\n");
+                    fw.write("    <summary>" + "\r\n");
+                    fw.write("        <band height=\"42\" splitType=\"Stretch\"/>" + "\r\n");
+                    fw.write("    </summary>" + "\r\n");
                     fw.write("</jasperReport>" + "\r\n");
                     fw.close();
 
@@ -190,5 +308,46 @@ public class JasperGenerador implements Serializable {
         }
         return false;
     }
+// </editor-fold>
 
+    private Boolean esTipoList(String tipo) {
+        Boolean es = false;
+        if (tipo.indexOf("List<") == -1) {
+            return false;
+        }
+        return true;
+
+    }
+
+    private Boolean esTipoPojo(String tipo) {
+        switch (tipo) {
+
+            case "Integer":
+            case "int":
+
+            case "Double":
+            case "double":
+
+            case "String":
+            case "Character":
+
+            case "Date":
+            case "Timestamp":
+            case "Time":
+            case "Boolean":
+            case "BigInteger":
+            case "Long":
+            case "long":
+            case "byte[]":
+            case "Float":
+            case "Short":
+            case "InputStream":
+            case "Collection":
+            case "List":
+                return false;
+            case "Object":
+            default:
+                return true;
+        }
+    }
 }

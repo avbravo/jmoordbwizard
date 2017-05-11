@@ -21,6 +21,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.UUID;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import org.primefaces.model.TreeNode;
@@ -1620,17 +1621,10 @@ public class Utilidades {
             for (TreeNode r : root.getChildren()) {
                 System.out.println("=========================================");
                 System.out.println(" Menu " + r.getData());
-                //  System.out.println("...... getRowKey() " + r.getRowKey());
-                //  System.out.println(".......getParent() " + r.getParent().getData());
-                //  System.out.println(".......getChildCount() " + r.getChildCount());
-
+                
                 for (TreeNode r2 : r.getChildren()) {
-//                    System.out.println("---------------------------------------");
+
                     System.out.println("--------->Submenu  " + r2.getData());
-                    // System.out.println("---------------->        getRowKey() " + r2.getRowKey());
-                    //System.out.println("---------------->        getChildCount() " + r2.getChildCount());
-                    // System.out.println("----------------->        getParent() " + r2.getParent().getData());
-//                    System.out.println("---------------------------------------");
                 }
 
             }
@@ -1682,6 +1676,7 @@ public class Utilidades {
      * @param menu
      * @return 
      */
+    // <editor-fold defaultstate="collapsed" desc="descomponerMenuString">   
      public static List<MyMenu> descomponerMenuString(String menu) {
           List<MyMenu> listMymenu = new ArrayList<>();
         try {
@@ -1715,5 +1710,12 @@ public class Utilidades {
             System.out.println("descomponer() " + e.getLocalizedMessage());
         }
         return listMymenu;
-    }
+    }// </editor-fold> 
+     // <editor-fold defaultstate="collapsed" desc="Generated Code">   
+      public static String generateUniqueID() {
+        String strValue = "";
+        UUID idUnique = UUID.randomUUID();
+        strValue = idUnique.toString();
+        return strValue.toUpperCase();
+    }// </editor-fold>   
 }

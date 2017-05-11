@@ -782,22 +782,17 @@ public class MySesion implements Serializable {
      */
     private Boolean searchSubmenu(String texto) {
         try {
-            System.out.println("mymenuList.size() "+mymenuList.size());
-            for(MyMenu m:mymenuList){
-                System.out.println("<<< "+m.getName());
-                for(MySubmenu s:m.getSubmenu()){
-                    System.out.println("++++++ "+s.getName());
-                }
-            }
-            System.out.println("Test---> searchSubmenu " + texto);
+           
+           
+           
             if (mymenuList.stream().anyMatch((m) -> (m.getSubmenu().stream().anyMatch((s) -> (texto.trim().equals(s.getName().trim())))))) {
-                System.out.println("..................encontrado");
+           
                 return true;
             } //comprobar los elementos de menus
         } catch (Exception e) {
             JSFUtil.addErrorMessage("searchSubmenu() " + e.getLocalizedMessage());
         }
-        System.out.println("..................no fue encontrado");
+        
         return false;
     }
 

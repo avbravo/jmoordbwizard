@@ -89,8 +89,8 @@ public List<EntidadMenu> getEntidadMenuList() {
 
      @PostConstruct
     public void init() {
-        JSFUtil.addWarningMessage("test->init()");
-         System.out.println("++++++++++++++++++++++++++++ init() entityView");
+        
+         
              try {
             entidadMenuList.removeAll(entidadMenuList);
             masterDetailsList.removeAll(masterDetailsList);
