@@ -129,6 +129,9 @@ public class MySesion implements Serializable {
     private String typeOfButton = "Texto";
     private String generarRemplazarMenu = "";
     //
+    private String compilarReporteaJasper = "";
+    
+    //
 
     /**
      * View Numero de elementos por fila en un formulario View
@@ -156,6 +159,19 @@ public class MySesion implements Serializable {
     private TreeNode selectedNode2;
     List<String> agregadosList = new ArrayList<>();
 
+    public String getCompilarReporteaJasper() {
+        return compilarReporteaJasper;
+    }
+
+    public void setCompilarReporteaJasper(String compilarReporteaJasper) {
+        this.compilarReporteaJasper = compilarReporteaJasper;
+    }
+
+   
+    
+    
+    
+    
     public String getGenerarRemplazarMenu() {
         return generarRemplazarMenu;
     }

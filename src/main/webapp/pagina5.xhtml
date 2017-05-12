@@ -50,6 +50,13 @@
                                 <f:selectItem itemLabel="Páginas Solamente" itemValue="paginas" />
 
                             </b:selectOneMenu>
+                            <p:outputLabel value="Generar .jasper"/>
+                            <b:selectOneMenu id="tipoCompilacionReporte" value="#{generador.mySesion.compilarReporteaJasper}" >
+                                <f:selectItem itemLabel="Si" itemValue="si" />
+                                <f:selectItem itemLabel="No" itemValue="no" />
+                                
+
+                            </b:selectOneMenu>
 
                             <p:outputLabel value="Menu"/>
                             <b:selectOneMenu id="menu" value="#{generador.mySesion.generarRemplazarMenu}" >

@@ -95,6 +95,7 @@ public class Generador implements Serializable {
     private String tipoRepositorio;
     private String tipoGeneracion; //codigo y paginas, solo codigo, solo paginas
     private String estilo; //codigo y paginas, solo codigo, solo paginas
+    
     @Inject
     EntidadSearch entidadSearch;
 
@@ -201,6 +202,9 @@ public class Generador implements Serializable {
     @Inject
     ListxhtmlGenerador listxhtmlGenerador;
 
+   
+    
+    
     public String getEstilo() {
         return estilo;
     }

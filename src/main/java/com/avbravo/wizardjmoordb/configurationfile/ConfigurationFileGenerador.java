@@ -157,6 +157,7 @@ public class ConfigurationFileGenerador implements Serializable {
                     fw.write("timeZone=" + mySesion.getTimeZone() + "\r\n");
                     fw.write("patternDate=" + mySesion.getPatternDate() + "\r\n");
                     fw.write("patternDateTime=" + mySesion.getPatternDateTime() + "\r\n");
+                    fw.write("tipoCompilacionReporte=" + mySesion.getCompilarReporteaJasper()+ "\r\n");
 
                     /*
 

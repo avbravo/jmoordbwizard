@@ -191,6 +191,9 @@ public class ConfigurationFilerRead implements Serializable {
                 case "typeOfButton":
                     mySesion.setTypeOfButton(descomponer(s, r));
                     break;
+                case "tipoCompilacionReporte":
+                    mySesion.setCompilarReporteaJasper(descomponer(s, r));
+                    break;
                     
                 
                     /*

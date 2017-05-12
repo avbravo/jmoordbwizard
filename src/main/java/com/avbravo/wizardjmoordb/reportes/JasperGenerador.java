@@ -5,7 +5,6 @@
  */
 package com.avbravo.wizardjmoordb.reportes;
 
-import com.avbravo.wizardjmoordb.xhtml.*;
 import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
 import com.avbravo.wizardjmoordb.ProyectoJEE;
@@ -21,11 +20,12 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperReport;
 
 /**
  *
@@ -57,7 +57,7 @@ public class JasperGenerador implements Serializable {
             mySesion.getEntidadList().forEach((entidad) -> {
                 String name = Utilidades.letterToLower(entidad.getTabla());
                 String directorioreport = proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "reportes" + proyectoJEE.getSeparator() + name + proyectoJEE.getSeparator();
-                procesar("all" + ".jrxml", directorioreport + proyectoJEE.getSeparator() + "all" + ".jrxml", entidad);
+                procesar("all" + ".jrxml", directorioreport + proyectoJEE.getSeparator() + "all" + ".jrxml", entidad, directorioreport + "all" + ".jasper");
             });
 
         } catch (Exception e) {
@@ -67,12 +67,24 @@ public class JasperGenerador implements Serializable {
     }// </editor-fold>  
 
     // <editor-fold defaultstate="collapsed" desc="procesar">  
-    private Boolean procesar(String archivo, String ruta, Entidad entidad) {
+    private Boolean procesar(String archivo, String ruta, Entidad entidad, String pathJasper) {
         try {
 
             Path path = Paths.get(ruta);
             if (Files.notExists(path, new LinkOption[]{LinkOption.NOFOLLOW_LINKS})) {
                 crearFile(ruta, archivo, entidad);
+                if (mySesion.getCompilarReporteaJasper().equals("si")) {
+                    createJasper(ruta, pathJasper);
+                }
+
+            } else {
+                if (mySesion.getCompilarReporteaJasper().equals("si")) {
+                    Path pathJas = Paths.get(pathJasper);
+                    if (Files.notExists(pathJas, new LinkOption[]{LinkOption.NOFOLLOW_LINKS})) {
+                        createJasper(ruta, pathJasper);
+                    }
+                }
+
             }
 
         } catch (Exception e) {
@@ -82,6 +94,20 @@ public class JasperGenerador implements Serializable {
 
     }
 // </editor-fold> 
+
+    // <editor-fold defaultstate="collapsed" desc="createJasper">  
+    private Boolean createJasper(String reportSource, String pathJasper) {
+        try {
+
+            JasperCompileManager.compileReportToFile(reportSource, pathJasper);
+
+            return true;
+        } catch (Exception e) {
+
+            JSFUtil.addErrorMessage("createJasper() " + e.getLocalizedMessage());
+        }
+        return false;
+    }// </editor-fold> 
 
     /**
      *
@@ -179,7 +205,7 @@ public class JasperGenerador implements Serializable {
                                     //Es una lista
                                     fw.write("        <field name=\"" + name + "\" class=\"java.util.List\"/>" + "\r\n");
                                 } else {
-fw.write("        <field name=\"" + name + "\" class=\"java.lang.Object\"/>" + "\r\n");
+                                    fw.write("        <field name=\"" + name + "\" class=\"java.lang.Object\"/>" + "\r\n");
                                 }
 
                         }
@@ -251,7 +277,17 @@ fw.write("        <field name=\"" + name + "\" class=\"java.lang.Object\"/>" + "
                     contador = 0;
                     for (Atributos atributos : entidad.getAtributosList()) {
                         if (contador < 5) {
-                            fw.write("            <textField>" + "\r\n");
+                            if (atributos.getTipo().equals("Date")) {
+                                fw.write("            <textField pattern=\"" + mySesion.getPatternDate() + "\">" + "\r\n");
+                            } else {
+                                if (atributos.getTipo().equals("Date")) {
+                                    fw.write("            <textField pattern=\"###0.00\">" + "\r\n");
+                                } else {
+                                    fw.write("            <textField>" + "\r\n");
+                                }
+
+                            }
+
                             fw.write("                <reportElement x=\"" + x[contador] + "\" y=\"0\" width=\"" + this.width + "\" height=\"" + this.height + "\" uuid=\"" + Utilidades.generateUniqueID() + "\"/>" + "\r\n");
                             fw.write("                <textElement>" + "\r\n");
                             fw.write("                    <font size=\"" + this.fontSize + "\"/>" + "\r\n");
@@ -260,7 +296,9 @@ fw.write("        <field name=\"" + name + "\" class=\"java.lang.Object\"/>" + "
                                 //Es una lista
                             }
                             if (!esTipoPojo(atributos.getTipo())) {
+
                                 fw.write("                <textFieldExpression><![CDATA[$F{" + atributos.getNombre().toLowerCase() + "}]]></textFieldExpression>" + "\r\n");
+
                             } else {
                                 fw.write("                <textFieldExpression><![CDATA[$F{" + atributos.getNombre().toLowerCase() + "}.toString()]]></textFieldExpression>" + "\r\n");
                             }
