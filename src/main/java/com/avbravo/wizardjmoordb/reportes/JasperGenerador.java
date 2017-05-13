@@ -153,6 +153,7 @@ public class JasperGenerador implements Serializable {
                                 fw.write("        <field name=\"" + name + "\" class=\"java.lang.Number\"/>" + "\r\n");
                             case "Double":
                             case "double":
+                                fw.write("        <field name=\"" + name + "\" class=\"java.lang.Number\"/>" + "\r\n");
                                 break;
                             case "String":
                             case "Character":
@@ -280,7 +281,7 @@ public class JasperGenerador implements Serializable {
                             if (atributos.getTipo().equals("Date")) {
                                 fw.write("            <textField pattern=\"" + mySesion.getPatternDate() + "\">" + "\r\n");
                             } else {
-                                if (atributos.getTipo().equals("Date")) {
+                                if (atributos.getTipo().equals("Double")) {
                                     fw.write("            <textField pattern=\"###0.00\">" + "\r\n");
                                 } else {
                                     fw.write("            <textField>" + "\r\n");
