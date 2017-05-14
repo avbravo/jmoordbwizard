@@ -5,6 +5,8 @@
  */
 package com.avbravo.wizardjmoordb.utilidades;
 
+import com.avbravo.wizardjmoordb.beans.Atributos;
+import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.menu.MyMenu;
 import com.avbravo.wizardjmoordb.menu.MySubmenu;
 import static com.avbravo.wizardjmoordb.old.EntidadGenerador.DEFAULT_CHARSET;
@@ -1718,4 +1720,66 @@ public class Utilidades {
         strValue = idUnique.toString();
         return strValue.toUpperCase();
     }// </editor-fold>   
+      
+     
+      
+      public static Integer numerodeList(Entidad entidad){
+          Integer numero =0;
+          try{
+              numero = entidad.getAtributosList().stream().filter((atributos) -> (esTipoList(atributos.getTipo()))).map((_item) -> 1).reduce(numero, Integer::sum);
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("numerodeList() " + e.getLocalizedMessage());
+        }
+        return numero;
+      }
+      
+  public static Boolean esTipoList(String tipo) {
+        Boolean es = false;
+        if (tipo.indexOf("List<") == -1) {
+            return false;
+        }
+        return true;
+
+    }
+
+   public static Boolean esTipoPojo(String tipo) {
+        switch (tipo) {
+
+            case "Integer":
+            case "int":
+
+            case "Double":
+            case "double":
+
+            case "String":
+            case "Character":
+
+            case "Date":
+            case "Timestamp":
+            case "Time":
+            case "Boolean":
+            case "BigInteger":
+            case "Long":
+            case "long":
+            case "byte[]":
+            case "Float":
+            case "Short":
+            case "InputStream":
+            case "Collection":
+            case "List":
+                return false;
+            case "Object":
+            default:
+                return true;
+        }
+    }
+   
+   
+   public static Boolean isImpar(int iNumero) {
+        if (iNumero % 2 != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="97fe2bb6-3ffe-4bd5-81a1-cd02c7dfede6">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="58"/>
+	<property name="ireport.y" value="0"/>
 	<field name="cedula" class="java.lang.String"/>
 	<field name="nombre" class="java.lang.String"/>
 	<field name="apellido" class="java.lang.String"/>
@@ -67,7 +67,7 @@
 		<band height="29" splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="100" splitType="Stretch">
+		<band height="48" splitType="Stretch">
 			<textField>
 				<reportElement x="110" y="0" width="100" height="20" uuid="3f7497e4-e49c-406f-a859-bad0e1c13780"/>
 				<textFieldExpression><![CDATA[$F{cedula}]]></textFieldExpression>
@@ -111,39 +111,6 @@
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Anio]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="110" y="50" width="100" height="20" uuid="184e35a7-71b0-45dd-bd0d-98813c9426f6"/>
-				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="50" width="100" height="20" uuid="31a8fd65-d71a-408c-ae7c-657558737ca9"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Telefono]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="110" y="75" width="100" height="20" uuid="b48f50b3-0104-44aa-8618-740ac9686aea"/>
-				<textFieldExpression><![CDATA[""+$F{colegio}.toString()]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="75" width="100" height="20" uuid="22d6ac3b-d6de-4afb-aec4-5fe0c664c840"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Colegio]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="375" y="50" width="100" height="20" uuid="d289dd2c-1ccb-431f-81f3-160b12131c52"/>
-				<textFieldExpression><![CDATA[""+$F{aulas}.toString()]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="270" y="50" width="100" height="20" uuid="4c96c90f-a813-41ac-8fe5-85d511340e53"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Aula]]></text>
 			</staticText>
 		</band>
 	</detail>

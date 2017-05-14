@@ -48,6 +48,7 @@ import com.avbravo.wizardjmoordb.xhtml.ListxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.TemplatexhtmlGenerador;
 import com.avbravo.wizardjmoordb.configuration.WebXMLGenerador;
 import com.avbravo.wizardjmoordb.provider.CouchbaseClientProviderGenerador;
+import com.avbravo.wizardjmoordb.reportes.JasperDetailsGenerador;
 import com.avbravo.wizardjmoordb.reportes.JasperGenerador;
 import com.avbravo.wizardjmoordb.search.EntidadSearch;
 import com.avbravo.wizardjmoordb.utilidades.Terminal;
@@ -192,6 +193,8 @@ public class Generador implements Serializable {
 
     @Inject
     JasperGenerador jasperGenerador;
+    @Inject
+    JasperDetailsGenerador jasperDetailsGenerador;
     
     @Inject
     ViewxhtmlGenerador pagexhtmlGenerador;
@@ -745,6 +748,7 @@ public class Generador implements Serializable {
                 });
 
                 jasperGenerador.generar();
+                jasperDetailsGenerador.generar();
                 
                 if (tipoGeneracion.equals("codigopaginas") || tipoGeneracion.equals("codigo")) {
 
