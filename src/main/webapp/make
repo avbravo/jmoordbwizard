@@ -36,3 +36,45 @@ COLAPSAR CODIGO EN EL IDE
 compilar reporte
   JasperReport jasperReport =
                 JasperCompileManager.compileReport(reportSource);
+
+
+==================================
+IMPRIMIR FACTURAS RELACIONADOS
+==============================
+public String printSubreport() {
+        try {
+
+            List<Facturas> facturasList = new ArrayList<Facturas>();
+
+            Facturas f1 = new Facturas();
+            f1.setCliente("Juana");
+            f1.setIdfactura("1");
+            List<Detalles> detallesList = new ArrayList<>();
+            Detalles d1 = new Detalles("p1", "Uno");
+            detallesList.add(d1);
+            Detalles d2 = new Detalles("p2", "Dos");
+            detallesList.add(d2);
+            f1.setDetalles(detallesList);
+            facturasList.add(f1);
+
+            //
+            f1 = new Facturas();
+            f1.setCliente("Maria");
+            f1.setIdfactura("2");
+            detallesList = new ArrayList<>();
+            d1 = new Detalles("p3", "Tres");
+            detallesList.add(d1);
+
+            f1.setDetalles(detallesList);
+            facturasList.add(f1);
+//            List<Estudiantes> list = new ArrayList<>();
+//            list.add(estudiantes);
+            String ruta = "/resources/reportes/estudiantes/facturas.jasper";
+            HashMap parameters = new HashMap();
+            parameters.put("p_detalles",detallesList);
+            printer.imprimir(facturasList, ruta, parameters);
+        } catch (Exception ex) {
+            JsfUtil.addErrorMessage("imprimir() " + ex.getLocalizedMessage());
+        }
+        return null;
+    }

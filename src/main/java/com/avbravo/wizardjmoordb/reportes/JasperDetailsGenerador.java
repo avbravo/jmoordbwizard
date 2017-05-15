@@ -257,6 +257,7 @@ public class JasperDetailsGenerador implements Serializable {
 
 //Calcular el tamaño del height
                     Integer tamano = entidad.getAtributosList().size();
+                   
                     Integer numeroList = Utilidades.numerodeList(entidad);
                     tamano -= numeroList;
 
@@ -269,7 +270,11 @@ public class JasperDetailsGenerador implements Serializable {
                     if (detailsBandheight > 619) {
                         detailsBandheight = 619;
                     }
-
+                    System.out.println("======================================");
+                    System.out.println("entidad.getAtributosList().size() "+entidad.getAtributosList().size());
+                    System.out.println("Utilidades.numerodeList(entidad) "+Utilidades.numerodeList(entidad));
+                    System.out.println("tamano "+tamano);
+                    System.out.println("detailsBandheight "+detailsBandheight);
                     //Detalle
                     fw.write("	<detail>" + "\r\n");
                     fw.write("	    <band height=\"" + detailsBandheight + "\" splitType=\"Stretch\">" + "\r\n");
