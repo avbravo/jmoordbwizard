@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6e8fa46e-6c43-4f64-9cca-bb32204a5281">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="664d5b59-9503-404a-9703-bcf5a8f71372">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["/home/avbravo/NetBeansProjects/utp/websiu/siu/src/main/webapp/resources/reportes/estudiantes/"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[$P{SUBREPORT_DIR}]]></defaultValueExpression>
 	</parameter>
 	<field name="idfactura" class="java.lang.String"/>
 	<field name="cliente" class="java.lang.String"/>
@@ -12,47 +12,50 @@
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-        
 	<title>
-		<band height="68" splitType="Stretch">
+		<band height="76" splitType="Stretch">
 			<staticText>
-				<reportElement x="188" y="11" width="205" height="40" uuid="2c086756-b076-4e18-ba9b-b7baa43bf37e"/>
+				<reportElement x="191" y="36" width="186" height="29" uuid="2e605942-6bd1-4abb-8097-b0b33623e405"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[REPORTE DE FACTURAS]]></text>
 			</staticText>
+			<ellipse>
+				<reportElement x="66" y="29" width="100" height="36" uuid="70d3f12f-7339-49e6-b537-45d5f57631ee"/>
+			</ellipse>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch"/>
+		<band height="19" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="30" splitType="Stretch"/>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement x="9" y="2" width="100" height="20" uuid="8f9bfe53-08e3-46c8-9022-93354743d743"/>
+				<text><![CDATA[idfactura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="191" y="2" width="100" height="20" uuid="152ff6c7-b1cb-486f-991a-94ce5dc2d573"/>
+				<text><![CDATA[cliente]]></text>
+			</staticText>
+		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
+		<band height="135" splitType="Stretch">
 			<textField>
-				<reportElement x="118" y="5" width="100" height="20" uuid="e04c369b-675d-4282-8652-47e9eef3b42b"/>
+				<reportElement x="9" y="12" width="100" height="20" uuid="43b3a2a0-54a4-4ef8-b3cc-7a5297c5e161"/>
 				<textFieldExpression><![CDATA[$F{idfactura}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="342" y="5" width="100" height="20" uuid="0705d93e-3137-462c-9364-f47ac128c5fd"/>
+				<reportElement x="191" y="10" width="100" height="20" uuid="24bc24b6-3925-41ff-b567-828126218369"/>
 				<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement x="0" y="40" width="525" height="75" uuid="cd645aef-0f97-4876-84dc-9f9a47466445"/>
+				<reportElement x="9" y="45" width="509" height="46" uuid="1c05948a-cc0c-422c-b6c0-fb2d4fd554b0"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{detalles})]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "detalles.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "detalles_subreport.jasper"]]></subreportExpression>
 			</subreport>
-			<staticText>
-				<reportElement x="7" y="5" width="100" height="20" uuid="9c716328-3def-4523-abf2-c1590e6e331e"/>
-				<text><![CDATA[# Factura]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="242" y="5" width="100" height="20" uuid="9a0594aa-39d2-4b87-a3f1-6f6900fa9c2e"/>
-				<text><![CDATA[Cliente]]></text>
-			</staticText>
 		</band>
 	</detail>
 	<columnFooter>

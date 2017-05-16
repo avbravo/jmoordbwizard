@@ -184,7 +184,11 @@ public class ControllerGenerador implements Serializable {
 
                     for (Atributos a : entidad.getAtributosList()) {
                         if (!Utilidades.isJavaType(a.getTipo())) {
-                            fw.write("    List<" + a.getTipo() + "> " + a.getNombre() + "List;" + "\r\n");
+                            if (Utilidades.esTipoList(a.getTipo())) {
+                                fw.write("    List<" + Utilidades.letterToUpper(a.getNombre()) + "> " + a.getNombre() + "List;" + "\r\n");
+                            } else {
+                                fw.write("    List<" + a.getTipo() + "> " + a.getNombre() + "List;" + "\r\n");
+                            }
                         }
                     }
 
@@ -193,35 +197,43 @@ public class ControllerGenerador implements Serializable {
                     for (Atributos a : entidad.getAtributosList()) {
                         if (!Utilidades.isJavaType(a.getTipo())) {
                             fw.write("    @Inject" + "\r\n");
-                            fw.write("    " + a.getTipo() + "Facade " + a.getNombre() + "Facade;" + "\r\n");
+                            if (Utilidades.esTipoList(a.getTipo())) {
+                                fw.write("    " + Utilidades.letterToUpper(a.getNombre()) + "Facade " + a.getNombre() + "Facade;" + "\r\n");
+                            } else {
+                                fw.write("    " + a.getTipo() + "Facade " + a.getNombre() + "Facade;" + "\r\n");
+                            }
+
                         }
                     }
-
-
 
                     for (Atributos a : entidad.getAtributosList()) {
                         if (!Utilidades.isJavaType(a.getTipo())) {
-                            fw.write("    public void set" + a.getTipo() + "List(List<" + a.getTipo() + "> " + a.getNombre() + "List){" + "\r\n");
+                            if (Utilidades.esTipoList(a.getTipo())) {
+                                fw.write("    public void set" + Utilidades.letterToUpper(a.getNombre()) + "List(List<" +Utilidades.letterToUpper(a.getNombre()) + "> " + a.getNombre() + "List){" + "\r\n");
                             fw.write("        this." + a.getNombre() + "List =" + a.getNombre() + "List;" + "\r\n");
-                             fw.write("    }" + "\r\n");
+                            fw.write("    }" + "\r\n");
+                            }else{
+                                fw.write("    public void set" + a.getTipo() + "List(List<" + a.getTipo() + "> " + a.getNombre() + "List){" + "\r\n");
+                            fw.write("        this." + a.getNombre() + "List =" + a.getNombre() + "List;" + "\r\n");
+                            fw.write("    }" + "\r\n");
+                            }
+                            
                         }
                     }
 
-                 for (Atributos a : entidad.getAtributosList()) {
+                    for (Atributos a : entidad.getAtributosList()) {
                         if (!Utilidades.isJavaType(a.getTipo())) {
-                            fw.write("    public List<" + a.getTipo()+ "> get" + a.getTipo() + "List(){" + "\r\n");
+                            fw.write("    public List<" + Utilidades.letterToUpper(a.getNombre()) + "> get" + Utilidades.letterToUpper(a.getNombre()) + "List(){" + "\r\n");
                             fw.write("        try{" + "\r\n");
                             fw.write("           " + a.getNombre() + "List =" + a.getNombre() + "Facade.findAll();" + "\r\n");
-                             fw.write("       } catch (Exception e) {" + "\r\n");
-                             fw.write("         JsfUtil.addErrorMessage(e.getLocalizedMessage());" + "\r\n");
-                             fw.write("       }" + "\r\n");
-                             fw.write("       return " +  a.getNombre()+"List;"+"\r\n");
-                              fw.write("   }" + "\r\n");
+                            fw.write("       } catch (Exception e) {" + "\r\n");
+                            fw.write("         JsfUtil.addErrorMessage(e.getLocalizedMessage());" + "\r\n");
+                            fw.write("       }" + "\r\n");
+                            fw.write("       return " + a.getNombre() + "List;" + "\r\n");
+                            fw.write("   }" + "\r\n");
                         }
-                    }   
-                    
-                    
-                    
+                    }
+
                     fw.write("    public " + nameClass + "Services get" + nameClass + "Services() {" + "\r\n");
                     fw.write("        return " + nameEntity + "Services;" + "\r\n");
                     fw.write("    }" + "\r\n");
@@ -502,6 +514,12 @@ public class ControllerGenerador implements Serializable {
                     fw.write("            list.add(" + nameEntity + ");" + "\r\n");
                     fw.write("            String ruta = \"/resources/reportes/" + nameEntity + "/" + nameEntity + ".jasper\";" + "\r\n");
                     fw.write("            HashMap parameters = new HashMap();" + "\r\n");
+
+                    if (Utilidades.numerodeList(entidad) > 0) {
+                        fw.write("            String subReportPath = \"/resources/reportes/" + nameEntity + "/\";" + "\r\n");
+                        fw.write("            String reportsDirPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath(subReportPath);" + "\r\n");
+                        fw.write("            parameters.put(\"SUBREPORT_DIR\", reportsDirPath + \"/\");" + "\r\n");
+                    }
                     fw.write("            // parameters.put(\"P_parametro\", \"valor\");" + "\r\n");
                     fw.write("            printer.imprimir(list, ruta, parameters);" + "\r\n");
                     fw.write("        } catch (Exception ex) {" + "\r\n");

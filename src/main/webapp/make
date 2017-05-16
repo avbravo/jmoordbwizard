@@ -41,7 +41,7 @@ compilar reporte
 ==================================
 IMPRIMIR FACTURAS RELACIONADOS
 ==============================
-public String printSubreport() {
+ public String printSubreport() {
         try {
 
             List<Facturas> facturasList = new ArrayList<Facturas>();
@@ -67,11 +67,14 @@ public String printSubreport() {
 
             f1.setDetalles(detallesList);
             facturasList.add(f1);
-//            List<Estudiantes> list = new ArrayList<>();
-//            list.add(estudiantes);
-            String ruta = "/resources/reportes/estudiantes/facturas.jasper";
+
+            String ruta = "/resources/reportes/subreportes/facturas.jasper";
             HashMap parameters = new HashMap();
-            parameters.put("p_detalles",detallesList);
+
+            String reportsDirPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reportes/subreportes/");
+            parameters.put("SUBREPORT_DIR", reportsDirPath + "/");
+
+
             printer.imprimir(facturasList, ruta, parameters);
         } catch (Exception ex) {
             JsfUtil.addErrorMessage("imprimir() " + ex.getLocalizedMessage());

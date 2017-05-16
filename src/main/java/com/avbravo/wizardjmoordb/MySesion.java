@@ -128,9 +128,11 @@ public class MySesion implements Serializable {
      */
     private String typeOfButton = "Texto";
     private String generarRemplazarMenu = "";
-    //
+    // Reportes
     private String compilarReporteaJasper = "";
-    
+     private Integer reportesAltoRow=26;
+    private Integer  subReporteAltoRow=100;
+    private Integer reporteMaximoBandaDetails=619;
     //
 
     /**
@@ -158,7 +160,38 @@ public class MySesion implements Serializable {
 
     private TreeNode selectedNode2;
     List<String> agregadosList = new ArrayList<>();
+    
+   
 
+    public Integer getReportesAltoRow() {
+        return reportesAltoRow;
+    }
+
+    public void setReportesAltoRow(Integer reportesAltoRow) {
+        this.reportesAltoRow = reportesAltoRow;
+    }
+
+    public Integer getSubReporteAltoRow() {
+        return subReporteAltoRow;
+    }
+
+    public void setSubReporteAltoRow(Integer subReporteAltoRow) {
+        this.subReporteAltoRow = subReporteAltoRow;
+    }
+
+    public Integer getReporteMaximoBandaDetails() {
+        return reporteMaximoBandaDetails;
+    }
+
+    public void setReporteMaximoBandaDetails(Integer reporteMaximoBandaDetails) {
+        this.reporteMaximoBandaDetails = reporteMaximoBandaDetails;
+    }
+
+   
+    
+    
+    
+    
     public String getCompilarReporteaJasper() {
         return compilarReporteaJasper;
     }

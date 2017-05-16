@@ -51,14 +51,13 @@ public class JasperSubReportGenerador implements Serializable {
      * Creates a new instance of Facade
      */
     // <editor-fold defaultstate="collapsed" desc="generar">  
-    public void generar(Entidad entidad,String directorioreport) {
+    public void generar(Entidad entidad, String directorioreport) {
         try {
             //recorrer el entity para verificar que existan todos los EJB
-          
-                String name = Utilidades.letterToLower(entidad.getTabla());
-               
-                procesar(entidad.getTabla()+"_subreport" + ".jrxml", directorioreport + proyectoJEE.getSeparator() + entidad.getTabla().toLowerCase()+"_subreport" + ".jrxml", entidad, directorioreport +entidad.getTabla().toLowerCase()+ "_subreport" + ".jasper");
-          
+
+            String name = Utilidades.letterToLower(entidad.getTabla());
+
+            procesar(entidad.getTabla() + "_subreport" + ".jrxml", directorioreport + proyectoJEE.getSeparator() + entidad.getTabla().toLowerCase() + "_subreport" + ".jrxml", entidad, directorioreport + entidad.getTabla().toLowerCase() + "_subreport" + ".jasper");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -136,15 +135,16 @@ public class JasperSubReportGenerador implements Serializable {
                 //Creamos un objeto para escribir caracteres en el archivo de prueba
                 try (FileWriter fw = new FileWriter(file)) {
                     fw.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "\r\n");
-                    fw.write("<jasperReport xmlns=\"http://jasperreports.sourceforge.net/jasperreports\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd\" name=\"report name\" pageWidth=\"595\" pageHeight=\"842\" columnWidth=\"535\" leftMargin=\"20\" rightMargin=\"20\" topMargin=\"20\" bottomMargin=\"20\" uuid=\"63ad1a18-4d4e-44e1-97f8-c1744418d899\">" + "\r\n");
+                    fw.write("<jasperReport xmlns=\"http://jasperreports.sourceforge.net/jasperreports\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd\" name=\"report name\" pageWidth=\"802\" pageHeight=\"555\" columnWidth=\"802\" leftMargin=\"0\" rightMargin=\"0\" topMargin=\"0\" bottomMargin=\"0\""
+                            + " uuid=\"" + Utilidades.generateUniqueID() + "\" >" + "\r\n");
                     fw.write("        <property name=\"ireport.zoom\" value=\"1.0\"/>" + "\r\n");
                     fw.write("        <property name=\"ireport.x\" value=\"0\"/>" + "\r\n");
-                    fw.write("        <property name=\"ireport.y\" value=\"144\"/>" + "\r\n");
+                    fw.write("        <property name=\"ireport.y\" value=\"0\"/>" + "\r\n");
 
                     fw.write("" + "\r\n");
 
                     for (Atributos atributos : entidad.getAtributosList()) {
-                   
+
                         name = atributos.getNombre().toLowerCase();
                         switch (atributos.getTipo()) {
 
@@ -226,30 +226,19 @@ public class JasperSubReportGenerador implements Serializable {
                     fw.write("		<band splitType=\"Stretch\"/>" + "\r\n");
                     fw.write("	</background>" + "\r\n");
                     fw.write("	<title>" + "\r\n");
-                    fw.write("		<band height=\"9\" splitType=\"Stretch\"/>" + "\r\n");
+
+fw.write("               <band height=\"25\" splitType=\"Stretch\">" + "\r\n");
+fw.write("			<staticText>" + "\r\n");
+fw.write("				<reportElement x=\"0\" y=\"0\" width=\"145\" height=\"25\" uuid=\"" + Utilidades.generateUniqueID() +"\"/>" + "\r\n");
+fw.write("				<textElement>" + "\r\n");
+fw.write("					<font size=\"12\" isBold=\"true\"/>" + "\r\n");
+fw.write("				</textElement>" + "\r\n");
+fw.write("				<text><![CDATA[" + entidad.getTabla().toUpperCase() +" ]]></text>" + "\r\n");
+fw.write("			</staticText>" + "\r\n");
+fw.write("		</band>" + "\r\n");
                     fw.write("	</title>" + "\r\n");
                     fw.write("      <pageHeader>" + "\r\n");
-                    fw.write("		<band height=\"55\" splitType=\"Stretch\">" + "\r\n");
-                    fw.write("			<staticText>" + "\r\n");
-                    fw.write("				<reportElement x=\"240\" y=\"18\" width=\"63\" height=\"20\" uuid=\"9e43e6b2-7c78-4094-bd32-bbce7a7ec79c\"/>" + "\r\n");
-                    fw.write("				<textElement>" + "\r\n");
-                    fw.write("					<font isBold=\"true\"/>" + "\r\n");
-                    fw.write("				</textElement>" + "\r\n");
-                    fw.write("				<text><![CDATA[" + entidad.getTabla().toUpperCase() + "]]></text>" + "\r\n");
-                    fw.write("			</staticText>" + "\r\n");
-                    fw.write("                        <staticText>" + "\r\n");
-                    fw.write("				<reportElement x=\"373\" y=\"18\" width=\"34\" height=\"20\" uuid=\"14f76f42-77f2-4c4c-9596-6ec59fba0e85\"/>" + "\r\n");
-                    fw.write("				<textElement>" + "\r\n");
-                    fw.write("					<font isBold=\"true\"/>" + "\r\n");
-                    fw.write("				</textElement>" + "\r\n");
-                    fw.write("				<text><![CDATA[Fecha:]]></text>" + "\r\n");
-                    fw.write("			</staticText>" + "\r\n");
-                    fw.write("			<textField pattern=\"yyyy\">" + "\r\n");
-                    fw.write("				<reportElement x=\"411\" y=\"18\" width=\"100\" height=\"20\" uuid=\"ac376dee-b970-4156-8eeb-e121ce7a91a3\"/>" + "\r\n");
-                    fw.write("				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>" + "\r\n");
-                    fw.write("			</textField>" + "\r\n");
-                    fw.write("" + "\r\n");
-                    fw.write("		</band>" + "\r\n");
+                    fw.write("		<band height=\"3\" splitType=\"Stretch\"/>" + "\r\n");
                     fw.write("	</pageHeader>" + "\r\n");
                     fw.write("" + "\r\n");
                     /**
@@ -314,25 +303,15 @@ public class JasperSubReportGenerador implements Serializable {
 
                     //Summary
                     fw.write("    <columnFooter>" + "\r\n");
-                    fw.write("        <band height=\"45\" splitType=\"Stretch\"/>" + "\r\n");
+                    fw.write("        <band height=\"2\" splitType=\"Stretch\"/>" + "\r\n");
                     fw.write("    </columnFooter>" + "\r\n");
-                    fw.write("    <pageFooter>" + "\r\n");
-                    fw.write("        <band height=\"54\" splitType=\"Stretch\">" + "\r\n");
-                    fw.write("            <staticText>" + "\r\n");
-                    fw.write("                <reportElement x=\"407\" y=\"17\" width=\"36\" height=\"20\" uuid=\"3d031e27-b1b6-47c8-bee2-2105f7a564b2\"/>" + "\r\n");
-                    fw.write("                <textElement>" + "\r\n");
-                    fw.write("                    <font isBold=\"true\"/>" + "\r\n");
-                    fw.write("                </textElement>" + "\r\n");
-                    fw.write("                <text><![CDATA[Pag.:]]></text>" + "\r\n");
-                    fw.write("            </staticText>" + "\r\n");
-                    fw.write("            <textField>" + "\r\n");
-                    fw.write("                <reportElement x=\"446\" y=\"17\" width=\"100\" height=\"20\" uuid=\"e0da8ee5-bb5c-4545-8272-3c5e0c2c00eb\"/>" + "\r\n");
-                    fw.write("                <textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>" + "\r\n");
-                    fw.write("            </textField>" + "\r\n");
-                    fw.write("        </band>" + "\r\n");
-                    fw.write("    </pageFooter>" + "\r\n");
+
                     fw.write("    <summary>" + "\r\n");
-                    fw.write("        <band height=\"42\" splitType=\"Stretch\"/>" + "\r\n");
+                    fw.write("                <band height=\"18\" splitType=\"Stretch\">" + "\r\n");
+                    fw.write("			<line>" + "\r\n");
+                    fw.write("				<reportElement x=\"5\" y=\"8\" width=\"639\" height=\"1\" uuid=\"b6239680-0b79-41ce-a0aa-055c09eda3ed\"/>" + "\r\n");
+                    fw.write("			</line>" + "\r\n");
+                    fw.write("		</band>" + "\r\n");
                     fw.write("    </summary>" + "\r\n");
                     fw.write("</jasperReport>" + "\r\n");
                     fw.close();
@@ -348,6 +327,5 @@ public class JasperSubReportGenerador implements Serializable {
         return false;
     }
 // </editor-fold>
-
 
 }
