@@ -20,13 +20,12 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperReport;
 
 /**
  *
@@ -34,36 +33,32 @@ import net.sf.jasperreports.engine.JasperCompileManager;
  */
 @Named
 @RequestScoped
-public class JasperDetailsGenerador implements Serializable {
+public class JasperSubReportGenerador implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(JasperDetailsGenerador.class.getName());
-    Integer x[] = {0, 110, 270, 375}; // son las x para los titulos
+    private static final Logger LOG = Logger.getLogger(JasperSubReportGenerador.class.getName());
+    Integer x[] = {0, 111, 222, 333, 444}; // son las x para los titulos
     Integer width = 100;
     Integer height = 20;
     Integer fontSize = 9;
-    Integer detailsBandheight = 125;
 
     @Inject
     MySesion mySesion;
     @Inject
     ProyectoJEE proyectoJEE;
-    @Inject
-    JasperSubReportGenerador jasperSubReportGenerador;
 
     /**
      * Creates a new instance of Facade
      */
     // <editor-fold defaultstate="collapsed" desc="generar">  
-    public void generar() {
+    public void generar(Entidad entidad,String directorioreport) {
         try {
-
             //recorrer el entity para verificar que existan todos los EJB
-            mySesion.getEntidadList().forEach((entidad) -> {
+          
                 String name = Utilidades.letterToLower(entidad.getTabla());
-                String directorioreport = proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "reportes" + proyectoJEE.getSeparator() + name + proyectoJEE.getSeparator();
-                procesar("details" + ".jrxml", directorioreport + proyectoJEE.getSeparator() + "details" + ".jrxml", entidad, directorioreport + "details" + ".jasper");
-            });
+               
+                procesar(entidad.getTabla()+"_subreport" + ".jrxml", directorioreport + proyectoJEE.getSeparator() + entidad.getTabla().toLowerCase()+"_subreport" + ".jrxml", entidad, directorioreport +entidad.getTabla().toLowerCase()+ "_subreport" + ".jasper");
+          
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -74,26 +69,6 @@ public class JasperDetailsGenerador implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="procesar">  
     private Boolean procesar(String archivo, String ruta, Entidad entidad, String pathJasper) {
         try {
-             String name = Utilidades.letterToLower(entidad.getTabla());
-            for (Atributos atributos : entidad.getAtributosList()) {
-                if (Utilidades.esTipoList(atributos.getTipo())) {
-                    System.out.println("tipo es "+Utilidades.esTipoList(atributos.getTipo()));
-//crear subreportes
-                    //String nameRelational = Utilidades.letterToLower(atributos.getTipo());
-                    String nameRelational = Utilidades.convertiraNombreEntityElTipoList(atributos.getTipo());
-                    System.out.println("nameRelational "+nameRelational);
-                    for (Entidad entidad2 : mySesion.getEntidadList()) {
-                        String name2 = Utilidades.letterToLower(entidad2.getTabla());
-                        if (nameRelational.equals(name2)) {
-                            System.out.println("es igual");
-                             String directorioreport = proyectoJEE.getPathMainWebappResources() + proyectoJEE.getSeparator() + "reportes" + proyectoJEE.getSeparator() + name + proyectoJEE.getSeparator();
-                           jasperSubReportGenerador.generar(entidad2,directorioreport );
-                        }
-                    }
-
-                    
-                }
-            }
 
             Path path = Paths.get(ruta);
             if (Files.notExists(path, new LinkOption[]{LinkOption.NOFOLLOW_LINKS})) {
@@ -167,16 +142,15 @@ public class JasperDetailsGenerador implements Serializable {
                     fw.write("        <property name=\"ireport.y\" value=\"144\"/>" + "\r\n");
 
                     fw.write("" + "\r\n");
-                    System.out.println("===========Entidad >>> " + entidad.getTabla());
-                    for (Atributos atributos : entidad.getAtributosList()) {
 
+                    for (Atributos atributos : entidad.getAtributosList()) {
+                   
                         name = atributos.getNombre().toLowerCase();
                         switch (atributos.getTipo()) {
 
                             case "Integer":
                             case "int":
                                 fw.write("        <field name=\"" + name + "\" class=\"java.lang.Number\"/>" + "\r\n");
-                                break;
                             case "Double":
                             case "double":
                                 fw.write("        <field name=\"" + name + "\" class=\"java.lang.Number\"/>" + "\r\n");
@@ -237,8 +211,17 @@ public class JasperDetailsGenerador implements Serializable {
 
                         }
 
+////getFieldByRowView()
+//                            if (contador.equals(mySesion.getFieldByRowView())) {
+//                                fw.write("                            </div>" + "\r\n");
+//                                contador = 0;
+//                            }
                     } //for
-
+                    //si es impar la cantidad de datos y el numero de registros debe agregarse un dixv
+//                    if ((fieldsAgregados.intValue() % 2 != 0 && mySesion.getFieldByRowView() % 2 == 0) || (fieldsAgregados.intValue() % 2 == 0 && mySesion.getFieldByRowView() % 2 != 0)) {
+//                        fw.write("                       </div>" + "\r\n");
+//
+//                    }
                     fw.write("        <background>" + "\r\n");
                     fw.write("		<band splitType=\"Stretch\"/>" + "\r\n");
                     fw.write("	</background>" + "\r\n");
@@ -273,56 +256,28 @@ public class JasperDetailsGenerador implements Serializable {
                      * columnHeader
                      */
                     fw.write("	<columnHeader>" + "\r\n");
-                    fw.write("	    <band height=\"29\" splitType=\"Stretch\"/>" + "\r\n");
-                    fw.write("	</columnHeader>" + "\r\n");
+                    fw.write("	    <band height=\"22\" splitType=\"Stretch\">" + "\r\n");
+
                     Integer contador = 0;
 
-//Calcular el tamaño del height
-                    Integer tamano = entidad.getAtributosList().size();
-
-                    Integer numeroList = Utilidades.numerodeList(entidad);
-                    tamano -= numeroList;
-
-                    if (Utilidades.isImpar(tamano)) {
-                        tamano++;
-                    }
-                    tamano = tamano / 2;
-                    Integer heightSubreportes = 100 * numeroList;
-                    detailsBandheight = (tamano * 26) + heightSubreportes;
-                    if (detailsBandheight > 619) {
-                        detailsBandheight = 619;
-                    }
-                    System.out.println("======================================");
-                    System.out.println("entidad.getAtributosList().size() " + entidad.getAtributosList().size());
-                    System.out.println("Utilidades.numerodeList(entidad) " + Utilidades.numerodeList(entidad));
-                    System.out.println("tamano " + tamano);
-                    System.out.println("detailsBandheight " + detailsBandheight);
-                    //Detalle
-                    fw.write("	<detail>" + "\r\n");
-                    fw.write("	    <band height=\"" + detailsBandheight + "\" splitType=\"Stretch\">" + "\r\n");
-                    contador = 0;
-                    Integer y = 0;
                     for (Atributos atributos : entidad.getAtributosList()) {
-                        if (contador == 4) {
-
-                            contador = 0;
-                            y += 25;
-                        }
-
-                        if (Utilidades.esTipoList(atributos.getTipo())) {
-                            //Es una lista
-                            y += 25;
-                            fw.write("                        <subreport>" + "\r\n");
-                            fw.write("				<reportElement x=\"0\" y=\"" + y + "\" width=\"525\" height=\"75\" uuid=\"" + Utilidades.generateUniqueID() + "\"/>" + "\r\n");
-                            fw.write("				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{" + atributos.getNombre().toLowerCase() + "})]]></dataSourceExpression>" + "\r\n");
-                            fw.write("				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + \"" + atributos.getNombre().toLowerCase() + "_subreport.jasper\"]]></subreportExpression>" + "\r\n");
-                            fw.write("			</subreport>" + "\r\n");
-                        } else {
+                        if (contador < 5) {
                             fw.write("            <staticText>" + "\r\n");
-                            fw.write("                <reportElement x=\"" + x[contador] + "\" y=\"" + y + "\" width=\"" + this.width + "\" height=\"" + this.height + "\" uuid=\"" + Utilidades.generateUniqueID() + "\"/>" + "\r\n");
+                            fw.write("                <reportElement x=\"" + x[contador] + "\" y=\"0\" width=\"" + this.width + "\" height=\"" + this.height + "\" uuid=\"" + Utilidades.generateUniqueID() + "\"/>" + "\r\n");
                             fw.write("                <text><![CDATA[" + Utilidades.letterToUpper(atributos.getNombre()) + "]]></text>" + "\r\n");
                             fw.write("            </staticText>" + "\r\n");
+                            contador++;
+                        }
+                    }
 
+                    fw.write("	    </band>" + "\r\n");
+                    fw.write("	</columnHeader>" + "\r\n");
+                    //Detalle
+                    fw.write("	<detail>" + "\r\n");
+                    fw.write("	    <band height=\"23\" splitType=\"Stretch\">" + "\r\n");
+                    contador = 0;
+                    for (Atributos atributos : entidad.getAtributosList()) {
+                        if (contador < 5) {
                             if (atributos.getTipo().equals("Date")) {
                                 fw.write("            <textField pattern=\"" + mySesion.getPatternDate() + "\">" + "\r\n");
                             } else {
@@ -334,11 +289,13 @@ public class JasperDetailsGenerador implements Serializable {
 
                             }
 
-                            fw.write("                <reportElement x=\"" + x[contador + 1] + "\" y=\"" + y + "\" width=\"" + this.width + "\" height=\"" + this.height + "\" uuid=\"" + Utilidades.generateUniqueID() + "\"/>" + "\r\n");
+                            fw.write("                <reportElement x=\"" + x[contador] + "\" y=\"0\" width=\"" + this.width + "\" height=\"" + this.height + "\" uuid=\"" + Utilidades.generateUniqueID() + "\"/>" + "\r\n");
                             fw.write("                <textElement>" + "\r\n");
                             fw.write("                    <font size=\"" + this.fontSize + "\"/>" + "\r\n");
                             fw.write("                </textElement>" + "\r\n");
-
+                            if (Utilidades.esTipoList(atributos.getTipo())) {
+                                //Es una lista
+                            }
                             if (!Utilidades.esTipoPojo(atributos.getTipo())) {
 
                                 fw.write("                <textFieldExpression><![CDATA[$F{" + atributos.getNombre().toLowerCase() + "}]]></textFieldExpression>" + "\r\n");
@@ -348,13 +305,9 @@ public class JasperDetailsGenerador implements Serializable {
                             }
 
                             fw.write("            </textField>" + "\r\n");
+                            contador++;
                         }
-
-                        System.out.println(atributos.getNombre() + "x " + x[contador] + " y " + y + " contador " + contador);
-
-                        contador += 2;
-
-                    }//
+                    }
 
                     fw.write("	    </band>" + "\r\n");
                     fw.write("	</detail>" + "\r\n");
@@ -395,6 +348,6 @@ public class JasperDetailsGenerador implements Serializable {
         return false;
     }
 // </editor-fold>
-// <editor-fold defaultstate="collapsed" desc="esTipoList"> 
+
 
 }

@@ -33,10 +33,10 @@ import net.sf.jasperreports.engine.JasperReport;
  */
 @Named
 @RequestScoped
-public class JasperGenerador implements Serializable {
+public class JasperAllGenerador implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(JasperGenerador.class.getName());
+    private static final Logger LOG = Logger.getLogger(JasperAllGenerador.class.getName());
     Integer x[] = {0, 111, 222, 333, 444}; // son las x para los titulos
     Integer width = 100;
     Integer height = 20;

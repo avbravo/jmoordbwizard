@@ -12,6 +12,7 @@
 	<background>
 		<band splitType="Stretch"/>
 	</background>
+        
 	<title>
 		<band height="68" splitType="Stretch">
 			<staticText>
@@ -27,32 +28,31 @@
 		<band height="35" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="30" splitType="Stretch">
-			<staticText>
-				<reportElement x="7" y="2" width="100" height="20" uuid="9c716328-3def-4523-abf2-c1590e6e331e"/>
-				<text><![CDATA[# Factura]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="229" y="2" width="100" height="20" uuid="9a0594aa-39d2-4b87-a3f1-6f6900fa9c2e"/>
-				<text><![CDATA[Cliente]]></text>
-			</staticText>
-		</band>
+		<band height="30" splitType="Stretch"/>
 	</columnHeader>
 	<detail>
 		<band height="125" splitType="Stretch">
 			<textField>
-				<reportElement x="7" y="6" width="100" height="20" uuid="e04c369b-675d-4282-8652-47e9eef3b42b"/>
+				<reportElement x="118" y="5" width="100" height="20" uuid="e04c369b-675d-4282-8652-47e9eef3b42b"/>
 				<textFieldExpression><![CDATA[$F{idfactura}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="229" y="5" width="100" height="20" uuid="0705d93e-3137-462c-9364-f47ac128c5fd"/>
+				<reportElement x="342" y="5" width="100" height="20" uuid="0705d93e-3137-462c-9364-f47ac128c5fd"/>
 				<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement x="7" y="40" width="482" height="75" uuid="cd645aef-0f97-4876-84dc-9f9a47466445"/>
+				<reportElement x="0" y="40" width="525" height="75" uuid="cd645aef-0f97-4876-84dc-9f9a47466445"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{detalles})]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "detalles.jasper"]]></subreportExpression>
 			</subreport>
+			<staticText>
+				<reportElement x="7" y="5" width="100" height="20" uuid="9c716328-3def-4523-abf2-c1590e6e331e"/>
+				<text><![CDATA[# Factura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="242" y="5" width="100" height="20" uuid="9a0594aa-39d2-4b87-a3f1-6f6900fa9c2e"/>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<columnFooter>

@@ -49,7 +49,7 @@ import com.avbravo.wizardjmoordb.xhtml.TemplatexhtmlGenerador;
 import com.avbravo.wizardjmoordb.configuration.WebXMLGenerador;
 import com.avbravo.wizardjmoordb.provider.CouchbaseClientProviderGenerador;
 import com.avbravo.wizardjmoordb.reportes.JasperDetailsGenerador;
-import com.avbravo.wizardjmoordb.reportes.JasperGenerador;
+import com.avbravo.wizardjmoordb.reportes.JasperAllGenerador;
 import com.avbravo.wizardjmoordb.search.EntidadSearch;
 import com.avbravo.wizardjmoordb.utilidades.Terminal;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
@@ -192,7 +192,7 @@ public class Generador implements Serializable {
     LoginxhtmlGenerador loginxhtmlGenerador;
 
     @Inject
-    JasperGenerador jasperGenerador;
+    JasperAllGenerador jasperGenerador;
     @Inject
     JasperDetailsGenerador jasperDetailsGenerador;
     

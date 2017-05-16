@@ -1741,6 +1741,16 @@ public class Utilidades {
         return true;
 
     }
+  public static String convertiraNombreEntityElTipoList(String tipo) {
+        Boolean es = false;
+        if (tipo.indexOf("List<") == -1) {
+            return tipo;
+        }
+       tipo =  tipo.replace("List<", " ");
+       tipo = tipo.replace(">","");
+        return tipo;
+
+    }
 
    public static Boolean esTipoPojo(String tipo) {
         switch (tipo) {
