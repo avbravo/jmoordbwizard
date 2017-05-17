@@ -512,7 +512,8 @@ public class ControllerGenerador implements Serializable {
                     fw.write("        try {" + "\r\n");
                     fw.write("            List<" + nameClass + "> list = new ArrayList<>();" + "\r\n");
                     fw.write("            list.add(" + nameEntity + ");" + "\r\n");
-                    fw.write("            String ruta = \"/resources/reportes/" + nameEntity + "/" + nameEntity + ".jasper\";" + "\r\n");
+//                    fw.write("            String ruta = \"/resources/reportes/" + nameEntity + "/" + nameEntity + ".jasper\";" + "\r\n");
+                    fw.write("            String ruta = \"/resources/reportes/" + nameEntity + "/" +"details.jasper\";" + "\r\n");
                     fw.write("            HashMap parameters = new HashMap();" + "\r\n");
 
                     if (Utilidades.numerodeList(entidad) > 0) {
@@ -537,7 +538,7 @@ public class ControllerGenerador implements Serializable {
                     fw.write("            } else {" + "\r\n");
                     fw.write("                list = " + nameEntity + "Filtered;" + "\r\n");
                     fw.write("            }" + "\r\n");
-                    fw.write("            String ruta = \"/resources/reportes/" + nameEntity + "/" + nameEntity + ".jasper\";" + "\r\n");
+                    fw.write("            String ruta = \"/resources/reportes/" + nameEntity + "/" +  "all.jasper\";" + "\r\n");
                     fw.write("            HashMap parameters = new HashMap();" + "\r\n");
                     fw.write("            // parameters.put(\"P_parametro\", \"valor\");" + "\r\n");
                     fw.write("            printer.imprimir(list, ruta, parameters);" + "\r\n");
