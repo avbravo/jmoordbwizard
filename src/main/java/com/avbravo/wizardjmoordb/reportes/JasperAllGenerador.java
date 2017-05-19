@@ -151,6 +151,7 @@ public class JasperAllGenerador implements Serializable {
                             case "Integer":
                             case "int":
                                 fw.write("        <field name=\"" + name + "\" class=\"java.lang.Number\"/>" + "\r\n");
+                                break;
                             case "Double":
                             case "double":
                                 fw.write("        <field name=\"" + name + "\" class=\"java.lang.Number\"/>" + "\r\n");
