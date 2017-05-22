@@ -80,4 +80,13 @@ IMPRIMIR FACTURAS RELACIONADOS
             JsfUtil.addErrorMessage("imprimir() " + ex.getLocalizedMessage());
         }
         return null;
-    }
+    
+
+
+  <p:outputLabel value="#{msg.activo}" for="activo" />
+      <javscaz:activo disabled="#{actividadesController.desactivar}" id="activo"  beanValue="#{actividadesController.actividades.activo}"/>
+
+
+utp/webseguridad/ejbseguridad
+
+utp/webseguridad/ejbseguridad

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb.old;
+package com.avbravo.wizardjmoordb.componentes;
 
 import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
@@ -47,7 +47,7 @@ public class ActivoxhtmlGenerador implements Serializable {
         try {
             //recorrer el entity para verificar que existan todos los EJB
 
-            procesar("activo.xhtml", proyectoJEE.getPathMainWebappResourcesAvbravo()+ proyectoJEE.getSeparator() + "activo.xhtml");
+            procesar("activo.xhtml", proyectoJEE.getPathMainWebappResourcesAvbravo() + proyectoJEE.getSeparator() + "activo.xhtml");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -109,20 +109,19 @@ public class ActivoxhtmlGenerador implements Serializable {
                     fw.write("" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("        <composite:attribute name=\"beanValue\" />" + "\r\n");
-                    fw.write("        <composite:attribute name=\"disabled\"/>" + "\r\n");
+                    fw.write("        <composite:attribute name=\"rendered\"/>" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("    </composite:interface>" + "\r\n");
                     fw.write("    <composite:implementation>" + "\r\n");
                     fw.write("" + "\r\n");
-                    fw.write("        <p:selectOneMenu id=\"activo\" value=\"#{cc.attrs.beanValue}\"" + "\r\n");
-                    fw.write("                         filter=\"true\" filterMatchMode=\"startsWith\" effect=\"fade\"" + "\r\n");
+                    fw.write("        <b:selectOneMenu id=\"activo\" value=\"#{cc.attrs.beanValue}\"" + "\r\n");
                     fw.write("                         required=\"true\"" + "\r\n");
-                    fw.write("                         disabled=\"#{cc.attrs.disabled}\"" + "\r\n");
-                    fw.write("                         requiredMessage=\"#{msg.activo} #{app['info.notnull']}\">" + "\r\n");
+                    fw.write("                         rendered=\"#{cc.attrs.rendered}\"" + "\r\n");
+                    fw.write("                         requiredMessage=\"#{app['title.activo']} #{app['info.notnull']}\">" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("            <f:selectItem itemLabel=\"#{app['boton.yes']}\" itemValue=\"si\" />" + "\r\n");
                     fw.write("            <f:selectItem itemLabel=\"#{app['boton.no']}\" itemValue=\"no\" />" + "\r\n");
-                    fw.write("        </p:selectOneMenu>" + "\r\n");
+                    fw.write("        </b:selectOneMenu>" + "\r\n");
                     fw.write("    </composite:implementation>" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("</html>" + "\r\n");

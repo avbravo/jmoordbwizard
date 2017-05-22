@@ -193,7 +193,7 @@ public class ViewxhtmlGenerador implements Serializable {
                             fw.write("" + "\r\n");
                             fw.write("                                                    alt=\"#{app['info.searchby']} #{msg['field." + columna + "']}\"" + "\r\n");
                             fw.write("                                                    value=\"#{" + name + "Controller." + name + "Selected}\"  " + "\r\n");
-                            fw.write("                                                    completeMethod=\"#{" + name + "Controller." + name + "Services.complete"+Utilidades.letterToUpper(columna)+"}\"  " + "\r\n");
+                            fw.write("                                                    completeMethod=\"#{" + name + "Controller." + name + "Services.complete" + Utilidades.letterToUpper(columna) + "}\"  " + "\r\n");
                             fw.write("                                                    var=\"p\"" + "\r\n");
                             //iemlabel
                             String itemLabel = "itemLabel=\"#{p." + columna + "}";
@@ -209,7 +209,7 @@ public class ViewxhtmlGenerador implements Serializable {
 //                                }
 //
 //                            }
-                            itemLabel += " \"" ;
+                            itemLabel += " \"";
                             fw.write("                                                         " + itemLabel + "\r\n");
 
                             //--itemlabel
@@ -266,6 +266,7 @@ public class ViewxhtmlGenerador implements Serializable {
                     Integer fieldsAgregados = 0;
                     Integer contadorfieldByRowView = 0;
                     for (Atributos atr : entidad.getAtributosList()) {
+
                         if (!atr.getEsPrimaryKey()) {
                             contador++;
                             fieldsAgregados++;
@@ -295,10 +296,10 @@ public class ViewxhtmlGenerador implements Serializable {
                                     fw.write("                                    <p:calendar rendered=\"#{" + name + "Controller.writable}\" id=\"" + columna + "\" class=\"fullWidth\" value=\"#{" + name + "Controller." + name + "." + columna + "}\"" + "\r\n");
                                     fw.write("                                                 placeholder=\"#{msg['field." + columna + "']}\"  maxlength=\"55\" " + "\r\n");
                                     if (!mySesion.getTimeZone().equals("")) {
-                                        fw.write("                                                 timeZone=" + mySesion.getTimeZone() + "" + "\r\n");
+                                        fw.write("                                                 timeZone=\"" + mySesion.getTimeZone() + "\"" + "\r\n");
                                     }
                                     if (!mySesion.getPatternDate().equals("")) {
-                                        fw.write("                                                 pattern=" + mySesion.getPatternDate() + "" + "\r\n");
+                                        fw.write("                                                 pattern=\"" + mySesion.getPatternDate() + "\"" + "\r\n");
                                     }
                                     fw.write("                                                 required=\"true\" requiredMessage=\"#{msg['field." + columna + "']} #{app['info.required']}\"/>" + "\r\n");
                                     fw.write("                                </div>" + "\r\n");
@@ -345,7 +346,6 @@ public class ViewxhtmlGenerador implements Serializable {
 
                                         fw.write("                                </div>" + "\r\n");
 
-                                        
                                     }
 
                             }
@@ -361,7 +361,15 @@ public class ViewxhtmlGenerador implements Serializable {
 //                        fw.write("                       </div>" + "\r\n");
 //
 //                    }
-                    fw.write("                        </div> " + "\r\n");
+                    if (Utilidades.isImpar(fieldsAgregados)) {
+                        System.out.println(entidad.getTabla() + " ---> es impar "+fieldsAgregados);
+                       fw.write("                        </div> " + "\r\n"); 
+                    } else {
+                        
+                        System.out.println(entidad.getTabla() + "---> es par  "+fieldsAgregados);
+                    }
+
+                    fw.write("                    </div> " + "\r\n");
                     fw.write("                    </h:panelGroup>" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("                    <p:confirmDialog global=\"true\" showEffect=\"fade\" hideEffect=\"explode\">" + "\r\n");

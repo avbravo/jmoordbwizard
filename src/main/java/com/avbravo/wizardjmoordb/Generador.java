@@ -35,7 +35,7 @@ import com.avbravo.wizardjmoordb.controller.LoginControllerGenerador;
 import com.avbravo.wizardjmoordb.sevices.ServicesGenerador;
 import com.avbravo.wizardjmoordb.resources.CssLayoutCssGenerador;
 import com.avbravo.wizardjmoordb.roles.ValidadorRolesGenerador;
-import com.avbravo.wizardjmoordb.resources.AccesodenegadoxhtmlGenerador;
+import com.avbravo.wizardjmoordb.componentes.AccesodenegadoxhtmlGenerador;
 import com.avbravo.wizardjmoordb.old.AcercadexhtmlGenerador;
 import com.avbravo.wizardjmoordb.old.CambiarpasswordxhtmlGenerador;
 //import com.avbravo.wizardjmoordb.old.ContentxhtmlGenerador;
@@ -47,6 +47,7 @@ import com.avbravo.wizardjmoordb.xhtml.ViewxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.ListxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.TemplatexhtmlGenerador;
 import com.avbravo.wizardjmoordb.configuration.WebXMLGenerador;
+import com.avbravo.wizardjmoordb.componentes.ActivoxhtmlGenerador;
 import com.avbravo.wizardjmoordb.provider.CouchbaseClientProviderGenerador;
 import com.avbravo.wizardjmoordb.reportes.JasperDetailsGenerador;
 import com.avbravo.wizardjmoordb.reportes.JasperAllGenerador;
@@ -186,6 +187,8 @@ public class Generador implements Serializable {
 //    ContentxhtmlGenerador contextxhtmlGenerador;
     @Inject
     AccesodenegadoxhtmlGenerador accesodenegadoxhtmlGenerador;
+    @Inject
+    ActivoxhtmlGenerador activoxhtmlGenerador;
     @Inject
     IndexxhtmlGenerador indexxhtmlGenerador;
     @Inject
@@ -870,6 +873,7 @@ stopWeb/-Inf
 //                            menusxhtmlGenerador.generar();
 //                            contextxhtmlGenerador.generar();
                             accesodenegadoxhtmlGenerador.generar();
+                            activoxhtmlGenerador.generar();
                             indexxhtmlGenerador.generar();
                             loginxhtmlGenerador.generar();
                             /*
