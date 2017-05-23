@@ -8,7 +8,9 @@ package com.avbravo.wizardjmoordb.old;
 import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
 import com.avbravo.wizardjmoordb.beans.Atributos;
+import com.avbravo.wizardjmoordb.beans.Embedded;
 import com.avbravo.wizardjmoordb.beans.Entidad;
+import com.avbravo.wizardjmoordb.beans.Referenced;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import java.io.Serializable;
 import java.nio.charset.Charset;
@@ -36,6 +38,8 @@ public class EntidadGenerador implements Serializable {
     MySesion mySesion;
     Entidad entidad = new Entidad();
     List<Atributos> atributosList = new ArrayList<>();
+    List<Referenced> referencedList = new ArrayList<>();
+    List<Embedded> embeddedList = new ArrayList<>();
     private String campoId = "";
     Integer fila = 0;
     Integer rowId = 0;
@@ -64,6 +68,8 @@ public class EntidadGenerador implements Serializable {
             entidad = new Entidad();
             entidad.setTabla(archivo);
             atributosList = new ArrayList<>();
+            referencedList = new ArrayList<>();
+            embeddedList = new ArrayList<>();
 //            entidad.setEsPrimaryKey("false");
 //            Stream<String> lines = Files.lines(path);
 //            lines.forEach(
@@ -83,7 +89,8 @@ public class EntidadGenerador implements Serializable {
                 linea(line);
             });
             entidad.setAtributosList(atributosList);
-
+            entidad.setEmbeddedList(embeddedList);
+            entidad.setReferencedList(referencedList);
             mySesion.getEntidadList().add(entidad);
         } catch (Exception e) {
             JSFUtil.addErrorMessage("readEntity() " + e.getLocalizedMessage());
@@ -110,12 +117,20 @@ public class EntidadGenerador implements Serializable {
                 String[] splited = s.split("\\s");
 //                atributos.setTipo(splited[0]);
                 atributos.setTipo(Utilidades.mysqlToJava(splited[0]));
-               
+
                 atributos.setNombre(splited[1]);
                 atributos.setEsPrimaryKey(atributos.getNombre().equals(campoId));
 
                 atributosList.add(atributos);
 
+            } else {
+                if (s.indexOf("@Referenced") != -1) {
+
+                } else {
+                    if (s.indexOf("@Embedded") != -1) {
+
+                    }
+                }
             }
         } catch (Exception e) {
             JSFUtil.addErrorMessage("EntidadGenerador.linea() " + e.getLocalizedMessage());
@@ -124,7 +139,7 @@ public class EntidadGenerador implements Serializable {
         //private Collection
 
     }
-   
+
     private Boolean searchId(Path path) {
         try {
 

@@ -362,11 +362,8 @@ public class ViewxhtmlGenerador implements Serializable {
 //
 //                    }
                     if (Utilidades.isImpar(fieldsAgregados)) {
-                        System.out.println(entidad.getTabla() + " ---> es impar "+fieldsAgregados);
-                       fw.write("                        </div> " + "\r\n"); 
-                    } else {
-                        
-                        System.out.println(entidad.getTabla() + "---> es par  "+fieldsAgregados);
+
+                        fw.write("                        </div> " + "\r\n");
                     }
 
                     fw.write("                    </div> " + "\r\n");
