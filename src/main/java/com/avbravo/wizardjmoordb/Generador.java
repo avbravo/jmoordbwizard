@@ -8,7 +8,6 @@ package com.avbravo.wizardjmoordb;
 import com.avbravo.wizardjmoordb.directorios.Directorios;
 import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.configurationfile.ConfigurationFilerRead;
-import com.avbravo.wizardjmoordb.old.EntidadGenerador;
 import com.avbravo.wizardjmoordb.provider.MongoClientProviderGenerador;
 import com.avbravo.wizardjmoordb.beans.Archivos;
 import com.avbravo.wizardjmoordb.beans.Atributos;
@@ -111,7 +110,7 @@ public class Generador implements Serializable {
     @Inject
     Directorios directorios;
     @Inject
-    EntidadGenerador entidadGenerador;
+    EntityReader entidadGenerador;
     @Inject
     ConverterGenerador converterGenerador;
     String primaryKey = "";

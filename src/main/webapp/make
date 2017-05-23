@@ -82,10 +82,14 @@ IMPRIMIR FACTURAS RELACIONADOS
         return null;
     
 
-
-  <p:outputLabel value="#{msg.activo}" for="activo" />
-      <javscaz:activo disabled="#{actividadesController.desactivar}" id="activo"  beanValue="#{actividadesController.actividades.activo}"/>
-
+========================= COMPONENTE ACTIVO=============
+                                <p:outputLabel class="col-xs-2 col-form-label" value="#{msg['field.activo']}"/>
+                                <div class="col-xs-4">
+ <avbravo:activo rendered="#{turnoController.writable}"
+                 id="activo"  beanValue="#{turnoController.turno.activo}"/>
+ 
+                                    
+                                </div>
 
 utp/webseguridad/ejbseguridad
 

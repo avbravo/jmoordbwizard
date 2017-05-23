@@ -9,7 +9,7 @@ import com.avbravo.wizardjmoordb.beans.Atributos;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.menu.MyMenu;
 import com.avbravo.wizardjmoordb.menu.MySubmenu;
-import static com.avbravo.wizardjmoordb.old.EntidadGenerador.DEFAULT_CHARSET;
+import static com.avbravo.wizardjmoordb.EntityReader.DEFAULT_CHARSET;
 
 import java.io.BufferedReader;
 import java.io.File;

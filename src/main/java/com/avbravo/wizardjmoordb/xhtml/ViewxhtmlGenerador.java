@@ -52,7 +52,7 @@ public class ViewxhtmlGenerador implements Serializable {
                 String name = Utilidades.letterToLower(entidad.getTabla());
 
                 String directorioentity = proyectoJEE.getPathMainWebappPages() + Utilidades.letterToLower(entidad.getTabla()) + proyectoJEE.getSeparator();
-//                procesar(name + ".xhtml", directorioentity + proyectoJEE.getSeparator() + name + ".xhtml", entidad);
+
                 procesar("view.xhtml", directorioentity + proyectoJEE.getSeparator() + "view.xhtml", entidad);
             }
 
@@ -86,6 +86,15 @@ public class ViewxhtmlGenerador implements Serializable {
      */
     private Boolean crearFile(String path, String archivo, Entidad entidad) throws IOException {
         try {
+            System.out.println("============================================");
+            System.out.println("Entitdad "+entidad.getTabla());
+
+              for (Atributos a : entidad.getAtributosList()) {
+                  System.out.println(a.getTipo()+ " , "+a.getNombre() + " PrimaryKey: "+a.getEsPrimaryKey() + " EsEmbebido "+a.getEsEmbebido() + " EsReferenciado "+a.getEsReferenciado() + " EsList() "+a.getEsList());
+              }
+            
+            System.out.println("============================================");
+            
             String name = Utilidades.letterToLower(entidad.getTabla());
             String ruta = path;
             File file = new File(ruta);
@@ -198,22 +207,10 @@ public class ViewxhtmlGenerador implements Serializable {
                             //iemlabel
                             String itemLabel = "itemLabel=\"#{p." + columna + "}";
                             Integer contadorAgregados = 0;
-                            //Aqui agrega atributos al itemLabel del autocomplete
-//                            for (Atributos atr : entidad.getAtributosList()) {
-//                                contadorAgregados++;
-//                                if (!atr.getNombre().equals(columna)) {
-//                                    if (contadorAgregados <= mySesion.getMaximoAutocompleteItemLabel()) {
-//                                        itemLabel += " " + "#{p." + atr.getNombre() + "}";
-//                                    }
-//
-//                                }
-//
-//                            }
                             itemLabel += " \"";
                             fw.write("                                                         " + itemLabel + "\r\n");
 
-                            //--itemlabel
-                            //  fw.write("                                                    itemLabel=\"#{p." + columna + "}\"" + "\r\n");
+                            
                             fw.write("                                                    itemValue=\"#{p}\" forceSelection=\"true\"> " + "\r\n");
 
                             fw.write("                                        <f:converter binding=\"#{" + name + "Converter}\"/>" + "\r\n");
@@ -231,8 +228,6 @@ public class ViewxhtmlGenerador implements Serializable {
                                     }
                                 }
                             }
-//                            fw.write("                                                <h:outputText value=\"#{p." + columna + "}\" />" + "\r\n");
-//                            fw.write("                                                <h:outputText value=\"#{p.maximo}\" />" + "\r\n");
                             fw.write("                                            </h:panelGrid>" + "\r\n");
                             fw.write("                                        </f:facet>" + "\r\n");
                             fw.write("                                    </p:autoComplete>   " + "\r\n");

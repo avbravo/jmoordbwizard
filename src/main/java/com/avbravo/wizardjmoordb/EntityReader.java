@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb.old;
+package com.avbravo.wizardjmoordb;
 
 import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
@@ -30,7 +30,7 @@ import javax.inject.Inject;
  */
 @Named
 @RequestScoped
-public class EntidadGenerador implements Serializable {
+public class EntityReader implements Serializable {
 
     private static final long serialVersionUID = 1L;
     public static final String DEFAULT_CHARSET = "UTF-8";
@@ -40,6 +40,9 @@ public class EntidadGenerador implements Serializable {
     List<Atributos> atributosList = new ArrayList<>();
     List<Referenced> referencedList = new ArrayList<>();
     List<Embedded> embeddedList = new ArrayList<>();
+    private Boolean terminaReferenced = true;
+    private Boolean terminaEmbedded = true;
+
     private String campoId = "";
     Integer fila = 0;
     Integer rowId = 0;
@@ -49,7 +52,7 @@ public class EntidadGenerador implements Serializable {
     /**
      * Creates a new instance of ProcesarEntity
      */
-    public EntidadGenerador() {
+    public EntityReader() {
     }
 
     public Boolean readEntity(String archivo, String ruta) {
@@ -70,24 +73,74 @@ public class EntidadGenerador implements Serializable {
             atributosList = new ArrayList<>();
             referencedList = new ArrayList<>();
             embeddedList = new ArrayList<>();
-//            entidad.setEsPrimaryKey("false");
-//            Stream<String> lines = Files.lines(path);
-//            lines.forEach(
-//                    s -> linea(s));
+
             fila = 0;
             rowId = 0;
             campoId = "";
             // buscar el campo que es primaryKey
             if (!searchId(path)) {
                 mySesion.setAllTablesWithPrimaryKey(false);
-//                JSFUtil.addWarningMessage(archivo + " No tiene Primary Key");
                 mySesion.getMensajesList().add(archivo + " No tiene Primary Key");
             }
             // procesar los atributos
             Files.lines(path, Charset.forName(DEFAULT_CHARSET)).forEach(line -> {
 
                 linea(line);
+                lineReferenced(line);
+                lineEmbedded(line);
             });
+            Boolean esEmbebido;
+            Boolean esList = false;
+            Boolean esReferenciado;
+            Integer contador = 0;
+            /**
+             * Se indica si el atributo es Embebido o referenciado
+             */
+            for (Atributos a : atributosList) {
+                atributosList.get(contador).setEsReferenciado(false);
+                if (!embeddedList.isEmpty()) {
+                    esEmbebido = false;
+                    esList = false;
+                    for (Embedded e : embeddedList) {
+                        if (a.getNombre().equals(e.getField())) {
+                            esEmbebido = true;
+                            esList = e.getEsList();
+                            break;
+                        }
+                    }
+                    atributosList.get(contador).setEsEmbebido(esEmbebido);
+                    atributosList.get(contador).setEsList(esList);
+                } else {
+                    atributosList.get(contador).setEsEmbebido(false);
+                    atributosList.get(contador).setEsList(false);
+                }
+                contador++;
+            }
+            /*
+            Referenced
+             */
+            contador=0;
+            for (Atributos a : atributosList) {
+                atributosList.get(contador).setEsReferenciado(false);
+                if (!referencedList.isEmpty()) {
+                    esReferenciado = false;
+                    esList = false;
+                    for (Referenced r : referencedList) {
+                        if (a.getNombre().equals(r.getField())) {
+                            esReferenciado = true;
+                            esList = r.getEsList();
+                            break;
+                        }
+                    }
+                    atributosList.get(contador).setEsReferenciado(esReferenciado);
+                    atributosList.get(contador).setEsList(esList);
+                } else {
+                    atributosList.get(contador).setEsReferenciado(false);
+
+                }
+                contador++;
+            }
+
             entidad.setAtributosList(atributosList);
             entidad.setEmbeddedList(embeddedList);
             entidad.setReferencedList(referencedList);
@@ -196,5 +249,84 @@ public class EntidadGenerador implements Serializable {
         //private static final long serialVersionUID = 1L;
         //private Collection
         return false;
+    }
+
+    private void lineReferenced(String s) {
+        try {
+
+            if (terminaReferenced) {
+                Referenced referenced = new Referenced();
+                // aqui es la linea referenciada
+//                System.out.println("Descomponer esta linea " + s);
+                if (s.indexOf("List") != -1) {
+                    referenced.setEsList(true);
+                    s = s.replace("private List<", "");
+                    s = s.replace(">", "");
+                } else {
+                    referenced.setEsList(false);
+                    s = s.replace("private", "");
+
+                }
+
+                s = s.replace(";", "");
+                s = s.trim();
+                String[] splited = s.split("\\s");
+                referenced.setType(splited[0]);
+                referenced.setField(splited[1]);
+                referencedList.add(referenced);
+
+                terminaReferenced = false;
+            } else {
+                if (s.indexOf("@Referenced") != -1 && s.indexOf(")") != -1) {
+                    terminaReferenced = true;
+                } else {
+                    if (s.indexOf("@Referenced") != -1 && s.indexOf(")") == -1) {
+                    } else {
+                        if (s.indexOf(")") != -1 && (s.indexOf("return") == -1 && s.indexOf("public") == -1)) {
+                            terminaReferenced = true;
+                        }
+                    }
+
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("EntidadGenerador.linea() " + e.getLocalizedMessage());
+        }
+
+    }
+
+    private void lineEmbedded(String s) {
+        try {
+
+            if (terminaEmbedded) {
+                Embedded embedded = new Embedded();
+
+                if (s.indexOf("List") != -1) {
+                    embedded.setEsList(true);
+                    s = s.replace("private List<", "");
+                    s = s.replace(">", "");
+                } else {
+                    embedded.setEsList(false);
+                    s = s.replace("private", "");
+                }
+
+                s = s.replace(";", "");
+                s = s.trim();
+                String[] splited = s.split("\\s");
+                embedded.setType(splited[0]);
+                embedded.setField(splited[1]);
+                embeddedList.add(embedded);
+
+                terminaEmbedded = false;
+            } else {
+                if (s.indexOf("@Embedded") != -1) {
+                    terminaEmbedded = true;
+                }
+
+            }
+        } catch (Exception e) {
+            System.out.println("EntidadGenerador.lineEmbedded() " + e.getLocalizedMessage());
+        }
+
     }
 }

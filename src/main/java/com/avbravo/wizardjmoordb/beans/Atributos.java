@@ -10,18 +10,49 @@ package com.avbravo.wizardjmoordb.beans;
  * @author avbravoserver
  */
 public class Atributos {
-     private String tipo;
+    private String tipo;
     private String nombre;
     private Boolean esPrimaryKey;
-
+private Boolean esEmbebido;
+private Boolean esReferenciado;
+private Boolean esList;
     public Atributos() {
     }
 
-    public Atributos(String tipo, String nombre, Boolean esPrimaryKey) {
+    public Atributos(String tipo, String nombre, Boolean esPrimaryKey, Boolean esEmbebido, Boolean esReferenciado, Boolean esList) {
         this.tipo = tipo;
         this.nombre = nombre;
         this.esPrimaryKey = esPrimaryKey;
+        this.esEmbebido = esEmbebido;
+        this.esReferenciado = esReferenciado;
+        this.esList = esList;
     }
+
+    public Boolean getEsEmbebido() {
+        return esEmbebido;
+    }
+
+    public void setEsEmbebido(Boolean esEmbebido) {
+        this.esEmbebido = esEmbebido;
+    }
+
+    public Boolean getEsReferenciado() {
+        return esReferenciado;
+    }
+
+    public void setEsReferenciado(Boolean esReferenciado) {
+        this.esReferenciado = esReferenciado;
+    }
+
+    public Boolean getEsList() {
+        return esList;
+    }
+
+    public void setEsList(Boolean esList) {
+        this.esList = esList;
+    }
+
+   
 
     public String getTipo() {
         return tipo;
