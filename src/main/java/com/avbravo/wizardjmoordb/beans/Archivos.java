@@ -10,6 +10,7 @@ package com.avbravo.wizardjmoordb.beans;
  * @author avbravoserver
  */
 public class Archivos {
+
     private String archivo;
 
     public Archivos() {
@@ -23,7 +24,4 @@ public class Archivos {
         this.archivo = archivo;
     }
 
-    
-    
-    
 }
