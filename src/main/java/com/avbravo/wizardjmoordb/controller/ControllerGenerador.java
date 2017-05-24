@@ -119,7 +119,7 @@ public class ControllerGenerador implements Serializable {
                     fw.write("*/" + "\r\n");
                     fw.write("package " + proyectoJEE.getPaquete() + ".controller;" + "\r\n");
                     fw.write("" + "\r\n");
-
+fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"imports\">" + "\r\n");
                     fw.write("import " + proyectoEJB.getPaquete() + ".entity.*; " + "\r\n");
                     fw.write("import " + proyectoEJB.getPaquete() + ".ejb.*; " + "\r\n");
                     fw.write("import " + proyectoEJB.getPaquete() + ".datamodel.*; " + "\r\n");
@@ -141,7 +141,7 @@ public class ControllerGenerador implements Serializable {
                     fw.write("import javax.faces.context.FacesContext;" + "\r\n");
                     fw.write("import org.primefaces.context.RequestContext; " + "\r\n");
                     fw.write("import org.primefaces.event.SelectEvent;" + "\r\n");
-
+fw.write("    // </editor-fold>" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("/**" + "\r\n");
                     fw.write(" *" + "\r\n");
@@ -150,6 +150,7 @@ public class ControllerGenerador implements Serializable {
                     fw.write("@Named" + "\r\n");
                     fw.write("@ViewScoped" + "\r\n");
                     fw.write("public class " + nameClass + "Controller implements Serializable, IController  {" + "\r\n");
+                    fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"fields\">" + "\r\n");
                     fw.write("    private static final long serialVersionUID = 1L;" + "\r\n");
                     fw.write("    private Boolean found = false;" + "\r\n");
                     fw.write("    private Boolean forsearch = false;" + "\r\n");
@@ -205,19 +206,21 @@ public class ControllerGenerador implements Serializable {
 
                         }
                     }
-
+                    fw.write("    // </editor-fold>" + "\r\n");
+//set/get
+                    fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"getter/setter\">" + "\r\n");
                     for (Atributos a : entidad.getAtributosList()) {
                         if (!Utilidades.isJavaType(a.getTipo())) {
                             if (Utilidades.esTipoList(a.getTipo())) {
-                                fw.write("    public void set" + Utilidades.letterToUpper(a.getNombre()) + "List(List<" +Utilidades.letterToUpper(a.getNombre()) + "> " + a.getNombre() + "List){" + "\r\n");
-                            fw.write("        this." + a.getNombre() + "List =" + a.getNombre() + "List;" + "\r\n");
-                            fw.write("    }" + "\r\n");
-                            }else{
+                                fw.write("    public void set" + Utilidades.letterToUpper(a.getNombre()) + "List(List<" + Utilidades.letterToUpper(a.getNombre()) + "> " + a.getNombre() + "List){" + "\r\n");
+                                fw.write("        this." + a.getNombre() + "List =" + a.getNombre() + "List;" + "\r\n");
+                                fw.write("    }" + "\r\n");
+                            } else {
                                 fw.write("    public void set" + a.getTipo() + "List(List<" + a.getTipo() + "> " + a.getNombre() + "List){" + "\r\n");
-                            fw.write("        this." + a.getNombre() + "List =" + a.getNombre() + "List;" + "\r\n");
-                            fw.write("    }" + "\r\n");
+                                fw.write("        this." + a.getNombre() + "List =" + a.getNombre() + "List;" + "\r\n");
+                                fw.write("    }" + "\r\n");
                             }
-                            
+
                         }
                     }
 
@@ -305,11 +308,18 @@ public class ControllerGenerador implements Serializable {
                     fw.write("    public void setWritable(Boolean writable) {" + "\r\n");
                     fw.write("        this.writable = writable;" + "\r\n");
                     fw.write("    }" + "\r\n");
+                    fw.write("    // </editor-fold>" + "\r\n");
+
+                    fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"constructor\">" + "\r\n");
+                    fw.write("    public " + nameClass + "Controller() {" + "\r\n");
+                    fw.write("    }" + "\r\n");
+                    fw.write("    // </editor-fold>" + "\r\n");
 
                     //init
                     /**
                      * Creates a new instance of " + nameClass + "Controller
                      */
+                    fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"init\">" + "\r\n");
                     fw.write("    @PostConstruct" + "\r\n");
                     fw.write("    public void init() {" + "\r\n");
                     fw.write("        try {" + "\r\n");
@@ -335,18 +345,17 @@ public class ControllerGenerador implements Serializable {
                     fw.write("        } catch (Exception e) {" + "\r\n");
                     fw.write("            JsfUtil.addErrorMessage(\"init() \" + e.getLocalizedMessage());" + "\r\n");
                     fw.write("        }" + "\r\n");
-                    fw.write("    }" + "\r\n");
+                    fw.write("    }// </editor-fold>" + "\r\n");
 
-                    fw.write("    public " + nameClass + "Controller() {" + "\r\n");
-                    fw.write("    }" + "\r\n");
-
+                    fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"reset\">" + "\r\n");
                     fw.write("    @Override" + "\r\n");
                     fw.write("    public void reset() {" + "\r\n");
                     fw.write("        found = false;" + "\r\n");
                     fw.write("        RequestContext.getCurrentInstance().reset(\":form:content\");" + "\r\n");
                     fw.write("        prepareNew();" + "\r\n");
-                    fw.write("    }" + "\r\n");
+                    fw.write("    }// </editor-fold>" + "\r\n");
 
+                    fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"prepareNew\">" + "\r\n");
                     fw.write("    @Override" + "\r\n");
                     fw.write("    public String prepareNew() {" + "\r\n");
                     fw.write("        " + nameEntity + " = new " + nameClass + "();" + "\r\n");
@@ -354,13 +363,15 @@ public class ControllerGenerador implements Serializable {
                     fw.write("        forsearch = false;" + "\r\n");
                     fw.write("        writable = false;" + "\r\n");
                     fw.write("        return \"\";" + "\r\n");
-                    fw.write("    }" + "\r\n");
+                    fw.write("    }// </editor-fold>" + "\r\n");
 
+                    fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"prepareEdit\">" + "\r\n");
                     fw.write("    @Override" + "\r\n");
                     fw.write("    public String prepareEdit() {" + "\r\n");
                     fw.write("        return \"/pages/" + nameEntity + "/view.xhtml\";" + "\r\n");
-                    fw.write("    }" + "\r\n");
+                    fw.write("    }// </editor-fold>" + "\r\n");
 
+                    fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"open\">" + "\r\n");
                     fw.write("    @Override" + "\r\n");
                     fw.write("    public String open() {" + "\r\n");
                     fw.write("        found = false;" + "\r\n");
@@ -369,7 +380,9 @@ public class ControllerGenerador implements Serializable {
                     fw.write("        " + nameEntity + " = new " + nameClass + "();" + "\r\n");
                     fw.write("        " + nameEntity + "Selected = new " + nameClass + "();" + "\r\n");
                     fw.write("        return \"\";" + "\r\n");
-                    fw.write("    }" + "\r\n");
+                    fw.write("    }// </editor-fold>" + "\r\n");
+
+                    fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"showAll\">" + "\r\n");
                     fw.write("    @Override" + "\r\n");
                     fw.write("    public String showAll() {" + "\r\n");
                     fw.write("    try {" + "\r\n");
@@ -383,8 +396,9 @@ public class ControllerGenerador implements Serializable {
                     fw.write("        JsfUtil.addErrorMessage(\"showAll()\" + e.getLocalizedMessage());" + "\r\n");
                     fw.write("    }" + "\r\n");
                     fw.write("    return \"\";" + "\r\n");
-                    fw.write("    }" + "\r\n");
+                    fw.write("    }// </editor-fold>" + "\r\n");
 
+                    fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"query\">" + "\r\n");
                     fw.write("    @Override" + "\r\n");
                     fw.write("    public String query() {" + "\r\n");
                     fw.write("        try {" + "\r\n");
@@ -395,8 +409,9 @@ public class ControllerGenerador implements Serializable {
                     fw.write("        JsfUtil.addErrorMessage(\"query()\" + e.getLocalizedMessage());" + "\r\n");
                     fw.write("    }" + "\r\n");
                     fw.write("    return \"\";" + "\r\n");
-                    fw.write("    }" + "\r\n");
+                    fw.write("    }// </editor-fold>" + "\r\n");
 
+                    fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"verifyNew\">" + "\r\n");
                     fw.write("    @Override" + "\r\n");
                     fw.write("    public String verifyNew() {" + "\r\n");
                     fw.write("        try {" + "\r\n");
@@ -417,7 +432,9 @@ public class ControllerGenerador implements Serializable {
                     fw.write("        JsfUtil.addErrorMessage(\"verifyNew()\" + e.getLocalizedMessage());" + "\r\n");
                     fw.write("    }" + "\r\n");
                     fw.write("    return \"\";" + "\r\n");
-                    fw.write("    }" + "\r\n");
+                    fw.write("    }// </editor-fold>" + "\r\n");
+
+                    fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"save\">" + "\r\n");
                     fw.write("    @Override" + "\r\n");
                     fw.write("    public String save() {" + "\r\n");
                     fw.write("        try {" + "\r\n");
@@ -437,8 +454,9 @@ public class ControllerGenerador implements Serializable {
                     fw.write("        JsfUtil.addErrorMessage(\"save()\" + e.getLocalizedMessage());" + "\r\n");
                     fw.write("    }" + "\r\n");
                     fw.write("    return \"\";" + "\r\n");
-                    fw.write("    }" + "\r\n");
+                    fw.write("    }// </editor-fold>" + "\r\n");
 
+                    fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"edit\">" + "\r\n");
                     fw.write("    @Override" + "\r\n");
                     fw.write("    public String edit() {" + "\r\n");
                     fw.write("        try {" + "\r\n");
@@ -448,8 +466,9 @@ public class ControllerGenerador implements Serializable {
                     fw.write("        JsfUtil.addErrorMessage(\"edit()\" + e.getLocalizedMessage());" + "\r\n");
                     fw.write("    }" + "\r\n");
                     fw.write("    return \"\";" + "\r\n");
-                    fw.write("    }" + "\r\n");
+                    fw.write("    }// </editor-fold>" + "\r\n");
 
+                    fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"delete\">" + "\r\n");
                     fw.write("    @Override" + "\r\n");
                     fw.write("    public String delete() {" + "\r\n");
                     fw.write("        try {" + "\r\n");
@@ -463,8 +482,9 @@ public class ControllerGenerador implements Serializable {
                     fw.write("            JsfUtil.addErrorMessage(\"delete() \" + e.getLocalizedMessage());" + "\r\n");
                     fw.write("        }" + "\r\n");
                     fw.write("        return \"\";" + "\r\n");
-                    fw.write("    }" + "\r\n");
+                    fw.write("    }// </editor-fold>" + "\r\n");
 
+                    fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"delete\">" + "\r\n");
                     fw.write("    public String delete(" + nameClass + " " + nameEntity + ") {" + "\r\n");
                     fw.write("        try {" + "\r\n");
                     fw.write("            if (" + nameEntity + "Facade.delete(\"" + primaryKey + "\", " + nameEntity + ".get" + primaryKeyUpper + "())) {" + "\r\n");
@@ -477,8 +497,9 @@ public class ControllerGenerador implements Serializable {
                     fw.write("            JsfUtil.addErrorMessage(\"delete() \" + e.getLocalizedMessage());" + "\r\n");
                     fw.write("        }" + "\r\n");
                     fw.write("        return \"/pages/" + nameEntity + "/list.xhtml\";" + "\r\n");
-                    fw.write("    }" + "\r\n");
+                    fw.write("    }// </editor-fold>" + "\r\n");
 
+                    fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"remove\">" + "\r\n");
                     fw.write("    @Override" + "\r\n");
                     fw.write("    public String remove() {" + "\r\n");
                     fw.write("        try {" + "\r\n");
@@ -497,23 +518,25 @@ public class ControllerGenerador implements Serializable {
                     fw.write("            JsfUtil.addErrorMessage(\"remove()\" + e.getLocalizedMessage());" + "\r\n");
                     fw.write("        }" + "\r\n");
                     fw.write("        return \"\";" + "\r\n");
-                    fw.write("    }" + "\r\n");
+                    fw.write("    }// </editor-fold>" + "\r\n");
 
+                    fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"deleteAll\">" + "\r\n");
                     fw.write("    @Override" + "\r\n");
                     fw.write("    public String deleteAll() {" + "\r\n");
                     fw.write("        if (" + nameEntity + "Facade.deleteAll() != 0) {" + "\r\n");
                     fw.write("            JsfUtil.addSuccessMessage(rf.getAppMessage(\"info.delete\"));" + "\r\n");
                     fw.write("        }" + "\r\n");
                     fw.write("        return \"\";" + "\r\n");
-                    fw.write("    }" + "\r\n");
+                    fw.write("    }// </editor-fold>" + "\r\n");
 
+                    fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"print\">" + "\r\n");
                     fw.write("    @Override" + "\r\n");
                     fw.write("    public String print() {" + "\r\n");
                     fw.write("        try {" + "\r\n");
                     fw.write("            List<" + nameClass + "> list = new ArrayList<>();" + "\r\n");
                     fw.write("            list.add(" + nameEntity + ");" + "\r\n");
 //                    fw.write("            String ruta = \"/resources/reportes/" + nameEntity + "/" + nameEntity + ".jasper\";" + "\r\n");
-                    fw.write("            String ruta = \"/resources/reportes/" + nameEntity + "/" +"details.jasper\";" + "\r\n");
+                    fw.write("            String ruta = \"/resources/reportes/" + nameEntity + "/" + "details.jasper\";" + "\r\n");
                     fw.write("            HashMap parameters = new HashMap();" + "\r\n");
 
                     if (Utilidades.numerodeList(entidad) > 0) {
@@ -527,8 +550,9 @@ public class ControllerGenerador implements Serializable {
                     fw.write("            JsfUtil.addErrorMessage(\"imprimir() \" + ex.getLocalizedMessage());" + "\r\n");
                     fw.write("        }" + "\r\n");
                     fw.write("    return null;" + "\r\n");
-                    fw.write("    }" + "\r\n");
+                    fw.write("    }// </editor-fold>" + "\r\n");
 
+                    fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"printAll\">" + "\r\n");
                     fw.write("    @Override" + "\r\n");
                     fw.write("    public String printAll() {" + "\r\n");
                     fw.write("        try {" + "\r\n");
@@ -538,7 +562,7 @@ public class ControllerGenerador implements Serializable {
                     fw.write("            } else {" + "\r\n");
                     fw.write("                list = " + nameEntity + "Filtered;" + "\r\n");
                     fw.write("            }" + "\r\n");
-                    fw.write("            String ruta = \"/resources/reportes/" + nameEntity + "/" +  "all.jasper\";" + "\r\n");
+                    fw.write("            String ruta = \"/resources/reportes/" + nameEntity + "/" + "all.jasper\";" + "\r\n");
                     fw.write("            HashMap parameters = new HashMap();" + "\r\n");
                     fw.write("            // parameters.put(\"P_parametro\", \"valor\");" + "\r\n");
                     fw.write("            printer.imprimir(list, ruta, parameters);" + "\r\n");
@@ -546,8 +570,9 @@ public class ControllerGenerador implements Serializable {
                     fw.write("             JsfUtil.addErrorMessage(\"imprimir() \" + ex.getLocalizedMessage());" + "\r\n");
                     fw.write("         }" + "\r\n");
                     fw.write("         return null;" + "\r\n");
-                    fw.write("    }" + "\r\n");
+                    fw.write("    }// </editor-fold>" + "\r\n");
 
+                    fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"handleSelect\">" + "\r\n");
                     fw.write("    @Override" + "\r\n");
                     fw.write("    public void handleSelect(SelectEvent event) {" + "\r\n");
                     fw.write("        try {" + "\r\n");
@@ -558,7 +583,7 @@ public class ControllerGenerador implements Serializable {
                     fw.write("        } catch (Exception ex) {" + "\r\n");
                     fw.write("            JsfUtil.addErrorMessage(\"handleSelect() \" + ex.getLocalizedMessage());" + "\r\n");
                     fw.write("        }" + "\r\n");
-                    fw.write("    }" + "\r\n");
+                    fw.write("    }// </editor-fold>" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("" + "\r\n");

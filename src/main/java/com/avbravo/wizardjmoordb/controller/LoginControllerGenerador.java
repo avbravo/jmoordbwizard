@@ -78,7 +78,6 @@ public class LoginControllerGenerador implements Serializable {
 
     }
 
-
     /**
      * deleteAll
      *
@@ -110,6 +109,7 @@ public class LoginControllerGenerador implements Serializable {
                 fw.write("*/" + "\r\n");
                 fw.write("package " + proyectoJEE.getPaquete() + ".controller;" + "\r\n");
                 fw.write("" + "\r\n");
+                fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"imports\">" + "\r\n");
                 fw.write("import " + proyectoEJB.getPaquete() + ".entity.*;" + "\r\n");
                 fw.write("import " + proyectoEJB.getPaquete() + ".ejb.*;" + "\r\n");
                 fw.write("import " + proyectoJEE.getPaquete() + ".util.*;" + "\r\n");
@@ -128,6 +128,8 @@ public class LoginControllerGenerador implements Serializable {
                 fw.write("import javax.faces.context.ExternalContext;" + "\r\n");
                 fw.write("import javax.faces.context.FacesContext;" + "\r\n");
                 fw.write("import javax.servlet.http.HttpSession;" + "\r\n");
+                fw.write("    // </editor-fold>" + "\r\n");
+
                 fw.write("" + "\r\n");
                 fw.write("/**" + "\r\n");
                 fw.write(" *" + "\r\n");
@@ -136,6 +138,7 @@ public class LoginControllerGenerador implements Serializable {
                 fw.write("@Named" + "\r\n");
                 fw.write("@SessionScoped" + "\r\n");
                 fw.write("public class LoginController  implements Serializable {" + "\r\n");
+                fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"fields\">" + "\r\n");
                 fw.write("    private static final long serialVersionUID = 1L;" + "\r\n");
                 fw.write("    private static final Logger LOG = Logger.getLogger(LoginController.class.getName());" + "\r\n");
                 fw.write("" + "\r\n");
@@ -153,19 +156,21 @@ public class LoginControllerGenerador implements Serializable {
                 fw.write("    @Inject" + "\r\n");
                 fw.write("    " + mySesion.getEntidadUser().getTabla() + "Facade " + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "Facade;" + "\r\n");
                 fw.write("    " + mySesion.getEntidadUser().getTabla() + " " + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + " = new " + mySesion.getEntidadUser().getTabla() + "();" + "\r\n");
-                
-                if(mySesion.getTypeUserGroupEntity()){
+
+                if (mySesion.getTypeUserGroupEntity()) {
                     fw.write("    @Inject" + "\r\n");
-                fw.write("    " + mySesion.getEntidadRoles().getTabla() + "Facade " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + "Facade;" + "\r\n");
-                fw.write("    " + mySesion.getEntidadRoles().getTabla() + " " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + " = new " + mySesion.getEntidadRoles().getTabla() + "();" + "\r\n");
+                    fw.write("    " + mySesion.getEntidadRoles().getTabla() + "Facade " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + "Facade;" + "\r\n");
+                    fw.write("    " + mySesion.getEntidadRoles().getTabla() + " " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + " = new " + mySesion.getEntidadRoles().getTabla() + "();" + "\r\n");
                 }
-                
+
                 if (mySesion.getTypeUserGroupList()) {
                     fw.write("    @Inject" + "\r\n");
                     fw.write("    " + mySesion.getEntidadGruposUsuariosMultiples().getTabla() + "Facade " + Utilidades.letterToLower(mySesion.getEntidadGruposUsuariosMultiples().getTabla()) + "Facade;" + "\r\n");
                     fw.write("    " + mySesion.getEntidadGruposUsuariosMultiples().getTabla() + " " + Utilidades.letterToLower(mySesion.getEntidadGruposUsuariosMultiples().getTabla()) + " = new " + mySesion.getEntidadGruposUsuariosMultiples().getTabla() + "();" + "\r\n");
                 }
+                fw.write("    // </editor-fold>" + "\r\n");
 
+                fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"getter/setter\">" + "\r\n");
                 fw.write("    public String getId() {" + "\r\n");
                 fw.write("    return id;" + "\r\n");
                 fw.write("    }" + "\r\n");
@@ -213,24 +218,31 @@ public class LoginControllerGenerador implements Serializable {
                 fw.write("    public void setLoggedIn(Boolean loggedIn) {" + "\r\n");
                 fw.write("        this.loggedIn = loggedIn;" + "\r\n");
                 fw.write("    }" + "\r\n");
-
+                fw.write("    // </editor-fold>" + "\r\n");
                 fw.write("" + "\r\n");
 
+                fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"init\">" + "\r\n");
                 fw.write("    @PostConstruct" + "\r\n");
                 fw.write("    public void init() {" + "\r\n");
                 fw.write("        loggedIn = false;" + "\r\n");
                 fw.write("    }" + "\r\n");
+                fw.write("    // </editor-fold>" + "\r\n");
 
+                fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"constructor\">" + "\r\n");
                 fw.write("    public LoginController() {" + "\r\n");
                 fw.write("    }" + "\r\n");
+                fw.write("    // </editor-fold>" + "\r\n");
 
+                fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"irLogin\">" + "\r\n");
                 fw.write("    public String irLogin() {" + "\r\n");
                 fw.write("        return \"/faces/login\";" + "\r\n");
                 fw.write("    }" + "\r\n");
+                fw.write("    // </editor-fold>" + "\r\n");
                 // desde aqui el login 
                 doLogin();
 
 //logout()
+                fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"doLogout\">" + "\r\n");
                 fw.write("    public String doLogout() {" + "\r\n");
                 fw.write("        loggedIn = false;" + "\r\n");
 
@@ -249,8 +261,9 @@ public class LoginControllerGenerador implements Serializable {
                 fw.write("        }" + "\r\n");
                 fw.write("        return \"/" + proyectoJEE.getProyecto() + "/faces/login.xhtml?faces-redirect=true\";" + "\r\n");
                 fw.write("    }" + "\r\n");
-
+                fw.write("    // </editor-fold>" + "\r\n");
                 // cambiarContrasena()
+                fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"changePassword\">" + "\r\n");
                 fw.write("    public String changePassword() {" + "\r\n");
                 fw.write("        try {" + "\r\n");
                 fw.write("            " + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "Facade.update(" + minuscula + ");" + "\r\n");
@@ -260,7 +273,7 @@ public class LoginControllerGenerador implements Serializable {
                 fw.write("        }" + "\r\n");
                 fw.write("        return null;" + "\r\n");
                 fw.write("    }" + "\r\n");
-
+                fw.write("    // </editor-fold>" + "\r\n");
                 fw.write("" + "\r\n");
                 fw.write("" + "\r\n");
                 fw.write("" + "\r\n");
@@ -276,22 +289,15 @@ public class LoginControllerGenerador implements Serializable {
         return false;
     }
 
-
-    
-    
-
-    
-
     /**
      *
      * @return
      */
-   
-
     private String doLogin() {
         try {
             String minuscula = Utilidades.letterToLower(mySesion.getEntidadUser().getTabla());
             String primeraletra = Utilidades.getFirstLetter(mySesion.getEntidadUser().getTabla()).toLowerCase();
+            fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"doLogin\">" + "\r\n");
             fw.write("    public String doLogin() {" + "\r\n");
             fw.write("        try {" + "\r\n");
             fw.write("" + "\r\n");
@@ -312,6 +318,7 @@ public class LoginControllerGenerador implements Serializable {
             fw.write("                   JsfUtil.addSuccessMessage(rf.getAppMessage(\"login.passwordnotvalid\"));" + "\r\n");
             fw.write("                   return \"\";" + "\r\n");
             fw.write("               }" + "\r\n");
+   
             /*
                 No tiene rol
              */
@@ -366,6 +373,7 @@ public class LoginControllerGenerador implements Serializable {
                         fw.write("                   return \"\";" + "\r\n");
                         fw.write("                }" + "\r\n");
                         fw.write("           }" + "\r\n");
+                 
 
                     }//multiples relaciones
 
@@ -381,6 +389,7 @@ public class LoginControllerGenerador implements Serializable {
             fw.write("        }" + "\r\n");
             fw.write("        return null;" + "\r\n");
             fw.write("    }" + "\r\n");
+            fw.write("    // </editor-fold>" + "\r\n");
         } catch (Exception e) {
             JSFUtil.addErrorMessage("doLogin()  " + e.getLocalizedMessage());
         }

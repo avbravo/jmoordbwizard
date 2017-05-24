@@ -69,19 +69,23 @@ public class MessagesPropertiesGenerador implements Serializable {
                 crearFile(ruta, archivo);
             }
 
-            for (Entidad entidad : mySesion.getEntidadList()) {
-                    Utilidades.searchAdd(ruta, "header." + Utilidades.letterToLower(entidad.getTabla()) + "selected =" + Utilidades.letterToUpper(entidad.getTabla()) , "# and open the template in the editor.", false);
-
-            }
-            for (Entidad entidad : mySesion.getEntidadList()) {
-                for (Atributos atributos : entidad.getAtributosList()) {
+            mySesion.getEntidadList().forEach((entidad) -> {
+                Utilidades.searchAdd(ruta, "header." + Utilidades.letterToLower(entidad.getTabla()) + "selected =" + Utilidades.letterToUpper(entidad.getTabla()) , "# and open the template in the editor.", false);
+            });
+            mySesion.getEntidadList().forEach((entidad) -> {
+                entidad.getAtributosList().forEach((atributos) -> {
                     Utilidades.searchAdd(ruta, "field." + Utilidades.letterToLower(atributos.getNombre()) + "=" + Utilidades.letterToUpper(atributos.getNombre()), "# and open the template in the editor.", false);
-                }
-            }
+                });
+            });
+            
+            mySesion.getEntidadList().forEach((entidad) -> {
+                Utilidades.searchAdd(ruta, "tab." + Utilidades.letterToLower(entidad.getTabla()) + "=" + Utilidades.letterToUpper(entidad.getTabla()), "# and open the template in the editor.", false);
+            });
+            
 
-            for (String s : mySesion.getMenubarList()) {
+            mySesion.getMenubarList().forEach((s) -> {
                 Utilidades.searchAdd(ruta, "menubar." + Utilidades.letterToLower(s) + "=" + s, "# and open the template in the editor.", false);
-            }
+            });
             mySesion.getEntidadList().stream().forEach((entity) -> {
                 Utilidades.searchAdd(ruta, "menu." + Utilidades.letterToLower(entity.getTabla()) + "=" + entity.getTabla(), "# and open the template in the editor.", false);
             });

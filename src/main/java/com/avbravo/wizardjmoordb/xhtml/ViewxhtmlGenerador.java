@@ -49,6 +49,7 @@ public class ViewxhtmlGenerador implements Serializable {
     /**
      * Creates a new instance of Facade
      */
+    // <editor-fold defaultstate="collapsed" desc="generar">  
     public void generar() {
         try {
             //recorrer el entity para verificar que existan todos los EJB
@@ -64,7 +65,8 @@ public class ViewxhtmlGenerador implements Serializable {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
 
         }
-    }
+    }// </editor-fold> 
+// <editor-fold defaultstate="collapsed" desc="procesar">  
 
     private Boolean procesar(String archivo, String ruta, Entidad entidad) {
         try {
@@ -79,7 +81,7 @@ public class ViewxhtmlGenerador implements Serializable {
         }
         return true;
 
-    }
+    }// </editor-fold> 
 
     /**
      * deleteAll
@@ -88,6 +90,7 @@ public class ViewxhtmlGenerador implements Serializable {
      * @param archivo
      * @return
      */
+    // <editor-fold defaultstate="collapsed" desc="crearFile">  
     private Boolean crearFile(String path, String archivo, Entidad entidad) throws IOException {
         try {
             System.out.println("============================================");
@@ -207,7 +210,7 @@ public class ViewxhtmlGenerador implements Serializable {
 
                     //Dibujar los tabview
                     if (esEmbedded || esRefefencedList) {
-                        tabView();
+                        tabView(entidad);
 
                     }
 
@@ -223,32 +226,68 @@ public class ViewxhtmlGenerador implements Serializable {
             JSFUtil.addErrorMessage("crearFile() " + e.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
+// <editor-fold defaultstate="collapsed" desc="tabView">  
 
-    private void tabView() {
+    private void tabView(Entidad entidad) {
         try {
+            Integer c = 0;
             fw.write("			   <div class=\"row\"  style=\"padding-left: 15px;padding-right: 15px; margin-bottom:10px\">" + "\r\n");
             fw.write("                                <div class=\"col-md-12\" >" + "\r\n");
             fw.write("                                    <ul class=\"nav nav-tabs\" role=\"tablist\">" + "\r\n");
             //Aqui recorrer y colocar los form-tab-2
-            if(esEmbedded){
-                //recorrer los atributos y mostrar los links
-                //pagina 3
+
+            //pagina 3
+            for (Atributos a : entidad.getAtributosList()) {
+                if (a.getEsEmbebido() || (a.getEsReferenciado() && a.getEsList())) {
+                    if (c == 0) {
+                        fw.write("                                        <li class=\"active\"><a href=\"#form-tab-" + Utilidades.letterToLower(a.getNombre()) + "\" class=\"form-tab\" role=\"tab\" data-toggle=\"tab\">#{msg['tab." + Utilidades.letterToLower(a.getNombre()) + "']}</a></li>" + "\r\n");
+                    } else {
+                        fw.write("                                        <li><a href=\"#form-tab-" + Utilidades.letterToLower(a.getNombre()) + "\" class=\"form-tab\" role=\"tab\" data-toggle=\"tab\">#{msg['tab." + Utilidades.letterToLower(a.getNombre()) + "']}</a></li>" + "\r\n");
+                    }
+                    c++;
+                }
             }
-            fw.write("                                        <li class=\"active\"><a href=\"#form-tab-1\" class=\"form-tab\" role=\"tab\" data-toggle=\"tab\">#{msg['tab.mantenimiento']}</a></li>" + "\r\n");
-            fw.write("                                        <li><a href=\"#form-tab-2\" class=\"form-tab\" role=\"tab\" data-toggle=\"tab\">#{msg['tab.seguro']}</a></li>" + "\r\n");
+
             fw.write("                                    </ul>" + "\r\n");
             fw.write("                                    <div class=\"tab-content\">" + "\r\n");
             fw.write("" + "\r\n");
             fw.write("" + "\r\n");
+            // dibujar los paneles
+            c = 0;
+            for (Atributos a : entidad.getAtributosList()) {
+                if (a.getEsEmbebido() || (a.getEsReferenciado() && a.getEsList())) {
+                    if (c == 0) {
+                        fw.write("                                        <div class=\"tab-pane active\" id=\"form-tab-" + Utilidades.letterToLower(a.getNombre()) + "\" style=\"padding: 20px;\">" + "\r\n");
+                        tabContenido();
+                        fw.write("                                        </div>" + "\r\n");
+                    } else {
+                        fw.write("                                        <div class=\"tab-pane active\" id=\"form-tab-" + Utilidades.letterToLower(a.getNombre()) + "\" style=\"padding: 20px;\">" + "\r\n");
+                        tabContenido();
+                        fw.write("                                        </div>" + "\r\n");
+                    }
+                    c++;
+                }
+            }
+
             fw.write("" + "\r\n");
-            fw.write("                                    </div>" + "\r\n");
-            fw.write("                                </div>" + "\r\n");
-            fw.write("                            </div>" + "\r\n");
+            fw.write("                                    </div>" + "\r\n");//content
+            fw.write("                                </div>" + "\r\n");//col md-12
+            fw.write("                            </div>" + "\r\n");//class row
         } catch (Exception e) {
             JSFUtil.addErrorMessage("tabView() " + e.getLocalizedMessage());
         }
-    }
+    }// </editor-fold> 
+// <editor-fold defaultstate="collapsed" desc="tabContenido">  
+
+    private void tabContenido() {
+        try {
+
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("tabContenido() " + e.getLocalizedMessage());
+        }
+    }// </editor-fold> 
+    // <editor-fold defaultstate="collapsed" desc="inputText">  
 
     private void inputText(String name, String columna) {
         try {
@@ -262,8 +301,8 @@ public class ViewxhtmlGenerador implements Serializable {
         } catch (Exception e) {
             JSFUtil.addErrorMessage("inputText() " + e.getLocalizedMessage());
         }
-    }
-
+    }// </editor-fold> 
+// <editor-fold defaultstate="collapsed" desc="calendar">  
     private void calendar(String name, String columna) {
         try {
             fw.write("                                <p:outputLabel class=\"col-xs-2 col-form-label\" value=\"#{msg['field." + columna + "']}\"/>" + "\r\n");
@@ -282,11 +321,12 @@ public class ViewxhtmlGenerador implements Serializable {
         } catch (Exception e) {
             JSFUtil.addErrorMessage("inputText() " + e.getLocalizedMessage());
         }
-    }
+    }// </editor-fold> 
 
     /**
      * Referenciados con isList == false
      */
+// <editor-fold defaultstate="collapsed" desc="selectOneMenu">  
     private void selecOneMenu(Atributos atr, String name, String columna) {
         try {
             //Solo crea el selectOneMenu para los referenciados que no sean un List
@@ -329,8 +369,9 @@ public class ViewxhtmlGenerador implements Serializable {
         } catch (Exception e) {
             JSFUtil.addErrorMessage("selecOneMenu() " + e.getLocalizedMessage());
         }
-    }
+    }// </editor-fold> 
 
+// <editor-fold defaultstate="collapsed" desc="terminal">  
     private void terminal(String name) {
         try {
             fw.write("                    </div> " + "\r\n");
@@ -352,8 +393,9 @@ public class ViewxhtmlGenerador implements Serializable {
         } catch (Exception e) {
             JSFUtil.addErrorMessage("terminal() " + e.getLocalizedMessage());
         }
-    }
+    }// </editor-fold> 
 
+// <editor-fold defaultstate="collapsed" desc="encabezado">  
     private void encabezado(String name) {
         try {
 
@@ -421,8 +463,9 @@ public class ViewxhtmlGenerador implements Serializable {
             JSFUtil.addErrorMessage("crearFile() " + e.getLocalizedMessage());
         }
 
-    }
+    }// </editor-fold> 
 
+// <editor-fold defaultstate="collapsed" desc="autocompletePK">  
     private void autocompletePK(String name, Entidad entidad) {
         try {
             for (Atributos atributos : entidad.getAtributosList()) {
@@ -495,6 +538,6 @@ public class ViewxhtmlGenerador implements Serializable {
         } catch (Exception e) {
             JSFUtil.addErrorMessage("autocompletePK() " + e.getLocalizedMessage());
         }
-    }
+    }// </editor-fold> 
 
 }
