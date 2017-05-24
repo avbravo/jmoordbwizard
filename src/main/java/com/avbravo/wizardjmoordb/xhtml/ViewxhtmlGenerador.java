@@ -45,6 +45,18 @@ public class ViewxhtmlGenerador implements Serializable {
     Boolean esEmbeddedList = false;
     Boolean esReferenced = false;
     Boolean esRefefencedList = false;
+    Integer nivel = -1;
+    String nameEntityMain ="";
+    // <editor-fold defaultstate="collapsed" desc="generar">
+
+    public Integer getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(Integer nivel) {
+        this.nivel = nivel;
+    }
+// </editor-fold> 
 
     /**
      * Creates a new instance of Facade
@@ -70,7 +82,7 @@ public class ViewxhtmlGenerador implements Serializable {
 
     private Boolean procesar(String archivo, String ruta, Entidad entidad) {
         try {
-
+            setNivel(-1);
             Path path = Paths.get(ruta);
             if (Files.notExists(path, new LinkOption[]{LinkOption.NOFOLLOW_LINKS})) {
                 crearFile(ruta, archivo, entidad);
@@ -93,16 +105,9 @@ public class ViewxhtmlGenerador implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="crearFile">  
     private Boolean crearFile(String path, String archivo, Entidad entidad) throws IOException {
         try {
-            System.out.println("============================================");
-            System.out.println("Entitdad " + entidad.getTabla());
-
-            for (Atributos a : entidad.getAtributosList()) {
-                System.out.println(a.getTipo() + " , " + a.getNombre() + " PrimaryKey: " + a.getEsPrimaryKey() + " EsEmbebido " + a.getEsEmbebido() + " EsReferenciado " + a.getEsReferenciado() + " EsList() " + a.getEsList());
-            }
-
-            System.out.println("============================================");
 
             String name = Utilidades.letterToLower(entidad.getTabla());
+            this.nameEntityMain = Utilidades.letterToLower(entidad.getTabla());
             String ruta = path;
             File file = new File(ruta);
             BufferedWriter bw;
@@ -119,100 +124,9 @@ public class ViewxhtmlGenerador implements Serializable {
                 try {
                     fw = new FileWriter(file);
                     encabezado(name);
+                    setNivel(-1);
                     autocompletePK(name, entidad);
-
-                    // autocomplete es el campo llave
-                    String columnKey = "";
-                    String columnDate = "";
-                    Boolean tieneUsername = false;
-                    Boolean isIntegerKey = false;
-                    for (Atributos a : entidad.getAtributosList()) {
-                        if (a.getEsPrimaryKey()) {
-                            columnKey = a.getNombre();
-                            isIntegerKey = a.getTipo().equals("Integer");
-                        } else if (a.getTipo().equals("Date")) {
-                            columnDate = a.getNombre();
-                        }
-                        if (a.getTipo().equals(mySesion.getEntidadUser().getTabla())) {
-                            tieneUsername = true;
-                        }
-
-                    }
-//getFieldByRowView()
-                    Integer contador = 0;
-                    Integer fieldsAgregados = 0;
-                    Integer contadorfieldByRowView = 0;
-                    for (Atributos atr : entidad.getAtributosList()) {
-
-                        if (!atr.getEsPrimaryKey()) {
-                            contador++;
-                            fieldsAgregados++;
-                            if (contador == 1) {
-                                fw.write("                            <div class=\"form-group row\" >" + "\r\n");
-                            }
-                            String columna = Utilidades.letterToLower(atr.getNombre());
-                            contadorfieldByRowView++;
-                            switch (atr.getTipo()) {
-                                case "Integer":
-                                case "Double":
-                                case "double":
-                                case "String":
-                                    inputText(name, columna);
-                                    break;
-
-                                case "Date":
-                                    calendar(name, columna);
-                                    break;
-                                default:
-                                    //tipo relacionado
-                                    // si es el username del loging
-                                    if (atr.getTipo().equals(mySesion.getEntidadUser().getTabla()) && mySesion.getAddUserNameLogeado()) {
-                                        //aqui no se genera nada
-
-                                    } else {
-                                        //generar el autocomplete del componente
-                                        selecOneMenu(atr, name, columna);
-
-                                    }
-
-                            }
-
-                        }
-                        if (contador.equals(mySesion.getFieldByRowView())) {
-                            fw.write("                            </div>" + "\r\n");
-                            contador = 0;
-                        }
-                        //verifica si existe algun embedded o referenced
-                        if (atr.getEsEmbebido()) {
-                            esEmbedded = true;
-                            if (atr.getEsList()) {
-                                esEmbeddedList = true;
-                            }
-                        } else {
-                            if (atr.getEsReferenciado()) {
-                                esReferenced = true;
-                                if (atr.getEsList()) {
-                                    esRefefencedList = true;
-                                }
-                            }
-                        }
-
-                    } //for
-                    //si es impar la cantidad de datos y el numero de registros debe agregarse un dixv
-//                    if ((fieldsAgregados.intValue() % 2 != 0 && mySesion.getFieldByRowView() % 2 == 0) || (fieldsAgregados.intValue() % 2 == 0 && mySesion.getFieldByRowView() % 2 != 0)) {
-//                        fw.write("                       </div>" + "\r\n");
-//
-//                    }
-                    if (Utilidades.isImpar(fieldsAgregados)) {
-
-                        fw.write("                        </div> " + "\r\n");
-                    }
-
-                    //Dibujar los tabview
-                    if (esEmbedded || esRefefencedList) {
-                        tabView(entidad);
-
-                    }
+                    body(name, entidad, "");
 
                     terminal(name);
                     fw.close();
@@ -226,6 +140,107 @@ public class ViewxhtmlGenerador implements Serializable {
             JSFUtil.addErrorMessage("crearFile() " + e.getLocalizedMessage());
         }
         return false;
+    }// </editor-fold> 
+    // <editor-fold defaultstate="collapsed" desc="body"> 
+
+    private void body(String name, Entidad entidad, String nameFather) {
+        try {
+            // autocomplete es el campo llave
+            String columnKey = "";
+            String columnDate = "";
+            Boolean tieneUsername = false;
+            Boolean isIntegerKey = false;
+            for (Atributos a : entidad.getAtributosList()) {
+                if (a.getEsPrimaryKey()) {
+                    columnKey = a.getNombre();
+                    isIntegerKey = a.getTipo().equals("Integer");
+                } else if (a.getTipo().equals("Date")) {
+                    columnDate = a.getNombre();
+                }
+                if (a.getTipo().equals(mySesion.getEntidadUser().getTabla())) {
+                    tieneUsername = true;
+                }
+
+            }
+//getFieldByRowView()
+            Integer contador = 0;
+            Integer fieldsAgregados = 0;
+            Integer contadorfieldByRowView = 0;
+            for (Atributos atr : entidad.getAtributosList()) {
+
+                if (!atr.getEsPrimaryKey()) {
+                    contador++;
+                    fieldsAgregados++;
+                    if (contador == 1) {
+                        fw.write("                            <div class=\"form-group row\" >" + "\r\n");
+                    }
+                    String columna = Utilidades.letterToLower(atr.getNombre());
+                    contadorfieldByRowView++;
+                    switch (atr.getTipo()) {
+                        case "Integer":
+                        case "Double":
+                        case "double":
+                        case "String":
+                            inputText(name, columna, nameFather);
+                            break;
+
+                        case "Date":
+                            calendar(name, columna,nameFather);
+                            break;
+                        default:
+                            //tipo relacionado
+                            // si es el username del loging
+                            if (atr.getTipo().equals(mySesion.getEntidadUser().getTabla()) && mySesion.getAddUserNameLogeado()) {
+                                //aqui no se genera nada
+
+                            } else {
+                                //generar el autocomplete del componente
+                                selecOneMenu(atr, name, columna);
+
+                            }
+
+                    }
+
+                }
+                if (contador.equals(mySesion.getFieldByRowView())) {
+                    fw.write("                            </div>" + "\r\n");
+                    contador = 0;
+                }
+                //verifica si existe algun embedded o referenced
+                if (atr.getEsEmbebido()) {
+                    esEmbedded = true;
+                    if (atr.getEsList()) {
+                        esEmbeddedList = true;
+                    }
+                } else {
+                    if (atr.getEsReferenciado()) {
+                        esReferenced = true;
+                        if (atr.getEsList()) {
+                            esRefefencedList = true;
+                        }
+                    }
+                }
+
+            } //for
+            //si es impar la cantidad de datos y el numero de registros debe agregarse un dixv
+//                    if ((fieldsAgregados.intValue() % 2 != 0 && mySesion.getFieldByRowView() % 2 == 0) || (fieldsAgregados.intValue() % 2 == 0 && mySesion.getFieldByRowView() % 2 != 0)) {
+//                        fw.write("                       </div>" + "\r\n");
+//
+//                    }
+            if (Utilidades.isImpar(fieldsAgregados)) {
+
+                fw.write("                        </div> " + "\r\n");
+            }
+
+            //Dibujar los tabview
+            if (esEmbedded || esRefefencedList) {
+                tabView(entidad);
+
+            }
+
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("body() " + e.getLocalizedMessage());
+        }
     }// </editor-fold> 
 // <editor-fold defaultstate="collapsed" desc="tabView">  
 
@@ -259,11 +274,11 @@ public class ViewxhtmlGenerador implements Serializable {
                 if (a.getEsEmbebido() || (a.getEsReferenciado() && a.getEsList())) {
                     if (c == 0) {
                         fw.write("                                        <div class=\"tab-pane active\" id=\"form-tab-" + Utilidades.letterToLower(a.getNombre()) + "\" style=\"padding: 20px;\">" + "\r\n");
-                        tabContenido();
+                        tabContenido(a, entidad);
                         fw.write("                                        </div>" + "\r\n");
                     } else {
                         fw.write("                                        <div class=\"tab-pane active\" id=\"form-tab-" + Utilidades.letterToLower(a.getNombre()) + "\" style=\"padding: 20px;\">" + "\r\n");
-                        tabContenido();
+                        tabContenido(a, entidad);
                         fw.write("                                        </div>" + "\r\n");
                     }
                     c++;
@@ -280,21 +295,78 @@ public class ViewxhtmlGenerador implements Serializable {
     }// </editor-fold> 
 // <editor-fold defaultstate="collapsed" desc="tabContenido">  
 
-    private void tabContenido() {
+    private void tabContenido(Atributos a, Entidad entidad) {
         try {
 
+            if (a.getEsEmbebido()) {
+                if (!a.getEsList()) {
+                    tabContenidoEmbeddedSimple(a, entidad);
+                } else {
+                    if (a.getEsList()) {
+                        tabContenidoEmbeddedList(a, entidad);
+                    }
+                }
+            } else {
+                if (a.getEsReferenciado() && a.getEsList()) {
+                    tabContenidoReferencedList(a, entidad);
+                }
+            }
         } catch (Exception e) {
             JSFUtil.addErrorMessage("tabContenido() " + e.getLocalizedMessage());
         }
     }// </editor-fold> 
+// <editor-fold defaultstate="collapsed" desc="tabContenidoEmbeddedSimple"> 
+
+    private void tabContenidoEmbeddedSimple(Atributos a, Entidad entidad) {
+        try {
+            String nameRelational = Utilidades.letterToLower(a.getTipo());
+            Entidad entidadRelational = new Entidad();
+            String columnKeyRelational = "";
+            for (Entidad entidad2 : mySesion.getEntidadList()) {
+                String name2 = Utilidades.letterToLower(entidad2.getTabla());
+                if (nameRelational.equals(name2)) {
+                    entidadRelational = entidad2;
+                }
+            }
+
+            //-----
+            String name = Utilidades.letterToLower(entidadRelational.getTabla());
+            String nameFather = Utilidades.letterToLower(entidad.getTabla());
+            inputTextPKEmbedded(name, entidadRelational, nameFather);
+            body(name, entidadRelational, nameFather);
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("tabContenidoEmbeddedSimple() " + e.getLocalizedMessage());
+        }
+    }// </editor-fold> 
+
+// <editor-fold defaultstate="collapsed" desc="tabContenidoEmbeddedList"> 
+    private void tabContenidoEmbeddedList(Atributos a, Entidad entidad) {
+        try {
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("tabContenidoEmbeddedSimple() " + e.getLocalizedMessage());
+        }
+    }// </editor-fold> 
+
+    // <editor-fold defaultstate="collapsed" desc="tabContenidoReferencedList"> 
+    private void tabContenidoReferencedList(Atributos a, Entidad entidad) {
+        try {
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("tabContenidoReferencedList() " + e.getLocalizedMessage());
+        }
+    }// </editor-fold> 
     // <editor-fold defaultstate="collapsed" desc="inputText">  
 
-    private void inputText(String name, String columna) {
+    private void inputText(String name, String columna, String nameFather) {
         try {
             fw.write("                                <p:outputLabel class=\"col-xs-2 col-form-label\" value=\"#{msg['field." + columna + "']}\"/>" + "\r\n");
             fw.write("                                <div class=\"col-xs-4\">" + "\r\n");
             fw.write("" + "\r\n");
-            fw.write("                                    <p:inputText rendered=\"#{" + name + "Controller.writable}\" id=\"" + columna + "\" class=\"fullWidth\" value=\"#{" + name + "Controller." + name + "." + columna + "}\"" + "\r\n");
+            if (nameFather.isEmpty() || nameFather.equals("")) {
+                fw.write("                                    <p:inputText rendered=\"#{" + name + "Controller.writable}\" id=\"" + columna + "\" class=\"fullWidth\" value=\"#{" + name + "Controller." + name + "." + columna + "}\"" + "\r\n");
+            } else {
+                fw.write("                                    <p:inputText rendered=\"#{" + this.nameEntityMain + "Controller.writable}\" id=\""+nameFather+"_" + columna + "\" class=\"fullWidth\" value=\"#{" + this.nameEntityMain + "Controller." + nameFather + "." + name + "." + columna + "}\"" + "\r\n");
+            }
+
             fw.write("                                                 placeholder=\"#{msg['field." + columna + "']}\"  maxlength=\"55\" " + "\r\n");
             fw.write("                                                 required=\"true\" requiredMessage=\"#{msg['field." + columna + "']} #{app['info.required']}\"/>" + "\r\n");
             fw.write("                                </div>" + "\r\n");
@@ -303,12 +375,18 @@ public class ViewxhtmlGenerador implements Serializable {
         }
     }// </editor-fold> 
 // <editor-fold defaultstate="collapsed" desc="calendar">  
-    private void calendar(String name, String columna) {
+
+    private void calendar(String name, String columna,String nameFather) {
         try {
             fw.write("                                <p:outputLabel class=\"col-xs-2 col-form-label\" value=\"#{msg['field." + columna + "']}\"/>" + "\r\n");
             fw.write("                                <div class=\"col-xs-4\">" + "\r\n");
             fw.write("" + "\r\n");
-            fw.write("                                    <p:calendar rendered=\"#{" + name + "Controller.writable}\" id=\"" + columna + "\" class=\"fullWidth\" value=\"#{" + name + "Controller." + name + "." + columna + "}\"" + "\r\n");
+            if(nameFather.isEmpty() || nameFather.equals("")){
+                fw.write("                                    <p:calendar rendered=\"#{" + name + "Controller.writable}\" id=\"" + columna + "\" class=\"fullWidth\" value=\"#{" + name + "Controller." + name + "." + columna + "}\"" + "\r\n");
+            }else{
+                fw.write("                                    <p:calendar rendered=\"#{" + nameFather + "Controller.writable}\" id=\"" +nameFather+"_"+ columna + "\" class=\"fullWidth\" value=\"#{" + name + "Controller." + name + "." + columna + "}\"" + "\r\n");
+            }
+            
             fw.write("                                                 placeholder=\"#{msg['field." + columna + "']}\"  maxlength=\"55\" " + "\r\n");
             if (!mySesion.getTimeZone().equals("")) {
                 fw.write("                                                 timeZone=\"" + mySesion.getTimeZone() + "\"" + "\r\n");
@@ -468,6 +546,7 @@ public class ViewxhtmlGenerador implements Serializable {
 // <editor-fold defaultstate="collapsed" desc="autocompletePK">  
     private void autocompletePK(String name, Entidad entidad) {
         try {
+            setNivel(getNivel() + 1);
             for (Atributos atributos : entidad.getAtributosList()) {
                 if (atributos.getEsPrimaryKey()) {
                     String columna = Utilidades.letterToLower(atributos.getNombre());
@@ -540,4 +619,26 @@ public class ViewxhtmlGenerador implements Serializable {
         }
     }// </editor-fold> 
 
+    // <editor-fold defaultstate="collapsed" desc="inputTextPKEmbedded">  
+    private void inputTextPKEmbedded(String name, Entidad entidad, String nameFather) {
+        try {
+            String columna = "";
+            for (Atributos atributos : entidad.getAtributosList()) {
+                if (atributos.getEsPrimaryKey()) {
+                    columna = Utilidades.letterToLower(atributos.getNombre());
+                }
+            }
+            fw.write("                           <div class=\"form-group row\">" + "\r\n");
+            fw.write("                                <p:outputLabel class=\"col-xs-2 col-form-label\" value=\"#{msg['field." + columna + "']}\"/>" + "\r\n");
+            fw.write("                                <div class=\"col-xs-4\">" + "\r\n");
+            fw.write("" + "\r\n");
+            fw.write("                                    <p:inputText rendered=\"#{" + nameEntityMain + "Controller.writable}\" id=\"" + name + "_" + columna + "\" class=\"fullWidth\" value=\"#{" + nameEntityMain+ "Controller." + nameFather + "." + name + "." + columna + "}\"" + "\r\n");
+            fw.write("                                                 placeholder=\"#{msg['field." + columna + "']}\"  maxlength=\"55\" " + "\r\n");
+            fw.write("                                                 required=\"true\" requiredMessage=\"#{msg['field." + columna + "']} #{app['info.required']}\"/>" + "\r\n");
+            fw.write("                                </div>" + "\r\n");
+            fw.write("                            </div>" + "\r\n");
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("inputText() " + e.getLocalizedMessage());
+        }
+    }// </editor-fold> 
 }

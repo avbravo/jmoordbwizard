@@ -1,0 +1,32 @@
+
+<formularios View.xhtml>
+Genera hasta un segundo nivel de tabs, para documentos embebidos
+Es decir no genera el formulario de un embebido dentro de otro embebido
+Personas{
+@Id
+String cedula;
+@Embedded
+Pais pais;
+
+}
+
+Pais{
+@Id
+String idpais;
+@Embedded
+Continentes continentes;
+}
+
+Continentes{
+@Id
+idcontinente;
+String continente;
+}
+
+<<Personas>>
+cedula____
+------Pais-------------
+idpais:_______
+  ----Continentes---
+   idcontinente:______
+   continente:______
