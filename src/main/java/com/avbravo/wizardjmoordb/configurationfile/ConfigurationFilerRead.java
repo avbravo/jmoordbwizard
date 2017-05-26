@@ -67,6 +67,7 @@ public class ConfigurationFilerRead implements Serializable {
              */
             mySesion.getEntidadMenuList().removeAll(mySesion.getEntidadMenuList());
             Stream<String> lines = Files.lines(path);
+          
             lines.forEach(
                     s -> linea(s));
 
