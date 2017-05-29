@@ -24,10 +24,11 @@ import java.util.List;
  * 
  */
 public class EntidadPatron {
-    private List<Patron> patron = new ArrayList<>();
-    private List<Dibujo> dibujo = new ArrayList<>();
     private Entidad entidad;
-    private String  secuencia;
+    private List<Patron> patron = new ArrayList<>();
+    private List<Draw> draw = new ArrayList<>();
+        
+    private Integer size;
 
     public EntidadPatron() {
     }

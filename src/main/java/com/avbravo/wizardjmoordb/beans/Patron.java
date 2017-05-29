@@ -16,7 +16,6 @@ public class Patron {
     private String operator;
     private Entidad son;
     private Integer level;
-    private String regla;
 
    
 
@@ -53,14 +52,7 @@ public class Patron {
         this.son = son;
     }
 
-    public String getRegla() {
-        return regla;
-    }
-
-    public void setRegla(String regla) {
-        this.regla = regla;
-    }
-
+   
    
 
 }
