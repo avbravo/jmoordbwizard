@@ -10,6 +10,7 @@ import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.menu.MyMenu;
 import com.avbravo.wizardjmoordb.menu.MySubmenu;
 import static com.avbravo.wizardjmoordb.EntityReader.DEFAULT_CHARSET;
+import com.avbravo.wizardjmoordb.rules.EntidadPatron;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -37,6 +38,7 @@ public class Utilidades {
     private static final Logger LOG = Logger.getLogger(Utilidades.class.getName());
     private static String persistenceunit = "";
 
+    // <editor-fold defaultstate="collapsed" desc="mkdir">
     public static boolean mkdir(String ruta) {
         try {
             File file = new File(ruta);
@@ -57,8 +59,9 @@ public class Utilidades {
             JSFUtil.addErrorMessage("crearDirectorio() " + ex.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
 
+// <editor-fold defaultstate="collapsed" desc="searchDirectorie"> 
     public static boolean searchDirectorie(String ruta) {
         try {
             File file = new File(ruta);
@@ -72,7 +75,8 @@ public class Utilidades {
             JSFUtil.addErrorMessage("encontrarDirectorio() " + ex.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
+// <editor-fold defaultstate="collapsed" desc="deleteDirectory"> 
 
     public void deleteDirectory(File path) {
         if (path.exists()) {
@@ -85,7 +89,8 @@ public class Utilidades {
                 }
             }
         }
-    }
+    }// </editor-fold> 
+// <editor-fold defaultstate="collapsed" desc="eliminarDirectorio"> 
 
     public boolean eliminarDirectorio(String ruta) {
         try {
@@ -101,7 +106,8 @@ public class Utilidades {
             JSFUtil.addErrorMessage("eliminarDirectorio() " + ex.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
+// <editor-fold defaultstate="collapsed" desc="letterToUpper"> 
 
     public static String letterToUpper(String texto) {
 
@@ -119,7 +125,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("convertirLetraMayuscula() " + ex.getLocalizedMessage());
         }
         return texto;
-    }
+    }// </editor-fold> 
 
     /**
      * ConvertirLetraMinuscula
@@ -144,7 +150,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("convertirLetraMinuscula() " + ex.getLocalizedMessage());
         }
         return texto;
-    }
+    }// </editor-fold> 
 
     /**
      * inserta texto antes de la } que cierra el archivo
@@ -212,7 +218,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("insertarTextoAntesFinalArchivo() " + ex.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
 
     /*
      * Actualiza el archivo una cadena con la que le especifiquemos ejemplo
@@ -247,7 +253,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("actualizaTextoArchivo() " + ex.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
 
     /*
     busca texto en un archivo
@@ -269,7 +275,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("encontrarTextoArchivo() " + ex.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
 
     public static boolean buscaryAgregarSiNoExiste_Old(String rutaArchivo, String textoInsertar, String textoBaseUbicar, Boolean antes) {
         try {
@@ -291,7 +297,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("buscaryAgregarSiNoExiste() " + ex.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
 
     /*
     busca si no l0o encuentra lo agrega
@@ -322,7 +328,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("buscaryAgregarSiNoExiste() " + ex.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
 
     /*
     agrega sin introducir nueva linea
@@ -353,7 +359,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("buscaryAgregarSiNoExiste() " + ex.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
 
     /*
     busca si lo encuentra lo reemplaza
@@ -384,7 +390,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("buscaryAgregarSiNoExiste() " + ex.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
 
     /*
     se usa para validador de roles
@@ -418,7 +424,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("buscaryAgregarSiNoExiste() " + ex.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
 
     public static boolean searchAddDefaultValidadorRoles(String rutaArchivo, String textoInsertar, String textoBaseUbicar, Boolean antes) {
         try {
@@ -451,7 +457,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("buscaryAgregarSiNoExiste() " + ex.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
 
     /*
     agrega un @Inject antes de la linea que se le pasa se usa para objetos con @Inject
@@ -487,7 +493,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("buscaryAgregarSiNoExiste() " + ex.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
 
     /**
      * agrega un metodo si este no es encontrado
@@ -519,7 +525,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("buscaryAgregarSiNoExisteMetodo() " + ex.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
 
     public static boolean addNotFoundMethodWithOutLine(String rutaArchivo, String titulometodo, String textoMetodo, String textoBaseUbicar, Boolean antes) {
         try {
@@ -541,7 +547,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("buscaryAgregarSiNoExisteMetodo() " + ex.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
 
     public static boolean addDependencies(String rutaArchivo, String titulometodo, String textoMetodo, String textoBaseUbicar, Boolean antes) {
         try {
@@ -563,7 +569,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("buscaryAgregarSiNoExisteMetodo() " + ex.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
 
 
     /*
@@ -611,7 +617,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("insertarTextoArchivo() " + ex.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
 
     public static boolean addWithoutLine(String rutaArchivo, String search, String textoInsertar, boolean antes) {
         try {
@@ -651,7 +657,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("insertarTextoArchivo() " + ex.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
 
     /*
      * reemplaza el texto en el archivo
@@ -691,7 +697,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("insertarTextoArchivo() " + ex.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
 
     public static boolean replaceWithoutLine(String rutaArchivo, String search, String textoNuevo) {
         try {
@@ -726,7 +732,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("insertarTextoArchivo() " + ex.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
 
     public static boolean insertarTextoArchivoPom(String rutaArchivo, String search, String textoInsertar, boolean antes) {
         try {
@@ -766,7 +772,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("insertarTextoArchivo() " + ex.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
 
     /**
      * inserta texto antes de la } que cierra el archivo
@@ -850,7 +856,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("descomponerCadena() " + ex.getLocalizedMessage());
         }
         return lista;
-    }
+    }// </editor-fold> 
 
     /*
      * nombre de columna
@@ -884,7 +890,7 @@ public class Utilidades {
 
         }
         return "";
-    }
+    }// </editor-fold> 
 
     /*
      *
@@ -919,7 +925,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("isNoNuloColumna() " + ex.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
 
     public static String tipoColumna(String texto) {
         try {
@@ -949,7 +955,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("tipoColumna() " + ex.getLocalizedMessage());
         }
         return "";
-    }
+    }// </editor-fold> 
 
     public static String mysqlColumna(String texto) {
         try {
@@ -980,7 +986,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("mysqlColumna() " + ex.getLocalizedMessage());
         }
         return "";
-    }
+    }// </editor-fold> 
 
     public static Integer tamanoColumna(String texto) {
         try {
@@ -1011,7 +1017,7 @@ public class Utilidades {
 
         }
         return 0;
-    }
+    }// </editor-fold> 
 
     public static Integer digitosDecimalesColumnas(String texto) {
         try {
@@ -1041,7 +1047,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("digitosDecimalesColumnas()" + ex.getLocalizedMessage());
         }
         return 0;
-    }
+    }// </editor-fold> 
 
     public static String comentarioColumna(String texto) {
         try {
@@ -1072,7 +1078,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("comentarioColumna() " + ex.getLocalizedMessage());
         }
         return "";
-    }
+    }// </editor-fold> 
 
     public static boolean actualizaCssLayout(String rutaArchivo) {
         try {
@@ -1107,7 +1113,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("actualizaCssLayout()() " + ex.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
 
     public static String getLineaArchivo(String rutaArchivo, String search) {
         try {
@@ -1129,7 +1135,7 @@ public class Utilidades {
 
         }
         return "";
-    }
+    }// </editor-fold> 
 
     public static DefaultTableModel limpiarModelo(DefaultTableModel modelo) {
         if (modelo != null) {
@@ -1138,7 +1144,7 @@ public class Utilidades {
             }
         }
         return modelo;
-    }
+    }// </editor-fold> 
 
     public static String cortarTexto(String texto) {
         try {
@@ -1152,7 +1158,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("cortarText() " + e.getLocalizedMessage());
         }
         return "";
-    }
+    }// </editor-fold> 
 
     /**
      * devuelve el nombre del paquete desde un path
@@ -1175,7 +1181,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("getNombrePaqueteFromPath()" + e.getLocalizedMessage());
         }
         return "";
-    }
+    }// </editor-fold> 
 
     /**
      * devuelve el nombre del paquete desde un path
@@ -1193,7 +1199,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("getNombrePaqueteFromPath()" + e.getLocalizedMessage());
         }
         return "";
-    }
+    }// </editor-fold> 
 
     /**
      * obtiene el nombre del paquete y devuelve el nombre del proyecto
@@ -1212,7 +1218,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("getNombreProyectoFromPath()" + e.getLocalizedMessage());
         }
         return "";
-    }
+    }// </editor-fold> 
 
     /**
      * devuelve el path del paquete quitando los path de otros directorios por
@@ -1234,7 +1240,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("getPathPaqueteFromAbsolutePath()" + e.getLocalizedMessage());
         }
         return "";
-    }
+    }// </editor-fold> 
 
     /**
      * devuelve el list con los directorios path del paquete quitando los path
@@ -1265,7 +1271,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("getPathPaqueteFromAbsolutePath()" + e.getLocalizedMessage());
         }
         return list;
-    }
+    }// </editor-fold> 
 
     /**
      * recibe una cadena con roles separados por coma
@@ -1311,7 +1317,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("descomponerMenu()" + e.getLocalizedMessage());
         }
         return list;
-    }
+    }// </editor-fold> 
 
     /**
      * Obtiente el nombre de la entidad de persistencia
@@ -1345,7 +1351,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("getPersistenceUnith()" + e.getLocalizedMessage());
         }
         return "";
-    }
+    }// </editor-fold> 
 
     public static String getFirstLetter(String texto) {
         try {
@@ -1356,7 +1362,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("getFirstLetter" + e.getLocalizedMessage());
         }
         return "";
-    }
+    }// </editor-fold> 
 
     /*
     devuelve el ultimo caracter
@@ -1373,7 +1379,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("getLastLetter()" + e.getLocalizedMessage());
         }
         return "";
-    }
+    }// </editor-fold> 
 
     /**
      * verifica si existe el archivo
@@ -1393,7 +1399,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("existeArchivo() " + e.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
 
     /**
      *
@@ -1412,7 +1418,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("getDirectorioMetaInf()" + e.getLocalizedMessage());
         }
         return "";
-    }
+    }// </editor-fold> 
 //    public static String getDirectorioWebInf(String ruta) {
 //        try {
 //            String separator = java.nio.file.FileSystems.getDefault().getSeparator();
@@ -1444,7 +1450,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("getDirectorioMainJava()" + e.getLocalizedMessage());
         }
         return "";
-    }
+    }// </editor-fold> 
 
     /**
      *
@@ -1463,7 +1469,7 @@ public class Utilidades {
             JSFUtil.addErrorMessage("getDirectorioMainResources()" + e.getLocalizedMessage());
         }
         return "";
-    }
+    }// </editor-fold> 
 
     /**
      *
@@ -1482,7 +1488,8 @@ public class Utilidades {
             JSFUtil.addErrorMessage("getDirectorioMainWebapp()" + e.getLocalizedMessage());
         }
         return "";
-    }
+    }// </editor-fold> 
+// <editor-fold defaultstate="collapsed" desc="isJavaType"> 
 
     public static Boolean isJavaType(String tipo) {
         try {
@@ -1514,8 +1521,9 @@ public class Utilidades {
             JSFUtil.addErrorMessage("isJavaType()" + e.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold> 
 
+// <editor-fold defaultstate="collapsed" desc="mysqlToJava"> 
     /*
     convierte de mysql a java
      */
@@ -1558,8 +1566,9 @@ public class Utilidades {
             JSFUtil.addErrorMessage("mysqlToJava() " + e.getLocalizedMessage());
         }
         return tipojava;
-    }
+    }// </editor-fold> 
 
+    // <editor-fold defaultstate="collapsed" desc="getNumeroHijos"> 
     /**
      * getNumeroHijos devuelve el numero de hijos que tiene el Tree usado con
      * los menus
@@ -1578,8 +1587,9 @@ public class Utilidades {
             JSFUtil.addErrorMessage("getNumeroHijos() " + e.getLocalizedMessage());
         }
         return contador;
-    }
+    }// </editor-fold> 
 
+// <editor-fold defaultstate="collapsed" desc="tieneNietos"> 
     /**
      * verifica los nietos(padre-hijo-nietos)
      *
@@ -1603,8 +1613,9 @@ public class Utilidades {
             JSFUtil.addErrorMessage("tieneNietos() " + e.getLocalizedMessage());
         }
         return found;
-    }
+    }// </editor-fold> 
 
+// <editor-fold defaultstate="collapsed" desc="showTree"> 
     /**
      * muestra el tree
      *
@@ -1623,7 +1634,7 @@ public class Utilidades {
             for (TreeNode r : root.getChildren()) {
                 System.out.println("=========================================");
                 System.out.println(" Menu " + r.getData());
-                
+
                 for (TreeNode r2 : r.getChildren()) {
 
                     System.out.println("--------->Submenu  " + r2.getData());
@@ -1635,13 +1646,14 @@ public class Utilidades {
             JSFUtil.addErrorMessage("show() " + e.getLocalizedMessage());
         }
         return "";
-    }
+    }// </editor-fold> 
 
+// <editor-fold defaultstate="collapsed" desc="componerMenuFromTreeNode"> 
     /**
-     * compone un menu con la estructura 
-     *  { Registros:[Paises]}{ Reportes:[Personas]}{ File:[Usuario]} 
-     * ({Reportes:[Paises]} {File:[]} Menu {} Submenu[] Registros: Personas,)
-     * Usuario Reportes: Paises File: <<No tiene nada>>
+     * compone un menu con la estructura { Registros:[Paises]}{
+     * Reportes:[Personas]}{ File:[Usuario]} ({Reportes:[Paises]} {File:[]} Menu
+     * {} Submenu[] Registros: Personas,) Usuario Reportes: Paises File:
+     * <<No tiene nada>>
      *
      * @param root
      * @return
@@ -1650,16 +1662,15 @@ public class Utilidades {
         String menu = "";
         try {
 
-
             for (TreeNode r : root.getChildren()) {
                 menu += "{ " + r.getData() + ":[";
                 Integer contador = 0;
                 for (TreeNode r2 : r.getChildren()) {
-                    if(contador > 0){
-                        menu +=" , ";
+                    if (contador > 0) {
+                        menu += " , ";
                     }
-                 
-                    menu+= r2.getData();
+
+                    menu += r2.getData();
                     contador++;
                 }
                 menu += "]}";
@@ -1669,20 +1680,17 @@ public class Utilidades {
             JSFUtil.addErrorMessage("componerMenuFromTreeNode() " + e.getLocalizedMessage());
         }
         return menu;
-    }
-   
-    
-    
+    }// </editor-fold> 
+
     /**
-     * 
+     *
      * @param menu
-     * @return 
+     * @return
      */
-    // <editor-fold defaultstate="collapsed" desc="descomponerMenuString">   
-     public static List<MyMenu> descomponerMenuString(String menu) {
-          List<MyMenu> listMymenu = new ArrayList<>();
+// <editor-fold defaultstate="collapsed" desc="descomponerMenuString">   
+    public static List<MyMenu> descomponerMenuString(String menu) {
+        List<MyMenu> listMymenu = new ArrayList<>();
         try {
-          
 
             System.out.println("" + menu);
             String[] submenu = menu.split("]}");
@@ -1713,46 +1721,50 @@ public class Utilidades {
         }
         return listMymenu;
     }// </editor-fold> 
-     // <editor-fold defaultstate="collapsed" desc="Generated Code">   
-      public static String generateUniqueID() {
+// <editor-fold defaultstate="collapsed" desc="generateUniqueID">   
+
+    public static String generateUniqueID() {
         String strValue = "";
         UUID idUnique = UUID.randomUUID();
         strValue = idUnique.toString();
         return strValue.toUpperCase();
     }// </editor-fold>   
-      
-     
-      
-      public static Integer numerodeList(Entidad entidad){
-          Integer numero =0;
-          try{
-              numero = entidad.getAtributosList().stream().filter((atributos) -> (esTipoList(atributos.getTipo()))).map((_item) -> 1).reduce(numero, Integer::sum);
+// <editor-fold defaultstate="collapsed" desc="numerodeList">
+
+    public static Integer numerodeList(Entidad entidad) {
+        Integer numero = 0;
+        try {
+            numero = entidad.getAtributosList().stream().filter((atributos) -> (esTipoList(atributos.getTipo()))).map((_item) -> 1).reduce(numero, Integer::sum);
         } catch (Exception e) {
             JSFUtil.addErrorMessage("numerodeList() " + e.getLocalizedMessage());
         }
         return numero;
-      }
-      
-  public static Boolean esTipoList(String tipo) {
+    }// </editor-fold> 
+
+// <editor-fold defaultstate="collapsed" desc="esTipoList">
+    public static Boolean esTipoList(String tipo) {
         Boolean es = false;
         if (tipo.indexOf("List<") == -1) {
             return false;
         }
         return true;
 
-    }
-  public static String convertiraNombreEntityElTipoList(String tipo) {
+    }// </editor-fold> 
+// <editor-fold defaultstate="collapsed" desc="convertiraNombreEntityElTipoList">
+
+    public static String convertiraNombreEntityElTipoList(String tipo) {
         Boolean es = false;
         if (tipo.indexOf("List<") == -1) {
             return tipo;
         }
-       tipo =  tipo.replace("List<", " ");
-       tipo = tipo.replace(">","");
+        tipo = tipo.replace("List<", " ");
+        tipo = tipo.replace(">", "");
         return tipo;
 
-    }
+    }// </editor-fold> 
 
-   public static Boolean esTipoPojo(String tipo) {
+// <editor-fold defaultstate="collapsed" desc="gesTipoPojo">
+    public static Boolean esTipoPojo(String tipo) {
         switch (tipo) {
 
             case "Integer":
@@ -1782,14 +1794,108 @@ public class Utilidades {
             default:
                 return true;
         }
-    }
-   
-   
-   public static Boolean isImpar(int iNumero) {
+    }// </editor-fold> 
+
+// <editor-fold defaultstate="collapsed" desc="isImpar">
+    public static Boolean isImpar(int iNumero) {
         if (iNumero % 2 != 0) {
             return true;
         } else {
             return false;
         }
+    }// </editor-fold> 
+
+// <editor-fold defaultstate="collapsed" desc="isEmbeddedOrReferenced">
+    public static Boolean isEmbeddedOrReferenced(Entidad entidad) {
+        Boolean found = false;
+        try {
+            if (entidad.getAtributosList().stream().anyMatch((a) -> (a.getEsEmbebido() || a.getEsReferenciado()))) {
+                return true;
+            }
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("isEmbeddedOrReferenced() " + e.getLocalizedMessage());
+        }
+        return found;
     }
+    // </editor-fold> 
+
+    // <editor-fold defaultstate="collapsed" desc="getOperator">
+    /**
+     * Devuelve el operador de una relacion pór Ejemplo Persona{ cedula,
+     * nombre,@Embedded Pais pais} Devuelve: @e Los valores a retornar son @e,
+     * L<@e>, @r, L<@r>, NOVALIDO
+     *
+     * @param a
+     * @return
+     */
+    public static String getOperator(Atributos a) {
+        String operador = "";
+        try {
+            if (a.getEsEmbebido()) {
+                if (a.getEsList()) {
+                    operador = "L<@e>";
+                } else {
+                    operador = "@e";
+                }
+            } else {
+                if (a.getEsReferenciado()) {
+                    if (a.getEsList()) {
+                        operador = "L<@r>";
+                    } else {
+                        operador = "@r";
+                    }
+                } else {
+                    operador = "NOVALIDO";
+                }
+            }
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("getOperator " + e.getLocalizedMessage());
+        }
+        return operador;
+    }
+// </editor-fold> 
+
+    // <editor-fold defaultstate="collapsed" desc="Operador">
+    /**
+     * Convierte un String a una Entidad Se pasa el nombre de la entidad como
+     * una cadena el lo busca en la lista de entity al encontrarlo devuelve la
+     * entidad correspondiente
+     *
+     * @param name
+     * @param entidadList
+     * @return
+     */
+    public static Entidad convertStringToEntity(String name, List<Entidad> entidadList) {
+
+        try {
+            name = Utilidades.letterToLower(name);
+            for (Entidad entidad : entidadList) {
+                if (name.equals(Utilidades.letterToLower(entidad.getTabla()))) {
+                    return entidad;
+                }
+            }
+
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("convertStringToEntity() " + e.getLocalizedMessage());
+        }
+        return null;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="tienePatron">
+    public static Boolean tienePatron(EntidadPatron entidadPatron, List<EntidadPatron> entidadPatronList) {
+        Boolean found = false;
+        try {
+            if (entidadPatronList.isEmpty()) {
+                return false;
+            }
+            if (entidadPatronList.stream().anyMatch((ep) -> (ep.getEntidad().equals(entidadPatron.getEntidad())))) {
+                return true;
+            }
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("tienePatron() " + e.getLocalizedMessage());
+        }
+        return found;
+    }
+    // </editor-fold>
 }

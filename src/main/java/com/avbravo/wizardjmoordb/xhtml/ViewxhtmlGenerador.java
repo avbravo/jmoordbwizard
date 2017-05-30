@@ -47,7 +47,7 @@ public class ViewxhtmlGenerador implements Serializable {
     Boolean esRefefencedList = false;
     Integer nivel = -1;
     String nameEntityMain ="";
-    // <editor-fold defaultstate="collapsed" desc="generar">
+    // <editor-fold defaultstate="collapsed" desc="get/set">
 
     public Integer getNivel() {
         return nivel;

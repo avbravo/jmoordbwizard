@@ -50,6 +50,7 @@ import com.avbravo.wizardjmoordb.componentes.ActivoxhtmlGenerador;
 import com.avbravo.wizardjmoordb.provider.CouchbaseClientProviderGenerador;
 import com.avbravo.wizardjmoordb.reportes.JasperDetailsGenerador;
 import com.avbravo.wizardjmoordb.reportes.JasperAllGenerador;
+import com.avbravo.wizardjmoordb.rules.RulesProcesador;
 import com.avbravo.wizardjmoordb.search.EntidadSearch;
 import com.avbravo.wizardjmoordb.utilidades.Terminal;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
@@ -199,7 +200,9 @@ public class Generador implements Serializable {
     JasperDetailsGenerador jasperDetailsGenerador;
     
     @Inject
-    ViewxhtmlGenerador pagexhtmlGenerador;
+    ViewxhtmlGenerador viewxhtmlGenerador;
+    @Inject
+    RulesProcesador rulesProcesador;
     @Inject
     AcercadexhtmlGenerador acercadexhtmlGenerador;
     @Inject
@@ -209,7 +212,7 @@ public class Generador implements Serializable {
 
    
     
-    
+ // <editor-fold defaultstate="collapsed" desc="getset">    
     public String getEstilo() {
         return estilo;
     }
@@ -304,7 +307,7 @@ public class Generador implements Serializable {
     public Generador() {
         generado = false;
     }
-
+ // </editor-fold> 
     @PostConstruct
     public void init() {
         framework = new ArrayList<String>();
@@ -439,7 +442,7 @@ public class Generador implements Serializable {
         proyectoJEE.setPaquete(proyectoJEE.getPaquete() + proyectoJEE.getProyecto());
         conectarJEE();
         return "";
-    }
+    } // </editor-fold> 
 
     public String conectarEJB() {
         try {
@@ -535,7 +538,7 @@ public class Generador implements Serializable {
             JSFUtil.addErrorMessage("search()" + e.getLocalizedMessage());
         }
         return "";
-    }
+    } // </editor-fold> 
 
     public String conectarJEE() {
         try {
@@ -653,7 +656,7 @@ public class Generador implements Serializable {
             JSFUtil.addErrorMessage("search()" + e.getLocalizedMessage());
         }
         return "";
-    }
+    } // </editor-fold> 
 
     public String create() {
         generado = false;
@@ -673,7 +676,7 @@ public class Generador implements Serializable {
 
         generado = true;
         return "";
-    }
+    } // </editor-fold> 
 
     /**
      * genero el nombre del paquete y el path del paquete
@@ -888,7 +891,8 @@ stopWeb/-Inf
                             /*
                 generar las paginas
                              */
-                            pagexhtmlGenerador.generar();
+                            rulesProcesador.cargar();
+                            viewxhtmlGenerador.generar();
                             listxhtmlGenerador.generar();
 
                             break;
@@ -922,7 +926,7 @@ stopWeb/-Inf
         }
 
         //        persistenceContect= "@PersistenceContext(unitName = /" + persistenceContect+"")";
-    }
+    } // </editor-fold> 
 
     /*
     validar repositorio
@@ -941,7 +945,7 @@ stopWeb/-Inf
         }
 
         return "";
-    }
+    } // </editor-fold> 
 
     /**
      * carga todos los entity y lee sus propiedades del directorio seleccionado
@@ -976,7 +980,7 @@ stopWeb/-Inf
             JSFUtil.addErrorMessage("readPackageEntity()" + ioe.getLocalizedMessage());
         }
         return false;
-    }
+    } // </editor-fold> 
 
     public Boolean tieneEntitys(Path gitReposFolderPath) {
         try {
@@ -985,7 +989,7 @@ stopWeb/-Inf
         } catch (Exception e) {
         }
         return false;
-    }
+    } // </editor-fold> 
 
     /**
      * carga los entitys con sus atributos
@@ -1004,7 +1008,7 @@ stopWeb/-Inf
         }
 
         return false;
-    }
+    } // </editor-fold> 
 
     public String cargarTree() {
         try {
@@ -1028,7 +1032,7 @@ stopWeb/-Inf
             JSFUtil.addErrorMessage("cargarTree() " + e.getLocalizedMessage());
         }
         return "";
-    }
+    } // </editor-fold> 
 
     public TreeNode getRoot() {
         return root;
@@ -1044,40 +1048,42 @@ stopWeb/-Inf
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
-
+// <editor-fold defaultstate="collapsed" desc="deleteNode">
     public void deleteNode() {
         selectedNode.getChildren().clear();
         selectedNode.getParent().getChildren().remove(selectedNode);
         selectedNode.setParent(null);
 
         selectedNode = null;
-    }
+    } // </editor-fold> 
 
+    // <editor-fold defaultstate="collapsed" desc="crearProyecto()"> 
     public String crearProyecto() {
         try {
-//             Terminal.runCommand(primaryKey);
             Terminal.runCommand(primaryKey);
             JSFUtil.addSuccessMessage("ejecutado");
         } catch (Exception e) {
             JSFUtil.addErrorMessage("crearProyecto() " + e.getLocalizedMessage());
         }
         return "";
-    }
+    } // </editor-fold> 
 
     /*
     
      */
+    // <editor-fold defaultstate="collapsed" desc="entidadSeleccionada()"> 
     public String entidadSeleccionada() {
 //            nivel2.setIdnivel2(nivel2.getIdnivel1().getIdnivel1());
         return null;
 
-    }
+    } // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="entidadMultiplesRoles()"> 
     public String entidadMultiplesRoles() {
 
         return "";
-    }
-
+    }// </editor-fold>
+// <editor-fold defaultstate="collapsed" desc="mostrarDatosDelArchivoConfiguracion()"> 
     private void mostrarDatosDelArchivoConfiguracion() {
         try {
 
@@ -1116,12 +1122,13 @@ stopWeb/-Inf
         } catch (Exception e) {
             JSFUtil.addErrorMessage("mostrarDatosDelArchivoConfiguracion()" + e.getLocalizedMessage());
         }
-    }
+    }// </editor-fold>
 
     /**
      *
      * @return
      */
+    // <editor-fold defaultstate="collapsed" desc="onChangeTipoGrupo"> 
     public String onChangeTipoGrupo() {
         try {
 
@@ -1151,8 +1158,8 @@ stopWeb/-Inf
             JSFUtil.addErrorMessage("changeTipoGrupo()" + e.getLocalizedMessage());
         }
         return "";
-    }
-
+    } // </editor-fold> 
+// <editor-fold defaultstate="collapsed" desc="irPagina1"> 
     public String irPagina1() {
         try {
 
@@ -1167,8 +1174,8 @@ stopWeb/-Inf
         }
         return "";
 
-    }
-
+    } // </editor-fold> 
+// <editor-fold defaultstate="collapsed" desc="irPagina2"> 
     public String irPagina2() {
         try {
             if (!JSFUtil.isWeb(proyectoJEE.getPathWebInf() + "web.xml")) {
@@ -1187,8 +1194,8 @@ stopWeb/-Inf
         }
         return "";
 
-    }
-
+    } // </editor-fold> 
+// <editor-fold defaultstate="collapsed" desc="irPagina3"> 
     public String irPagina3() {
         try {
 
@@ -1202,8 +1209,8 @@ stopWeb/-Inf
         }
         return "";
 
-    }
-
+    } // </editor-fold> 
+// <editor-fold defaultstate="collapsed" desc="irPagina4"> 
     public String irPagina4() {
         try {
 
@@ -1237,8 +1244,8 @@ stopWeb/-Inf
         }
         return "";
 
-    }
-
+    } // </editor-fold> 
+// <editor-fold defaultstate="collapsed" desc="irPagina5"> 
     public String irPagina5() {
         try {
 
@@ -1252,8 +1259,8 @@ stopWeb/-Inf
         }
         return "";
 
-    }
-
+    } // </editor-fold> 
+// <editor-fold defaultstate="collapsed" desc="irPagina6"> 
     public String irPagina6() {
         try {
 
@@ -1267,5 +1274,5 @@ stopWeb/-Inf
         }
         return "";
 
-    }
+    } // </editor-fold> 
 }

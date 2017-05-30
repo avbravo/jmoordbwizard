@@ -31,7 +31,7 @@ import javax.inject.Inject;
 @Named
 @RequestScoped
 public class EntityReader implements Serializable {
-
+// <editor-fold defaultstate="collapsed" desc="atributos">
     private static final long serialVersionUID = 1L;
     public static final String DEFAULT_CHARSET = "UTF-8";
     @Inject
@@ -48,13 +48,14 @@ public class EntityReader implements Serializable {
     Integer rowId = 0;
     Integer contador = 0;
     private Boolean detener = false;
+    // </editor-fold>
 
     /**
      * Creates a new instance of ProcesarEntity
      */
     public EntityReader() {
     }
-
+// <editor-fold defaultstate="collapsed" desc="readEntity">
     public Boolean readEntity(String archivo, String ruta) {
         try {
 
@@ -98,6 +99,7 @@ public class EntityReader implements Serializable {
              */
             for (Atributos a : atributosList) {
                 atributosList.get(contador).setEsReferenciado(false);
+                
                 if (!embeddedList.isEmpty()) {
                     esEmbebido = false;
                     esList = false;
@@ -151,8 +153,9 @@ public class EntityReader implements Serializable {
         }
         return true;
 
-    }
+    }// </editor-fold> 
 
+    // <editor-fold defaultstate="collapsed" desc="linea">
     /*
     se establece el tipo de datos
      */
@@ -216,8 +219,8 @@ public class EntityReader implements Serializable {
         //private static final long serialVersionUID = 1L;
         //private Collection
         return false;
-    }
-
+    }// </editor-fold> 
+// <editor-fold defaultstate="collapsed" desc="searchNameFieldId">
     private Boolean searchNameFieldId(Path path) {
         try {
             contador = 0;
@@ -249,8 +252,9 @@ public class EntityReader implements Serializable {
         //private static final long serialVersionUID = 1L;
         //private Collection
         return false;
-    }
+    }// </editor-fold> 
 
+    // <editor-fold defaultstate="collapsed" desc="lineReferenced">
     private void lineReferenced(String s) {
         try {
 
@@ -290,11 +294,12 @@ public class EntityReader implements Serializable {
                 }
             }
         } catch (Exception e) {
-            System.out.println("EntidadGenerador.linea() " + e.getLocalizedMessage());
+             JSFUtil.addErrorMessage("lineReferenced() " + e.getLocalizedMessage());
+            
         }
 
-    }
-
+    }// </editor-fold> 
+// <editor-fold defaultstate="collapsed" desc="lineEmbedded">
     private void lineEmbedded(String s) {
         try {
 
@@ -328,5 +333,5 @@ public class EntityReader implements Serializable {
             System.out.println("EntidadGenerador.lineEmbedded() " + e.getLocalizedMessage());
         }
 
-    }
+    }// </editor-fold> 
 }

@@ -9,7 +9,7 @@ import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.beans.Archivos;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.beans.EntidadMenu;
-import com.avbravo.wizardjmoordb.beans.EntidadPatron;
+import com.avbravo.wizardjmoordb.rules.EntidadPatron;
 import com.avbravo.wizardjmoordb.menu.MyMenu;
 import com.avbravo.wizardjmoordb.menu.MySubmenu;
 import javax.inject.Named;
