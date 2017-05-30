@@ -9,6 +9,7 @@ import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.beans.Archivos;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.beans.EntidadMenu;
+import com.avbravo.wizardjmoordb.beans.EntidadPatron;
 import com.avbravo.wizardjmoordb.menu.MyMenu;
 import com.avbravo.wizardjmoordb.menu.MySubmenu;
 import javax.inject.Named;
@@ -26,9 +27,10 @@ import org.primefaces.model.TreeNode;
 @Named(value = "mySesion")
 @SessionScoped
 public class MySesion implements Serializable {
-
+ // <editor-fold defaultstate="collapsed" desc="atributos"> 
     private static final long serialVersionUID = 1L;
 
+    private List<EntidadPatron> entidadPatronList = new ArrayList<>();
     private String username = "";
     private String database;
     private String databasename;
@@ -160,8 +162,18 @@ public class MySesion implements Serializable {
 
     private TreeNode selectedNode2;
     List<String> agregadosList = new ArrayList<>();
+// </editor-fold> 
     
-   
+    
+    // <editor-fold defaultstate="collapsed" desc="get/setter">  
+    public List<EntidadPatron> getEntidadPatronList() {
+        return entidadPatronList;
+    }
+
+    public void setEntidadPatronList(List<EntidadPatron> entidadPatronList) {
+        this.entidadPatronList = entidadPatronList;
+    }
+    
 
     public Integer getReportesAltoRow() {
         return reportesAltoRow;
@@ -269,6 +281,7 @@ public class MySesion implements Serializable {
     public void setAgregadosList(List<String> agregadosList) {
         this.agregadosList = agregadosList;
     }
+    // </editor-fold> 
 
     /**
      *

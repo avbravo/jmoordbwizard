@@ -5,8 +5,6 @@
  */
 package com.avbravo.wizardjmoordb.beans;
 
-import com.avbravo.wizardjmoordb.beans.Patron;
-import com.avbravo.wizardjmoordb.beans.Entidad;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,10 +31,12 @@ public class EntidadPatron {
     public EntidadPatron() {
     }
 
-    public EntidadPatron(List<Patron> patron, Entidad entidad, String secuencia) {
-        this.patron = patron;
+    public Entidad getEntidad() {
+        return entidad;
+    }
+
+    public void setEntidad(Entidad entidad) {
         this.entidad = entidad;
-        this.secuencia = secuencia;
     }
 
     public List<Patron> getPatron() {
@@ -47,23 +47,21 @@ public class EntidadPatron {
         this.patron = patron;
     }
 
-    public Entidad getEntidad() {
-        return entidad;
+    public List<Draw> getDraw() {
+        return draw;
     }
 
-    public void setEntidad(Entidad entidad) {
-        this.entidad = entidad;
+    public void setDraw(List<Draw> draw) {
+        this.draw = draw;
     }
 
-    public String getSecuencia() {
-        return secuencia;
+    public Integer getSize() {
+        return size;
     }
 
-    public void setSecuencia(String secuencia) {
-        this.secuencia = secuencia;
+    public void setSize(Integer size) {
+        this.size = size;
     }
-    
-    
-    
-    
+
+   
 }
