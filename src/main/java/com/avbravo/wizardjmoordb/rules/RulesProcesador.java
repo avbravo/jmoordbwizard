@@ -47,14 +47,14 @@ public class RulesProcesador implements Serializable {
         try {
             mySesion.setEntidadPatronList(new ArrayList<>());
             entidadPatronList = new ArrayList<>();
-            for(Entidad entidad: mySesion.getEntidadList()){
-                System.out.println("Entidad "+entidad.getTabla());
+            for (Entidad entidad : mySesion.getEntidadList()) {
+                System.out.println("Entidad " + entidad.getTabla());
                 System.out.println("Atributos");
-for (Atributos a : entidad.getAtributosList()) {
-                System.out.println("--------------(" + a.getNombre() + " : " + a.getTipo() + " @E "+ a.getEsEmbebido()+" @R " + a.getEsReferenciado()+" L<> "+a.getEsList() +" )");
-}
+                for (Atributos a : entidad.getAtributosList()) {
+                    System.out.println("--------------(" + a.getNombre() + " : " + a.getTipo() + " @E " + a.getEsEmbebido() + " @R " + a.getEsReferenciado() + " L<> " + a.getEsList() + " )");
+                }
             }
-            
+
             for (Entidad entidad : mySesion.getEntidadList()) {
                 System.out.println("_________________________________________________________________");
                 System.out.println("_________________________________________________________________");
@@ -79,20 +79,20 @@ for (Atributos a : entidad.getAtributosList()) {
             if (entidadPatronList.isEmpty()) {
                 System.out.println("El patron esta vacio");
             } else {
-               
+
                 for (EntidadPatron e : entidadPatronList) {
                     System.out.println("================================================");
                     System.out.println("----Tabla() " + e.getEntidad().getTabla() + " size() " + e.getSize());
-                    
+
                     String space = ".....";
-                    String pattern="  ";
+                    String pattern = "  ";
                     for (Patron p : e.getPatron()) {
-                     //   System.out.println(space + " Level [" + p.getLevel()+"] "+p.getFather().getTabla() + " "+p.getOperator() + " "+p.getSon().getTabla());
-                        pattern +=" [" + p.getLevel()+"] "+p.getFather().getTabla() + " "+p.getOperator() + " "+p.getSon().getTabla();
-                        
+                        //   System.out.println(space + " Level [" + p.getLevel()+"] "+p.getFather().getTabla() + " "+p.getOperator() + " "+p.getSon().getTabla());
+                        pattern += " [" + p.getLevel() + "] " + p.getFather().getTabla() + " " + p.getOperator() + " " + p.getSon().getTabla();
+
                         space += ".....";
                     }
-                    System.out.println("pattern "+pattern);
+                    System.out.println("pattern " + pattern);
                 }
             }
 
@@ -110,7 +110,7 @@ for (Atributos a : entidad.getAtributosList()) {
             String operador = "";
             Boolean found = false;
             for (Atributos a : entidad.getAtributosList()) {
-                System.out.println("--------------(" + a.getNombre() + " : " + a.getTipo() + " @E "+ a.getEsEmbebido()+" @R " + a.getEsReferenciado()+" L<> "+a.getEsList() +" )");
+                System.out.println("--------------(" + a.getNombre() + " : " + a.getTipo() + " @E " + a.getEsEmbebido() + " @R " + a.getEsReferenciado() + " L<> " + a.getEsList() + " )");
                 operador = Utilidades.getOperator(a);
                 if (operador.equals("NOVALIDO")) {
                     // JSFUtil.addWarningMessage("El atributo "+a.getNombre() + " del entity" +entidad.getTabla()+" No tiene @E o @R ");
@@ -131,12 +131,12 @@ for (Atributos a : entidad.getAtributosList()) {
 //                    }
                     //analizar recursivamente
                     nivel++;
-                    System.out.println("----------[Invoco recursivamente " + patron.getSon().getTabla()+"]-------------");
+                    System.out.println("----------[Invoco recursivamente " + patron.getSon().getTabla() + "]-------------");
                     generarPatron(patron.getSon());
                 }
             }
             if (!Utilidades.tienePatron(entidadPatron, entidadPatronList)) {
-                System.out.println("---------------((((( Agrego el patron ["+entidadPatron.getEntidad().getTabla()+ "] )))))--------");
+                System.out.println("---------------((((( Agrego el patron [" + entidadPatron.getEntidad().getTabla() + "] )))))--------");
                 entidadPatron.setPatron(patronList);
 
                 entidadPatronList.add(entidadPatron);

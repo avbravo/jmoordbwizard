@@ -9,7 +9,7 @@ import com.avbravo.wizardjmoordb.beans.Atributos;
 import com.avbravo.wizardjmoordb.beans.Entidad;
 import com.avbravo.wizardjmoordb.menu.MyMenu;
 import com.avbravo.wizardjmoordb.menu.MySubmenu;
-import static com.avbravo.wizardjmoordb.EntityReader.DEFAULT_CHARSET;
+import static com.avbravo.wizardjmoordb.entity.EntityReader.DEFAULT_CHARSET;
 import com.avbravo.wizardjmoordb.rules.EntidadPatron;
 
 import java.io.BufferedReader;
@@ -1898,4 +1898,39 @@ public class Utilidades {
         return found;
     }
     // </editor-fold>
+    
+        // <editor-fold defaultstate="collapsed" desc="isLineFinishReferenced(">
+    public static Boolean isLineFinishReferenced(String s){
+        Boolean finish=false;
+        try {
+             if (s.indexOf("@Referenced") != -1 && s.indexOf(")") != -1) {
+                    finish = true;
+                } else {
+                    if (s.indexOf("@Referenced") != -1 && s.indexOf(")") == -1) {
+                        
+                    } else {
+                        if (s.indexOf(")") != -1 && (s.indexOf("return") == -1 && s.indexOf("public") == -1)) {
+                            finish = true;
+                        }
+                    }
+
+                }
+        } catch (Exception e) {
+        }
+        return finish;
+    }
+       // </editor-fold>
+        // <editor-fold defaultstate="collapsed" desc="isLineFinishEmbedded">
+    public static Boolean isLineEmbedded(String s){
+        Boolean finish=false;
+        try {
+             if (s.indexOf("@Embedded") != -1) {
+                    finish= true;
+                }
+        } catch (Exception e) {
+             JSFUtil.addErrorMessage("isLineFinishEmbedded() " + e.getLocalizedMessage());
+        }
+        return finish;
+    }
+       // </editor-fold>
 }

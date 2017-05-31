@@ -1,0 +1,7 @@
+@Referenced(
+documment = "Planeta",
+facade = "com.avbravo.ebj.PlanetaFacade",
+field = "idplaneta",
+javatype = "String",
+lazy = false
+)

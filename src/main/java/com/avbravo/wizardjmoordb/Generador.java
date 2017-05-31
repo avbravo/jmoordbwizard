@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 package com.avbravo.wizardjmoordb;
-
+ // <editor-fold defaultstate="collapsed" desc="import">
+import com.avbravo.wizardjmoordb.entity.EntityReader;
 import com.avbravo.wizardjmoordb.directorios.Directorios;
 import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.configurationfile.ConfigurationFilerRead;
@@ -74,6 +75,7 @@ import javax.inject.Inject;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 import org.primefaces.event.FlowEvent;
+ // </editor-fold>
 
 /**
  *
@@ -82,7 +84,7 @@ import org.primefaces.event.FlowEvent;
 @Named(value = "generador")
 @SessionScoped
 public class Generador implements Serializable {
-
+ // <editor-fold defaultstate="collapsed" desc="atributos">
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(Generador.class.getName());
     private boolean skip;
@@ -209,7 +211,7 @@ public class Generador implements Serializable {
     CambiarpasswordxhtmlGenerador cambiarpasswordxhtmlGenerador;
     @Inject
     ListxhtmlGenerador listxhtmlGenerador;
-
+ // </editor-fold> 
    
     
  // <editor-fold defaultstate="collapsed" desc="getset">    

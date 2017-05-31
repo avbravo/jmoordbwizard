@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.avbravo.wizardjmoordb;
+package com.avbravo.wizardjmoordb.entity;
 
 import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
+import com.avbravo.wizardjmoordb.MySesion;
+import com.avbravo.wizardjmoordb.Test;
 import com.avbravo.wizardjmoordb.beans.Atributos;
 import com.avbravo.wizardjmoordb.beans.Embedded;
 import com.avbravo.wizardjmoordb.beans.Entidad;
@@ -30,8 +32,9 @@ import javax.inject.Inject;
  */
 @Named
 @RequestScoped
-public class EntityReader implements Serializable {
+public class EntityReader1 implements Serializable {
 // <editor-fold defaultstate="collapsed" desc="atributos">
+
     private static final long serialVersionUID = 1L;
     public static final String DEFAULT_CHARSET = "UTF-8";
     @Inject
@@ -53,17 +56,16 @@ public class EntityReader implements Serializable {
     /**
      * Creates a new instance of ProcesarEntity
      */
-    public EntityReader() {
+    public EntityReader1() {
     }
 // <editor-fold defaultstate="collapsed" desc="readEntity">
+
     public Boolean readEntity(String archivo, String ruta) {
         try {
 
             Path path = Paths.get(ruta);
             if (Files.notExists(path, new LinkOption[]{LinkOption.NOFOLLOW_LINKS})) {
-
                 JSFUtil.addWarningMessage("No existe el archivo " + ruta);
-
                 return false;
             }
             /**
@@ -99,7 +101,7 @@ public class EntityReader implements Serializable {
              */
             for (Atributos a : atributosList) {
                 atributosList.get(contador).setEsReferenciado(false);
-                
+
                 if (!embeddedList.isEmpty()) {
                     esEmbebido = false;
                     esList = false;
@@ -121,7 +123,7 @@ public class EntityReader implements Serializable {
             /*
             Referenced
              */
-            contador=0;
+            contador = 0;
             for (Atributos a : atributosList) {
                 atributosList.get(contador).setEsReferenciado(false);
                 if (!referencedList.isEmpty()) {
@@ -138,6 +140,7 @@ public class EntityReader implements Serializable {
                     atributosList.get(contador).setEsList(esList);
                 } else {
                     atributosList.get(contador).setEsReferenciado(false);
+                        atributosList.get(contador).setEsList(false);
 
                 }
                 contador++;
@@ -181,9 +184,11 @@ public class EntityReader implements Serializable {
 
             } else {
                 if (s.indexOf("@Referenced") != -1) {
+                  //  terminaReferenced=true;
 
                 } else {
                     if (s.indexOf("@Embedded") != -1) {
+                        //terminaEmbedded = true;
 
                     }
                 }
@@ -191,8 +196,6 @@ public class EntityReader implements Serializable {
         } catch (Exception e) {
             JSFUtil.addErrorMessage("EntidadGenerador.linea() " + e.getLocalizedMessage());
         }
-        //private static final long serialVersionUID = 1L;
-        //private Collection
 
     }
 
@@ -216,11 +219,11 @@ public class EntityReader implements Serializable {
         } catch (Exception e) {
             JSFUtil.addErrorMessage("searchId() " + e.getLocalizedMessage());
         }
-        //private static final long serialVersionUID = 1L;
-        //private Collection
+
         return false;
     }// </editor-fold> 
 // <editor-fold defaultstate="collapsed" desc="searchNameFieldId">
+
     private Boolean searchNameFieldId(Path path) {
         try {
             contador = 0;
@@ -261,10 +264,15 @@ public class EntityReader implements Serializable {
             if (terminaReferenced) {
                 Referenced referenced = new Referenced();
                 // aqui es la linea referenciada
-//                System.out.println("Descomponer esta linea " + s);
                 if (s.indexOf("List") != -1) {
+
                     referenced.setEsList(true);
-                    s = s.replace("private List<", "");
+                    if (s.indexOf("private List<") != -1) {
+                        s = s.replace("private List<", "");
+                    } else {
+                        s = s.replace("List<", "");
+                    }
+
                     s = s.replace(">", "");
                 } else {
                     referenced.setEsList(false);
@@ -294,25 +302,38 @@ public class EntityReader implements Serializable {
                 }
             }
         } catch (Exception e) {
-             JSFUtil.addErrorMessage("lineReferenced() " + e.getLocalizedMessage());
-            
+            JSFUtil.addErrorMessage("lineReferenced() " + e.getLocalizedMessage());
+
         }
 
     }// </editor-fold> 
 // <editor-fold defaultstate="collapsed" desc="lineEmbedded">
+
     private void lineEmbedded(String s) {
         try {
-
+            Test.msg("lineEmbedded: " + s);
             if (terminaEmbedded) {
                 Embedded embedded = new Embedded();
-
+                Test.msg("paso 0: ");
                 if (s.indexOf("List") != -1) {
+                    Test.msg("paso 1: ");
                     embedded.setEsList(true);
-                    s = s.replace("private List<", "");
+                    if (s.indexOf("private List<") != -1) {
+                        Test.msg("paso 2: ");
+                        s = s.replace("private List<", "");
+                    } else {
+                        Test.msg("paso 3: ");
+                        s = s.replace("List<", "");
+                    }
+
                     s = s.replace(">", "");
                 } else {
+                    Test.msg("paso 4: ");
                     embedded.setEsList(false);
-                    s = s.replace("private", "");
+                    if (s.indexOf("replace") != -1) {
+                        s = s.replace("private", "");
+                    }
+
                 }
 
                 s = s.replace(";", "");
@@ -330,7 +351,7 @@ public class EntityReader implements Serializable {
 
             }
         } catch (Exception e) {
-            System.out.println("EntidadGenerador.lineEmbedded() " + e.getLocalizedMessage());
+            JSFUtil.addErrorMessage("lineEmbedded() " + e.getLocalizedMessage());
         }
 
     }// </editor-fold> 
