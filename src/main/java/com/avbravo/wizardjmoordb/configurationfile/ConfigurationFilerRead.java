@@ -97,7 +97,13 @@ public class ConfigurationFilerRead implements Serializable {
                 case "package":
                     proyectoJEE.setPaquete(descomponer(s, r));
                     break;
-
+                case "databasename":
+                   mySesion.setDatabasename(descomponer(s, r));;
+                    break;
+case "database":
+                   mySesion.setDatabase(descomponer(s, r));;
+                    break;
+              
                 case "entidadUser":
                     mySesion.getEntidadUser().setTabla(descomponer(s, r));
                     break;

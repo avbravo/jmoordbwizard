@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 package com.avbravo.wizardjmoordb;
- // <editor-fold defaultstate="collapsed" desc="import">
+// <editor-fold defaultstate="collapsed" desc="import">
+
 import com.avbravo.wizardjmoordb.entity.EntityReader;
 import com.avbravo.wizardjmoordb.directorios.Directorios;
 import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
@@ -75,7 +76,7 @@ import javax.inject.Inject;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 import org.primefaces.event.FlowEvent;
- // </editor-fold>
+// </editor-fold>
 
 /**
  *
@@ -84,7 +85,8 @@ import org.primefaces.event.FlowEvent;
 @Named(value = "generador")
 @SessionScoped
 public class Generador implements Serializable {
- // <editor-fold defaultstate="collapsed" desc="atributos">
+    // <editor-fold defaultstate="collapsed" desc="atributos">
+
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(Generador.class.getName());
     private boolean skip;
@@ -99,7 +101,7 @@ public class Generador implements Serializable {
     private String tipoRepositorio;
     private String tipoGeneracion; //codigo y paginas, solo codigo, solo paginas
     private String estilo; //codigo y paginas, solo codigo, solo paginas
-    
+
     @Inject
     EntidadSearch entidadSearch;
 
@@ -113,7 +115,7 @@ public class Generador implements Serializable {
     @Inject
     Directorios directorios;
     @Inject
-    EntityReader entidadGenerador;
+    EntityReader entityReader;
     @Inject
     ConverterGenerador converterGenerador;
     String primaryKey = "";
@@ -159,8 +161,7 @@ public class Generador implements Serializable {
     InformationGenerador informationGenerador;
     @Inject
     MessagesPropertiesGenerador messagesPropertiesGenerador;
-//    @Inject
-//    PersistenceXMLGenerador persistenceXMLGenerador;
+
     @Inject
     FacesConfigXMLGenerador facesConfigGenerador;
     @Inject
@@ -183,10 +184,6 @@ public class Generador implements Serializable {
     @Inject
     LeftxhtmlGenerador leftxhtmlGenerador;
 
-//    @Inject
-//    MenusxhtmlGenerador menusxhtmlGenerador;
-//    @Inject
-//    ContentxhtmlGenerador contextxhtmlGenerador;
     @Inject
     AccesodenegadoxhtmlGenerador accesodenegadoxhtmlGenerador;
     @Inject
@@ -200,7 +197,7 @@ public class Generador implements Serializable {
     JasperAllGenerador jasperGenerador;
     @Inject
     JasperDetailsGenerador jasperDetailsGenerador;
-    
+
     @Inject
     ViewxhtmlGenerador viewxhtmlGenerador;
     @Inject
@@ -211,10 +208,9 @@ public class Generador implements Serializable {
     CambiarpasswordxhtmlGenerador cambiarpasswordxhtmlGenerador;
     @Inject
     ListxhtmlGenerador listxhtmlGenerador;
- // </editor-fold> 
-   
-    
- // <editor-fold defaultstate="collapsed" desc="getset">    
+    // </editor-fold> 
+
+    // <editor-fold defaultstate="collapsed" desc="getset">    
     public String getEstilo() {
         return estilo;
     }
@@ -305,24 +301,37 @@ public class Generador implements Serializable {
     public void setGenerado(Boolean generado) {
         this.generado = generado;
     }
+  public TreeNode getRoot() {
+        return root;
+    }
 
-    public Generador() {
+    public void setRoot(TreeNode root) {
+        this.root = root;
+    }
+
+    public void displaySelectedSingle() {
+        if (selectedNode != null) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected", selectedNode.getData().toString());
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+    }
+   
+    // </editor-fold> 
+ public Generador() {
         generado = false;
     }
- // </editor-fold> 
+    // <editor-fold defaultstate="collapsed" desc="init">
     @PostConstruct
     public void init() {
         framework = new ArrayList<String>();
         framework.add("Primefaces");
         framework.add("BootFaces");
         framework.add("MaterialPrime");
-
         proyectoValidoEJB = false;
         proyectoValidoJEE = false;
         generado = false;
-
-    }
-
+    }// </editor-fold>
+// <editor-fold defaultstate="collapsed" desc="clearEJB">
     public String clearEJB() {
         try {
 
@@ -351,8 +360,9 @@ public class Generador implements Serializable {
         }
 
         return "";
-    }
+    }// </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="clearJEE">
     public String clearJEE() {
         try {
             mySesion.setPagina1(false);
@@ -380,8 +390,9 @@ public class Generador implements Serializable {
         }
 
         return "";
-    }
+    }// </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="onFlowProcess">
     public String onFlowProcess(FlowEvent event) {
 
         if (!proyectoValidoEJB) {
@@ -398,8 +409,9 @@ public class Generador implements Serializable {
         } else {
             return event.getNewStep();
         }
-    }
+    }// </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="mostrarEJB">
     public String mostrarRutaEJB() {
         try {
             if (!proyectoEJB.getPathProyecto().equals("")) {
@@ -414,8 +426,9 @@ public class Generador implements Serializable {
         }
 
         return "";
-    }
+    }// </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="mostrarRutaJEE">
     public String mostrarRutaJEE() {
         try {
             if (!proyectoJEE.getPathProyecto().equals("")) {
@@ -430,15 +443,17 @@ public class Generador implements Serializable {
         }
 
         return "";
-    }
+    }// </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="showNameProjectEJB">
     public String showNameProjectEJB() {
         proyectoEJB.setProyecto(Utilidades.getNombreProyectoFromPath(proyectoEJB.getPathProyecto()));
         proyectoEJB.setPaquete(proyectoEJB.getPaquete() + proyectoEJB.getProyecto());
         conectarEJB();
         return "";
-    }
+    }// </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="showNameProjectJEE">
     public String showNameProjectJEE() {
         proyectoJEE.setProyecto(Utilidades.getNombreProyectoFromPath(proyectoJEE.getPathProyecto()));
         proyectoJEE.setPaquete(proyectoJEE.getPaquete() + proyectoJEE.getProyecto());
@@ -446,6 +461,7 @@ public class Generador implements Serializable {
         return "";
     } // </editor-fold> 
 
+    // <editor-fold defaultstate="collapsed" desc="conectarEJB">
     public String conectarEJB() {
         try {
             mySesion.setPagina1(false);
@@ -520,7 +536,7 @@ public class Generador implements Serializable {
                 return "";
             }
 
-            processEntity();
+          //processEntity();
             cargarTree();
             if (!mySesion.getEntidadList().isEmpty()) {
 
@@ -542,6 +558,7 @@ public class Generador implements Serializable {
         return "";
     } // </editor-fold> 
 
+    // <editor-fold defaultstate="collapsed" desc="conectarJEE">
     public String conectarJEE() {
         try {
             mySesion.setPagina1(false);
@@ -638,7 +655,7 @@ public class Generador implements Serializable {
             if (!JSFUtil.isWeb(proyectoJEE.getPathWebInf() + "web.xml")) {
                 return "";
             }
-            processEntity();
+           processEntity();
             cargarTree();
             if (!mySesion.getEntidadList().isEmpty()) {
 
@@ -660,6 +677,7 @@ public class Generador implements Serializable {
         return "";
     } // </editor-fold> 
 
+    // <editor-fold defaultstate="collapsed" desc="create">
     public String create() {
         generado = false;
         if (!proyectoValidoEJB) {
@@ -679,6 +697,7 @@ public class Generador implements Serializable {
         generado = true;
         return "";
     } // </editor-fold> 
+// <editor-fold defaultstate="collapsed" desc="constructor">
 
     /**
      * genero el nombre del paquete y el path del paquete
@@ -756,7 +775,7 @@ public class Generador implements Serializable {
 
                 jasperGenerador.generar();
                 jasperDetailsGenerador.generar();
-                
+
                 if (tipoGeneracion.equals("codigopaginas") || tipoGeneracion.equals("codigo")) {
 
                     /*
@@ -930,6 +949,7 @@ stopWeb/-Inf
         //        persistenceContect= "@PersistenceContext(unitName = /" + persistenceContect+"")";
     } // </editor-fold> 
 
+    // <editor-fold defaultstate="collapsed" desc="validarRepositorio">
     /*
     validar repositorio
      */
@@ -949,6 +969,7 @@ stopWeb/-Inf
         return "";
     } // </editor-fold> 
 
+    // <editor-fold defaultstate="collapsed" desc="readPackageEntity">
     /**
      * carga todos los entity y lee sus propiedades del directorio seleccionado
      *
@@ -983,6 +1004,7 @@ stopWeb/-Inf
         }
         return false;
     } // </editor-fold> 
+// <editor-fold defaultstate="collapsed" desc="tieneEntitys">
 
     public Boolean tieneEntitys(Path gitReposFolderPath) {
         try {
@@ -993,6 +1015,7 @@ stopWeb/-Inf
         return false;
     } // </editor-fold> 
 
+    // <editor-fold defaultstate="collapsed" desc="processEntity">
     /**
      * carga los entitys con sus atributos
      *
@@ -1001,7 +1024,7 @@ stopWeb/-Inf
     private Boolean processEntity() {
         try {
             mySesion.getArchivosList().stream().forEach((a) -> {
-                entidadGenerador.readEntity(a.getArchivo(), proyectoEJB.getPathEntity() + a.getArchivo() + ".java");
+                entityReader.readEntity(a.getArchivo(), proyectoEJB.getPathEntity() + a.getArchivo() + ".java");
             });
             return true;
         } catch (Exception e) {
@@ -1011,6 +1034,7 @@ stopWeb/-Inf
 
         return false;
     } // </editor-fold> 
+// <editor-fold defaultstate="collapsed" desc="cargarTree">
 
     public String cargarTree() {
         try {
@@ -1036,21 +1060,9 @@ stopWeb/-Inf
         return "";
     } // </editor-fold> 
 
-    public TreeNode getRoot() {
-        return root;
-    }
-
-    public void setRoot(TreeNode root) {
-        this.root = root;
-    }
-
-    public void displaySelectedSingle() {
-        if (selectedNode != null) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected", selectedNode.getData().toString());
-            FacesContext.getCurrentInstance().addMessage(null, message);
-        }
-    }
+  
 // <editor-fold defaultstate="collapsed" desc="deleteNode">
+
     public void deleteNode() {
         selectedNode.getChildren().clear();
         selectedNode.getParent().getChildren().remove(selectedNode);
@@ -1086,6 +1098,7 @@ stopWeb/-Inf
         return "";
     }// </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="mostrarDatosDelArchivoConfiguracion()"> 
+
     private void mostrarDatosDelArchivoConfiguracion() {
         try {
 
@@ -1162,6 +1175,7 @@ stopWeb/-Inf
         return "";
     } // </editor-fold> 
 // <editor-fold defaultstate="collapsed" desc="irPagina1"> 
+
     public String irPagina1() {
         try {
 
@@ -1178,6 +1192,7 @@ stopWeb/-Inf
 
     } // </editor-fold> 
 // <editor-fold defaultstate="collapsed" desc="irPagina2"> 
+
     public String irPagina2() {
         try {
             if (!JSFUtil.isWeb(proyectoJEE.getPathWebInf() + "web.xml")) {
@@ -1198,6 +1213,7 @@ stopWeb/-Inf
 
     } // </editor-fold> 
 // <editor-fold defaultstate="collapsed" desc="irPagina3"> 
+
     public String irPagina3() {
         try {
 
@@ -1213,6 +1229,7 @@ stopWeb/-Inf
 
     } // </editor-fold> 
 // <editor-fold defaultstate="collapsed" desc="irPagina4"> 
+
     public String irPagina4() {
         try {
 
@@ -1248,6 +1265,7 @@ stopWeb/-Inf
 
     } // </editor-fold> 
 // <editor-fold defaultstate="collapsed" desc="irPagina5"> 
+
     public String irPagina5() {
         try {
 
@@ -1263,6 +1281,7 @@ stopWeb/-Inf
 
     } // </editor-fold> 
 // <editor-fold defaultstate="collapsed" desc="irPagina6"> 
+
     public String irPagina6() {
         try {
 
@@ -1277,4 +1296,8 @@ stopWeb/-Inf
         return "";
 
     } // </editor-fold> 
+    
+   
+    
+   
 }

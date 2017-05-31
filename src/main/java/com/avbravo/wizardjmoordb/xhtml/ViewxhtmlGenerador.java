@@ -207,15 +207,15 @@ public class ViewxhtmlGenerador implements Serializable {
                     contador = 0;
                 }
                 //verifica si existe algun embedded o referenced
-                if (atr.getEsEmbebido()) {
+                if (atr.getEsEmbedded()) {
                     esEmbedded = true;
-                    if (atr.getEsList()) {
+                    if (atr.getEsListEmbedded()) {
                         esEmbeddedList = true;
                     }
                 } else {
-                    if (atr.getEsReferenciado()) {
+                    if (atr.getEsReferenced()) {
                         esReferenced = true;
-                        if (atr.getEsList()) {
+                        if (atr.getEsListReferenced()) {
                             esRefefencedList = true;
                         }
                     }
@@ -254,7 +254,7 @@ public class ViewxhtmlGenerador implements Serializable {
 
             //pagina 3
             for (Atributos a : entidad.getAtributosList()) {
-                if (a.getEsEmbebido() || (a.getEsReferenciado() && a.getEsList())) {
+                if (a.getEsEmbedded()|| (a.getEsReferenced()&& a.getEsListReferenced())) {
                     if (c == 0) {
                         fw.write("                                        <li class=\"active\"><a href=\"#form-tab-" + Utilidades.letterToLower(a.getNombre()) + "\" class=\"form-tab\" role=\"tab\" data-toggle=\"tab\">#{msg['tab." + Utilidades.letterToLower(a.getNombre()) + "']}</a></li>" + "\r\n");
                     } else {
@@ -271,7 +271,7 @@ public class ViewxhtmlGenerador implements Serializable {
             // dibujar los paneles
             c = 0;
             for (Atributos a : entidad.getAtributosList()) {
-                if (a.getEsEmbebido() || (a.getEsReferenciado() && a.getEsList())) {
+                if (a.getEsEmbedded()|| (a.getEsReferenced()&& a.getEsListReferenced())) {
                     if (c == 0) {
                         fw.write("                                        <div class=\"tab-pane active\" id=\"form-tab-" + Utilidades.letterToLower(a.getNombre()) + "\" style=\"padding: 20px;\">" + "\r\n");
                         tabContenido(a, entidad);
@@ -298,16 +298,16 @@ public class ViewxhtmlGenerador implements Serializable {
     private void tabContenido(Atributos a, Entidad entidad) {
         try {
 
-            if (a.getEsEmbebido()) {
-                if (!a.getEsList()) {
+            if (a.getEsEmbedded()) {
+                if (!a.getEsListEmbedded()) {
                     tabContenidoEmbeddedSimple(a, entidad);
                 } else {
-                    if (a.getEsList()) {
+                    if (a.getEsListEmbedded()) {
                         tabContenidoEmbeddedList(a, entidad);
                     }
                 }
             } else {
-                if (a.getEsReferenciado() && a.getEsList()) {
+                if (a.getEsReferenced()&& a.getEsListReferenced()) {
                     tabContenidoReferencedList(a, entidad);
                 }
             }
@@ -408,7 +408,7 @@ public class ViewxhtmlGenerador implements Serializable {
     private void selecOneMenu(Atributos atr, String name, String columna) {
         try {
             //Solo crea el selectOneMenu para los referenciados que no sean un List
-            if (atr.getEsReferenciado() && !atr.getEsList()) {
+            if (atr.getEsReferenced()&& !atr.getEsListReferenced()) {
 
                 String nameRelational = Utilidades.letterToLower(atr.getTipo());
                 String columnKeyRelational = "";

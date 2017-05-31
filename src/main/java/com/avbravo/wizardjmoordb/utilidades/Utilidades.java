@@ -16,6 +16,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
@@ -1809,7 +1813,7 @@ public class Utilidades {
     public static Boolean isEmbeddedOrReferenced(Entidad entidad) {
         Boolean found = false;
         try {
-            if (entidad.getAtributosList().stream().anyMatch((a) -> (a.getEsEmbebido() || a.getEsReferenciado()))) {
+            if (entidad.getAtributosList().stream().anyMatch((a) -> (a.getEsEmbedded() || a.getEsReferenced()))) {
                 return true;
             }
         } catch (Exception e) {
@@ -1831,15 +1835,15 @@ public class Utilidades {
     public static String getOperator(Atributos a) {
         String operador = "";
         try {
-            if (a.getEsEmbebido()) {
-                if (a.getEsList()) {
+            if (a.getEsEmbedded()) {
+                if (a.getEsListEmbedded()) {
                     operador = "L<@e>";
                 } else {
                     operador = "@e";
                 }
             } else {
-                if (a.getEsReferenciado()) {
-                    if (a.getEsList()) {
+                if (a.getEsReferenced()) {
+                    if (a.getEsListReferenced()) {
                         operador = "L<@r>";
                     } else {
                         operador = "@r";
@@ -1898,39 +1902,75 @@ public class Utilidades {
         return found;
     }
     // </editor-fold>
-    
-        // <editor-fold defaultstate="collapsed" desc="isLineFinishReferenced(">
-    public static Boolean isLineFinishReferenced(String s){
-        Boolean finish=false;
-        try {
-             if (s.indexOf("@Referenced") != -1 && s.indexOf(")") != -1) {
-                    finish = true;
-                } else {
-                    if (s.indexOf("@Referenced") != -1 && s.indexOf(")") == -1) {
-                        
-                    } else {
-                        if (s.indexOf(")") != -1 && (s.indexOf("return") == -1 && s.indexOf("public") == -1)) {
-                            finish = true;
-                        }
-                    }
 
-                }
-        } catch (Exception e) {
-        }
-        return finish;
-    }
-       // </editor-fold>
-        // <editor-fold defaultstate="collapsed" desc="isLineFinishEmbedded">
-    public static Boolean isLineEmbedded(String s){
-        Boolean finish=false;
+    // <editor-fold defaultstate="collapsed" desc="isLineFinishReferenced(">
+    public static Boolean isLineFinishReferenced(String s) {
+        Boolean finish = false;
         try {
-             if (s.indexOf("@Embedded") != -1) {
-                    finish= true;
+            if (s.indexOf("@Referenced") != -1 && s.indexOf(")") != -1) {
+                finish = true;
+            } else {
+                if (s.indexOf("@Referenced") != -1 && s.indexOf(")") == -1) {
+
+                } else {
+                    if (s.indexOf(")") != -1 && (s.indexOf("return") == -1 && s.indexOf("public") == -1)) {
+                        finish = true;
+                    }
                 }
+
+            }
         } catch (Exception e) {
-             JSFUtil.addErrorMessage("isLineFinishEmbedded() " + e.getLocalizedMessage());
         }
         return finish;
     }
-       // </editor-fold>
+    // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="isLineFinishEmbedded">
+
+    public static Boolean isLineEmbedded(String s) {
+        Boolean finish = false;
+        try {
+            if (s.indexOf("@Embedded") != -1) {
+                finish = true;
+            }
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("isLineFinishEmbedded() " + e.getLocalizedMessage());
+        }
+        return finish;
+    }
+    // </editor-fold>
+// <editor-fold defaultstate="collapsed" desc="getterMacAddress()">
+
+    public static String getMacAddress() {
+        InetAddress ip;
+        String macAddress = "";
+        try {
+
+            ip = InetAddress.getLocalHost();
+            System.out.println("Current IP address : " + ip.getHostAddress());
+
+            NetworkInterface network = NetworkInterface.getByInetAddress(ip);
+
+            byte[] mac = network.getHardwareAddress();
+
+            System.out.print("Current MAC address : ");
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < mac.length; i++) {
+                sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
+            }
+            System.out.println(sb.toString());
+            macAddress = sb.toString();
+
+        } catch (UnknownHostException e) {
+JSFUtil.addErrorMessage("getMacAddress() " + e.getLocalizedMessage());
+            e.printStackTrace();
+
+        } catch (SocketException e) {
+JSFUtil.addErrorMessage("getMacAddress() " + e.getLocalizedMessage());
+            e.printStackTrace();
+
+        }
+        return macAddress;
+    }
+// </editor-fold>
 }

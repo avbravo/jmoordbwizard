@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package com.avbravo.wizardjmoordb.entity;
+// <editor-fold defaultstate="collapsed" desc="import">
 
 import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
@@ -25,6 +26,7 @@ import java.util.List;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+// </editor-fold>
 
 /**
  *
@@ -44,11 +46,9 @@ public class EntityReader implements Serializable {
     List<Referenced> referencedList = new ArrayList<>();
     List<Embedded> embeddedList = new ArrayList<>();
     private Boolean terminaReferenced = true;
-    private Boolean terminaEmbedded = true;
 
     Boolean startReferenced = false;
     Boolean endReferenced = false;
-    Boolean startEmbedded = false;
     Boolean endEmbedded = false;
 
     private String campoId = "";
@@ -101,15 +101,15 @@ public class EntityReader implements Serializable {
             //Referenciado
             Files.lines(path, Charset.forName(DEFAULT_CHARSET)).forEach(line -> {
 
-                if (line.indexOf("@Referenced") != -1 && line.indexOf(")") != -1) {
+                if (line.contains("@Referenced") && line.contains(")")) {
                     startReferenced = true;
                     endReferenced = true;
                 } else {
-                    if (line.indexOf("@Referenced") != -1 && line.indexOf(")") == -1) {
+                    if (line.contains("@Referenced") && !line.contains(")")) {
                         startReferenced = true;
                         endReferenced = false;
                     } else {
-                        if (startReferenced && !endReferenced && line.indexOf(")") != -1) {
+                        if (startReferenced && !endReferenced && line.contains(")")) {
                             endReferenced = true;
 
                         } else {
@@ -124,20 +124,17 @@ public class EntityReader implements Serializable {
                 }
 
             });
-            startEmbedded = false;
+
             endEmbedded = false;
             Files.lines(path, Charset.forName(DEFAULT_CHARSET)).forEach(line -> {
-                if (line.indexOf("@Embedded") != -1) {
-                    startEmbedded = true;
+                if (line.contains("@Embedded")) {
                     endEmbedded = true;
-                }else{
-                    if (startEmbedded && endEmbedded) {
-                    lineEmbedded(line);
-                    startEmbedded = false;
-                    endEmbedded = false;
+                } else {
+                    if (endEmbedded) {
+                        lineEmbedded(line);
+                        endEmbedded = false;
+                    }
                 }
-                }
-                
 
             });
             Boolean esEmbebido;
@@ -147,25 +144,36 @@ public class EntityReader implements Serializable {
             /**
              * Se indica si el atributo es Embebido o referenciado
              */
+            Test.msg(" [ " + entidad.getTabla() + "]");
+            Test.msg("=================EMBEDDEDLIST");
+             for (Embedded e : embeddedList) {
+                 System.out.println(" e.getField() " +e.getField()+" e.getType() "+e.getType() + " e.getEsList() " +e.getEsList());
+             }
+             Test.msg("#################ANALIZAR CAMPOS ######################");
             for (Atributos a : atributosList) {
-                atributosList.get(contador).setEsReferenciado(false);
+                atributosList.get(contador).setEsReferenced(false);
 
                 if (!embeddedList.isEmpty()) {
+                    // Test.msg("No esta vacio el embeddedList");
                     esEmbebido = false;
                     esList = false;
+
                     for (Embedded e : embeddedList) {
                         if (a.getNombre().toLowerCase().equals(e.getField().toLowerCase())) {
                             esEmbebido = true;
                             esList = e.getEsList();
-                            System.out.println("Test:> es list"+esList);
+                            Test.msg("------>campo igual {list  " + esList + " columna " + a.getNombre());
                             break;
                         }
                     }
-                    atributosList.get(contador).setEsEmbebido(esEmbebido);
-                    atributosList.get(contador).setEsList(esList);
+                    atributosList.get(contador).setEsEmbedded(esEmbebido);
+                    atributosList.get(contador).setEsListEmbedded(esList);
+                    Test.msg("-------------->" +atributosList.get(contador).getNombre() + " esList= " + esList + "  change getEsList()" + atributosList.get(contador).getEsListEmbedded());
+
                 } else {
-                    atributosList.get(contador).setEsEmbebido(false);
-                    atributosList.get(contador).setEsList(false);
+                    // Test.msg("esta vacio embeddedList");
+                    atributosList.get(contador).setEsEmbedded(false);
+                    atributosList.get(contador).setEsListEmbedded(false);
                 }
                 contador++;
             }
@@ -174,7 +182,7 @@ public class EntityReader implements Serializable {
              */
             contador = 0;
             for (Atributos a : atributosList) {
-                atributosList.get(contador).setEsReferenciado(false);
+                atributosList.get(contador).setEsReferenced(false);
                 if (!referencedList.isEmpty()) {
                     esReferenciado = false;
                     esList = false;
@@ -185,11 +193,11 @@ public class EntityReader implements Serializable {
                             break;
                         }
                     }
-                    atributosList.get(contador).setEsReferenciado(esReferenciado);
-                    atributosList.get(contador).setEsList(esList);
+                    atributosList.get(contador).setEsReferenced(esReferenciado);
+                    atributosList.get(contador).setEsListReferenced(esList);
                 } else {
-                    atributosList.get(contador).setEsReferenciado(false);
-                    atributosList.get(contador).setEsList(false);
+                    atributosList.get(contador).setEsReferenced(false);
+                    atributosList.get(contador).setEsListReferenced(false);
 
                 }
                 contador++;
@@ -313,26 +321,25 @@ public class EntityReader implements Serializable {
 //            if (terminaReferenced) {
             Referenced referenced = new Referenced();
             // aqui es la linea referenciada
-            if (s.indexOf("List") != -1) {
-
+            if (s.contains("List")) {
                 referenced.setEsList(true);
-                if (s.indexOf("private List<") != -1) {
+                if (s.contains("private List<")) {
                     s = s.replace("private List<", "");
                 } else {
                     s = s.replace("List<", "");
                 }
-                if (s.indexOf(">") != -1) {
+                if (s.contains(">")) {
                     s = s.replace(">", "");
                 }
 
             } else {
                 referenced.setEsList(false);
-                if (s.indexOf("private") != -1) {
+                if (s.contains("private")) {
                     s = s.replace("private", "");
                 }
 
             }
-            if (s.indexOf(";") != -1) {
+            if (s.contains(";")) {
                 s = s.replace(";", "");
             }
 
@@ -342,20 +349,6 @@ public class EntityReader implements Serializable {
             referenced.setField(splited[1]);
             referencedList.add(referenced);
 
-            //   terminaReferenced = false;
-//            } else {
-//                if (s.indexOf("@Referenced") != -1 && s.indexOf(")") != -1) {
-//                    terminaReferenced = true;
-//                } else {
-//                    if (s.indexOf("@Referenced") != -1 && s.indexOf(")") == -1) {
-//                    } else {
-//                        if (s.indexOf(")") != -1 && (s.indexOf("return") == -1 && s.indexOf("public") == -1)) {
-//                            terminaReferenced = true;
-//                        }
-//                    }
-//
-//                }
-//            }
         } catch (Exception e) {
             JSFUtil.addErrorMessage("lineReferenced() " + e.getLocalizedMessage());
 
@@ -366,80 +359,38 @@ public class EntityReader implements Serializable {
 
     private void lineEmbedded(String s) {
         try {
-            System.out.println("paso 0 "+s);
-//            if (terminaEmbedded) {
-            Embedded embedded = new Embedded();
 
+            Embedded embedded = new Embedded();
             if (s.contains("List")) {
-             
                 embedded.setEsList(true);
                 if (s.contains("private List<")) {
-                
                     s = s.replace("private List<", "");
-                  
                 } else {
                     if (s.contains("List<")) {
-             
                         s = s.replace("List<", "");
-                    
                     }
-
                 }
                 if (s.contains(">")) {
-               
-
                     s = s.replace(">", "");
-                
-
                 }
-
             } else {
                 embedded.setEsList(false);
-            
-
                 if (s.contains("private")) {
-             
-
                     s = s.replace("private", "");
-           
-
                 }
-
             }
-            System.out.println("paso 11");
 
             if (s.contains(";")) {
-            
-
                 s = s.replace(";", "");
-         
-
             }
 
-
             s = s.trim();
-      
 
             String[] splited = s.split("\\s");
-     
-
             embedded.setType(splited[0]);
-     
-
             embedded.setField(splited[1]);
-         
-
             embeddedList.add(embedded);
-         
 
-            terminaEmbedded = false;
- 
-
-//            } else {
-//                if (s.indexOf("@Embedded") != -1) {
-//                    terminaEmbedded = true;
-//                }
-//            }
         } catch (Exception e) {
             JSFUtil.addErrorMessage("lineEmbedded() " + e.getLocalizedMessage());
         }

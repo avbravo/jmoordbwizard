@@ -114,6 +114,8 @@ public class ConfigurationFileGenerador implements Serializable {
                     fw.write("atributosIdGrupo=" + mySesion.getAtributosIdGrupo() + "\r\n");
                     fw.write("entidadRoles=" + mySesion.getEntidadRoles().getTabla() + "\r\n");
                     fw.write("typeUserGroup=" + mySesion.getTypeUserGroup() + "\r\n");
+                    fw.write("databasename=" + mySesion.getDatabasename()+ "\r\n");
+                    fw.write("database=" + mySesion.getDatabase()+ "\r\n");
                     fw.write("typeUserGroupWithOutRol=" + mySesion.getTypeUserGroupWithOutRol() + "\r\n");
                     fw.write("typeUserGroupField=" + mySesion.getTypeUserGroupField() + "\r\n");
                     fw.write("typeUserGroupEntity=" + mySesion.getTypeUserGroupEntity() + "\r\n");

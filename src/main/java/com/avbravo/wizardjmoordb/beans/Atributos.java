@@ -13,47 +13,25 @@ public class Atributos {
     private String tipo;
     private String nombre;
     private Boolean esPrimaryKey;
-private Boolean esEmbebido;
-private Boolean esReferenciado;
-private Boolean esList;
+private Boolean esEmbedded;
+private Boolean esReferenced;
+private Boolean esListEmbedded;
+private Boolean esListReferenced;
     public Atributos() {
     }
 
-    public Atributos(String tipo, String nombre, Boolean esPrimaryKey, Boolean esEmbebido, Boolean esReferenciado, Boolean esList) {
+    public Atributos(String tipo, String nombre, Boolean esPrimaryKey, Boolean esEmbedded, Boolean esReferenced, Boolean esListEmbedded, Boolean esListReferenced) {
         this.tipo = tipo;
         this.nombre = nombre;
         this.esPrimaryKey = esPrimaryKey;
-        this.esEmbebido = esEmbebido;
-        this.esReferenciado = esReferenciado;
-        this.esList = esList;
+        this.esEmbedded = esEmbedded;
+        this.esReferenced = esReferenced;
+        this.esListEmbedded = esListEmbedded;
+        this.esListReferenced = esListReferenced;
     }
 
-    public Boolean getEsEmbebido() {
-        return esEmbebido;
-    }
-
-    public void setEsEmbebido(Boolean esEmbebido) {
-        this.esEmbebido = esEmbebido;
-    }
-
-    public Boolean getEsReferenciado() {
-        return esReferenciado;
-    }
-
-    public void setEsReferenciado(Boolean esReferenciado) {
-        this.esReferenciado = esReferenciado;
-    }
-
-    public Boolean getEsList() {
-        return esList;
-    }
-
-    public void setEsList(Boolean esList) {
-        this.esList = esList;
-    }
-
-   
-
+    
+    
     public String getTipo() {
         return tipo;
     }
@@ -78,6 +56,39 @@ private Boolean esList;
         this.esPrimaryKey = esPrimaryKey;
     }
 
+    public Boolean getEsEmbedded() {
+        return esEmbedded;
+    }
+
+    public void setEsEmbedded(Boolean esEmbedded) {
+        this.esEmbedded = esEmbedded;
+    }
+
+    public Boolean getEsReferenced() {
+        return esReferenced;
+    }
+
+    public void setEsReferenced(Boolean esReferenced) {
+        this.esReferenced = esReferenced;
+    }
+
+    public Boolean getEsListEmbedded() {
+        return esListEmbedded;
+    }
+
+    public void setEsListEmbedded(Boolean esListEmbedded) {
+        this.esListEmbedded = esListEmbedded;
+    }
+
+    public Boolean getEsListReferenced() {
+        return esListReferenced;
+    }
+
+    public void setEsListReferenced(Boolean esListReferenced) {
+        this.esListReferenced = esListReferenced;
+    }
+
+   
     
     
 }
