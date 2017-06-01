@@ -49,11 +49,14 @@ public class RulesProcesador implements Serializable {
             mySesion.setEntidadPatronList(new ArrayList<>());
             entidadPatronList = new ArrayList<>();
             for (Entidad entidad : mySesion.getEntidadList()) {
+                Test.msg("________________________________________________________________________________");
                 Test.msg("Entidad " + entidad.getTabla());
-                Test.msg("Atributos");
+                Test.msg("Atributos{");
+                Test.msg("Nombre         Tipo   | Embebido    List    |  Referenciado   List");
                 for (Atributos a : entidad.getAtributosList()) {
-                   Test.msg("--------------(" + a.getNombre() + " : " + a.getTipo() + " @E " + a.getEsEmbedded()+ " @R " + a.getEsReferenced()+ " L<> " + a.getEsListReferenced()+ " )");
+                   Test.msg(a.getNombre() + "  " + a.getTipo() + " | " + a.getEsEmbedded()+ " "+a.getEsListEmbedded() + " |" + a.getEsReferenced()+ " " + a.getEsListReferenced());
                 }
+               Test.msg("}");
             }
 
             for (Entidad entidad : mySesion.getEntidadList()) {

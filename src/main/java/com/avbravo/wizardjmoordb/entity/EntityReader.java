@@ -67,7 +67,6 @@ public class EntityReader implements Serializable {
 
     public Boolean readEntity(String archivo, String ruta) {
         try {
-
             Path path = Paths.get(ruta);
             if (Files.notExists(path, new LinkOption[]{LinkOption.NOFOLLOW_LINKS})) {
                 JSFUtil.addWarningMessage("No existe el archivo " + ruta);
@@ -144,17 +143,12 @@ public class EntityReader implements Serializable {
             /**
              * Se indica si el atributo es Embebido o referenciado
              */
-            Test.msg(" [ " + entidad.getTabla() + "]");
-            Test.msg("=================EMBEDDEDLIST");
-             for (Embedded e : embeddedList) {
-                 System.out.println(" e.getField() " +e.getField()+" e.getType() "+e.getType() + " e.getEsList() " +e.getEsList());
-             }
-             Test.msg("#################ANALIZAR CAMPOS ######################");
+
             for (Atributos a : atributosList) {
                 atributosList.get(contador).setEsReferenced(false);
 
                 if (!embeddedList.isEmpty()) {
-                    // Test.msg("No esta vacio el embeddedList");
+ 
                     esEmbebido = false;
                     esList = false;
 
@@ -162,16 +156,14 @@ public class EntityReader implements Serializable {
                         if (a.getNombre().toLowerCase().equals(e.getField().toLowerCase())) {
                             esEmbebido = true;
                             esList = e.getEsList();
-                            Test.msg("------>campo igual {list  " + esList + " columna " + a.getNombre());
-                            break;
+                            break; 
                         }
                     }
                     atributosList.get(contador).setEsEmbedded(esEmbebido);
                     atributosList.get(contador).setEsListEmbedded(esList);
-                    Test.msg("-------------->" +atributosList.get(contador).getNombre() + " esList= " + esList + "  change getEsList()" + atributosList.get(contador).getEsListEmbedded());
+                    
 
                 } else {
-                    // Test.msg("esta vacio embeddedList");
                     atributosList.get(contador).setEsEmbedded(false);
                     atributosList.get(contador).setEsListEmbedded(false);
                 }
