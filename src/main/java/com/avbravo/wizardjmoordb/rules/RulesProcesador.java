@@ -48,25 +48,27 @@ public class RulesProcesador implements Serializable {
         try {
             mySesion.setEntidadPatronList(new ArrayList<>());
             entidadPatronList = new ArrayList<>();
-            for (Entidad entidad : mySesion.getEntidadList()) {
-                Test.msg("________________________________________________________________________________");
-                Test.msg("Entidad " + entidad.getTabla());
-                Test.msg("Atributos{");
-                Test.msg("Nombre         Tipo   | Embebido    List    |  Referenciado   List");
-                for (Atributos a : entidad.getAtributosList()) {
-                   Test.msg(a.getNombre() + "  " + a.getTipo() + " | " + a.getEsEmbedded()+ " "+a.getEsListEmbedded() + " |" + a.getEsReferenced()+ " " + a.getEsListReferenced());
-                }
-               Test.msg("}");
-            }
+//            for (Entidad entidad : mySesion.getEntidadList()) {
+//                Test.msg("-------------------------------------------------");
+//                Test.msg("Entidad " + entidad.getTabla());
+//                Test.msg("Atributos{");
+//                Test.msg("Nombre         Tipo   | Embebido    List    |  Referenciado   List");
+//                for (Atributos a : entidad.getAtributosList()) {
+//                   Test.msg(a.getNombre() + "  " + a.getTipo() + " | " + a.getEsEmbedded()+ " "+a.getEsListEmbedded() + " |" + a.getEsReferenced()+ " " + a.getEsListReferenced());
+//                }
+//               Test.msg("}");
+//            }
 
             for (Entidad entidad : mySesion.getEntidadList()) {
-               Test.msg("_________________________________________________________________");
-           Test.msg("_________________________________________________________________");
-             Test.msg("________________ Analizando {" + entidad.getTabla() + "}_________");
+
+                Test.msg("---------------------------------------------------", false);
+                Test.msg("---------------------------------------------------", false);
+                Test.msg("Analizando [Entity{" + entidad.getTabla() + "}]", false);
                 patronList = new ArrayList<>();
                 drawList = new ArrayList<>();
                 nivel = 0;
-                if (Utilidades.isEmbeddedOrReferenced(entidad)) {
+//                if (Utilidades.haveEmbeddedOrReferenced(entidad)) {
+                if (Utilidades.haveEmbedded(entidad)) {
 
                     entidadPatron = new EntidadPatron();
                     entidadPatron.setEntidad(entidad);
@@ -74,29 +76,30 @@ public class RulesProcesador implements Serializable {
                     entidadPatron.setSize(nivel);
 
                 } else {
-                   Test.msg("------------{no tiene embebidos o referenciados}----------");
+                    Test.msg("{No tiene embebidos }", false);
                 }
             }
+            Test.msg("----------------------ANALISIS DE ENTITY TERMINADO-----------------------------", false);
             mySesion.setEntidadPatronList(entidadPatronList);
-
-           Test.msg("=================IMPRIMIR EL PATRON======");
+            Test.msg("================================================", true);
+            Test.msg("=================IMPRIMIR EL PATRON=============", true);
             if (entidadPatronList.isEmpty()) {
-             Test.msg("El patron esta vacio");
+                Test.msg("El patron esta vacio", true);
             } else {
 
                 for (EntidadPatron e : entidadPatronList) {
-                   Test.msg("================================================");
-                  Test.msg("----Tabla() " + e.getEntidad().getTabla() + " size() " + e.getSize());
+                    Test.msg("================================================", true);
+                    Test.msg("Tabla() " + e.getEntidad().getTabla() + " size() " + e.getSize(), true);
 
                     String space = ".....";
                     String pattern = "  ";
                     for (Patron p : e.getPatron()) {
-                        //   System.out.println(space + " Level [" + p.getLevel()+"] "+p.getFather().getTabla() + " "+p.getOperator() + " "+p.getSon().getTabla());
-                        pattern += " [" + p.getLevel() + "] " + p.getFather().getTabla() + " " + p.getOperator() + " " + p.getSon().getTabla();
+
+                        pattern += "( [" + p.getLevel() + "] " + p.getFather().getTabla() + " " + p.getOperator() + " " + p.getSon().getTabla() + " )";
 
                         space += ".....";
                     }
-                    Test.msg("pattern " + pattern);
+                    Test.msg("pattern " + pattern, true);
                 }
             }
 
@@ -109,15 +112,26 @@ public class RulesProcesador implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="generarPatron"> 
     private Boolean generarPatron(Entidad entidad) {
         try {
-            Test.msg("{Nivel }: " + nivel);
-            Test.msg("-------{" + entidad.getTabla() + " }");
+            Test.msg("{Nivel }: " + nivel, false);
+            Test.msg("-------{" + entidad.getTabla() + " }", false);
             String operador = "";
             Boolean found = false;
             for (Atributos a : entidad.getAtributosList()) {
-               Test.msg("--------------(" + a.getNombre() + " : " + a.getTipo() + "{ Embedded()  " + a.getEsEmbedded()+ " : "+ a.getEsListEmbedded()+ "  )@R " + a.getEsReferenced()+ " L<> " + a.getEsListReferenced()+ " )");
+                if (a.getEsEmbedded() || a.getEsListReferenced()) {
+                    if (a.getEsEmbedded()) {
+                        Test.msg("--------------Field(" + a.getNombre() + " : " + a.getTipo() + "{ @Embedded(" + a.getEsEmbedded() + " L<>: " + a.getEsListEmbedded() + " )", false);
+                    } else {
+                        Test.msg("--------------Field(" + a.getNombre() + " : " + a.getTipo() + "{ @Referenced( " + a.getEsReferenced() + " L<> " + a.getEsListReferenced() + " ) No se analiza", false);
+                    }
+
+                } else {
+                    Test.msg("--------------Field(" + a.getNombre() + " : " + a.getTipo() + "). No se analiza", false);
+                }
+
                 operador = Utilidades.getOperator(a);
-                if (operador.equals("NOVALIDO")) {
-                    // JSFUtil.addWarningMessage("El atributo "+a.getNombre() + " del entity" +entidad.getTabla()+" No tiene @E o @R ");
+                if (operador.equals("NOVALIDO") || operador.equals("@r") || operador.equals("L<@r>")) {
+                    //   Test.msg("Operador no valido no es un @e o L<@e> para analizar",false);
+
                 } else {
                     Patron patron = new Patron();
                     found = true;
@@ -126,23 +140,25 @@ public class RulesProcesador implements Serializable {
                     patron.setOperator(operador);
                     patron.setSon(Utilidades.convertStringToEntity(a.getNombre(), mySesion.getEntidadList()));
                     patron.setLevel(nivel);
+                    if (entidad.getTabla().toLowerCase().equals(entidadPatron.getEntidad().getTabla().toLowerCase())) {
+                        if (nivel != 0) {
+                            patron.setLevel(0);
+                            Test.msg("---------------->>>Cambio a nivel 0", false);
+                            nivel = 0;
+                        }
+
+                    }
 
                     patronList.add(patron);
-                    //Verificar otro nivel
-
-//                    } else {
-//
-//                    }
-                    //analizar recursivamente
                     nivel++;
-                  Test.msg("----------[Invoco recursivamente " + patron.getSon().getTabla() + "]-------------");
+                    Test.msg("-------------------[Invoco recursivamente " + patron.getSon().getTabla() + "]-------------", false);
                     generarPatron(patron.getSon());
                 }
             }
             if (!Utilidades.tienePatron(entidadPatron, entidadPatronList)) {
-             Test.msg("---------------((((( Agrego el patron [" + entidadPatron.getEntidad().getTabla() + "] )))))--------");
-                entidadPatron.setPatron(patronList);
 
+                Test.msg("....................Agrego el patron [" + entidadPatron.getEntidad().getTabla() + "]}}}}---", false);
+                entidadPatron.setPatron(patronList);
                 entidadPatronList.add(entidadPatron);
             }
 

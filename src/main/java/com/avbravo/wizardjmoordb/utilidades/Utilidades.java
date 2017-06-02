@@ -1809,15 +1809,29 @@ public class Utilidades {
         }
     }// </editor-fold> 
 
-// <editor-fold defaultstate="collapsed" desc="isEmbeddedOrReferenced">
-    public static Boolean isEmbeddedOrReferenced(Entidad entidad) {
+// <editor-fold defaultstate="collapsed" desc="haveEmbeddedOrReferenced">
+    public static Boolean haveEmbeddedOrReferenced(Entidad entidad) {
         Boolean found = false;
         try {
             if (entidad.getAtributosList().stream().anyMatch((a) -> (a.getEsEmbedded() || a.getEsReferenced()))) {
                 return true;
             }
         } catch (Exception e) {
-            JSFUtil.addErrorMessage("isEmbeddedOrReferenced() " + e.getLocalizedMessage());
+            JSFUtil.addErrorMessage("haveEmbeddedOrReferenced() " + e.getLocalizedMessage());
+        }
+        return found;
+    }
+    // </editor-fold> 
+
+    // <editor-fold defaultstate="collapsed" desc="haveEmbedded">
+    public static Boolean haveEmbedded(Entidad entidad) {
+        Boolean found = false;
+        try {
+            if (entidad.getAtributosList().stream().anyMatch((a) -> (a.getEsEmbedded()))) {
+                return true;
+            }
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("haveEmbedded() " + e.getLocalizedMessage());
         }
         return found;
     }
@@ -1859,7 +1873,7 @@ public class Utilidades {
     }
 // </editor-fold> 
 
-    // <editor-fold defaultstate="collapsed" desc="Operador">
+    // <editor-fold defaultstate="collapsed" desc="convertStringToEntity">
     /**
      * Convierte un String a una Entidad Se pasa el nombre de la entidad como
      * una cadena el lo busca en la lista de entity al encontrarlo devuelve la

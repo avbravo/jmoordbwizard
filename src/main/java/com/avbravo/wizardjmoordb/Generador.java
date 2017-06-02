@@ -20,15 +20,15 @@ import com.avbravo.wizardjmoordb.facade.FacadeGenerador;
 import com.avbravo.wizardjmoordb.configurationfile.ConfigurationFileGenerador;
 import com.avbravo.wizardjmoordb.converter.ConverterGenerador;
 import com.avbravo.wizardjmoordb.resources.DefaultCssGenerador;
-import com.avbravo.wizardjmoordb.configuration.FacesConfigXMLGenerador;
-import com.avbravo.wizardjmoordb.configuration.PomXMLEJBGenerador;
+import com.avbravo.wizardjmoordb.xml.FacesConfigXMLGenerador;
+import com.avbravo.wizardjmoordb.xml.PomXMLEJBGenerador;
 
 import com.avbravo.wizardjmoordb.interfaces.IControllerGenerador;
 import com.avbravo.wizardjmoordb.idiomas.IdiomasGenerador;
 import com.avbravo.wizardjmoordb.information.InformationGenerador;
 import com.avbravo.wizardjmoordb.roles.ApplicationMenuGenerador;
 import com.avbravo.wizardjmoordb.messages.MessagesPropertiesGenerador;
-import com.avbravo.wizardjmoordb.configuration.PomXMLGenerador;
+import com.avbravo.wizardjmoordb.xml.PomXMLGenerador;
 import com.avbravo.wizardjmoordb.resourcesfiles.ResourcesFilesGenerador;
 import com.avbravo.wizardjmoordb.roles.RolesGenerador;
 import com.avbravo.wizardjmoordb.controller.ControllerGenerador;
@@ -47,7 +47,7 @@ import com.avbravo.wizardjmoordb.xhtml.ViewxhtmlGenerador;
 
 import com.avbravo.wizardjmoordb.xhtml.ListxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.TemplatexhtmlGenerador;
-import com.avbravo.wizardjmoordb.configuration.WebXMLGenerador;
+import com.avbravo.wizardjmoordb.xml.WebXMLGenerador;
 import com.avbravo.wizardjmoordb.componentes.ActivoxhtmlGenerador;
 import com.avbravo.wizardjmoordb.provider.CouchbaseClientProviderGenerador;
 import com.avbravo.wizardjmoordb.reportes.JasperDetailsGenerador;
