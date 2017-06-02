@@ -158,7 +158,7 @@ public class ConverterGenerador implements Serializable {
                     fw.write("               }   " + "\r\n");
                     fw.write("             }" + "\r\n");
                     fw.write("          } catch (Exception e) {" + "\r\n");
-                    fw.write("             JsfUtil.addErrorMessage(\"getAsObject()\" + e.getLocalizedMessage());" + "\r\n");
+                    fw.write("             JsfUtil.errorMessage(\"getAsObject()\" + e.getLocalizedMessage());" + "\r\n");
                     fw.write("          }" + "\r\n");
                     fw.write("          return " + entity + ";" + "\r\n");
                     fw.write("      }" + "\r\n");
@@ -177,7 +177,7 @@ public class ConverterGenerador implements Serializable {
                     fw.write("               r = (String) o;" + "\r\n");
                     fw.write("            }" + "\r\n");
                     fw.write("        } catch (Exception e) {" + "\r\n");
-                    fw.write("            JsfUtil.addErrorMessage(\"getAsString()\" + e.getLocalizedMessage());" + "\r\n");
+                    fw.write("            JsfUtil.errorMessage(\"getAsString()\" + e.getLocalizedMessage());" + "\r\n");
                     fw.write("        }" + "\r\n");
                     fw.write("        return r;" + "\r\n");
                     fw.write("        }" + "\r\n");

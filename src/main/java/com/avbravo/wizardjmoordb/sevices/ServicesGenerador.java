@@ -141,7 +141,7 @@ public class ServicesGenerador implements Serializable {
                                 fw.write("               suggestions=  " + Utilidades.letterToLower(entidad.getTabla()) + "Facade.findRegex(\"" + Utilidades.letterToLower(a.getNombre()) + "\",query,true,new Document(\"" + Utilidades.letterToLower(a.getNombre()) +"\",1));" + "\r\n");
                                                                 fw.write("" + "\r\n");
                                 fw.write("           } catch (Exception e) {" + "\r\n");
-                                fw.write("                    JsfUtil.addErrorMessage(\"complete" + Utilidades.letterToUpper(a.getNombre()) + "() \" + e.getLocalizedMessage());" + "\r\n");
+                                fw.write("                    JsfUtil.errorMessage(\"complete" + Utilidades.letterToUpper(a.getNombre()) + "() \" + e.getLocalizedMessage());" + "\r\n");
                                 fw.write("           }" + "\r\n");
                                 fw.write("           return suggestions;" + "\r\n");
                                 fw.write("    }" + "\r\n");
@@ -167,7 +167,7 @@ public class ServicesGenerador implements Serializable {
                                     fw.write("                       }" + "\r\n");
                                     fw.write("                    }" + "\r\n");
                                     fw.write("           } catch (Exception e) {" + "\r\n");
-                                    fw.write("                    JsfUtil.addErrorMessage(\"complete" + Utilidades.letterToUpper(a.getNombre()) + "() \" + e.getLocalizedMessage());" + "\r\n");
+                                    fw.write("                    JsfUtil.errorMessage(\"complete" + Utilidades.letterToUpper(a.getNombre()) + "() \" + e.getLocalizedMessage());" + "\r\n");
                                     fw.write("           }" + "\r\n");
                                     fw.write("           return suggestions;" + "\r\n");
                                     fw.write("    }" + "\r\n");
@@ -208,7 +208,7 @@ public class ServicesGenerador implements Serializable {
             texto += "               suggestions=  " + Utilidades.letterToLower(entidad.getTabla()) + "Facade.findBy" + Utilidades.letterToUpper(a.getNombre()) + "Like(query.toLowerCase());" + "\r\n";
             texto += "" + "\r\n";
             texto += "           } catch (Exception e) {" + "\r\n";
-            texto += "                   JSFUtil.addErrorMessage(\"complete" + Utilidades.letterToUpper(a.getNombre()) + "() \" + e.getLocalizedMessage());" + "\r\n";
+            texto += "                   JSFUtil.errorMessage(\"complete" + Utilidades.letterToUpper(a.getNombre()) + "() \" + e.getLocalizedMessage());" + "\r\n";
             texto += "           }" + "\r\n";
             texto += "           return suggestions;" + "\r\n";
             texto += "    }" + "\r\n";
@@ -237,7 +237,7 @@ public class ServicesGenerador implements Serializable {
             texto += "                       }" + "\r\n";
             texto += "                    }" + "\r\n";
             texto += "           } catch (Exception e) {" + "\r\n";
-            texto += "                   JSFUtil.addErrorMessage(\"complete" + Utilidades.letterToUpper(a.getNombre()) + "() \" + e.getLocalizedMessage());" + "\r\n";
+            texto += "                   JSFUtil.errorMessage(\"complete" + Utilidades.letterToUpper(a.getNombre()) + "() \" + e.getLocalizedMessage());" + "\r\n";
             texto += "           }" + "\r\n";
             texto += "           return suggestions;" + "\r\n";
             texto += "    } \r\n";

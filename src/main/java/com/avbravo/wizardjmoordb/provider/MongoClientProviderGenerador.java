@@ -159,7 +159,7 @@ public class MongoClientProviderGenerador implements Serializable {
 
                     fw.write("        mongoClient = new MongoClient();" + "\r\n");
                     fw.write("       } catch (Exception e) {" + "\r\n");
-                    fw.write("           JsfUtil.addErrorMessage(\"init() \" + e.getLocalizedMessage());" + "\r\n");
+                    fw.write("           JsfUtil.errorMessage(\"init() \" + e.getLocalizedMessage());" + "\r\n");
                     fw.write("           LOG.warning(\"MongoClientProvider init() \"+e.getLocalizedMessage());" + "\r\n");
                     fw.write("       }" + "\r\n");
                     fw.write("   }" + "\r\n");

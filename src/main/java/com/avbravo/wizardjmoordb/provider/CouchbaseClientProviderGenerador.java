@@ -150,7 +150,7 @@ public class CouchbaseClientProviderGenerador implements Serializable {
                     fw.write("                         .build();" + "\r\n");
                     fw.write("          cluster = CouchbaseCluster.create(\"localhost\");" + "\r\n");
                     fw.write("       } catch (Exception e) {" + "\r\n");
-                    fw.write("           JsfUtil.addErrorMessage(\"init() \" + e.getLocalizedMessage());" + "\r\n");
+                    fw.write("           JsfUtil.errorMessage(\"init() \" + e.getLocalizedMessage());" + "\r\n");
                     fw.write("           LOG.warning(\"CouchbaseClientProvider init() \"+e.getLocalizedMessage());" + "\r\n");
                     fw.write("       }" + "\r\n");
                     fw.write("   }" + "\r\n");

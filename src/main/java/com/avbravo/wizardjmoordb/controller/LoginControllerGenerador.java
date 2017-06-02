@@ -257,7 +257,7 @@ public class LoginControllerGenerador implements Serializable {
                 fw.write("            ec.redirect(url);" + "\r\n");
                 fw.write("            return \"/" + proyectoJEE.getProyecto() + "/faces/login.xhtml?faces-redirect=true\";" + "\r\n");
                 fw.write("        } catch (Exception e) {" + "\r\n");
-                fw.write("            JsfUtil.addErrorMessage(e, \"logout()\");" + "\r\n");
+                fw.write("            JsfUtil.errorMessage(e, \"logout()\");" + "\r\n");
                 fw.write("        }" + "\r\n");
                 fw.write("        return \"/" + proyectoJEE.getProyecto() + "/faces/login.xhtml?faces-redirect=true\";" + "\r\n");
                 fw.write("    }" + "\r\n");
@@ -267,9 +267,9 @@ public class LoginControllerGenerador implements Serializable {
                 fw.write("    public String changePassword() {" + "\r\n");
                 fw.write("        try {" + "\r\n");
                 fw.write("            " + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "Facade.update(" + minuscula + ");" + "\r\n");
-                fw.write("            JsfUtil.addSuccessMessage(rf.getAppMessage(\"info.update\"));" + "\r\n");
+                fw.write("            JsfUtil.successMessage(rf.getAppMessage(\"info.update\"));" + "\r\n");
                 fw.write("        } catch (Exception e) {" + "\r\n");
-                fw.write("            JsfUtil.addErrorMessage(e.getLocalizedMessage());" + "\r\n");
+                fw.write("            JsfUtil.errorMessage(e.getLocalizedMessage());" + "\r\n");
                 fw.write("        }" + "\r\n");
                 fw.write("        return null;" + "\r\n");
                 fw.write("    }" + "\r\n");
@@ -304,18 +304,18 @@ public class LoginControllerGenerador implements Serializable {
             fw.write("            loggedIn = true;" + "\r\n");
             fw.write("            " + minuscula + "= new " + mySesion.getEntidadUser().getTabla() + "(); " + "\r\n");
             fw.write("            if (username == null || password == null) {" + "\r\n");
-            fw.write("                JsfUtil.addWarningMessage(rf.getAppMessage(\"login.usernamenotvalid\"));" + "\r\n");
+            fw.write("                JsfUtil.warningMessage(rf.getAppMessage(\"login.usernamenotvalid\"));" + "\r\n");
             fw.write("                return null;" + "\r\n");
             fw.write("            }" + "\r\n");
             fw.write("            " + minuscula + ".set" + Utilidades.letterToUpper(mySesion.getAtributosUsername()) + "(username); " + "\r\n");
             fw.write("            Optional<" + mySesion.getEntidadUser().getTabla() + "> optional = " + minuscula + "Facade.findById(" + minuscula + ");" + "\r\n");
             fw.write("            if (!optional.isPresent()) {" + "\r\n");
-            fw.write("                JsfUtil.addWarningMessage(rf.getAppMessage(\"login.usernamenotvalid\"));" + "\r\n");
+            fw.write("                JsfUtil.warningMessage(rf.getAppMessage(\"login.usernamenotvalid\"));" + "\r\n");
             fw.write("                return null;" + "\r\n");
             fw.write("            }else{ " + "\r\n");
             fw.write("               " + minuscula + " = optional.get();" + "\r\n");
             fw.write("               if (!" + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosPassword()) + "().equals(password)) {" + "\r\n");
-            fw.write("                   JsfUtil.addSuccessMessage(rf.getAppMessage(\"login.passwordnotvalid\"));" + "\r\n");
+            fw.write("                   JsfUtil.successMessage(rf.getAppMessage(\"login.passwordnotvalid\"));" + "\r\n");
             fw.write("                   return \"\";" + "\r\n");
             fw.write("               }" + "\r\n");
    
@@ -332,7 +332,7 @@ public class LoginControllerGenerador implements Serializable {
                 if (mySesion.getTypeUserGroupField()) {
 
                     fw.write("               if (!validadorRoles.validarRoles(" + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosIdGrupo()) + "())) {" + "\r\n");
-                    fw.write("                   JsfUtil.addSuccessMessage(rf.getAppMessage(\"login.notienerolenelsistema\") + \" \" + " + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosIdGrupo()) + "());" + "\r\n");
+                    fw.write("                   JsfUtil.successMessage(rf.getAppMessage(\"login.notienerolenelsistema\") + \" \" + " + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosIdGrupo()) + "());" + "\r\n");
                     fw.write("                   loggedIn = false;" + "\r\n");
                     fw.write("                   return \"\";" + "\r\n");
                     fw.write("                }" + "\r\n");
@@ -348,7 +348,7 @@ public class LoginControllerGenerador implements Serializable {
                             }
                         }
                         fw.write("               if (!validadorRoles.validarRoles(" + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getEntidadRoles().getTabla()) + "().get" + Utilidades.letterToUpper(idroles) + "())) {" + "\r\n");
-                        fw.write("                   JsfUtil.addSuccessMessage(rf.getAppMessage(\"login.notienerolenelsistema\") + \" \" + " + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getEntidadRoles().getTabla()) + "().get" + Utilidades.letterToUpper(idroles) + "());" + "\r\n");
+                        fw.write("                   JsfUtil.successMessage(rf.getAppMessage(\"login.notienerolenelsistema\") + \" \" + " + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getEntidadRoles().getTabla()) + "().get" + Utilidades.letterToUpper(idroles) + "());" + "\r\n");
                         fw.write("                   loggedIn = false;" + "\r\n");
                         fw.write("                   return \"\";" + "\r\n");
                         fw.write("                }" + "\r\n");
@@ -368,7 +368,7 @@ public class LoginControllerGenerador implements Serializable {
                         fw.write("// 2.Haga el binding con el entity roles que definio en LoginController" + "\r\n");
 
                         fw.write("               if (!validadorRoles.validarRoles(" + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + ".get" + Utilidades.letterToUpper(idroles) + "())) {" + "\r\n");
-                        fw.write("                   JsfUtil.addSuccessMessage(rf.getAppMessage(\"login.notienerolenelsistema\") + \" \" + " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + ".get" + Utilidades.letterToUpper(idroles) + "());" + "\r\n");
+                        fw.write("                   JsfUtil.successMessage(rf.getAppMessage(\"login.notienerolenelsistema\") + \" \" + " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + ".get" + Utilidades.letterToUpper(idroles) + "());" + "\r\n");
                         fw.write("                   loggedIn = false;" + "\r\n");
                         fw.write("                   return \"\";" + "\r\n");
                         fw.write("                }" + "\r\n");
@@ -382,10 +382,10 @@ public class LoginControllerGenerador implements Serializable {
 
             fw.write("           loggedIn = true;" + "\r\n");
             fw.write("           foto = \"img/me.jpg\";" + "\r\n");
-            fw.write("            JsfUtil.addSuccessMessage(rf.getAppMessage(\"login.welcome\") + \" \" + " + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosNombreMostrar()) + "());" + "\r\n");
+            fw.write("            JsfUtil.successMessage(rf.getAppMessage(\"login.welcome\") + \" \" + " + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosNombreMostrar()) + "());" + "\r\n");
             fw.write("            return \"/faces/index.xhtml?faces-redirect=true\";" + "\r\n");
             fw.write("        } catch (Exception e) {" + "\r\n");
-            fw.write("            JsfUtil.addErrorMessage(e, \"doLogin()\");" + "\r\n");
+            fw.write("            JsfUtil.errorMessage(e, \"doLogin()\");" + "\r\n");
             fw.write("        }" + "\r\n");
             fw.write("        return null;" + "\r\n");
             fw.write("    }" + "\r\n");
