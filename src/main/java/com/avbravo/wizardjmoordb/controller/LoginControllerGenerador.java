@@ -421,7 +421,7 @@ public class LoginControllerGenerador implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="nombre_metodo"> 
+    // <editor-fold defaultstate="collapsed" desc="isValid"> 
     private Boolean isValid() {
         try {
             String minuscula = Utilidades.letterToLower(mySesion.getEntidadUser().getTabla());
