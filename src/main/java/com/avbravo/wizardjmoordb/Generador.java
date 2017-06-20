@@ -49,6 +49,7 @@ import com.avbravo.wizardjmoordb.xhtml.ListxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.TemplatexhtmlGenerador;
 import com.avbravo.wizardjmoordb.xml.WebXMLGenerador;
 import com.avbravo.wizardjmoordb.componentes.ActivoxhtmlGenerador;
+import com.avbravo.wizardjmoordb.controller.SessionControllerGenerador;
 import com.avbravo.wizardjmoordb.provider.CouchbaseClientProviderGenerador;
 import com.avbravo.wizardjmoordb.reportes.JasperDetailsGenerador;
 import com.avbravo.wizardjmoordb.reportes.JasperAllGenerador;
@@ -139,6 +140,9 @@ public class Generador implements Serializable {
     ValidadorRolesGenerador validadorRolesGenerador;
     @Inject
     LoginControllerGenerador loginControllerGenerador;
+    @Inject
+    SessionControllerGenerador sessionControllerGenerador; 
+ 
     @Inject
     ConfigurationFileGenerador configurationFileGenerador;
     @Inject
@@ -786,6 +790,7 @@ public class Generador implements Serializable {
                     resourcesFilesGenerador.generar();
                     idiomasGenerador.generar();
                     loginControllerGenerador.generar();
+                    sessionControllerGenerador.generar();
                     /*
                     menu
                      */
