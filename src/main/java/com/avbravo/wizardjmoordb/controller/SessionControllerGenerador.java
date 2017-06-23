@@ -124,10 +124,7 @@ public class SessionControllerGenerador implements Serializable {
                 fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"init\">" + "\r\n");
                 fw.write("    @PostConstruct" + "\r\n");
                 fw.write("    public void init() {" + "\r\n");
-                fw.write("        loggedIn = false;" + "\r\n");
-                fw.write("        recoverSession = false;" + "\r\n");
-                fw.write("        userwasLoged = false;" + "\r\n");
-                fw.write("        tokenwassend = false;" + "\r\n");
+                fw.write("        showAllSessions();" + "\r\n");
                 fw.write("    }" + "\r\n");
                 fw.write("    // </editor-fold>" + "\r\n");
 
@@ -138,25 +135,16 @@ public class SessionControllerGenerador implements Serializable {
                 fw.write("    // </editor-fold>" + "\r\n");
 
                 fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"constructor\">" + "\r\n");
-                fw.write("    public LoginController() {" + "\r\n");
+                fw.write("    public SessionController() {" + "\r\n");
                 fw.write("    }" + "\r\n");
                 fw.write("    // </editor-fold>" + "\r\n");
 
-                fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"irLogin\">" + "\r\n");
-                fw.write("    public String irLogin() {" + "\r\n");
-                fw.write("        return \"/faces/login\";" + "\r\n");
-                fw.write("    }" + "\r\n");
-                fw.write("    // </editor-fold>" + "\r\n");
-                // desde aqui el login 
-                doLogin();
-                isValid();
-                sendtoken();
-                destroyByUser();
-                destroyByToken();
-                invalidateCurrentSession();
+           
+                showAllSessions();
+             killAllSessions();
+                cancelSelectedSession();
 
-                dologout();
-                changepassword(minuscula);
+
                 fw.write("" + "\r\n");
                 fw.write("" + "\r\n");
                 fw.write("" + "\r\n");
@@ -171,189 +159,22 @@ public class SessionControllerGenerador implements Serializable {
         }
         return false;
     }
-// </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="doLogin"> 
 
-    /**
-     *
-     * @return
-     */
-    private String doLogin() {
-        try {
-            String minuscula = Utilidades.letterToLower(mySesion.getEntidadUser().getTabla());
-            String primeraletra = Utilidades.getFirstLetter(mySesion.getEntidadUser().getTabla()).toLowerCase();
-            fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"doLogin\">" + "\r\n");
-            fw.write("    public String doLogin() {" + "\r\n");
-            fw.write("        try {" + "\r\n");
-            fw.write("" + "\r\n");
-            fw.write("            tokenwassend = false;" + "\r\n");
-            fw.write("            userwasLoged = false;" + "\r\n");
-            fw.write("            loggedIn = true;" + "\r\n");
-            fw.write("            " + minuscula + "= new " + mySesion.getEntidadUser().getTabla() + "(); " + "\r\n");
-            fw.write("            if (username == null || password == null) {" + "\r\n");
-            fw.write("                JsfUtil.warningMessage(rf.getAppMessage(\"login.usernamenotvalid\"));" + "\r\n");
-            fw.write("                return null;" + "\r\n");
-            fw.write("            }" + "\r\n");
-
-            fw.write("            usernameRecover = usernameRecoveryOfSession();" + "\r\n");
-            fw.write("            recoverSession = !usernameRecover.equals(\"\");" + "\r\n");
-            fw.write("            if (recoverSession) {;" + "\r\n");
-            fw.write("                  RequestContext.getCurrentInstance().execute(\"PF('sessionDialog').show();\");" + "\r\n");
-            fw.write("                  return \"\";" + "\r\n");
-            fw.write("            }" + "\r\n");
-            fw.write("          if (recoverSession && usernameRecover.equals(username)) {" + "\r\n");
-            fw.write("            } else {" + "\r\n");
-            fw.write("                if (isUserLogged(username)) {" + "\r\n");
-            fw.write("                    userwasLoged = true;" + "\r\n");
-            fw.write("                    JsfUtil.warningMessage(rf.getAppMessage(\"login.usernamenotvalid\"));" + "\r\n");
-            fw.write("                    return \"\";" + "\r\n");
-            fw.write("                }" + "\r\n");
-            fw.write("" + "\r\n");
-            fw.write("            }" + "\r\n");
-
-            fw.write("            if (!isUserValid()) {" + "\r\n");
-            fw.write("                JsfUtil.warningMessage(rf.getAppMessage(\"login.usernamenotvalid\")); " + "\r\n");
-            fw.write("                return \" \";" + "\r\n");
-            fw.write("" + "\r\n");
-            fw.write("            }" + "\r\n");
-            fw.write("            saveUserInSession(username, 2100);" + "\r\n");
-            fw.write("            loggedIn = true;" + "\r\n");
-            fw.write("            foto = \"img/me.jpg\";" + "\r\n");
-            fw.write("            JsfUtil.successMessage(rf.getAppMessage(\"login.welcome\") + \" \" + " + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosNombreMostrar()) + "());" + "\r\n");
-            fw.write("            return \"/faces/index.xhtml?faces-redirect=true\";" + "\r\n");
-            fw.write("        } catch (Exception e) {" + "\r\n");
-            fw.write("            JsfUtil.errorMessage(e, \"doLogin()\");" + "\r\n");
-            fw.write("        }" + "\r\n");
-            fw.write("        return \"\";" + "\r\n");
-            fw.write("    }" + "\r\n");
-            fw.write("    // </editor-fold>" + "\r\n");
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("doLogin()  " + e.getLocalizedMessage());
-        }
-        return "";
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="isValid"> 
-    private Boolean isValid() {
-        try {
-            String minuscula = Utilidades.letterToLower(mySesion.getEntidadUser().getTabla());
-            String primeraletra = Utilidades.getFirstLetter(mySesion.getEntidadUser().getTabla()).toLowerCase();
-            fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"isValid\">" + "\r\n");
-            fw.write("    /**" + "\r\n");
-            fw.write("     * verifica si es valido el usuario" + "\r\n");
-            fw.write("     *" + "\r\n");
-            fw.write("     * @return" + "\r\n");
-            fw.write("     */" + "\r\n");
-            fw.write("    private Boolean isUserValid() {" + "\r\n");
-            fw.write("        Boolean isvalid = false;" + "\r\n");
-            fw.write("        try {" + "\r\n");
-            fw.write("            if (username.isEmpty() || username.equals(\"\") || username == null) {" + "\r\n");
-            fw.write("                JsfUtil.successMessage(rf.getAppMessage(\"warning.usernameisempty\"));" + "\r\n");
-            fw.write("                return false;" + "\r\n");
-            fw.write("            }" + "\r\n");
-            fw.write("            if (password.isEmpty() || password.equals(\"\") || password == null) {" + "\r\n");
-            fw.write("                JsfUtil.successMessage(rf.getAppMessage(\"warning.passwordisempty\")); " + "\r\n");
-            fw.write("                return false;" + "\r\n");
-            fw.write("            }" + "\r\n");
-
-            fw.write("            " + minuscula + ".set" + Utilidades.letterToUpper(mySesion.getAtributosUsername()) + "(username); " + "\r\n");
-            fw.write("            Optional<" + mySesion.getEntidadUser().getTabla() + "> optional = " + minuscula + "Facade.findById(" + minuscula + ");" + "\r\n");
-            fw.write("            if (!optional.isPresent()) {" + "\r\n");
-            fw.write("                JsfUtil.warningMessage(rf.getAppMessage(\"login.usernamenotvalid\"));" + "\r\n");
-            fw.write("                return false;" + "\r\n");
-            fw.write("            }else{ " + "\r\n");
-            fw.write("               " + minuscula + " = optional.get();" + "\r\n");
-            fw.write("               if (!" + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosPassword()) + "().equals(password)) {" + "\r\n");
-            fw.write("                   JsfUtil.successMessage(rf.getAppMessage(\"login.passwordnotvalid\"));" + "\r\n");
-            fw.write("                   return false;" + "\r\n");
-            fw.write("               }" + "\r\n");
-
-            /*
-                No tiene rol
-             */
-            if (mySesion.getTypeUserGroupWithOutRol()) {
-                // No tiene grupo para validar roles
-                fw.write("// No tiene roles , por favor verifique los privilegios para acceso" + "\r\n");
-                fw.write("           }" + "\r\n");
-
-            } else {
-
-                if (mySesion.getTypeUserGroupField()) {
-
-                    fw.write("               if (!validadorRoles.validarRoles(" + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosIdGrupo()) + "())) {" + "\r\n");
-                    fw.write("                   JsfUtil.successMessage(rf.getAppMessage(\"login.notienerolenelsistema\") + \" \" + " + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosIdGrupo()) + "());" + "\r\n");
-                    fw.write("                   return false;" + "\r\n");
-                    fw.write("                }" + "\r\n");
-                    fw.write("           }" + "\r\n");
-
-                } else {
-                    if (mySesion.getTypeUserGroupEntity()) {
-
-                        String idroles = "";
-                        for (Atributos a : mySesion.getEntidadRoles().getAtributosList()) {
-                            if (a.getEsPrimaryKey()) {
-                                idroles = a.getNombre();
-                            }
-                        }
-                        fw.write("               if (!validadorRoles.validarRoles(" + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getEntidadRoles().getTabla()) + "().get" + Utilidades.letterToUpper(idroles) + "())) {" + "\r\n");
-                        fw.write("                   JsfUtil.successMessage(rf.getAppMessage(\"login.notienerolenelsistema\") + \" \" + " + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getEntidadRoles().getTabla()) + "().get" + Utilidades.letterToUpper(idroles) + "());" + "\r\n");
-                        fw.write("                   return false;" + "\r\n");
-                        fw.write("                }" + "\r\n");
-                        fw.write("           }" + "\r\n");
-
-                    } else {
-// cuando tiene multiples relaciones
-
-                        String idroles = "";
-                        for (Atributos a : mySesion.getEntidadRoles().getAtributosList()) {
-                            if (a.getEsPrimaryKey()) {
-                                idroles = a.getNombre();
-                            }
-                        }
-                        fw.write("// Recuerde que el List<> para los roles " + "\r\n");
-                        fw.write("// 1.Defina un combo en el formulario de login con los roles" + "\r\n");
-                        fw.write("// 2.Haga el binding con el entity roles que definio en LoginController" + "\r\n");
-
-                        fw.write("               if (!validadorRoles.validarRoles(" + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + ".get" + Utilidades.letterToUpper(idroles) + "())) {" + "\r\n");
-                        fw.write("                   JsfUtil.successMessage(rf.getAppMessage(\"login.notienerolenelsistema\") + \" \" + " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + ".get" + Utilidades.letterToUpper(idroles) + "());" + "\r\n");
-
-                        fw.write("                   return false;" + "\r\n");
-                        fw.write("                }" + "\r\n");
-                        fw.write("           }" + "\r\n");
-
-                    }//multiples relaciones
-
-                }
-            }
-
-            fw.write("  return true;" + "\r\n");
-            fw.write(" } catch (Exception e) {" + "\r\n");
-            fw.write("            JsfUtil.errorMessage(\"userValid() \" + e.getLocalizedMessage());" + "\r\n");
-            fw.write("        }" + "\r\n");
-            fw.write("        return isvalid;" + "\r\n");
-            fw.write("    }// </editor-fold>" + "\r\n");
-            return true;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("isValid()  " + e.getLocalizedMessage());
-        }
-        return false;
-
-    }
-// </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="field"> 
     private void field() {
         try {
-           fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"atributos\"> " + "\r\n");
-fw.write("    private static final long serialVersionUID = 1L;" + "\r\n");
-fw.write("    private Integer segundosRefresh = 3;" + "\r\n");
-fw.write("    @Inject" + "\r\n");
-fw.write("    LoginController loginController;" + "\r\n");
-fw.write("    private BrowserSession browserSessionSelecction = new BrowserSession();" + "\r\n");
-fw.write("    List<BrowserSession> browserSessionsList = new ArrayList<>();" + "\r\n");
-fw.write("    List<BrowserSession> browserSessionsFilterList = new ArrayList<>();" + "\r\n");
-
+            fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"atributos\"> " + "\r\n");
+            fw.write("    private static final long serialVersionUID = 1L;" + "\r\n");
+            fw.write("    private Integer segundosRefresh = 3;" + "\r\n");
+             fw.write("   @Inject" + "\r\n");
+            fw.write("    ResourcesFiles rf;" + "\r\n");
+            fw.write("    @Inject" + "\r\n");
+            fw.write("    LoginController loginController;" + "\r\n");
+            fw.write("    private BrowserSession browserSessionSelecction = new BrowserSession();" + "\r\n");
+            fw.write("    List<BrowserSession> browserSessionsList = new ArrayList<>();" + "\r\n");
+            fw.write("    List<BrowserSession> browserSessionsFilterList = new ArrayList<>();" + "\r\n");
+            fw.write("    // </editor-fold>" + "\r\n");
         } catch (Exception e) {
             JSFUtil.addErrorMessage("field() " + e.getLocalizedMessage());
         }
@@ -365,92 +186,36 @@ fw.write("    List<BrowserSession> browserSessionsFilterList = new ArrayList<>()
         try {
             fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"getter/setter\">" + "\r\n");
 
-            fw.write("   public String getMyemail() {" + "\r\n");
-            fw.write("        return myemail;" + "\r\n");
+            fw.write("    public Integer getSegundosRefresh() {" + "\r\n");
+            fw.write("        return segundosRefresh;" + "\r\n");
             fw.write("    }" + "\r\n");
-
-            fw.write("    public void setMyemail(String myemail) {" + "\r\n");
-            fw.write("        this.myemail = myemail;" + "\r\n");
+            fw.write("" + "\r\n");
+            fw.write("    public void setSegundosRefresh(Integer segundosRefresh) {" + "\r\n");
+            fw.write("        this.segundosRefresh = segundosRefresh;" + "\r\n");
             fw.write("    }" + "\r\n");
-
-            fw.write("    public String getId() {" + "\r\n");
-            fw.write("         return id;" + "\r\n");
+            fw.write("" + "\r\n");
+            fw.write("    public BrowserSession getBrowserSessionSelecction() {" + "\r\n");
+            fw.write("        return browserSessionSelecction;" + "\r\n");
             fw.write("    }" + "\r\n");
-
-            fw.write("    public void setId(String id) {" + "\r\n");
-            fw.write("        this.id = id;" + "\r\n");
+            fw.write("" + "\r\n");
+            fw.write("    public void setBrowserSessionSelecction(BrowserSession browserSessionSelecction) {" + "\r\n");
+            fw.write("        this.browserSessionSelecction = browserSessionSelecction;" + "\r\n");
             fw.write("    }" + "\r\n");
-
-            fw.write("    public String getKey() {" + "\r\n");
-            fw.write("        return key;" + "\r\n");
+            fw.write("" + "\r\n");
+            fw.write("    public List<BrowserSession> getBrowserSessionsList() {" + "\r\n");
+            fw.write("        return browserSessionsList;" + "\r\n");
             fw.write("    }" + "\r\n");
-
-            fw.write("    public void setKey(String key) {" + "\r\n");
-            fw.write("        this.key = key;" + "\r\n");
+            fw.write("" + "\r\n");
+            fw.write("    public void setBrowserSessionsList(List<BrowserSession> browserSessionsList) {" + "\r\n");
+            fw.write("        this.browserSessionsList = browserSessionsList;" + "\r\n");
             fw.write("    }" + "\r\n");
-
-            fw.write("    public Usuario getUsuario() {" + "\r\n");
-            fw.write("        return usuario;" + "\r\n");
+            fw.write("" + "\r\n");
+            fw.write("    public List<BrowserSession> getBrowserSessionsFilterList() {" + "\r\n");
+            fw.write("        return browserSessionsFilterList;" + "\r\n");
             fw.write("    }" + "\r\n");
-
-            fw.write("    public void setUsuario(Usuario usuario) {" + "\r\n");
-            fw.write("        this.usuario = usuario;" + "\r\n");
-            fw.write("    }" + "\r\n");
-
-            fw.write("    public String getUsername() {" + "\r\n");
-            fw.write("        return username;" + "\r\n");
-            fw.write("    }" + "\r\n");
-
-            fw.write("    public void setUsername(String username) {" + "\r\n");
-            fw.write("        this.username = username;" + "\r\n");
-            fw.write("    }" + "\r\n");
-
-            fw.write("    public String getPassword() {" + "\r\n");
-            fw.write("        return password;" + "\r\n");
-            fw.write("    }" + "\r\n");
-
-            fw.write("    public void setPassword(String password) {" + "\r\n");
-            fw.write("        this.password = password;" + "\r\n");
-            fw.write("    }" + "\r\n");
-
-            fw.write("    public Boolean getLoggedIn() {" + "\r\n");
-            fw.write("        return loggedIn;" + "\r\n");
-            fw.write("     }" + "\r\n");
-
-            fw.write("    public void setLoggedIn(Boolean loggedIn) {" + "\r\n");
-            fw.write("        this.loggedIn = loggedIn;" + "\r\n");
-            fw.write("    }" + "\r\n");
-
-            fw.write("    public Boolean getTokenwassend() {" + "\r\n");
-            fw.write("        return tokenwassend;" + "\r\n");
-            fw.write("    }" + "\r\n");
-
-            fw.write("    public void setTokenwassend(Boolean tokenwassend) {" + "\r\n");
-            fw.write("        this.tokenwassend = tokenwassend;" + "\r\n");
-            fw.write("    }" + "\r\n");
-
-            fw.write("    public String getMytoken() {" + "\r\n");
-            fw.write("        return mytoken;" + "\r\n");
-            fw.write("    }" + "\r\n");
-
-            fw.write("    public void setMytoken(String mytoken) {" + "\r\n");
-            fw.write("        this.mytoken = mytoken;" + "\r\n");
-            fw.write("    }" + "\r\n");
-
-            fw.write("    public String getUsernameSelected() {" + "\r\n");
-            fw.write("        return usernameSelected;" + "\r\n");
-            fw.write("    }" + "\r\n");
-
-            fw.write("    public void setUsernameSelected(String usernameSelected) {" + "\r\n");
-            fw.write("        this.usernameSelected = usernameSelected;" + "\r\n");
-            fw.write("    }" + "\r\n");
-
-            fw.write("    public Boolean getUserwasLoged() {" + "\r\n");
-            fw.write("        return userwasLoged;" + "\r\n");
-            fw.write("    }" + "\r\n");
-
-            fw.write("    public void setUserwasLoged(Boolean userwasLoged) {" + "\r\n");
-            fw.write("        this.userwasLoged = userwasLoged;" + "\r\n");
+            fw.write("" + "\r\n");
+            fw.write("    public void setBrowserSessionsFilterList(List<BrowserSession> browserSessionsFilterList) {" + "\r\n");
+            fw.write("        this.browserSessionsFilterList = browserSessionsFilterList;" + "\r\n");
             fw.write("    }" + "\r\n");
             fw.write("    // </editor-fold>" + "\r\n");
         } catch (Exception e) {
@@ -495,159 +260,73 @@ fw.write("    List<BrowserSession> browserSessionsFilterList = new ArrayList<>()
     }
 // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="dologout"> 
-    private void dologout() {
+    // <editor-fold defaultstate="collapsed" desc="showAllSessions"> 
+    private void showAllSessions() {
         try {
             //logout()
-            fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"doLogout\">" + "\r\n");
-            fw.write("    public String doLogout() {" + "\r\n");
-            fw.write("            return logout(\"/" + proyectoJEE.getProyecto() + "/faces/login.xhtml?faces-redirect=true\");" + "\r\n");
+            fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"showAllSessions\">" + "\r\n");
+            fw.write("   public String showAllSessions() {" + "\r\n");
+            fw.write("        try {" + "\r\n");
+            fw.write("            browserSessionsList = allBrowserSessionList();" + "\r\n");
+            fw.write("            browserSessionsFilterList = browserSessionsList;" + "\r\n");
+            fw.write("            if (browserSessionsList.isEmpty()) {" + "\r\n");
+            fw.write("                JsfUtil.warningMessage(rf.getAppMessage(\"warning.nosessionsarerecorded\"));" + "\r\n");
+            fw.write("            }" + "\r\n");
+            fw.write("" + "\r\n");
+            fw.write("        } catch (Exception e) {" + "\r\n");
+            fw.write("            JsfUtil.errorMessage(\"showAllSessions() \" + e.getLocalizedMessage());" + "\r\n");
+            fw.write("        }" + "\r\n");
+            fw.write("" + "\r\n");
+            fw.write("        return \"\";" + "\r\n");
             fw.write("    }" + "\r\n");
             fw.write("    // </editor-fold>" + "\r\n");
         } catch (Exception e) {
-            JSFUtil.addErrorMessage("dologout() " + e.getLocalizedMessage());
+            JSFUtil.addErrorMessage("showAllSessions() " + e.getLocalizedMessage());
         }
     }
 // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="changepassword"> 
-    private void changepassword(String minuscula) {
+    // <editor-fold defaultstate="collapsed" desc="killAllSessions"> 
+    private void killAllSessions() {
         try {
-            // cambiarContrasena()
-            fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"changePassword\">" + "\r\n");
-            fw.write("    public String changePassword() {" + "\r\n");
+            //logout()
+            fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"killAllSessions\">" + "\r\n");
+            fw.write("  public String killAllSessions() {" + "\r\n");
             fw.write("        try {" + "\r\n");
-            fw.write("            " + Utilidades.letterToLower(mySesion.getEntidadUser().getTabla()) + "Facade.update(" + minuscula + ");" + "\r\n");
-            fw.write("            JsfUtil.successMessage(rf.getAppMessage(\"info.update\"));" + "\r\n");
+            fw.write("            if (cancelAllSesion()) {" + "\r\n");
+            fw.write("                showAllSessions();" + "\r\n");
+            fw.write("                JsfUtil.warningMessage(rf.getAppMessage(\"information.allsessiondelete\"));" + "\r\n");
+            fw.write("" + "\r\n");
+            fw.write("            } else {" + "\r\n");
+            fw.write("                JsfUtil.warningMessage(rf.getAppMessage(\"warning.notdeleteallsession\"));" + "\r\n");
+            fw.write("            }" + "\r\n");
+            fw.write("" + "\r\n");
             fw.write("        } catch (Exception e) {" + "\r\n");
-            fw.write("            JsfUtil.errorMessage(e.getLocalizedMessage());" + "\r\n");
+            fw.write("            JsfUtil.errorMessage(\"KillAllSessions() \" + e.getLocalizedMessage());" + "\r\n");
             fw.write("        }" + "\r\n");
-            fw.write("        return null;" + "\r\n");
+            fw.write("" + "\r\n");
+            fw.write("        return \"\";" + "\r\n");
             fw.write("    }" + "\r\n");
             fw.write("    // </editor-fold>" + "\r\n");
         } catch (Exception e) {
-            JSFUtil.addErrorMessage("changepassword() " + e.getLocalizedMessage());
+            JSFUtil.addErrorMessage("killAllSessions() " + e.getLocalizedMessage());
         }
     }
 // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="sendtoken"> 
-    private void sendtoken() {
+    // <editor-fold defaultstate="collapsed" desc="cancelSelectedSession"> 
+    private void cancelSelectedSession() {
         try {
-            fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"sendToken()\"> " + "\r\n");
-            fw.write("    public String sendToken() {" + "\r\n");
-            fw.write("        try {" + "\r\n");
-            fw.write("" + "\r\n");
-            fw.write("//            if(!myemail.equals(\"emailusuario\")){" + "\r\n");
-            fw.write("//                //no es el email del usuario" + "\r\n");
-            fw.write("//            }" + "\r\n");
-            fw.write("            ManagerEmail managerEmail = new ManagerEmail();" + "\r\n");
-            fw.write("            String token = tokenOfUsername(username);" + "\r\n");
-            fw.write("            if (!token.equals(\"\")) {" + "\r\n");
-            fw.write("" + "\r\n");
-
-            fw.write("                String texto = rf.getAppMessage(\"token.forinitsession\")+  \" \" + token +  rf.getAppMessage(\"token.forinvalidate \");" + "\r\n");
-            // fw.write("                String texto = rf.getAppMessage(\"token.forinitsession\") \" + token + \"  \"Copie este en el sistema y haga clic en el boton Invalidar Sesion por Token\";" + "\r\n");
-            //fw.write("                String texto = \"Token para iniciar sesion: \" + token + \"  \"Copie este en el sistema y haga clic en el boton Invalidar Sesion por Token\";" + "\r\n");
-            fw.write("                if (managerEmail.send(myemail, rf.getAppMessage(\"token.tokenofsecurity\"), texto, \"adminemail@gmail.com\", \"adminpasswordemail\"))" + "\r\n");
-            fw.write("{" + "\r\n");
-            fw.write("                    JsfUtil.successMessage(rf.getAppMessage(\"token.wassendtoemail\"));" + "\r\n");
-            fw.write("                    tokenwassend = true;" + "\r\n");
-            fw.write("                } else {" + "\r\n");
-            fw.write("                    JsfUtil.warningMessage(rf.getAppMessage(\"token.errortosendemail\"));" + "\r\n");
-            fw.write("                }" + "\r\n");
-            fw.write("            } else {" + "\r\n");
-
-            fw.write("                JsfUtil.warningMessage(rf.getAppMessage(\"token.asiganedtouser\"));" + "\r\n");
-            fw.write("            }" + "\r\n");
-            fw.write("" + "\r\n");
-            fw.write("        } catch (Exception e) {" + "\r\n");
-            fw.write("            JsfUtil.errorMessage(\"sendToken() \" + e.getLocalizedMessage());" + "\r\n");
-            fw.write("        }" + "\r\n");
-            fw.write("        return \"\";" + "\r\n");
-            fw.write("    }// </editor-fold>" + "\r\n");
-
+            //logout()
+            fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"cancelSelectedSession\">" + "\r\n");
+           
+            fw.write("    // </editor-fold>" + "\r\n");
         } catch (Exception e) {
-            JSFUtil.addErrorMessage("sendtoken() " + e.getLocalizedMessage());
-        }
-    }
-// </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="destroyByUser"> 
-    private void destroyByUser() {
-        try {
-            fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"destroyByUser()\"> " + "\r\n");
-            fw.write("    public String destroyByUser() {" + "\r\n");
-            fw.write("        try {" + "\r\n");
-            fw.write("            if (isUserValid()) {" + "\r\n");
-            fw.write("                userwasLoged = !destroyByUsername(username);" + "\r\n");
-            fw.write("                if (!userwasLoged) {" + "\r\n");
-            fw.write("                    JsfUtil.successMessage(rf.getAppMessage(\"session.destroyedloginagain\"));" + "\r\n");
-            fw.write("                } else {" + "\r\n");
-            fw.write("                    JsfUtil.successMessage(rf.getAppMessage(\"session.notdestroyed\"));" + "\r\n");
-            fw.write("                }" + "\r\n");
-            fw.write("            } else {  " + "\r\n");
-            fw.write("                JsfUtil.warningMessage(rf.getAppMessage(\"warning.usernotvalid\"));" + "\r\n");
-            fw.write("            }" + "\r\n");
-            fw.write("        } catch (Exception e) {" + "\r\n");
-            fw.write("            JsfUtil.errorMessage(\"destroyByUser() \" + e.getLocalizedMessage());" + "\r\n");
-            fw.write("        }" + "\r\n");
-            fw.write("        return \"\";" + "\r\n");
-            fw.write("    }" + "\r\n");
-            fw.write("// </editor-fold>" + "\r\n");
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("destroyByUser() " + e.getLocalizedMessage());
-        }
-    }
-// </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="destroyByToken"> 
-    private void destroyByToken() {
-        try {
-            fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"destroyWithToken()\">" + "\r\n");
-            fw.write("" + "\r\n");
-            fw.write("    public String destroyByToken() {" + "\r\n");
-            fw.write("        try {" + "\r\n");
-            fw.write("            if (isUserValid()) {" + "\r\n");
-            fw.write("                userwasLoged = !destroyByToken(username, mytoken);" + "\r\n");
-            fw.write("" + "\r\n");
-            fw.write("            } else {" + "\r\n");
-            fw.write("                JsfUtil.warningMessage(\"Los datos del usuario no son validos\");" + "\r\n");
-            fw.write("            }" + "\r\n");
-            fw.write("        } catch (Exception e) {" + "\r\n");
-            fw.write("                JsfUtil.warningMessage(rf.getAppMessage(\"warning.usernotvalid\"));" + "\r\n");
-            fw.write("        }" + "\r\n");
-            fw.write("        return \"\";" + "\r\n");
-            fw.write("    }" + "\r\n");
-            fw.write("// </editor-fold>" + "\r\n");
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("destroyByToken() " + e.getLocalizedMessage());
+            JSFUtil.addErrorMessage("killAllSessions() " + e.getLocalizedMessage());
         }
     }
 // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="nombre_metodo"> 
-    private void invalidateCurrentSession(){
-        try {
-            fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"invalidateCurrentSession\"> " + "\r\n");
-fw.write("" + "\r\n");
-fw.write("    public String invalidateCurrentSession() {" + "\r\n");
-fw.write("        try {" + "\r\n");
-fw.write("            if (invalidateMySession()) {" + "\r\n");
-fw.write("                JsfUtil.successMessage(rf.getAppMessage(\"sesion.invalidate\"));" + "\r\n");
-fw.write("            } else {" + "\r\n");
-fw.write("                JsfUtil.warningMessage(rf.getAppMessage(\"sesion.errortoinvalidate\"));" + "\r\n");
-fw.write("            }" + "\r\n");
-fw.write("" + "\r\n");
-fw.write("        } catch (Exception e) {" + "\r\n");
-fw.write("            JsfUtil.successMessage(\"invalidateCurrentSession() \" + e.getLocalizedMessage());" + "\r\n");
-fw.write("        }" + "\r\n");
-fw.write("        return \"\";" + "\r\n");
-fw.write("    }// </editor-fold>" + "\r\n");
+    
+    
+    
 
-        } catch (Exception e) {
-             JSFUtil.addErrorMessage("destroyByToken() " + e.getLocalizedMessage());
-        }
-    }
-// </editor-fold>
 }

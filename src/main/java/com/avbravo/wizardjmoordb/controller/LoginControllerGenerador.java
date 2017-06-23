@@ -655,7 +655,7 @@ public class LoginControllerGenerador implements Serializable {
     }
 // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="nombre_metodo"> 
+    // <editor-fold defaultstate="collapsed" desc="invalidateCurrentSession"> 
     private void invalidateCurrentSession(){
         try {
             fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"invalidateCurrentSession\"> " + "\r\n");
