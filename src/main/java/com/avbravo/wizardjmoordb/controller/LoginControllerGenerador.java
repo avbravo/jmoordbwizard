@@ -197,7 +197,7 @@ public class LoginControllerGenerador implements Serializable {
 
             fw.write("            usernameRecover = usernameRecoveryOfSession();" + "\r\n");
             fw.write("            recoverSession = !usernameRecover.equals(\"\");" + "\r\n");
-            fw.write("            if (recoverSession) {;" + "\r\n");
+            fw.write("            if (recoverSession) {" + "\r\n");
             fw.write("                  RequestContext.getCurrentInstance().execute(\"PF('sessionDialog').show();\");" + "\r\n");
             fw.write("                  return \"\";" + "\r\n");
             fw.write("            }" + "\r\n");

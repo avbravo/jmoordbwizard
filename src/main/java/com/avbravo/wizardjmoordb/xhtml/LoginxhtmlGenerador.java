@@ -5,6 +5,7 @@
  */
 package com.avbravo.wizardjmoordb.xhtml;
 
+// <editor-fold defaultstate="collapsed" desc="imports"> 
 import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
 import com.avbravo.wizardjmoordb.ProyectoJEE;
@@ -23,7 +24,7 @@ import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-
+// </editor-fold>
 /**
  *
  * @author avbravoserver
@@ -40,22 +41,23 @@ public class LoginxhtmlGenerador implements Serializable {
     @Inject
     ProyectoJEE proyectoJEE;
 
+    // <editor-fold defaultstate="collapsed" desc="generar"> 
+
     /**
-     * Creates a new instance of Facade
+     * 
      */
     public void generar() {
         try {
-            //recorrer el entity para verificar que existan todos los EJB
-
-//            procesar("index.xhtml", proyectoJEE.getPathMainWebapp() + proyectoJEE.getSeparator() + "index.xhtml");
+            
             procesar("login.xhtml");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
 
         }
-    }
+    }// </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="procesar"> 
     private Boolean procesar(String archivo) {
         try {
             String ruta = proyectoJEE.getPathMainWebapp() + proyectoJEE.getSeparator() + archivo;
@@ -69,7 +71,7 @@ public class LoginxhtmlGenerador implements Serializable {
         }
         return true;
 
-    }
+    }// </editor-fold>
 
     /**
      * deleteAll
@@ -198,13 +200,22 @@ public class LoginxhtmlGenerador implements Serializable {
                     fw.write("" + "\r\n");
                     fw.write("                                </div>" + "\r\n");
                     fw.write("" + "\r\n");
+                    //Botones
                     fw.write("                                <div class=\"form-group row\">" + "\r\n");
                     fw.write("                                    <div class=\"col-xs-4\">" + "\r\n");
                     fw.write("                                        <p:commandButton value=\"#{app['button.login']}\" class=\"btnn btnn-primary login-btn\"" + "\r\n");
                     fw.write("                                                         action=\"#{loginController.doLogin()}\" update=\":form:growl\"/>" + "\r\n");
                     fw.write("                                    </div>" + "\r\n");
+                    fw.write("                                    <div class=\"col-xs-4\">" + "\r\n");
+                    fw.write("                                        <p:commandButton value=\"#{app['button.anularsesion']}\" class=\"btnn btnn-primary login-btn\"" + "\r\n");
+                    fw.write("                                                         rendered=\"#{loginController.userwasLoged}\" " + "\r\n");
+                    fw.write("                                                         action=\"#{loginController.destroyByUser()}\" update=\":form:growl\"/>" + "\r\n");
+                    fw.write("                                    </div>" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("                                </div>" + "\r\n");
+                    
+                    
+                    
                     fw.write("" + "\r\n");
                     fw.write("                            </div>" + "\r\n");
                     fw.write("                        </h:form>" + "\r\n");
