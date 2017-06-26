@@ -9,7 +9,6 @@ import com.avbravo.wizardjmoordb.utilidades.JSFUtil;
 import com.avbravo.wizardjmoordb.MySesion;
 import com.avbravo.wizardjmoordb.ProyectoEJB;
 import com.avbravo.wizardjmoordb.ProyectoJEE;
-import com.avbravo.wizardjmoordb.beans.Atributos;
 import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -139,11 +138,13 @@ public class SessionControllerGenerador implements Serializable {
                 fw.write("    }" + "\r\n");
                 fw.write("    // </editor-fold>" + "\r\n");
 
-           
                 showAllSessions();
-             killAllSessions();
+                killAllSessions();
                 cancelSelectedSession();
-
+                dateOfExpiration();
+                timeOfCreation();
+                timeOfConnection();
+                lastConnection();
 
                 fw.write("" + "\r\n");
                 fw.write("" + "\r\n");
@@ -160,14 +161,13 @@ public class SessionControllerGenerador implements Serializable {
         return false;
     }
 
-
     // <editor-fold defaultstate="collapsed" desc="field"> 
     private void field() {
         try {
             fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"atributos\"> " + "\r\n");
             fw.write("    private static final long serialVersionUID = 1L;" + "\r\n");
             fw.write("    private Integer segundosRefresh = 3;" + "\r\n");
-             fw.write("   @Inject" + "\r\n");
+            fw.write("   @Inject" + "\r\n");
             fw.write("    ResourcesFiles rf;" + "\r\n");
             fw.write("    @Inject" + "\r\n");
             fw.write("    LoginController loginController;" + "\r\n");
@@ -228,29 +228,30 @@ public class SessionControllerGenerador implements Serializable {
     private void importaciones() {
         try {
             fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"imports\">" + "\r\n");
-            fw.write("import " + proyectoEJB.getPaquete() + ".entity.*;" + "\r\n");
-            fw.write("import " + proyectoEJB.getPaquete() + ".ejb.*;" + "\r\n");
+//            fw.write("import " + proyectoEJB.getPaquete() + ".entity.*;" + "\r\n");
+//            fw.write("import " + proyectoEJB.getPaquete() + ".ejb.*;" + "\r\n");
             fw.write("import " + proyectoJEE.getPaquete() + ".util.*;" + "\r\n");
-            fw.write("import " + proyectoJEE.getPaquete() + ".roles.*;" + "\r\n");
+//            fw.write("import " + proyectoJEE.getPaquete() + ".roles.*;" + "\r\n");
 
             fw.write("import com.avbravo.avbravoutils.JsfUtil;" + "\r\n");
             fw.write("import com.avbravo.avbravoutils.security.SecurityInterface;" + "\r\n");
             fw.write("import javax.inject.Inject;" + "\r\n");
             fw.write("import com.avbravo.avbravoutils.security.BrowserSession;" + "\r\n");
             fw.write("import javax.faces.view.ViewScoped;" + "\r\n");
-            fw.write("import org.primefaces.context.RequestContext;" + "\r\n");
-            fw.write("import com.avbravo.avbravoutils.email.ManagerEmail;" + "\r\n");
+//            fw.write("import org.primefaces.context.RequestContext;" + "\r\n");
+//            fw.write("import com.avbravo.avbravoutils.email.ManagerEmail;" + "\r\n");
             fw.write("import java.util.logging.Logger;" + "\r\n");
             fw.write("import javax.inject.Named;" + "\r\n");
             fw.write("import java.io.Serializable;" + "\r\n");
             fw.write("import java.util.ArrayList;" + "\r\n");
+            fw.write("import java.util.Date;" + "\r\n");
             fw.write("import java.util.List;" + "\r\n");
-            fw.write("import java.util.Optional;" + "\r\n");
+//            fw.write("import java.util.Optional;" + "\r\n");
             fw.write("import javax.annotation.PostConstruct;" + "\r\n");
             fw.write("import javax.annotation.PreDestroy;" + "\r\n");
-            fw.write("import javax.enterprise.context.SessionScoped;" + "\r\n");
-            fw.write("import javax.faces.context.ExternalContext;" + "\r\n");
-            fw.write("import javax.faces.context.FacesContext;" + "\r\n");
+//            fw.write("import javax.enterprise.context.SessionScoped;" + "\r\n");
+//            fw.write("import javax.faces.context.ExternalContext;" + "\r\n");
+//            fw.write("import javax.faces.context.FacesContext;" + "\r\n");
             fw.write("import javax.servlet.http.HttpSession;" + "\r\n");
             fw.write("    // </editor-fold>" + "\r\n");
 
@@ -286,6 +287,7 @@ public class SessionControllerGenerador implements Serializable {
     }
 // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="killAllSessions"> 
+
     private void killAllSessions() {
         try {
             //logout()
@@ -313,20 +315,101 @@ public class SessionControllerGenerador implements Serializable {
     }
 // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="cancelSelectedSession"> 
+
     private void cancelSelectedSession() {
         try {
             //logout()
             fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"cancelSelectedSession\">" + "\r\n");
-           
+
             fw.write("    // </editor-fold>" + "\r\n");
         } catch (Exception e) {
             JSFUtil.addErrorMessage("killAllSessions() " + e.getLocalizedMessage());
         }
     }
 // </editor-fold>
-    
-    
-    
-    
+
+    // <editor-fold defaultstate="collapsed" desc="dateofEpirtation"> 
+    private void dateOfExpiration() {
+        try {
+            fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"dateofEpirtation\"> " + "\r\n");
+            fw.write("    public Date dateOfExpiration(HttpSession session) {" + "\r\n");
+            fw.write("        return getDateTiemExpiration(session);" + "\r\n");
+            fw.write("    }" + "\r\n");
+            fw.write("// </editor-fold>" + "\r\n");
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("dateOfExpiration() " + e.getLocalizedMessage());
+        }
+    }
+// </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="secondsForInactivity"> 
+    private void secondsForInactivity() {
+        try {
+            fw.write("" + "\r\n");
+            fw.write("    // <editor-fold defaultstate=\"collapsed\" desc=\"secondsForInactivity\"> " + "\r\n");
+            fw.write("    public String secondsForInactivity(HttpSession session) {" + "\r\n");
+            fw.write("" + "\r\n");
+            fw.write("        return JsfUtil.milisegundosToTiempoString(milisegundosForInactivate(session));" + "\r\n");
+            fw.write("    }// </editor-fold>" + "\r\n");
+            fw.write("" + "\r\n");
+            fw.write("    // </editor-fold>" + "\r\n");
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("secondsForInactivity() " + e.getLocalizedMessage());
+        }
+    }
+// </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="timeOfCreation"> 
+    private void timeOfCreation() {
+        try {
+            fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"timeOfCreation\"> " + "\r\n");
+            fw.write("    public Date timeOfCreation(HttpSession session) {" + "\r\n");
+            fw.write("" + "\r\n");
+            fw.write("        return new Date(session.getCreationTime());" + "\r\n");
+            fw.write("" + "\r\n");
+            fw.write("    }" + "\r\n");
+            fw.write("" + "\r\n");
+            fw.write("    // </editor-fold>" + "\r\n");
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("timeOfCreation() " + e.getLocalizedMessage());
+        }
+    }
+// </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="timeOfConnection"> 
+    private void timeOfConnection() {
+        try {
+             fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"timeOfConnection\"> " + "\r\n");
+            fw.write("    public String timeOfConnection(HttpSession session) {" + "\r\n");
+            fw.write("        try {" + "\r\n");
+            fw.write("            return JsfUtil.milisegundosToTiempoString(miliSecondsOfConnection(session));" + "\r\n");
+            fw.write("        } catch (Exception e) {" + "\r\n");
+            fw.write("            JsfUtil.errorMessage(\"timeOfConecction() \" + e.getLocalizedMessage());" + "\r\n");
+            fw.write("        }" + "\r\n");
+            fw.write("        return \"\";" + "\r\n");
+            fw.write("    }" + "\r\n");
+            fw.write("    // </editor-fold>" + "\r\n");
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("timeOfConnection() " + e.getLocalizedMessage());
+        }
+    }
+// </editor-fold>
+
+// <editor-fold defaultstate="collapsed" desc="lastConnection"> 
+    private void lastConnection() {
+        try {
+            fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"lastConnection\"> " + "\r\n");
+            fw.write("" + "\r\n");
+            fw.write("    public Date lastConnection(HttpSession session) {" + "\r\n");
+            fw.write("        //return JsfUtil.milisegundosToTiempoString(session.getLastAccessedTime());" + "\r\n");
+            fw.write("        return new Date(session.getLastAccessedTime());" + "\r\n");
+            fw.write("" + "\r\n");
+            fw.write("    }" + "\r\n");
+            fw.write("    // </editor-fold>" + "\r\n");
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("lastConnection() " + e.getLocalizedMessage());
+        }
+    }
+// </editor-fold>
 
 }
