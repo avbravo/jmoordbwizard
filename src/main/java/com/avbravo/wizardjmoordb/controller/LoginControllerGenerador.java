@@ -500,7 +500,7 @@ public class LoginControllerGenerador implements Serializable {
             fw.write("import " + proyectoJEE.getPaquete() + ".roles.*;" + "\r\n");
 
             fw.write("import com.avbravo.avbravoutils.JsfUtil;" + "\r\n");
-            fw.write("import com.avbravo.avbravoutils.security.SecurityInterface;" + "\r\n");
+            fw.write("import com.avbravo.avbravosecurity.SecurityInterface;" + "\r\n");
             fw.write("import javax.inject.Inject;" + "\r\n");
             fw.write("import org.primefaces.context.RequestContext;" + "\r\n");
             fw.write("import com.avbravo.avbravoutils.email.ManagerEmail;" + "\r\n");

@@ -234,9 +234,9 @@ public class SessionControllerGenerador implements Serializable {
 //            fw.write("import " + proyectoJEE.getPaquete() + ".roles.*;" + "\r\n");
 
             fw.write("import com.avbravo.avbravoutils.JsfUtil;" + "\r\n");
-            fw.write("import com.avbravo.avbravoutils.security.SecurityInterface;" + "\r\n");
+            fw.write("import com.avbravo.avbravosecurity.SecurityInterface;" + "\r\n");
             fw.write("import javax.inject.Inject;" + "\r\n");
-            fw.write("import com.avbravo.avbravoutils.security.BrowserSession;" + "\r\n");
+            fw.write("import com.avbravo.avbravosecurity.BrowserSession;" + "\r\n");
             fw.write("import javax.faces.view.ViewScoped;" + "\r\n");
 //            fw.write("import org.primefaces.context.RequestContext;" + "\r\n");
 //            fw.write("import com.avbravo.avbravoutils.email.ManagerEmail;" + "\r\n");
