@@ -37,6 +37,7 @@ public class WebXMLGenerador implements Serializable {
     ProyectoJEE proyectoJEE;
     @Inject
     FechasServices fechasServices;
+// <editor-fold defaultstate="collapsed" desc="generar"> 
 
     /**
      * Creates a new instance of Facade
@@ -52,6 +53,8 @@ public class WebXMLGenerador implements Serializable {
 
         }
     }
+// </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="procesar"> 
 
     private Boolean procesar(String archivo, String ruta) {
         try {
@@ -73,6 +76,10 @@ public class WebXMLGenerador implements Serializable {
             Utilidades.addNotFoundMethodWithOutLine(ruta, "<extension>woff</extension>",woff(), "</web-app>", true);
             Utilidades.addNotFoundMethodWithOutLine(ruta, "<extension>svg</extension>",svg(), "</web-app>", true);
             Utilidades.addNotFoundMethodWithOutLine(ruta, "<extension>woff2</extension>",woff2(), "</web-app>", true);
+            if(mySesion.getSecurityHttpSession().equals("si")){
+                Utilidades.addNotFoundMethodWithOutLine(ruta, "<exception-type>javax.faces.application.ViewExpiredException</exception-type>",viewExpiration(), "</web-app>", true);
+            }
+            
           
 
         } catch (Exception e) {
@@ -80,9 +87,23 @@ public class WebXMLGenerador implements Serializable {
         }
         return true;
 
-    }
+    }// </editor-fold>
 
-   
+   private String viewExpiration(){
+       try {
+           
+            String texto = "";
+            texto += "  <error-page>" + "\r\n";
+            texto += "     <exception-type>javax.faces.application.ViewExpiredException</exception-type>" + "\r\n";
+            texto += "     <location>/viewExpiredException.xhtml</location>" + "\r\n";
+            texto += "  </error-page>" + "\r\n";
+            
+            return texto;
+       } catch (Exception e) {
+           JSFUtil.addErrorMessage("viewExpiration() " + e.getLocalizedMessage());
+       }
+       return "";
+   }
 
     /**
      * deleteAll

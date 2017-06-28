@@ -35,7 +35,6 @@ public class FacesConfigXMLGenerador implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(FacesConfigXMLGenerador.class.getName());
 
-    
     @Inject
     MySesion mySesion;
     @Inject
@@ -49,7 +48,7 @@ public class FacesConfigXMLGenerador implements Serializable {
     public void generar() {
         try {
             //recorrer el entity para verificar que existan todos los EJB
-            
+
             procesar("faces-config.xml", proyectoJEE.getPathWebInf() + "faces-config.xml");
 
         } catch (Exception e) {
@@ -60,7 +59,7 @@ public class FacesConfigXMLGenerador implements Serializable {
 
     private Boolean procesar(String archivo, String ruta) {
         try {
-            
+
             Path path = Paths.get(ruta);
             if (Files.notExists(path, new LinkOption[]{LinkOption.NOFOLLOW_LINKS})) {
                 crearFile(ruta, archivo);
@@ -69,8 +68,9 @@ public class FacesConfigXMLGenerador implements Serializable {
             Utilidades.searchAddWithoutLine(ruta, "<application>", "xsi:schemaLocation=\"http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd\">", false);
             Utilidades.searchAddWithoutLine(ruta, "<resource-handler>org.omnifaces.resourcehandler.CombinedResourceHandler</resource-handler>", "<application>", false);
             Utilidades.searchAddWithoutLine(ruta, "</application>", "</faces-config>", true);
-         
-           
+            if (mySesion.getSecurityHttpSession().equals("si")) {
+                Utilidades.addNotFoundMethodWithOutLine(ruta, "<exception-handler-factory>com.avbravo.avbravoutils.exceptions.MyExceptionHandlerFactory</exception-handler-factory>", myExceptionHandlerFactory(), "</application>", true);
+            }
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("procesar() " + e.getLocalizedMessage());
@@ -79,10 +79,26 @@ public class FacesConfigXMLGenerador implements Serializable {
 
     }
 
-   
+    // <editor-fold defaultstate="collapsed" desc="nombre_metodo"> 
+    private String myExceptionHandlerFactory() {
+        try {
 
+            String texto = "";
+            texto += "  <factory>" + "\r\n";
+            texto += "     <exception-handler-factory>com.avbravo.avbravoutils.exceptions.MyExceptionHandlerFactory</exception-handler-factory>" + "\r\n";
+            texto += "  </factory>" + "\r\n";
+
+            return texto;
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("myExceptionHandlerFactory() " + e.getLocalizedMessage());
+        }
+        return "";
+    }
+// </editor-fold>
+
+// <editor-fold defaultstate="collapsed" desc="crearFile"> 
     /**
-     * deleteAll
+     *
      *
      * @param entidad
      * @param archivo
@@ -112,6 +128,9 @@ public class FacesConfigXMLGenerador implements Serializable {
                     fw.write("              xsi:schemaLocation=\"http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd\">" + "\r\n");
                     fw.write("    <application>" + "\r\n");
                     fw.write("        <resource-handler>org.omnifaces.resourcehandler.CombinedResourceHandler</resource-handler>" + "\r\n");
+                    fw.write("         <factory>" + "\r\n");
+                    fw.write("            <exception-handler-factory>com.avbravo.avbravoutils.exceptions.MyExceptionHandlerFactory</exception-handler-factory>" + "\r\n");
+                    fw.write("        </factory>" + "\r\n");
                     fw.write("    </application>" + "\r\n");
                     fw.write("</faces-config>" + "\r\n");
 
@@ -126,6 +145,6 @@ public class FacesConfigXMLGenerador implements Serializable {
             JSFUtil.addErrorMessage("FacesConfigGeneradorcrearFile() " + e.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold>
 
 }
