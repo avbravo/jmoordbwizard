@@ -87,7 +87,8 @@ public class EntityReader implements Serializable {
             // buscar el campo que es primaryKey
             if (!searchId(path)) {
                 mySesion.setAllTablesWithPrimaryKey(false);
-                mySesion.getMensajesList().add(archivo + " No tiene Primary Key");
+                mySesion.getMensajesInformacion().add(archivo + " No tiene Primary Key");
+                
             }
             // procesar los atributos
             startReferenced = false;

@@ -67,7 +67,7 @@ public class ConfigurationFilerRead implements Serializable {
              */
             mySesion.getEntidadMenuList().removeAll(mySesion.getEntidadMenuList());
             Stream<String> lines = Files.lines(path);
-          
+
             lines.forEach(
                     s -> linea(s));
 
@@ -78,6 +78,7 @@ public class ConfigurationFilerRead implements Serializable {
         return true;
 
     }
+// <editor-fold defaultstate="collapsed" desc="linea"> 
 
     /*
       linea(String s)
@@ -98,12 +99,22 @@ public class ConfigurationFilerRead implements Serializable {
                     proyectoJEE.setPaquete(descomponer(s, r));
                     break;
                 case "databasename":
-                   mySesion.setDatabasename(descomponer(s, r));;
+                    mySesion.setDatabasename(descomponer(s, r));
+                
                     break;
-case "database":
-                   mySesion.setDatabase(descomponer(s, r));;
+                case "database":
+                    mySesion.setDatabase(descomponer(s, r));           
                     break;
-              
+                case "templateStyle":
+                    mySesion.setTemplateStyle(descomponer(s, r));           
+                    break;
+                case "securityHttpSession":
+                    mySesion.setSecurityHttpSession(descomponer(s, r));           
+                    break;
+                     case "segundosParaInactividad":
+                    mySesion.setSegundosParaInactividad(Integer.parseInt(descomponer(s, r)));
+                    break;
+
                 case "entidadUser":
                     mySesion.getEntidadUser().setTabla(descomponer(s, r));
                     break;
@@ -160,7 +171,7 @@ case "database":
                     break;
                 case "titulosSubMenu":
                     mySesion.setTitulosSubMenu(descomponer(s, r));
-                    
+
                     mySesion.setMymenuList(Utilidades.descomponerMenuString(mySesion.getTitulosSubMenu()));
                     break;
                 case "addUserNameLogeado":
@@ -182,9 +193,9 @@ case "database":
                     mySesion.setFieldByRowView(Integer.parseInt(descomponer(s, r)));
                     break;
 
-                    /*
+                /*
                     date
-                    */
+                 */
                 case "timeZone":
                     mySesion.setTimeZone(descomponer(s, r));
                     break;
@@ -194,25 +205,21 @@ case "database":
                 case "patternDateTime":
                     mySesion.setPatternDateTime(descomponer(s, r));
                     break;
-                    
+
                 case "typeOfButton":
                     mySesion.setTypeOfButton(descomponer(s, r));
                     break;
                 case "tipoCompilacionReporte":
                     mySesion.setCompilarReporteaJasper(descomponer(s, r));
                     break;
+
+                /*
                     
-                
-                    /*
-                    
-                    */
+                 */
                 case "frameworkPrimefaces":
                     mySesion.setFrameworkPrimefaces(descomponer(s, r).equals("true"));
                     break;
-                
-                    
-                    
-                    
+
                 case "frameworkBootfaces":
                     mySesion.setFrameworkBootfaces(descomponer(s, r).equals("true"));
                     break;
@@ -243,6 +250,7 @@ case "database":
 
     }
 
+// </editor-fold>
     private String descomponer(String linea, String search) {
         String texto = "";
         search = search + "=";

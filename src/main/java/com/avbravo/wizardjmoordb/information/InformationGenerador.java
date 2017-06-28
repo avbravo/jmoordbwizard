@@ -42,6 +42,8 @@ public class InformationGenerador implements Serializable {
     @Inject
     FechasServices fechasServices;
 
+    // <editor-fold defaultstate="collapsed" desc="generar"> 
+
     /**
      * Creates a new instance of Facade
      */
@@ -62,28 +64,9 @@ public class InformationGenerador implements Serializable {
         }
         return false;
     }
+// </editor-fold>
+// <editor-fold defaultstate="collapsed" desc="crearFile"> 
 
-    public Boolean stop() {
-        try {
-            String ruta = proyectoJEE.getPathUtil() + "Information.txt";
-            String archivo = "Information.txt";
-            String mensajes = "\r\n"+"\r\n"+"========================================" + "\r\n";
-            mensajes += "         Mensajes     " + "\r\n";
-
-            mensajes = mySesion.getMensajesList().stream().map((s) -> s + "\r\n").reduce(mensajes, String::concat);
-
-            Utilidades.add(ruta, "------fin----", mensajes, true);
-
-            String errores ="\r\n"+"\r\n"+ "========================================" + "\r\n";
-            errores += "         Errores     " + "\r\n";
-            errores = mySesion.getErrorList().stream().map((s) -> s + "\r\n").reduce(errores, String::concat);
-            Utilidades.add(ruta, "------fin----", errores, true);
-            return true;
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("stop() " + e.getLocalizedMessage());
-        }
-        return false;
-    }
 
     /**
      * deleteAll
@@ -122,8 +105,12 @@ public class InformationGenerador implements Serializable {
                     fw.write("package=" + proyectoJEE.getPaquete() + "\r\n");
                     fw.write("Hora de inicio: " + fechasServices.getTiempo() + "\r\n");
                     fw.write(" Resultados de la generacion" + "\r\n");
-                    fw.write("====================================================" + "\r\n");
-                    fw.write("------fin----" + "\r\n");
+                    fw.write("...................................................." + "\r\n");
+                    for(String s:mySesion.getMensajesInformacion()){
+                          fw.write(s + "\r\n");
+                    }
+                    fw.write("...................................................." + "\r\n");
+                  
 
                     fw.close();
 
@@ -136,6 +123,6 @@ public class InformationGenerador implements Serializable {
             JSFUtil.addErrorMessage("crearFile() " + e.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold>
 
 }

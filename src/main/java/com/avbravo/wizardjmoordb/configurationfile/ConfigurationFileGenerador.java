@@ -56,7 +56,8 @@ public class ConfigurationFileGenerador implements Serializable {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
 
         }
-    }
+    }// </editor-fold>
+// <editor-fold defaultstate="collapsed" desc="procesar"> 
 
     private Boolean procesar(String archivo, String ruta) {
         try {
@@ -74,8 +75,9 @@ public class ConfigurationFileGenerador implements Serializable {
         }
         return true;
 
-    }
+    }// </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="crearFile> 
     /**
      * deleteAll
      *
@@ -116,10 +118,14 @@ public class ConfigurationFileGenerador implements Serializable {
                     fw.write("typeUserGroup=" + mySesion.getTypeUserGroup() + "\r\n");
                     fw.write("databasename=" + mySesion.getDatabasename()+ "\r\n");
                     fw.write("database=" + mySesion.getDatabase()+ "\r\n");
+                    fw.write("templateStyle=" + mySesion.getTemplateStyle()+ "\r\n");
                     fw.write("typeUserGroupWithOutRol=" + mySesion.getTypeUserGroupWithOutRol() + "\r\n");
                     fw.write("typeUserGroupField=" + mySesion.getTypeUserGroupField() + "\r\n");
                     fw.write("typeUserGroupEntity=" + mySesion.getTypeUserGroupEntity() + "\r\n");
                     fw.write("typeUserGroupList=" + mySesion.getTypeUserGroupList() + "\r\n");
+                    fw.write("securityHttpSession=" + mySesion.getSecurityHttpSession() + "\r\n");
+                    fw.write("segundosParaInactividad=" + mySesion.getSegundosParaInactividad() + "\r\n");
+                    
 
                     fw.write("opcionMenuReportes=" + mySesion.getOpcionMenuReportes() + "\r\n");
                     if (mySesion.getTypeUserGroupList()) {
@@ -182,6 +188,6 @@ public class ConfigurationFileGenerador implements Serializable {
             JSFUtil.addErrorMessage("ConfiguracionFileGenerador.crearFile() " + e.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold>
 
 }

@@ -49,6 +49,7 @@ import com.avbravo.wizardjmoordb.xhtml.ListxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.TemplatexhtmlGenerador;
 import com.avbravo.wizardjmoordb.xml.WebXMLGenerador;
 import com.avbravo.wizardjmoordb.componentes.ActivoxhtmlGenerador;
+import com.avbravo.wizardjmoordb.controller.LoginControllerSecurityGenerador;
 import com.avbravo.wizardjmoordb.controller.SessionControllerGenerador;
 import com.avbravo.wizardjmoordb.provider.CouchbaseClientProviderGenerador;
 import com.avbravo.wizardjmoordb.reportes.JasperDetailsGenerador;
@@ -99,9 +100,11 @@ public class Generador implements Serializable {
 
     private String[] selectedFramework;
     private List<String> framework;
+    
+    private List<String> templateList;
     private String tipoRepositorio;
     private String tipoGeneracion; //codigo y paginas, solo codigo, solo paginas
-    private String estilo; //codigo y paginas, solo codigo, solo paginas
+   // private String estilo; //codigo y paginas, solo codigo, solo paginas
 
     @Inject
     EntidadSearch entidadSearch;
@@ -140,6 +143,8 @@ public class Generador implements Serializable {
     ValidadorRolesGenerador validadorRolesGenerador;
     @Inject
     LoginControllerGenerador loginControllerGenerador;
+    @Inject
+    LoginControllerSecurityGenerador loginControllerSecurityGenerador;
     @Inject
     SessionControllerGenerador sessionControllerGenerador; 
  
@@ -215,14 +220,17 @@ public class Generador implements Serializable {
     // </editor-fold> 
 
     // <editor-fold defaultstate="collapsed" desc="getset">    
-    public String getEstilo() {
-        return estilo;
+
+    public List<String> getTemplateList() {
+        return templateList;
     }
 
-    public void setEstilo(String estilo) {
-        this.estilo = estilo;
+    public void setTemplateList(List<String> templateList) {
+        this.templateList = templateList;
     }
 
+    
+    
     public String getTipoGeneracion() {
         return tipoGeneracion;
     }
@@ -291,9 +299,7 @@ public class Generador implements Serializable {
         return proyectoJEE;
     }
 
-    /**
-     * Creates a new instance of Generador
-     */
+
     public void setProyectoJEE(ProyectoJEE proyectoJEE) {
         this.proyectoJEE = proyectoJEE;
     }
@@ -331,6 +337,13 @@ public class Generador implements Serializable {
         framework.add("Primefaces");
         framework.add("BootFaces");
         framework.add("MaterialPrime");
+        
+        templateList = new ArrayList<String>();
+        templateList.add("AdminLTE");
+        templateList.add("PrimefacesPremiumThemes");
+        templateList.add("MaterialPrime");
+      
+       mySesion.setMensajesInformacion(new ArrayList<>());
         proyectoValidoEJB = false;
         proyectoValidoJEE = false;
         generado = false;
@@ -712,8 +725,8 @@ public class Generador implements Serializable {
         try {
             //paginas 
 
-            mySesion.getErrorList().removeAll(mySesion.getErrorList());
-            mySesion.getMensajesList().removeAll(mySesion.getMensajesList());
+//            mySesion.getErrorList().removeAll(mySesion.getErrorList());
+//            mySesion.getMensajesList().removeAll(mySesion.getMensajesList());
 //crea los directorios
             if (!directorios.setupDirectorios()) {
                 return;
@@ -785,12 +798,18 @@ public class Generador implements Serializable {
                     /*
                     generales
                      */
-                    informationGenerador.generar();
+                   // informationGenerador.generar();
 
                     resourcesFilesGenerador.generar();
                     idiomasGenerador.generar();
-                    loginControllerGenerador.generar();
-                    sessionControllerGenerador.generar();
+                    
+                    if(mySesion.getSecurityHttpSession().equals("si")){
+                        loginControllerSecurityGenerador.generar();
+                        sessionControllerGenerador.generar();
+                    }else{
+                        loginControllerGenerador.generar();
+                    }
+                    
                     /*
                     menu
                      */
@@ -816,6 +835,7 @@ public class Generador implements Serializable {
                             break;
                         case "orientdb":
                             JSFUtil.addWarningMessage("Aun no soportado Database: orientdb");
+                            addInformation("Aun no soportado Database: orientdb");
                             break;
 
                     }
@@ -876,7 +896,7 @@ public class Generador implements Serializable {
                 //verifica si debe generar las paginas
                 if (tipoGeneracion.equals("codigopaginas") || tipoGeneracion.equals("paginas")) {
                     //Web
-                    switch (estilo) {
+                    switch (mySesion.getTemplateStyle().toLowerCase()) {
                         case "adminlte":
                             webXMLGenerador.generar();
                             /*
@@ -922,13 +942,19 @@ stopWeb/-Inf
                             listxhtmlGenerador.generar();
 
                             break;
-                        case "primefacespremium":
-                            JSFUtil.addWarningMessage("Aun no soportado Template: primefacespremium");
+                        case "primefacespremiumthemes":
+                            addInformation("Aun no soportado Template: PrimefacesPremiumThemes");
+                            JSFUtil.addWarningMessage("Aun no soportado Template: PrimefacesPremiumThemes");
                             break;
 
                         case "materialprime":
-                            JSFUtil.addWarningMessage("Aun no soportado. Template: materialprime");
+                            addInformation("Aun no soportado. Template: MaterialPrime");
+                            JSFUtil.addWarningMessage("Aun no soportado. Template: MaterialPrime");
                             break;
+                        default:
+                            addInformation("El tip de template "+mySesion.getTemplateStyle()+ " No es soportado aun.");
+                            JSFUtil.addWarningMessage("El tip de template "+mySesion.getTemplateStyle()+ " No es soportado aun.");
+                            
                     }
 
                 }
@@ -936,15 +962,21 @@ stopWeb/-Inf
                 /*
                 
                  */
-                informationGenerador.stop();
+                
 
                 if (!mySesion.getAllTablesWithPrimaryKey()) {
                     JSFUtil.addWarningMessage("No todas las tablas tienen llave primaria");
+                    addInformation("No todas las tablas tienen llave primaria");
                 }
                 JSFUtil.addSuccessMessage("Proceso terminado. Revise archivo Information.txt");
+                
+                
+                informationGenerador.generar();
 //                JSFUtil.infoDialog("Terminado", "Proceso terminado. Revise archivo Information.txt");
             } else {
                 JSFUtil.addWarningMessage("No hay entitys en el directorio especificado");
+                addInformation("No hay entitys en el directorio especificado");
+        
             }
 
         } catch (Exception e) {
@@ -954,6 +986,10 @@ stopWeb/-Inf
         //        persistenceContect= "@PersistenceContext(unitName = /" + persistenceContect+"")";
     } // </editor-fold> 
 
+    
+    private void addInformation(String texto){
+        mySesion.getMensajesInformacion().add(texto);
+    }
     // <editor-fold defaultstate="collapsed" desc="validarRepositorio">
     /*
     validar repositorio
@@ -1171,6 +1207,7 @@ stopWeb/-Inf
                     break;
                 default:
                     JSFUtil.addWarningMessage("No se ha indicado un tipo correcto de grupo " + mySesion.getTypeUserGroup());
+                    addInformation("No se ha indicado un tipo correcto de grupo " + mySesion.getTypeUserGroup());
 
             }
 
@@ -1202,7 +1239,7 @@ stopWeb/-Inf
         try {
             if (!JSFUtil.isWeb(proyectoJEE.getPathWebInf() + "web.xml")) {
                 JSFUtil.addWarningMessage("No es un proyecto web valido" + proyectoJEE.getPathWebInf());
-                System.out.println("path " + proyectoJEE.getPathWebInf() + "web.xml");
+               
                 return "";
             }
             if (!mySesion.getPagina2()) {
@@ -1302,7 +1339,19 @@ stopWeb/-Inf
 
     } // </editor-fold> 
     
-   
-    
+// <editor-fold defaultstate="collapsed" desc="onComboboxChange"> 
+
+   public String onComboboxChange() {
+       try {
+           if(mySesion.getSecurityHttpSession().equals("no")){
+               mySesion.setSegundosParaInactividad(0);
+           }else{
+               mySesion.setSegundosParaInactividad(2100);
+           }
+       } catch (Exception e) {
+       }
+       System.out.println("SecurityHttpSession() "+mySesion.getSecurityHttpSession());
+       return "";
+   }// </editor-fold>
    
 }

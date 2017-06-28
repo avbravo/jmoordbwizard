@@ -176,6 +176,13 @@
 
 
 
+                            <p:outputLabel value="Template"/>
+                            <b:selectOneMenu id="estilo" value="#{generador.mySesion.templateStyle}" >
+                                <f:selectItem itemLabel="AdminLTE" itemValue="adminlte"  itemDescription="AdminLTE Bootstrap" />
+                                <f:selectItem itemDisabled="false" itemLabel="PrimefacesPremiumThemes" itemValue="primefacespremiumthemes" />                                   
+                                <f:selectItem itemDisabled="true" itemLabel="MaterialPrime" itemValue="materialprime" />
+
+                            </b:selectOneMenu>
                             
                             <p:outputLabel value="Template"/>
                             <b:selectOneMenu id="estilo" value="#{generador.mySesion.templateStyle}" >

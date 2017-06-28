@@ -30,6 +30,7 @@ public class MySesion implements Serializable {
  // <editor-fold defaultstate="collapsed" desc="atributos"> 
     private static final long serialVersionUID = 1L;
 
+    private List<String> mensajesInformacion = new ArrayList<>();
     private List<EntidadPatron> entidadPatronList = new ArrayList<>();
     private String username = "";
     private String database;
@@ -84,10 +85,7 @@ public class MySesion implements Serializable {
     //agrega la fecha para las enity del sistema en los crud
     private Boolean addFechaSystema = false;
 
-    //registra los mensajes generales y de error 
-    // para escribirlos en el archivo Information.txt
-    private List<String> errorList = new ArrayList<>();
-    private List<String> mensajesList = new ArrayList<>();
+
     /*
     
      */
@@ -141,6 +139,19 @@ public class MySesion implements Serializable {
      * View Numero de elementos por fila en un formulario View
      */
     private Integer fieldByRowView = 1;
+    
+    /**
+     * 
+     */
+    private String templateStyle="AdminLTE";
+    //PrimefacesPremiumThemes
+    //MaterialPrime
+    
+    /**
+     * Seguridad HttpSession
+     */
+    private String securityHttpSession="no";
+    private Integer segundosParaInactividad=0;
 
     /**
      * Autocomplete
@@ -166,6 +177,49 @@ public class MySesion implements Serializable {
     
     
     // <editor-fold defaultstate="collapsed" desc="get/setter">  
+
+    public List<String> getMensajesInformacion() {
+        return mensajesInformacion;
+    }
+
+    public void setMensajesInformacion(List<String> mensajesInformacion) {
+        this.mensajesInformacion = mensajesInformacion;
+    }
+
+    
+    
+    public String getTemplateStyle() {
+        return templateStyle;
+    }
+
+    public void setTemplateStyle(String templateStyle) {
+        this.templateStyle = templateStyle;
+    }
+
+    
+    
+    public Integer getSegundosParaInactividad() {
+        return segundosParaInactividad;
+    }
+
+    public void setSegundosParaInactividad(Integer segundosParaInactividad) {
+        this.segundosParaInactividad = segundosParaInactividad;
+    }
+
+    
+    
+    public String getSecurityHttpSession() {
+        return securityHttpSession;
+    }
+
+    public void setSecurityHttpSession(String securityHttpSession) {
+        this.securityHttpSession = securityHttpSession;
+    }
+
+
+    
+    
+    
     public List<EntidadPatron> getEntidadPatronList() {
         return entidadPatronList;
     }
@@ -281,107 +335,8 @@ public class MySesion implements Serializable {
     public void setAgregadosList(List<String> agregadosList) {
         this.agregadosList = agregadosList;
     }
-    // </editor-fold> 
-
-    /**
-     *
-     */
-    public void iniciarTree() {
-        try {
-
-            agregadosList = new ArrayList<>();
-            root1 = new DefaultTreeNode("Root", null);
-            root2 = new DefaultTreeNode("Root2", null);
-            TreeNode nodeDisponibles = new DefaultTreeNode("Disponibles", root1);
-
-            if (mymenuList.isEmpty()) {
-                //Primera vez no hay elementos de menu
-                entidadList.forEach((entidad) -> {
-                    TreeNode nodeentidad = new DefaultTreeNode(entidad.getTabla(), nodeDisponibles);
-                });
-//root2
-                menubarList.forEach((s) -> {
-                    TreeNode items = new DefaultTreeNode(s, root2);
-                });
-            } else {
-                /*
-                Crea lista root2 con los menu bar
-                 */
-           
-                List<TreeNode> treeNodeList = new ArrayList<>();
-                menubarList.forEach((s) -> {
-                    TreeNode items = new DefaultTreeNode(s, root2);
-                    treeNodeList.add(items);
-                });
-                /*
-                /Agrego los entitys al root disponibles que no estan en el menu previo
-                 */
-
-            
-            
-                
-                entidadList.stream().filter((entidad) -> 
-                        (!searchSubmenu(entidad.getTabla()))).map((entidad) -> {
-                    TreeNode nodeentidad = new DefaultTreeNode(entidad.getTabla(), nodeDisponibles);
-                    return entidad;
-                }).forEachOrdered((entidad) -> {
-                    agregadosList.add(entidad.getTabla());
-                });        
-               
-     
-                       
-             
-
-
-                /*
-                Verificar los menus que se quitaron y agrega estos elementos como disponibles
-                
-                 */
-                for (MyMenu m : mymenuList) {
-                    if (!searchMenu(m.getName())) {
-                        m.getSubmenu().stream().filter((s) -> (!esSubmenuAgregado(s.getName()))).map((s) -> {
-                            TreeNode nodeentidad = new DefaultTreeNode(s.getName(), nodeDisponibles);
-                            return s;
-                        }).forEachOrdered((s) -> {
-                            agregadosList.add(s.getName());
-                        });
-                    }
-                }
-
-                /*
-                Agregarlo al menu respectico
-                 */
-                for (MyMenu m : mymenuList) {
-
-                    if (!m.getSubmenu().isEmpty()) {
-
-                        for (MySubmenu s : m.getSubmenu()) {
-
-                            if (!s.getName().equals("")) {
-
-                                if (!esSubmenuAgregado(s.getName())) {
-                                    for (TreeNode n : treeNodeList) {
-                                        if (m.getName().equals(n.getData().toString())) {
-                                            TreeNode nodeentidad = new DefaultTreeNode(s.getName(), n);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                    }
-                }
-            }
-
-        } catch (Exception e) {
-            JSFUtil.addErrorMessage("getEntidadMenuList() " + e.getLocalizedMessage());
-        }
-    }
-
-    public MySesion() {
-
-        treeNodeMenu = new DefaultTreeNode("Root2", null);
-    }
+    
+        
 
     public TreeNode getTreeNodeMenu() {
         return treeNodeMenu;
@@ -711,21 +666,7 @@ public class MySesion implements Serializable {
         this.addFechaSystema = addFechaSystema;
     }
 
-    public List<String> getErrorList() {
-        return errorList;
-    }
 
-    public void setErrorList(List<String> errorList) {
-        this.errorList = errorList;
-    }
-
-    public List<String> getMensajesList() {
-        return mensajesList;
-    }
-
-    public void setMensajesList(List<String> mensajesList) {
-        this.mensajesList = mensajesList;
-    }
 
     public Boolean getAllTablesWithPrimaryKey() {
         return allTablesWithPrimaryKey;
@@ -823,6 +764,109 @@ public class MySesion implements Serializable {
         this.masterDetailsList = masterDetailsList;
     }
 
+    // </editor-fold> 
+
+    /**
+     *
+     */
+    public void iniciarTree() {
+        try {
+
+            agregadosList = new ArrayList<>();
+            root1 = new DefaultTreeNode("Root", null);
+            root2 = new DefaultTreeNode("Root2", null);
+            TreeNode nodeDisponibles = new DefaultTreeNode("Disponibles", root1);
+
+            if (mymenuList.isEmpty()) {
+                //Primera vez no hay elementos de menu
+                entidadList.forEach((entidad) -> {
+                    TreeNode nodeentidad = new DefaultTreeNode(entidad.getTabla(), nodeDisponibles);
+                });
+//root2
+                menubarList.forEach((s) -> {
+                    TreeNode items = new DefaultTreeNode(s, root2);
+                });
+            } else {
+                /*
+                Crea lista root2 con los menu bar
+                 */
+           
+                List<TreeNode> treeNodeList = new ArrayList<>();
+                menubarList.forEach((s) -> {
+                    TreeNode items = new DefaultTreeNode(s, root2);
+                    treeNodeList.add(items);
+                });
+                /*
+                /Agrego los entitys al root disponibles que no estan en el menu previo
+                 */
+
+            
+            
+                
+                entidadList.stream().filter((entidad) -> 
+                        (!searchSubmenu(entidad.getTabla()))).map((entidad) -> {
+                    TreeNode nodeentidad = new DefaultTreeNode(entidad.getTabla(), nodeDisponibles);
+                    return entidad;
+                }).forEachOrdered((entidad) -> {
+                    agregadosList.add(entidad.getTabla());
+                });        
+               
+     
+                       
+             
+
+
+                /*
+                Verificar los menus que se quitaron y agrega estos elementos como disponibles
+                
+                 */
+                for (MyMenu m : mymenuList) {
+                    if (!searchMenu(m.getName())) {
+                        m.getSubmenu().stream().filter((s) -> (!esSubmenuAgregado(s.getName()))).map((s) -> {
+                            TreeNode nodeentidad = new DefaultTreeNode(s.getName(), nodeDisponibles);
+                            return s;
+                        }).forEachOrdered((s) -> {
+                            agregadosList.add(s.getName());
+                        });
+                    }
+                }
+
+                /*
+                Agregarlo al menu respectico
+                 */
+                for (MyMenu m : mymenuList) {
+
+                    if (!m.getSubmenu().isEmpty()) {
+
+                        for (MySubmenu s : m.getSubmenu()) {
+
+                            if (!s.getName().equals("")) {
+
+                                if (!esSubmenuAgregado(s.getName())) {
+                                    for (TreeNode n : treeNodeList) {
+                                        if (m.getName().equals(n.getData().toString())) {
+                                            TreeNode nodeentidad = new DefaultTreeNode(s.getName(), n);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage("getEntidadMenuList() " + e.getLocalizedMessage());
+        }
+    }
+
+    public MySesion() {
+
+        treeNodeMenu = new DefaultTreeNode("Root2", null);
+    }// </editor-fold>
+
+
     /*
     verifica si se agrego
      */
@@ -835,7 +879,7 @@ public class MySesion implements Serializable {
             JSFUtil.addErrorMessage("getEntidadMenuList() " + e.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold>
 
     /**
      *
@@ -856,7 +900,9 @@ public class MySesion implements Serializable {
         }
         
         return false;
-    }
+    }// </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="searchMenu"> 
 
     /*
     verifica si existe ese menu definido
@@ -872,5 +918,5 @@ public class MySesion implements Serializable {
             JSFUtil.addErrorMessage("searchMenu() " + e.getLocalizedMessage());
         }
         return false;
-    }
+    }// </editor-fold>
 }
