@@ -110,7 +110,9 @@ public class TemplatexhtmlGenerador implements Serializable {
                     fw.write("            <f:loadBundle basename=\"" + "com.avbravoutils.properties.application\" var=\"app\" />" + "\r\n");
                     fw.write("        </f:facet>" + "\r\n");
                     fw.write("        <title><h:outputText value=\"#{msg['application.title']}\"/></title>" + "\r\n");
-
+                    if (mySesion.getSecurityHttpSession().equals("si")) {
+                        fw.write("<meta http-equiv=\"refresh\" content=\"#{facesContext.externalContext.sessionMaxInactiveInterval};url=#{request.contextPath}/faces/viewExpiredException.xhtml\"/>" + "\r\n");
+                    }
                     fw.write("        <!-- Bootstrap core CSS -->" + "\r\n");
                     fw.write("" + "\r\n");
 

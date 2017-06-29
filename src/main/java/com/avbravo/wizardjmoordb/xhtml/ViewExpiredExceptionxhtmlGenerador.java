@@ -50,7 +50,7 @@ public class ViewExpiredExceptionxhtmlGenerador implements Serializable {
     public void generar() {
         try {
 
-            procesar("viewEpiredException.xhtml");
+            procesar("viewExpiredException.xhtml");
 
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
