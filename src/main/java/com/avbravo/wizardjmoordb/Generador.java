@@ -61,6 +61,7 @@ import com.avbravo.wizardjmoordb.utilidades.Utilidades;
 import com.avbravo.wizardjmoordb.xhtml.LeftxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.LoginxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.TopxhtmlGenerador;
+import com.avbravo.wizardjmoordb.xhtml.ViewExpiredExceptionxhtmlGenerador;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -201,6 +202,8 @@ public class Generador implements Serializable {
     IndexxhtmlGenerador indexxhtmlGenerador;
     @Inject
     LoginxhtmlGenerador loginxhtmlGenerador;
+    @Inject
+    ViewExpiredExceptionxhtmlGenerador viewExpiredExceptionxhtmlGenerador;
 
     @Inject
     JasperAllGenerador jasperGenerador;
@@ -924,6 +927,7 @@ stopWeb/-Inf
                             activoxhtmlGenerador.generar();
                             indexxhtmlGenerador.generar();
                             loginxhtmlGenerador.generar();
+                            viewExpiredExceptionxhtmlGenerador.generar();
                             /*
                 generar el directorio para cada entity
                              */

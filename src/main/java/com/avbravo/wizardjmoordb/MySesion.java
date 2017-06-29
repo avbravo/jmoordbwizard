@@ -150,7 +150,7 @@ public class MySesion implements Serializable {
     /**
      * Seguridad HttpSession
      */
-    private String securityHttpSession="no";
+    private String securityHttpSession="si";
     private Integer segundosParaInactividad=0;
 
     /**
