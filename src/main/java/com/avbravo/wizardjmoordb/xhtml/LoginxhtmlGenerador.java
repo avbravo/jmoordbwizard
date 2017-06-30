@@ -205,13 +205,13 @@ public class LoginxhtmlGenerador implements Serializable {
                 fw.write("                                <div class=\"form-group row\">" + "\r\n");
                 fw.write("                                    <div class=\"col-xs-4\">" + "\r\n");
                 fw.write("                                        <p:commandButton value=\"#{app['button.login']}\" class=\"btnn btnn-primary login-btn\"" + "\r\n");
-                fw.write("                                                         action=\"#{loginController.doLogin()}\" update=\":form:growl\"/>" + "\r\n");
+                fw.write("                                                         action=\"#{loginController.doLogin()}\" update=\":form:growl :form\"/>" + "\r\n");
                 fw.write("                                    </div>" + "\r\n");
                 if (mySesion.getSecurityHttpSession().equals("si")) {
                     fw.write("                                    <div class=\"col-xs-4\">" + "\r\n");
                     fw.write("                                        <p:commandButton value=\"#{app['button.anularsesion']}\" class=\"btnn btnn-primary login-btn\"" + "\r\n");
                     fw.write("                                                         rendered=\"#{loginController.userwasLoged}\" " + "\r\n");
-                    fw.write("                                                         action=\"#{loginController.destroyByUser()}\" update=\":form:growl\"/>" + "\r\n");
+                    fw.write("                                                         action=\"#{loginController.destroyByUser()}\" update=\":form:growl :form \"/>" + "\r\n");
                     fw.write("                                    </div>" + "\r\n");
                 }
 
@@ -220,6 +220,17 @@ public class LoginxhtmlGenerador implements Serializable {
 
                 fw.write("" + "\r\n");
                 fw.write("                            </div>" + "\r\n");
+
+                if (mySesion.getSecurityHttpSession().equals("si")) {
+                    fw.write("                          <p:confirmDialog widgetVar=\"sessionDialog\" closable=\"false\" global=\"true\" showEffect=\"fade\" hideEffect=\"fade\" " + "\r\n");
+                    fw.write("                                             message=\"#{app['session.procederacerrar']}\">" + "\r\n");
+                    fw.write("                                <p:commandButton value=\"#{app['button.close']}\" oncomplete=\"PF('sessionDialog').hide();\" " + "\r\n");
+                    fw.write("                                                 update=\":form\" styleClass=\"ui-confirmdialog-yes\"" + "\r\n");
+                    fw.write("                                                 action=\"#{loginController.invalidateCurrentSession()}\" />" + "\r\n");
+                    fw.write("" + "\r\n");
+                    fw.write("                            </p:confirmDialog>" + "\r\n");
+                }
+
                 fw.write("                        </h:form>" + "\r\n");
                 fw.write("                    </section><!-- /.content -->" + "\r\n");
                 fw.write("                </div><!-- /.content-wrapper -->" + "\r\n");

@@ -205,14 +205,14 @@ public class LoginControllerSecurityGenerador implements Serializable {
             fw.write("            } else {" + "\r\n");
             fw.write("                if (isUserLogged(username)) {" + "\r\n");
             fw.write("                    userwasLoged = true;" + "\r\n");
-            fw.write("                    JsfUtil.warningMessage(rf.getAppMessage(\"login.usernamenotvalid\"));" + "\r\n");
+            fw.write("                    JsfUtil.warningMessage(rf.getAppMessage(\"login.alreadylogged\"));" + "\r\n");
             fw.write("                    return \"\";" + "\r\n");
             fw.write("                }" + "\r\n");
             fw.write("" + "\r\n");
             fw.write("            }" + "\r\n");
 
             fw.write("            if (!isUserValid()) {" + "\r\n");
-            fw.write("                JsfUtil.warningMessage(rf.getAppMessage(\"login.usernamenotvalid\")); " + "\r\n");
+            fw.write("                JsfUtil.warningMessage(rf.getAppMessage(\"login.usernameorpasswordnotvalid\")); " + "\r\n");
             fw.write("                return \" \";" + "\r\n");
             fw.write("" + "\r\n");
             fw.write("            }" + "\r\n");
