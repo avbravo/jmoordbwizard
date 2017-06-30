@@ -318,9 +318,28 @@ public class SessionControllerGenerador implements Serializable {
 
     private void cancelSelectedSession() {
         try {
-            //logout()
-            fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"cancelSelectedSession\">" + "\r\n");
 
+            fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"cancelSelectedSession\">" + "\r\n");
+            fw.write(" public String cancelSelectedSession(BrowserSession browserSesssion) {" + "\r\n");
+            fw.write("        try {" + "\r\n");
+            fw.write("            if (loginController.getUsername().equals(browserSesssion.getUsername())) {" + "\r\n");
+            fw.write("                JsfUtil.warningMessage(rf.getAppMessage(\"session.autodestruccionnopermitida\"));" + "\r\n");
+            fw.write("" + "\r\n");
+            fw.write("                return \"\";" + "\r\n");
+            fw.write("            }" + "\r\n");
+            fw.write("            if (inactiveSession(browserSesssion)) {" + "\r\n");
+            fw.write("                JsfUtil.successMessage(rf.getAppMessage(\"session.cancelada\"));" + "\r\n");
+            fw.write("                browserSessionsList = allBrowserSessionList();" + "\r\n");
+            fw.write("                browserSessionsFilterList = browserSessionsList;" + "\r\n");
+            fw.write("            } else {" + "\r\n");
+            fw.write("                JsfUtil.warningMessage(rf.getAppMessage(\"session.nosecancelo\"));" + "\r\n");
+            fw.write("            }" + "\r\n");
+            fw.write("" + "\r\n");
+            fw.write("        } catch (Exception e) {" + "\r\n");
+            fw.write("            JsfUtil.errorMessage(\"cancelSession() \" + e.getLocalizedMessage());" + "\r\n");
+            fw.write("        }" + "\r\n");
+            fw.write("        return \"\";" + "\r\n");
+            fw.write("    }" + "\r\n");
             fw.write("    // </editor-fold>" + "\r\n");
         } catch (Exception e) {
             JSFUtil.addErrorMessage("killAllSessions() " + e.getLocalizedMessage());
@@ -379,7 +398,7 @@ public class SessionControllerGenerador implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="timeOfConnection"> 
     private void timeOfConnection() {
         try {
-             fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"timeOfConnection\"> " + "\r\n");
+            fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"timeOfConnection\"> " + "\r\n");
             fw.write("    public String timeOfConnection(HttpSession session) {" + "\r\n");
             fw.write("        try {" + "\r\n");
             fw.write("            return JsfUtil.milisegundosToTiempoString(miliSecondsOfConnection(session));" + "\r\n");
