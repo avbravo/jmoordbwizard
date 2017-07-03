@@ -43,6 +43,8 @@ public class SessionControllerGenerador implements Serializable {
     ProyectoEJB proyectoEJB;
     FileWriter fw;
 
+    // <editor-fold defaultstate="collapsed" desc="generar"> 
+
     /**
      * Creates a new instance of Facade
      */
@@ -57,7 +59,8 @@ public class SessionControllerGenerador implements Serializable {
 
         }
     }
-
+    // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="procesar"> 
     private Boolean procesar(String archivo, String ruta) {
         try {
 
@@ -73,7 +76,8 @@ public class SessionControllerGenerador implements Serializable {
         }
         return true;
 
-    }
+    }    // </editor-fold>
+    
 
     // <editor-fold defaultstate="collapsed" desc="creaarFile"> 
     /**
