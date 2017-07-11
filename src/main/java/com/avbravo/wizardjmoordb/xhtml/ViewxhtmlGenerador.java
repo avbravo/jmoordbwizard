@@ -145,6 +145,10 @@ public class ViewxhtmlGenerador implements Serializable {
 
     private void body(String name, Entidad entidad, String nameFather) {
         try {
+            esEmbedded = false;
+            esEmbeddedList=false;
+            esReferenced=false;
+            esRefefencedList=false;
             // autocomplete es el campo llave
             String columnKey = "";
             String columnDate = "";
@@ -203,6 +207,7 @@ public class ViewxhtmlGenerador implements Serializable {
 
                 }
                 if (contador.equals(mySesion.getFieldByRowView())) {
+                      
                     fw.write("                            </div>" + "\r\n");
                     contador = 0;
                 }
@@ -222,15 +227,13 @@ public class ViewxhtmlGenerador implements Serializable {
                 }
 
             } //for
-            //si es impar la cantidad de datos y el numero de registros debe agregarse un dixv
-//                    if ((fieldsAgregados.intValue() % 2 != 0 && mySesion.getFieldByRowView() % 2 == 0) || (fieldsAgregados.intValue() % 2 == 0 && mySesion.getFieldByRowView() % 2 != 0)) {
-//                        fw.write("                       </div>" + "\r\n");
-//
-//                    }
-            if (Utilidades.isImpar(fieldsAgregados)) {
 
-                fw.write("                        </div> " + "\r\n");
-            }
+//            if (Utilidades.isImpar(fieldsAgregados)) {
+//                System.out.println("=====================================");
+//                System.out.println("---->  "+ name+"-------> es impar "+fieldsAgregados);
+//                System.out.println("=====================================");
+//                fw.write("                        </div> " + "\r\n");
+//            }
 
             //Dibujar los tabview
             if (esEmbedded || esRefefencedList) {
