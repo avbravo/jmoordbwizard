@@ -104,6 +104,7 @@ public class ActivoxhtmlGenerador implements Serializable {
                     fw.write("      xmlns:h=\"http://xmlns.jcp.org/jsf/html\"" + "\r\n");
                     fw.write("      xmlns:f=\"http://java.sun.com/jsf/core\"" + "\r\n");
                     fw.write("      xmlns:p=\"http://primefaces.org/ui\"" + "\r\n");
+                    fw.write("      xmlns:b=\"http://bootsfaces.net/ui\"" + "\r\n");
                     fw.write("      xmlns:composite=\"http://java.sun.com/jsf/composite\">" + "\r\n");
                     fw.write("    <composite:interface >" + "\r\n");
                     fw.write("" + "\r\n");
@@ -119,8 +120,8 @@ public class ActivoxhtmlGenerador implements Serializable {
                     fw.write("                         rendered=\"#{cc.attrs.rendered}\"" + "\r\n");
                     fw.write("                         requiredMessage=\"#{app['title.activo']} #{app['info.notnull']}\">" + "\r\n");
                     fw.write("" + "\r\n");
-                    fw.write("            <f:selectItem itemLabel=\"#{app['boton.yes']}\" itemValue=\"si\" />" + "\r\n");
-                    fw.write("            <f:selectItem itemLabel=\"#{app['boton.no']}\" itemValue=\"no\" />" + "\r\n");
+                    fw.write("            <f:selectItem itemLabel=\"#{app['button.yes']}\" itemValue=\"si\" />" + "\r\n");
+                    fw.write("            <f:selectItem itemLabel=\"#{app['button.no']}\" itemValue=\"no\" />" + "\r\n");
                     fw.write("        </b:selectOneMenu>" + "\r\n");
                     fw.write("    </composite:implementation>" + "\r\n");
                     fw.write("" + "\r\n");
