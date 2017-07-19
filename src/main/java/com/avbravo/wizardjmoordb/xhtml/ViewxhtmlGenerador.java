@@ -509,7 +509,7 @@ public class ViewxhtmlGenerador implements Serializable {
             fw.write("          Contenido" + "\r\n");
             fw.write("            -->" + "\r\n");
             fw.write("            <ui:define name=\"content\">" + "\r\n");
-            fw.write("                <h:form id=\"form\" rendered=\"#{loginController.loggedIn and applicationMenu." + name + ".query}\">" + "\r\n");
+            fw.write("                <h:form id=\"form\"  rendered=\"#{loginController.loggedIn and applicationMenu." + name + ".query}\"    onkeypress=\"if (event.keyCode == 13) { return false; }\"  >" + "\r\n");
             fw.write("                    <h:panelGroup id=\"content\" layout=\"block\">           " + "\r\n");
             fw.write("                        <p:messages id=\"msgs\"/>" + "\r\n");
             fw.write("                        <div class=\"row form-header-2\" style=\"padding-top: 5px;\">" + "\r\n");
