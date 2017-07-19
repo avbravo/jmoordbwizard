@@ -396,7 +396,11 @@ public class ViewxhtmlGenerador implements Serializable {
             }
             if (!mySesion.getPatternDate().equals("")) {
                 fw.write("                                                 pattern=\"" + mySesion.getPatternDate() + "\"" + "\r\n");
-            }
+
+            }           
+                                                
+            fw.write("                                                 selectOtherMonths=\"true\"" + "\r\n");
+            fw.write("                                                navigator=\"true\"" + "\r\n");
             fw.write("                                                 required=\"true\" requiredMessage=\"#{msg['field." + columna + "']} #{app['info.required']}\"/>" + "\r\n");
             fw.write("                                </div>" + "\r\n");
         } catch (Exception e) {
