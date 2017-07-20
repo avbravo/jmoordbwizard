@@ -49,6 +49,7 @@ import com.avbravo.wizardjmoordb.xhtml.ListxhtmlGenerador;
 import com.avbravo.wizardjmoordb.xhtml.TemplatexhtmlGenerador;
 import com.avbravo.wizardjmoordb.xml.WebXMLGenerador;
 import com.avbravo.wizardjmoordb.componentes.ActivoxhtmlGenerador;
+import com.avbravo.wizardjmoordb.componentes.MesxhtmlGenerador;
 import com.avbravo.wizardjmoordb.controller.LoginControllerSecurityGenerador;
 import com.avbravo.wizardjmoordb.controller.SessionControllerGenerador;
 import com.avbravo.wizardjmoordb.provider.CouchbaseClientProviderGenerador;
@@ -198,6 +199,8 @@ public class Generador implements Serializable {
     AccesodenegadoxhtmlGenerador accesodenegadoxhtmlGenerador;
     @Inject
     ActivoxhtmlGenerador activoxhtmlGenerador;
+    @Inject
+    MesxhtmlGenerador mesxhtmlGenerador;
     @Inject
     IndexxhtmlGenerador indexxhtmlGenerador;
     @Inject
@@ -925,6 +928,7 @@ stopWeb/-Inf
 //                            contextxhtmlGenerador.generar();
                             accesodenegadoxhtmlGenerador.generar();
                             activoxhtmlGenerador.generar();
+                            mesxhtmlGenerador.generar();
                             indexxhtmlGenerador.generar();
                             loginxhtmlGenerador.generar();
                             viewExpiredExceptionxhtmlGenerador.generar();
