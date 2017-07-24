@@ -343,9 +343,11 @@ public class Generador implements Serializable {
         framework.add("Primefaces");
         framework.add("BootFaces");
         framework.add("MaterialPrime");
+      
         
         templateList = new ArrayList<String>();
         templateList.add("AdminLTE");
+        templateList.add("Poseidon");
         templateList.add("PrimefacesPremiumThemes");
         templateList.add("MaterialPrime");
       
