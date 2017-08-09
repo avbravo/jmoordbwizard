@@ -519,7 +519,7 @@ public class ViewxhtmlGenerador implements Serializable {
             fw.write("                                <p:commandButton  icon=\"fa fa-plus\" class=\"btnn btnn-primary\" immediate=\"true\"" + "\r\n");
             fw.write("                                                  title=\"#{app['button.new']}\"  value=\"#{app['button.new']}\" " + "\r\n");
             fw.write("                                                  action=\"#{" + name + "Controller.prepareNew()}\" update=\":form:content\" /> " + "\r\n");
-            fw.write("                                <p:commandButton class=\"btnn btnn-primary\"  icon=\"fa fa-folder-open-o\" title=\"#{app['button.query']}\" value=\"#{app['button.query']}\"  " + "\r\n");
+            fw.write("                                <p:commandButton class=\"btnn btnn-primary\" immediate=\"true\" icon=\"fa fa-folder-open-o\" title=\"#{app['button.query']}\" value=\"#{app['button.query']}\"  " + "\r\n");
             fw.write("                                                 action=\"#{" + name + "Controller.open()}\" update=\":form:content :form:autocomplete\" /> " + "\r\n");
             fw.write("                                <p:commandButton rendered=\"#{" + name + "Controller.writable and !" + name + "Controller.found and applicationMenu." + name + ".create}\"" + "\r\n");
             fw.write("                                                 class=\"btnn btnn-success\" icon=\"fa fa-floppy-o\" title=\"#{app['button.save']}\"" + "\r\n");
