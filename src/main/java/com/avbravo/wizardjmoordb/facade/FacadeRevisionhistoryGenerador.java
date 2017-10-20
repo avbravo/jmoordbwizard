@@ -105,6 +105,7 @@ public class FacadeRevisionhistoryGenerador implements Serializable {
                     switch (mySesion.getDatabase().toLowerCase()) {
                         case "mongodb":
                             fw.write("import com.avbravo.ejbjmoordb.mongodb.facade.AbstractFacade;" + "\r\n");
+                            fw.write("import com.avbravo.ejbjmoordb.pojos.Revisionhistory;" + "\r\n");
 
                             fw.write("import " + proyectoEJB.getPaquete() + ".provider.MongoClientProvider;" + "\r\n");
                             fw.write("import com.mongodb.MongoClient;" + "\r\n");
@@ -112,6 +113,7 @@ public class FacadeRevisionhistoryGenerador implements Serializable {
                         case "couchbase":
 
                             fw.write("import " + proyectoEJB.getPaquete() + ".provider.CouchbaseClientProvider;" + "\r\n");
+                            fw.write("import com.avbravo.ejbjmoordb.pojos.Revisionhistory;" + "\r\n");
                             fw.write("import com.avbravo.jmoordb.facade.CouchbaseAbstractFacade;" + "\r\n");
                             fw.write("import com.couchbase.client.java.Cluster;" + "\r\n");
                             break;
