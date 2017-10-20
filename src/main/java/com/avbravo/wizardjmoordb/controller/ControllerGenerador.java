@@ -127,6 +127,9 @@ fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"imports\">" + "\r\n"
                     fw.write("import " + proyectoJEE.getPaquete() + ".interfaces.*; " + "\r\n");
                     fw.write("import " + proyectoJEE.getPaquete() + ".util.*; " + "\r\n");
                     fw.write("import com.avbravo.avbravoutils.JsfUtil;" + "\r\n");
+                    fw.write("import com.avbravo.ejbjmoordb.services.RevisionhistoryServices;" + "\r\n");
+                    fw.write("import com.avbravo.ejbjmoordb.services.UserinfoServices;" + "\r\n");
+                    
                     fw.write("import com.avbravo.avbravoutils.printer.Printer;" + "\r\n");
                     fw.write("import java.util.ArrayList; " + "\r\n");
                     fw.write("import java.io.Serializable; " + "\r\n");
@@ -169,9 +172,16 @@ fw.write("    // </editor-fold>" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("    //Facade" + "\r\n");
                     fw.write("     @Inject" + "\r\n");
+                    fw.write("     RevisionhistoryFacade revisionhistoryFacade;" + "\r\n");
+                    fw.write("     @Inject" + "\r\n");
                     fw.write("     " + nameClass + "Facade " + nameEntity + "Facade;" + "\r\n");
                     fw.write("" + "\r\n");
                     fw.write("    //Services" + "\r\n");
+                    fw.write("    @Inject" + "\r\n");
+                    fw.write("    RevisionhistoryServices revisionhistoryServices;" + "\r\n");
+                    fw.write("    @Inject" + "\r\n");
+                    fw.write("    UserinfoServices userinfoServices;" + "\r\n");
+                    
                     fw.write("    @Inject" + "\r\n");
                     fw.write("    " + nameClass + "Services " + nameEntity + "Services;" + "\r\n");
                     fw.write("    @Inject" + "\r\n");
@@ -443,6 +453,9 @@ fw.write("    // </editor-fold>" + "\r\n");
                     fw.write("            JsfUtil.warningDialog(rf.getAppMessage(\"info.message\"), rf.getAppMessage(\"warning.idexist\"));" + "\r\n");
                     fw.write("            return null;" + "\r\n");
                     fw.write("        }" + "\r\n");
+                    
+                    fw.write("        "+nameEntity +".setUserinfo(userinfoServices.generateListUserinfo(loginController.getUsername(), \"creacion\"));" + "\r\n");
+                    
                     fw.write("        if (" + nameEntity + "Facade.save(" + nameEntity + ")) {" + "\r\n");
                     fw.write("            JsfUtil.successMessage(rf.getAppMessage(\"info.save\"));" + "\r\n");
                     fw.write("            reset();" + "\r\n");
@@ -460,6 +473,8 @@ fw.write("    // </editor-fold>" + "\r\n");
                     fw.write("    @Override" + "\r\n");
                     fw.write("    public String edit() {" + "\r\n");
                     fw.write("        try {" + "\r\n");
+                    fw.write("        .getUserinfo().add(userinfoServices.generateUserinfo(loginController.getUsername(),\"editado\"));" + "\r\n");
+                    fw.write("             "+nameEntity +".getUserinfo().add(userinfoServices.generateUserinfo(loginController.getUsername(),\"editado\"));"+ "\r\n");
                     fw.write("             " + nameEntity + "Facade.update(" + nameEntity + ");" + "\r\n");
                     fw.write("        JsfUtil.successMessage(rf.getAppMessage(\"info.update\"));" + "\r\n");
                     fw.write("    } catch (Exception e) {" + "\r\n");
@@ -473,6 +488,7 @@ fw.write("    // </editor-fold>" + "\r\n");
                     fw.write("    public String delete() {" + "\r\n");
                     fw.write("        try {" + "\r\n");
                     fw.write("            if (" + nameEntity + "Facade.delete(\"" + primaryKey + "\", " + nameEntity + ".get" + primaryKeyUpper + "())) {" + "\r\n");
+                    fw.write("             revisionhistoryFacade.save( revisionshistoryServices.getRevisionhistory("+ nameEntity + ".get" + primaryKeyUpper + "(), loginController.getUsername(),\"delete\" ,\"" +nameEntity +"\" ,"+ nameEntity + "Facade.toDocument(" +nameEntity +").toString()));" + "\r\n");
                     fw.write("               JsfUtil.successMessage(rf.getAppMessage(\"info.delete\"));" + "\r\n");
                     fw.write("               " + nameEntity + " = new " + nameClass + "();" + "\r\n");
                     fw.write("               found = false;" + "\r\n");
