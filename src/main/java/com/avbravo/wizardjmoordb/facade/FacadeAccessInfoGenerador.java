@@ -33,10 +33,10 @@ import javax.inject.Inject;
  */
 @Named
 @RequestScoped
-public class FacadeRevisionhistoryGenerador implements Serializable {
+public class FacadeAccessInfoGenerador implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(FacadeRevisionhistoryGenerador.class.getName());
+    private static final Logger LOG = Logger.getLogger(FacadeAccessInfoGenerador.class.getName());
 
     @Inject
     MySesion mySesion;
@@ -46,14 +46,14 @@ public class FacadeRevisionhistoryGenerador implements Serializable {
     /**
      * Creates a new instance of Facade
      */
-    public FacadeRevisionhistoryGenerador() {
+    public FacadeAccessInfoGenerador() {
     }
 
     public void generar() {
         try {
             //recorrer el entity para verificar que existan todos los EJB
           
-                procesar("Revisionhistory", proyectoEJB.getPathEJB() +  "RevisionhistoryFacade.java");
+                procesar("AccessInfo", proyectoEJB.getPathEJB() +  "AccessInfoFacade.java");
           
         } catch (Exception e) {
             JSFUtil.addErrorMessage("generar() " + e.getLocalizedMessage());
@@ -105,7 +105,7 @@ public class FacadeRevisionhistoryGenerador implements Serializable {
                     switch (mySesion.getDatabase().toLowerCase()) {
                         case "mongodb":
                             fw.write("import com.avbravo.ejbjmoordb.mongodb.facade.AbstractFacade;" + "\r\n");
-                            fw.write("import com.avbravo.ejbjmoordb.pojos.Revisionhistory;" + "\r\n");
+                            fw.write("import com.avbravo.ejbjmoordb.pojos.AccessInfo;" + "\r\n");
 
                             fw.write("import " + proyectoEJB.getPaquete() + ".provider.MongoClientProvider;" + "\r\n");
                             fw.write("import com.mongodb.MongoClient;" + "\r\n");
@@ -139,7 +139,7 @@ public class FacadeRevisionhistoryGenerador implements Serializable {
                             fw.write("       return mongoClientProvider.getMongoClient();" + "\r\n");
                             fw.write("    }" + "\r\n");
                             fw.write("    public " + archivo + "Facade(){" + "\r\n");
-                            fw.write("        super(" + archivo + ".class,\"" + mySesion.getDatabasename() + "_history\",\"" + Utilidades.letterToLower(archivo) + "\");" + "\r\n");
+                            fw.write("        super(" + archivo + ".class,\"" + mySesion.getDatabasename() + "_history\",\"" + archivo.toLowerCase() + "\");" + "\r\n");
                             fw.write("    }" + "\r\n");
                             break;
                         case "couchbase":

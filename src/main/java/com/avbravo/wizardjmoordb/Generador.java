@@ -52,7 +52,8 @@ import com.avbravo.wizardjmoordb.componentes.ActivoxhtmlGenerador;
 import com.avbravo.wizardjmoordb.componentes.MesxhtmlGenerador;
 import com.avbravo.wizardjmoordb.controller.LoginControllerSecurityGenerador;
 import com.avbravo.wizardjmoordb.controller.SessionControllerGenerador;
-import com.avbravo.wizardjmoordb.facade.FacadeRevisionhistoryGenerador;
+import com.avbravo.wizardjmoordb.facade.FacadeAccessInfoGenerador;
+import com.avbravo.wizardjmoordb.facade.FacadeRevisionHistoryGenerador;
 import com.avbravo.wizardjmoordb.provider.CouchbaseClientProviderGenerador;
 import com.avbravo.wizardjmoordb.reportes.JasperDetailsGenerador;
 import com.avbravo.wizardjmoordb.reportes.JasperAllGenerador;
@@ -129,7 +130,9 @@ public class Generador implements Serializable {
     @Inject
     FacadeGenerador facadeGenerador;
     @Inject
-    FacadeRevisionhistoryGenerador facadeRevisionhistoryGenerador;
+    FacadeRevisionHistoryGenerador facadeRevisionhistoryGenerador;
+    @Inject
+    FacadeAccessInfoGenerador facadeAccessInfoGenerador;
     
     
     @Inject
@@ -833,6 +836,7 @@ public class Generador implements Serializable {
                      */
                     facadeGenerador.generar();
                     facadeRevisionhistoryGenerador.generar();
+                    facadeAccessInfoGenerador.generar();
                     
                     /*
                    datamodel

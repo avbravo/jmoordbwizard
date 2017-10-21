@@ -219,6 +219,7 @@ public class LoginControllerSecurityGenerador implements Serializable {
             fw.write("            }" + "\r\n");
             fw.write("            saveUserInSession(username, 2100);" + "\r\n");
             fw.write("            loggedIn = true;" + "\r\n");
+             fw.write("            accessInfoFacade.save(accessInfoServices.generateAccessInfo(username, \"login\", rf.getAppMessage(\"login.welcome\")));" + "\r\n");
             fw.write("            foto = \"img/me.jpg\";" + "\r\n");
             fw.write("            JsfUtil.successMessage(rf.getAppMessage(\"login.welcome\") + \" \" + " + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosNombreMostrar()) + "());" + "\r\n");
             fw.write("            return \"/faces/index.xhtml?faces-redirect=true\";" + "\r\n");
@@ -501,6 +502,7 @@ public class LoginControllerSecurityGenerador implements Serializable {
             fw.write("import " + proyectoJEE.getPaquete() + ".roles.*;" + "\r\n");
 
             fw.write("import com.avbravo.avbravoutils.JsfUtil;" + "\r\n");
+            fw.write("import com.avbravo.ejbjmoordb.services.AccessInfoServices;" + "\r\n");
             fw.write("import com.avbravo.avbravosecurity.SecurityInterface;" + "\r\n");
             fw.write("import javax.inject.Inject;" + "\r\n");
             fw.write("import org.primefaces.context.RequestContext;" + "\r\n");

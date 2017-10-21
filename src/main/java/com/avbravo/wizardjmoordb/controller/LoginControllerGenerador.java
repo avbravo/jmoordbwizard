@@ -170,7 +170,13 @@ public class LoginControllerGenerador implements Serializable {
                 fw.write("" + "\r\n");
 
                 fw.write("    @Inject" + "\r\n");
+                fw.write("    AccessInfoServices accessInfoServices;" + "\r\n");
+                fw.write("    @Inject" + "\r\n");
+                fw.write("    AccessInfoFacade accessInfoFacade;" + "\r\n");
+                fw.write("    @Inject" + "\r\n");
                 fw.write("    ResourcesFiles rf;" + "\r\n");
+                
+                
                 fw.write("    @Inject" + "\r\n");
                 fw.write("    ValidadorRoles validadorRoles;" + "\r\n");
                 fw.write("    Boolean loggedIn = false;" + "\r\n");
@@ -210,6 +216,7 @@ public class LoginControllerGenerador implements Serializable {
                 fw.write("import " + proyectoJEE.getPaquete() + ".roles.*;" + "\r\n");
 
                 fw.write("import com.avbravo.avbravoutils.JsfUtil;" + "\r\n");
+                fw.write("import com.avbravo.ejbjmoordb.services.AccessInfoServices;" + "\r\n");
                 fw.write("import javax.inject.Inject;" + "\r\n");
                 fw.write("import java.util.logging.Logger;" + "\r\n");
                 fw.write("import javax.inject.Named;" + "\r\n");
@@ -382,6 +389,7 @@ public class LoginControllerGenerador implements Serializable {
 
                     fw.write("               if (!validadorRoles.validarRoles(" + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosIdGrupo()) + "())) {" + "\r\n");
                     fw.write("                   JsfUtil.successMessage(rf.getAppMessage(\"login.notienerolenelsistema\") + \" \" + " + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosIdGrupo()) + "());" + "\r\n");
+                    fw.write("                   accessInfoFacade.save(accessInfoServices.generateAccessInfo(username, \"login\",rf.getAppMessage(\"login.usernameorpasswordnotvalid\")));" + "\r\n");
                     fw.write("                   loggedIn = false;" + "\r\n");
                     fw.write("                   return \"\";" + "\r\n");
                     fw.write("                }" + "\r\n");
@@ -419,6 +427,7 @@ public class LoginControllerGenerador implements Serializable {
                         fw.write("               if (!validadorRoles.validarRoles(" + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + ".get" + Utilidades.letterToUpper(idroles) + "())) {" + "\r\n");
                         fw.write("                   JsfUtil.successMessage(rf.getAppMessage(\"login.notienerolenelsistema\") + \" \" + " + Utilidades.letterToLower(mySesion.getEntidadRoles().getTabla()) + ".get" + Utilidades.letterToUpper(idroles) + "());" + "\r\n");
                         fw.write("                   loggedIn = false;" + "\r\n");
+                        fw.write("                   accessInfoFacade.save(accessInfoServices.generateAccessInfo(username, \"login\", rf.getAppMessage(\"login.notienerolenelsistema\")));" + "\r\n");
                         fw.write("                   return \"\";" + "\r\n");
                         fw.write("                }" + "\r\n");
                         fw.write("           }" + "\r\n");
@@ -429,6 +438,7 @@ public class LoginControllerGenerador implements Serializable {
             }
 
             fw.write("           loggedIn = true;" + "\r\n");
+            fw.write("            accessInfoFacade.save(accessInfoServices.generateAccessInfo(username, \"login\", rf.getAppMessage(\"login.welcome\")));" + "\r\n");
             fw.write("           foto = \"img/me.jpg\";" + "\r\n");
             fw.write("            JsfUtil.successMessage(rf.getAppMessage(\"login.welcome\") + \" \" + " + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosNombreMostrar()) + "());" + "\r\n");
             fw.write("            return \"/faces/index.xhtml?faces-redirect=true\";" + "\r\n");
