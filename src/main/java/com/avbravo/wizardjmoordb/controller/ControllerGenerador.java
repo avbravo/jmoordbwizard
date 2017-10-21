@@ -453,7 +453,7 @@ public class ControllerGenerador implements Serializable {
                     fw.write("            return null;" + "\r\n");
                     fw.write("        }" + "\r\n");
 
-                    fw.write("        " + nameEntity + ".setUserInfo(userInfoServices.generateListUserinfo(loginController.getUsername(), \"creacion\"));" + "\r\n");
+                    fw.write("        " + nameEntity + ".setUserInfo(userInfoServices.generateListUserinfo(loginController.getUsername(), \"create\"));" + "\r\n");
 
                     fw.write("        if (" + nameEntity + "Facade.save(" + nameEntity + ")) {" + "\r\n");
                     fw.write("            JsfUtil.successMessage(rf.getAppMessage(\"info.save\"));" + "\r\n");
@@ -468,12 +468,18 @@ public class ControllerGenerador implements Serializable {
                     fw.write("    return \"\";" + "\r\n");
                     fw.write("    }// </editor-fold>" + "\r\n");
 
+                    
+                    //Edit
                     fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"edit\">" + "\r\n");
                     fw.write("    @Override" + "\r\n");
                     fw.write("    public String edit() {" + "\r\n");
                     fw.write("        try {" + "\r\n");
                     
-                    fw.write("             " + nameEntity + ".getUserInfo().add(userInfoServices.generateUserinfo(loginController.getUsername(),\"editado\"));" + "\r\n");
+                    fw.write("             " + nameEntity + ".getUserInfo().add(userInfoServices.generateUserinfo(loginController.getUsername(),\"edit\"));" + "\r\n");
+                    fw.write("    //save the original document to history" + "\r\n");
+                    fw.write("               revisionHistoryFacade.save( revisionsHistoryServices.getRevisionHistory(" + nameEntity + "Selected.get" + primaryKeyUpper + "(), loginController.getUsername(),\"beforeupdate\" ,\"" + nameEntity + "Selected\" ," + nameEntity + "Facade.toDocument(" + nameEntity + "Selected).toString()));" + "\r\n");
+                    fw.write("    //save the update document to history" + "\r\n");
+                    fw.write("               revisionHistoryFacade.save( revisionsHistoryServices.getRevisionHistory(" + nameEntity + ".get" + primaryKeyUpper + "(), loginController.getUsername(),\"update\" ,\"" + nameEntity + "\" ," + nameEntity + "Facade.toDocument(" + nameEntity + ").toString()));" + "\r\n");
                     fw.write("             " + nameEntity + "Facade.update(" + nameEntity + ");" + "\r\n");
                     fw.write("        JsfUtil.successMessage(rf.getAppMessage(\"info.update\"));" + "\r\n");
                     fw.write("    } catch (Exception e) {" + "\r\n");
