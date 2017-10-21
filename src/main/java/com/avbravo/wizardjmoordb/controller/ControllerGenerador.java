@@ -171,7 +171,7 @@ public class ControllerGenerador implements Serializable {
                     fw.write("" + "\r\n");
                     fw.write("    //Facade" + "\r\n");
                     fw.write("     @Inject" + "\r\n");
-                    fw.write("     RevisionhistoryFacade revisionhistoryFacade;" + "\r\n");
+                    fw.write("     RevisionHistoryFacade revisionHistoryFacade;" + "\r\n");
                     fw.write("     @Inject" + "\r\n");
                     fw.write("     " + nameClass + "Facade " + nameEntity + "Facade;" + "\r\n");
                     fw.write("" + "\r\n");
