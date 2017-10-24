@@ -219,7 +219,7 @@ public class LoginControllerSecurityGenerador implements Serializable {
             fw.write("            }" + "\r\n");
             fw.write("            saveUserInSession(username, 2100);" + "\r\n");
             fw.write("            loggedIn = true;" + "\r\n");
-             fw.write("            accessInfoFacade.save(accessInfoServices.generateAccessInfo(username, \"login\", rf.getAppMessage(\"login.welcome\")));" + "\r\n");
+            fw.write("            accessInfoFacade.save(accessInfoServices.generateAccessInfo(username, \"login\", rf.getAppMessage(\"login.welcome\")));" + "\r\n");
             fw.write("            foto = \"img/me.jpg\";" + "\r\n");
             fw.write("            JsfUtil.successMessage(rf.getAppMessage(\"login.welcome\") + \" \" + " + minuscula + ".get" + Utilidades.letterToUpper(mySesion.getAtributosNombreMostrar()) + "());" + "\r\n");
             fw.write("            return \"/faces/index.xhtml?faces-redirect=true\";" + "\r\n");
@@ -352,6 +352,10 @@ public class LoginControllerSecurityGenerador implements Serializable {
             fw.write("    private static final Logger LOG = Logger.getLogger(LoginController.class.getName());" + "\r\n");
             fw.write("" + "\r\n");
 
+            fw.write("    @Inject" + "\r\n");
+            fw.write("    AccessInfoServices accessInfoServices;" + "\r\n");
+            fw.write("    @Inject" + "\r\n");
+            fw.write("    AccessInfoFacade accessInfoFacade;" + "\r\n");
             fw.write("    @Inject" + "\r\n");
             fw.write("    ResourcesFiles rf;" + "\r\n");
             fw.write("    @Inject" + "\r\n");
@@ -657,28 +661,28 @@ public class LoginControllerSecurityGenerador implements Serializable {
         }
     }
 // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="invalidateCurrentSession"> 
-    private void invalidateCurrentSession(){
+    private void invalidateCurrentSession() {
         try {
             fw.write("// <editor-fold defaultstate=\"collapsed\" desc=\"invalidateCurrentSession\"> " + "\r\n");
-fw.write("" + "\r\n");
-fw.write("    public String invalidateCurrentSession() {" + "\r\n");
-fw.write("        try {" + "\r\n");
-fw.write("            if (invalidateMySession()) {" + "\r\n");
-fw.write("                JsfUtil.successMessage(rf.getAppMessage(\"sesion.invalidate\"));" + "\r\n");
-fw.write("            } else {" + "\r\n");
-fw.write("                JsfUtil.warningMessage(rf.getAppMessage(\"sesion.errortoinvalidate\"));" + "\r\n");
-fw.write("            }" + "\r\n");
-fw.write("" + "\r\n");
-fw.write("        } catch (Exception e) {" + "\r\n");
-fw.write("            JsfUtil.successMessage(\"invalidateCurrentSession() \" + e.getLocalizedMessage());" + "\r\n");
-fw.write("        }" + "\r\n");
-fw.write("        return \"\";" + "\r\n");
-fw.write("    }// </editor-fold>" + "\r\n");
+            fw.write("" + "\r\n");
+            fw.write("    public String invalidateCurrentSession() {" + "\r\n");
+            fw.write("        try {" + "\r\n");
+            fw.write("            if (invalidateMySession()) {" + "\r\n");
+            fw.write("                JsfUtil.successMessage(rf.getAppMessage(\"sesion.invalidate\"));" + "\r\n");
+            fw.write("            } else {" + "\r\n");
+            fw.write("                JsfUtil.warningMessage(rf.getAppMessage(\"sesion.errortoinvalidate\"));" + "\r\n");
+            fw.write("            }" + "\r\n");
+            fw.write("" + "\r\n");
+            fw.write("        } catch (Exception e) {" + "\r\n");
+            fw.write("            JsfUtil.successMessage(\"invalidateCurrentSession() \" + e.getLocalizedMessage());" + "\r\n");
+            fw.write("        }" + "\r\n");
+            fw.write("        return \"\";" + "\r\n");
+            fw.write("    }// </editor-fold>" + "\r\n");
 
         } catch (Exception e) {
-             JSFUtil.addErrorMessage("destroyByToken() " + e.getLocalizedMessage());
+            JSFUtil.addErrorMessage("destroyByToken() " + e.getLocalizedMessage());
         }
     }
 // </editor-fold>

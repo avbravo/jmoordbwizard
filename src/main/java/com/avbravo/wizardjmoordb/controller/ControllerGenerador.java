@@ -127,6 +127,7 @@ public class ControllerGenerador implements Serializable {
                     fw.write("import " + proyectoJEE.getPaquete() + ".interfaces.*; " + "\r\n");
                     fw.write("import " + proyectoJEE.getPaquete() + ".util.*; " + "\r\n");
                     fw.write("import com.avbravo.avbravoutils.JsfUtil;" + "\r\n");
+                    fw.write("import com.avbravo.ejbjmoordb.pojos.UserInfo;" + "\r\n");
                     fw.write("import com.avbravo.ejbjmoordb.services.RevisionHistoryServices;" + "\r\n");
                     fw.write("import com.avbravo.ejbjmoordb.services.UserInfoServices;" + "\r\n");
                     fw.write("import com.avbravo.avbravoutils.printer.Printer;" + "\r\n");
@@ -477,9 +478,9 @@ public class ControllerGenerador implements Serializable {
                     
                     fw.write("             " + nameEntity + ".getUserInfo().add(userInfoServices.generateUserinfo(loginController.getUsername(),\"edit\"));" + "\r\n");
                     fw.write("    //save the original document to history" + "\r\n");
-                    fw.write("               revisionHistoryFacade.save( revisionsHistoryServices.getRevisionHistory(" + nameEntity + "Selected.get" + primaryKeyUpper + "(), loginController.getUsername(),\"beforeupdate\" ,\"" + nameEntity + "Selected\" ," + nameEntity + "Facade.toDocument(" + nameEntity + "Selected).toString()));" + "\r\n");
+                    fw.write("               revisionHistoryFacade.save( revisionHistoryServices.getRevisionHistory(" + nameEntity + "Selected.get" + primaryKeyUpper + "(), loginController.getUsername(),\"beforeupdate\" ,\"" + nameEntity + "Selected\" ," + nameEntity + "Facade.toDocument(" + nameEntity + "Selected).toString()));" + "\r\n");
                     fw.write("    //save the update document to history" + "\r\n");
-                    fw.write("               revisionHistoryFacade.save( revisionsHistoryServices.getRevisionHistory(" + nameEntity + ".get" + primaryKeyUpper + "(), loginController.getUsername(),\"update\" ,\"" + nameEntity + "\" ," + nameEntity + "Facade.toDocument(" + nameEntity + ").toString()));" + "\r\n");
+                    fw.write("               revisionHistoryFacade.save( revisionHistoryServices.getRevisionHistory(" + nameEntity + ".get" + primaryKeyUpper + "(), loginController.getUsername(),\"update\" ,\"" + nameEntity + "\" ," + nameEntity + "Facade.toDocument(" + nameEntity + ").toString()));" + "\r\n");
                     fw.write("             " + nameEntity + "Facade.update(" + nameEntity + ");" + "\r\n");
                     fw.write("        JsfUtil.successMessage(rf.getAppMessage(\"info.update\"));" + "\r\n");
                     fw.write("    } catch (Exception e) {" + "\r\n");
@@ -493,7 +494,7 @@ public class ControllerGenerador implements Serializable {
                     fw.write("    public String delete() {" + "\r\n");
                     fw.write("        try {" + "\r\n");
                     fw.write("            if (" + nameEntity + "Facade.delete(\"" + primaryKey + "\", " + nameEntity + ".get" + primaryKeyUpper + "())) {" + "\r\n");
-                    fw.write("               revisionHistoryFacade.save( revisionsHistoryServices.getRevisionHistory(" + nameEntity + ".get" + primaryKeyUpper + "(), loginController.getUsername(),\"delete\" ,\"" + nameEntity + "\" ," + nameEntity + "Facade.toDocument(" + nameEntity + ").toString()));" + "\r\n");
+                    fw.write("               revisionHistoryFacade.save( revisionHistoryServices.getRevisionHistory(" + nameEntity + ".get" + primaryKeyUpper + "(), loginController.getUsername(),\"delete\" ,\"" + nameEntity + "\" ," + nameEntity + "Facade.toDocument(" + nameEntity + ").toString()));" + "\r\n");
                     fw.write("               JsfUtil.successMessage(rf.getAppMessage(\"info.delete\"));" + "\r\n");
                     fw.write("               " + nameEntity + " = new " + nameClass + "();" + "\r\n");
                     fw.write("               found = false;" + "\r\n");
@@ -509,7 +510,7 @@ public class ControllerGenerador implements Serializable {
                     fw.write("    public String delete(" + nameClass + " " + nameEntity + ") {" + "\r\n");
                     fw.write("        try {" + "\r\n");
                     fw.write("            if (" + nameEntity + "Facade.delete(\"" + primaryKey + "\", " + nameEntity + ".get" + primaryKeyUpper + "())) {" + "\r\n");
-                    fw.write("                revisionHistoryFacade.save( revisionsHistoryServices.getRevisionHistory(" + nameEntity + ".get" + primaryKeyUpper + "(), loginController.getUsername(),\"delete\" ,\"" + nameEntity + "\" ," + nameEntity + "Facade.toDocument(" + nameEntity + ").toString()));" + "\r\n");
+                    fw.write("                revisionHistoryFacade.save( revisionHistoryServices.getRevisionHistory(" + nameEntity + ".get" + primaryKeyUpper + "(), loginController.getUsername(),\"delete\" ,\"" + nameEntity + "\" ," + nameEntity + "Facade.toDocument(" + nameEntity + ").toString()));" + "\r\n");
                     fw.write("                JsfUtil.successMessage(rf.getAppMessage(\"info.delete\"));" + "\r\n");
                     fw.write("                " + nameEntity + " = new " + nameClass + "();" + "\r\n");
                     fw.write("                found = false;" + "\r\n");
@@ -527,7 +528,7 @@ public class ControllerGenerador implements Serializable {
                     fw.write("        try {" + "\r\n");
                     fw.write("            " + nameEntity + " = " + nameEntity + "Selected;" + "\r\n");
                     fw.write("            if (" + nameEntity + "Facade.delete(\"" + primaryKey + "\", " + nameEntity + ".get" + primaryKeyUpper + "())) {" + "\r\n");
-                    fw.write("                 revisionHistoryFacade.save( revisionsHistoryServices.getRevisionHistory(" + nameEntity + ".get" + primaryKeyUpper + "(), loginController.getUsername(),\"delete\" ,\"" + nameEntity + "\" ," + nameEntity + "Facade.toDocument(" + nameEntity + ").toString()));" + "\r\n");
+                    fw.write("                 revisionHistoryFacade.save( revisionHistoryServices.getRevisionHistory(" + nameEntity + ".get" + primaryKeyUpper + "(), loginController.getUsername(),\"delete\" ,\"" + nameEntity + "\" ," + nameEntity + "Facade.toDocument(" + nameEntity + ").toString()));" + "\r\n");
                     fw.write("                " + nameEntity + "List.remove(" + nameEntity + ");" + "\r\n");
                     fw.write("                " + nameEntity + "Filtered = " + nameEntity + "List;" + "\r\n");
                     fw.write("                " + nameEntity + "DataModel = new " + nameClass + "DataModel(" + nameEntity + "List);" + "\r\n");
