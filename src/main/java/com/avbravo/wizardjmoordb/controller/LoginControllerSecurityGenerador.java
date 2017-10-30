@@ -260,6 +260,7 @@ public class LoginControllerSecurityGenerador implements Serializable {
             fw.write("            }" + "\r\n");
 
             fw.write("            " + minuscula + ".set" + Utilidades.letterToUpper(mySesion.getAtributosUsername()) + "(username); " + "\r\n");
+            fw.write("            " + minuscula + ".set" + Utilidades.letterToUpper(mySesion.getAtributosPassword()) + "(password); " + "\r\n");
             fw.write("            Optional<" + mySesion.getEntidadUser().getTabla() + "> optional = " + minuscula + "Facade.findById(" + minuscula + ");" + "\r\n");
             fw.write("            if (!optional.isPresent()) {" + "\r\n");
             fw.write("                JsfUtil.warningMessage(rf.getAppMessage(\"login.usernamenotvalid\"));" + "\r\n");
